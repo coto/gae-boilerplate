@@ -26,6 +26,9 @@ Feedback, comments and ideas are welcome, if you want to be a commiter {email me
 - Handlers with @user_required
 - Handlers with @login_required (for Google Authentication)
 
+== Test this code
+http://sandengine.appspot.com/
+
 
 === Reference:
 * webapp2 documentation: http://webapp-improved.appspot.com/index.html
