@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Create User</h1>
+<form action="{{ action }}" method="post">
+    <fieldset>
+        <legend>Create user form</legend>
+        <label>Username <input type="text" name="username" placeholder="Your username" /></label>
+        <label>Email <input type="email" name="email" placeholder="Your Email" /></label>
+        <label>Password <input type="password" name="password" placeholder="Your password" /></label>
+    </fieldset>
+    <button>Create user</button>
+</form>
+<ul>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/password/reset">Forgot Password</a></li>
+    <li><a href="/google-login">Login with Google Account</a></li>
+</ul>
+
+{% endblock %}

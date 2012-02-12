@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Secure zone</h1>
+<h3>Session information</h3>
+<ul>
+    <li><b>user_id:</b> {{ session_user_id }}</li>
+    <li><b>remember:</b> {{ session_remember }}</li>
+</ul>
+<h3>User information</h3>
+<ul>
+    <li><b>user_id:</b> {{ userinfo_user_id }}</li>
+    <li><b>username:</b> {{ userinfo_username }}</li>
+    <li><b>created:</b> {{ userinfo_created }}</li>
+    <li><b>email:</b> {{ userinfo_email }}</li>
+    <li><b>User Object:</b> {{ userinfo_object }}</li>
+</ul>
+<p><a href='{{ logout_url }}'>Logout</a></p>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+application: sandengine
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+# In production, uncomment line below.
+# default_expiration: "30d"
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?tests$
+- ^(.*/)?test$
+
+builtins:
+- appstats: on #/_ah/stats/
+- remote_api: on #/_ah/remote_api/
+
+handlers:
+- url: /favicon\.ico
+  static_files: statics/favicon.ico
+  upload: statics/favicon.ico
+  mime_type: image/vnd.microsoft.icon
+
+- url: /apple-touch-icon\.png
+  static_files: statics/apple-touch-icon.png
+  upload: statics/apple-touch-icon.png
+
+- url: /img/(.*\.(gif|png|jpg))
+  static_files: statics/img/\1
+  upload: statics/img/(.*\.(gif|png|jpg))
+
+- url: /css
+  static_dir: statics/css
+
+- url: /mobile
+  static_dir: statics/mobile/1.0.1
+
+- url: /js
+  mime_type: text/javascript
+  static_dir: statics/js
+
+- url: /.*
+  script: main.app
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: webapp2
+  version: latest

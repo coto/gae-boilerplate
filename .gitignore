@@ -1,0 +1,3 @@
+*.pyc
+ndb/*.pyc
+.idea
