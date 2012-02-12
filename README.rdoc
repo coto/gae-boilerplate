@@ -3,6 +3,8 @@
 This Google App Engine Boilerplate helps to get your project off the ground quickly, just download the code and run it
 with the App Engine SDK.
 
+Feel free to commit improvements, fixes and new features
+
 Feedback, comments and ideas are welcome, if you want to be a commiter {email me}[http://www.protoboard.cl/contact]
 
 == This Boilerplate has:
