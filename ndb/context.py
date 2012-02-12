@@ -20,8 +20,6 @@ from . import utils
 
 __all__ = ['toplevel', 'Context', 'ContextOptions', 'AutoBatcher']
 
-logging_debug = utils.logging_debug
-
 _LOCK_TIME = 32  # Time to lock out memcache.add() after datastore updates.
 _LOCKED = 0  # Special value to store in memcache indicating locked value.
 
@@ -110,8 +108,8 @@ class AutoBatcher(object):
     return '%s(%s)' % (self.__class__.__name__, self._todo_tasklet.__name__)
 
   def run_queue(self, options, todo):
-    logging_debug('AutoBatcher(%s): %d items',
-                  self._todo_tasklet.__name__, len(todo))
+    utils.logging_debug('AutoBatcher(%s): %d items',
+                        self._todo_tasklet.__name__, len(todo))
     fut = self._todo_tasklet(todo, options)
     self._running.append(fut)
     # Add a callback when we're done.
@@ -126,8 +124,8 @@ class AutoBatcher(object):
     fut = tasklets.Future('%s.add(%s, %s)' % (self, arg, options))
     todo = self._queues.get(options)
     if todo is None:
-      logging_debug('AutoBatcher(%s): creating new queue for %r',
-                    self._todo_tasklet.__name__, options)
+      utils.logging_debug('AutoBatcher(%s): creating new queue for %r',
+                          self._todo_tasklet.__name__, options)
       if not self._queues:
         eventloop.add_idle(self._on_idle)
       todo = self._queues[options] = []
@@ -733,15 +731,19 @@ class Context(object):
           else:
             key = ent._key
             if self._use_cache(key, options):
-              # TODO: If this is the HRD and not an ancestor query,
-              # the result may be stale.  Do we care?  Does it matter
-              # if the value is already cached or not?  There is also
-              # a case where the cache is stale, if the context was
-              # long-lived, so simply replacing the query result with
-              # the cached value is wrong too.  Maybe only cache the
-              # result if it wasn't already in the cache?  Log a
-              # warning if it differs from the cache?  See issue 117.
-              self._cache[key] = ent
+              # Update the cache. If this key was already in the
+              # cache, update the cached entity in-place and return
+              # the cached entity, to maintain the invariant that
+              # there is only one copy of each cached entity.
+              cached_ent = self._cache.get(key)
+              if cached_ent is not None and cached_ent.key == key:
+                # TODO: Do the in-place update more subtly, so that
+                # mutable property values (e.g. repeated or structured
+                # properties) keep their identity.
+                cached_ent._values = ent._values
+                ent = cached_ent
+              else:
+                self._cache[key] = ent
           if callback is None:
             val = ent
           else:
@@ -812,6 +814,7 @@ class Context(object):
           t, e, tb = sys.exc_info()
           yield tconn.async_rollback(options)  # TODO: Don't block???
           if issubclass(t, datastore_errors.Rollback):
+            # TODO: Raise value using tasklets.get_return_value(t)?
             return
           else:
             raise t, e, tb
@@ -850,56 +853,6 @@ class Context(object):
       fut = self.memcache_delete(mkey, namespace=ns)
       futures.append(fut)
     yield futures
-
-  @tasklets.tasklet
-  def get_or_insert(*args, **kwds):
-    # TODO: Get rid of this and implement it in model.py instead.
-    # NOTE: The signature is really weird here because we want to support
-    # models with properties named e.g. 'self' or 'name'.
-    self, model_class, name = args  # These must always be positional.
-    our_kwds = {}
-    for kwd in 'app', 'namespace', 'parent', 'context_options':
-      # For each of these keyword arguments, if there is a property
-      # with the same name, the caller *must* use _foo=..., otherwise
-      # they may use either _foo=... or foo=..., but _foo=... wins.
-      alt_kwd = '_' + kwd
-      if alt_kwd in kwds:
-        our_kwds[kwd] = kwds.pop(alt_kwd)
-      elif (kwd in kwds and
-          not isinstance(getattr(model_class, kwd, None), model.Property)):
-        our_kwds[kwd] = kwds.pop(kwd)
-    app = our_kwds.get('app')
-    namespace = our_kwds.get('namespace')
-    parent = our_kwds.get('parent')
-    context_options = our_kwds.get('context_options')
-    # (End of super-special argument parsing.)
-    # TODO: Test the heck out of this, in all sorts of evil scenarios.
-    if not isinstance(name, basestring):
-      raise TypeError('name must be a string; received %r' % name)
-    elif not name:
-      raise ValueError('name cannot be an empty string.')
-    key = model.Key(model_class, name,
-                    app=app, namespace=namespace, parent=parent)
-    # Temporarily make self the current context, even if it isn't, so
-    # we can use key.get_async() instead of self.get() -- this is so
-    # that pre/post call hooks are invoked correctly.
-    save_context = tasklets.get_context()
-    try:
-      tasklets.set_context(self)
-      ent = yield key.get_async(options=context_options)
-    finally:
-      tasklets.set_context(save_context)
-    if ent is None:
-      @tasklets.tasklet
-      def txn():
-        ent = yield key.get_async(options=context_options)
-        if ent is None:
-          ent = model_class(**kwds)  # TODO: Check for forbidden keys
-          ent._key = key
-          yield ent.put_async(options=context_options)
-        raise tasklets.Return(ent)
-      ent = yield self.transaction(txn)
-    raise tasklets.Return(ent)
 
   @tasklets.tasklet
   def _memcache_get_tasklet(self, todo, options):
@@ -1077,6 +1030,22 @@ class Context(object):
       namespace = namespace_manager.get_namespace()
     return self._memcache_off_batcher.add((key, -delta),
                                           (initial_value, namespace))
+
+  @tasklets.tasklet
+  def urlfetch(self, url, payload=None, method='GET', headers={},
+               allow_truncated=False, follow_redirects=True,
+               validate_certificate=None, deadline=None, callback=None):
+    from google.appengine.api import urlfetch
+    rpc = urlfetch.create_rpc(deadline=deadline, callback=callback)
+    urlfetch.make_fetch_call(rpc, url,
+                             payload=payload,
+                             method=method,
+                             headers=headers,
+                             allow_truncated=allow_truncated,
+                             follow_redirects=follow_redirects,
+                             validate_certificate=validate_certificate)
+    result = yield rpc
+    raise tasklets.Return(result)
 
 
 def toplevel(func):

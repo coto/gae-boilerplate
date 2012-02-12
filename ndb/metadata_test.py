@@ -26,6 +26,8 @@ class MetadataTests(test_utils.NDBTest):
     self.Ext = Ext
     namespace_manager.set_namespace('')  # Always start in default ns.
 
+  the_module = metadata
+
   def testGetNamespaces(self):
     self.assertEqual([], metadata.get_namespaces())
     self.Foo().put()

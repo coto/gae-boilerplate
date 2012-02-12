@@ -11,9 +11,9 @@ Feedback, comments and ideas are welcome, if you want to be a commiter {email me
 
 == Technology
 * Python 2.7
-* NDB 0.9.5
-* Jinja2
-* webapp2
+* {NDB 0.9.7}[http://code.google.com/p/appengine-ndb-experiment/]
+* {Jinja2}[http://jinja.pocoo.org/docs/]
+* {webapp2}[http://webapp-improved.appspot.com/]
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth

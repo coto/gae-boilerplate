@@ -4,6 +4,7 @@ import datetime
 import unittest
 
 from google.appengine.api import datastore_errors
+from google.appengine.api import users
 
 from . import model
 from . import query
@@ -23,6 +24,8 @@ class QueryTests(test_utils.NDBTest):
       rate = model.IntegerProperty()
       tags = model.StringProperty(repeated=True)
     self.create_entities()
+
+  the_module = query
 
   def create_entities(self):
     self.joe = Foo(name='joe', tags=['joe', 'jill', 'hello'], rate=1)
@@ -421,6 +424,16 @@ class QueryTests(test_utils.NDBTest):
     x.put()
     q = C.query(C.c == x.c)
     self.assertEqual(q.get(), x)
+
+  def testQueryForWholeStructureNone(self):
+    class X(model.Model):
+      name = model.StringProperty()
+    class Y(model.Model):
+      x = model.StructuredProperty(X)
+    y = Y(x=None)
+    y.put()
+    q = Y.query(Y.x == None)
+    self.assertEqual(q.fetch(), [y])
 
   def testQueryAncestorConsistentWithAppId(self):
     class Employee(model.Model):
@@ -851,84 +864,6 @@ class QueryTests(test_utils.NDBTest):
                       FilterNode('name', '=', 'moe')))
     self.assertEqual(filters, expected)
 
-  def testGqlMinimal(self):
-    qry, unused_options, bindings = query.parse_gql('SELECT * FROM Kind')
-    self.assertEqual(qry.kind, 'Kind')
-    self.assertEqual(qry.ancestor, None)
-    self.assertEqual(qry.filters, None)
-    self.assertEqual(qry.orders, None)
-    self.assertEqual(bindings, {})
-
-  def testGqlAncestorWithBinding(self):
-    qry, unused_options, bindings = query.parse_gql(
-      'SELECT * FROM Kind WHERE ANCESTOR IS :1')
-    self.assertEqual(qry.kind, 'Kind')
-    self.assertEqual(qry.ancestor, query.Binding(None, 1))
-    self.assertEqual(qry.filters, None)
-    self.assertEqual(qry.orders, None)
-    self.assertEqual(bindings, {1: query.Binding(None, 1)})
-
-  def testGqlAncestor(self):
-    key = model.Key('Foo', 42)
-    qry, unused_options, bindings = query.parse_gql(
-      "SELECT * FROM Kind WHERE ANCESTOR IS KEY('%s')" % key.urlsafe())
-    self.assertEqual(qry.kind, 'Kind')
-    self.assertEqual(qry.ancestor, key)
-    self.assertEqual(qry.filters, None)
-    self.assertEqual(qry.orders, None)
-    self.assertEqual(bindings, {})
-
-  def testGqlFilter(self):
-    qry, unused_options, bindings = query.parse_gql(
-      "SELECT * FROM Kind WHERE prop1 = 1 AND prop2 = 'a'")
-    self.assertEqual(qry.kind, 'Kind')
-    self.assertEqual(qry.ancestor, None)
-    self.assertEqual(qry.filters,
-                     query.ConjunctionNode(
-                       query.FilterNode('prop1', '=', 1),
-                       query.FilterNode('prop2', '=', 'a')))
-    self.assertEqual(qry.orders, None)
-    self.assertEqual(bindings, {})
-
-  def testGqlOrder(self):
-    qry, unused_options, unused_bindings = query.parse_gql(
-      'SELECT * FROM Kind ORDER BY prop1')
-    self.assertEqual(query._orders_to_orderings(qry.orders),
-                     [('prop1', query._ASC)])
-
-  def testGqlOffset(self):
-    unused_qry, options, unused_bindings = query.parse_gql(
-      'SELECT * FROM Kind OFFSET 2')
-    self.assertEqual(options.offset, 2)
-
-  def testGqlLimit(self):
-    unused_qry, options, unused_bindings = query.parse_gql(
-      'SELECT * FROM Kind LIMIT 2')
-    self.assertEqual(options.limit, 2)
-
-  def testGqlBindings(self):
-    qry, unused_options, bindings = query.parse_gql(
-      'SELECT * FROM Kind WHERE prop1 = :1 AND prop2 = :foo')
-    self.assertEqual(qry.kind, 'Kind')
-    self.assertEqual(qry.ancestor, None)
-    self.assertEqual(qry.filters,
-                     query.ConjunctionNode(
-                       query.FilterNode('prop1', '=',
-                                        query.Binding(None, 1)),
-                       query.FilterNode('prop2', '=',
-                                        query.Binding(None, 'foo'))))
-    self.assertEqual(qry.orders, None)
-    self.assertEqual(bindings, {1: query.Binding(None, 1),
-                                'foo': query.Binding(None, 'foo')})
-
-  def testResolveBindings(self):
-    qry, unused_options, bindings = query.parse_gql(
-      'SELECT * FROM Foo WHERE name = :1')
-    bindings[1].value = 'joe'
-    self.assertEqual(list(qry), [self.joe])
-    bindings[1].value = 'jill'
-    self.assertEqual(list(qry), [self.jill])
-
   def testKeyFilter(self):
     class MyModel(model.Model):
       number = model.IntegerProperty()
@@ -992,6 +927,413 @@ class QueryTests(test_utils.NDBTest):
     l = q.fetch()
     self.assertTrue(c in l)
     self.assertTrue(p in l)
+
+  def testExpandoQueries(self):
+    class Foo(model.Expando):
+      pass
+    testdata = {'int': 42,
+                'float': 3.14,
+                'string': 'hello',
+                'bool': True,
+                # Don't call this 'key'; it interferes with the built-in
+                # key attribute (the entity's key).
+                'akey': model.Key('Foo', 1),
+                'point': model.GeoPt(52.35, 4.9166667),
+                'user': users.User('test@example.com', 'example.com', '123'),
+                'blobkey': model.BlobKey('blah'),
+                'none': None,
+                }
+    for name, value in testdata.iteritems():
+      foo = Foo()
+      setattr(foo, name, value)
+      foo.put()
+      qry = Foo.query(query.FilterNode(name, '=', value))
+      res = qry.get()
+      self.assertTrue(res is not None, name)
+      self.assertEqual(getattr(res, name), value)
+      res.key.delete()
+
+  def testQueryCacheInteraction(self):
+    class Bar(model.Model):
+      name = model.StringProperty()
+    ctx = tasklets.get_context()
+    ctx.set_cache_policy(True)
+    a = Bar(name='a')
+    a.put()
+    b = a.key.get()
+    self.assertTrue(b is a)  # Just verifying that the cache is on.
+    b = Bar.query().get()
+    self.assertTrue(b is a)
+    a.name = 'x'  # Modify, but don't write
+    b = Bar.query().get()
+    self.assertTrue(b is a)
+    self.assertEqual(a.name, 'a')
+    a.name = 'x'
+    a.key = None
+    b = Bar.query().get()
+    self.assertFalse(b is a)
+    self.assertEqual(a.name, 'x')
+    self.assertEqual(b.name, 'a')
+
+  def testGqlMinimal(self):
+    qry = query.gql('SELECT * FROM Foo')
+    self.assertEqual(qry.kind, 'Foo')
+    self.assertEqual(qry.ancestor, None)
+    self.assertEqual(qry.filters, None)
+    self.assertEqual(qry.orders, None)
+
+  def testGqlAncestor(self):
+    key = model.Key('Foo', 42)
+    qry = query.gql("SELECT * FROM Foo WHERE ANCESTOR IS KEY('%s')" %
+                    key.urlsafe())
+    self.assertEqual(qry.kind, 'Foo')
+    self.assertEqual(qry.ancestor, key)
+    self.assertEqual(qry.filters, None)
+    self.assertEqual(qry.orders, None)
+
+  def testGqlAncestorWithParameter(self):
+    qry = query.gql('SELECT * FROM Foo WHERE ANCESTOR IS :1')
+    self.assertEqual(qry.kind, 'Foo')
+    self.assertEqual(qry.ancestor, query.Parameter(1))
+    self.assertEqual(qry.filters, None)
+    self.assertEqual(qry.orders, None)
+
+  def testGqlFilter(self):
+    qry = query.gql("SELECT * FROM Foo WHERE name = 'joe' AND rate = 1")
+    self.assertEqual(qry.kind, 'Foo')
+    self.assertEqual(qry.ancestor, None)
+    self.assertEqual(qry.filters,
+                     query.ConjunctionNode(
+                       query.FilterNode('name', '=', 'joe'),
+                       query.FilterNode('rate', '=', 1)))
+    self.assertEqual(qry.orders, None)
+
+  def testGqlOrder(self):
+    qry = query.gql('SELECT * FROM Foo ORDER BY name')
+    self.assertEqual(query._orders_to_orderings(qry.orders),
+                     [('name', query._ASC)])
+
+  def testGqlOffset(self):
+    qry = query.gql('SELECT * FROM Foo OFFSET 2')
+    self.assertEqual(qry.default_options.offset, 2)
+
+  def testGqlLimit(self):
+    qry = query.gql('SELECT * FROM Foo LIMIT 2')
+    self.assertEqual(qry.default_options.limit, 2)
+
+  def testGqlParameters(self):
+    qry = query.gql('SELECT * FROM Foo WHERE name = :1 AND rate = :foo')
+    self.assertEqual(qry.kind, 'Foo')
+    self.assertEqual(qry.ancestor, None)
+    self.assertEqual(qry.filters,
+                     query.ConjunctionNode(
+                       query.ParameterNode(Foo.name, '=',
+                                        query.Parameter(1)),
+                       query.ParameterNode(Foo.rate, '=',
+                                        query.Parameter('foo'))))
+    self.assertEqual(qry.orders, None)
+
+  def testGqlBindParameters(self):
+    pqry = query.gql('SELECT * FROM Foo WHERE name = :1')
+    qry = pqry.bind('joe')
+    self.assertEqual(list(qry), [self.joe])
+    qry = pqry.bind('jill')
+    self.assertEqual(list(qry), [self.jill])
+
+  def testGqlUnresolvedParameters(self):
+    self.ExpectErrors()
+    qry = query.gql(
+      'SELECT * FROM Foo WHERE name = :1')
+    self.assertRaises(datastore_errors.BadArgumentError, qry.fetch)
+    self.assertRaises(datastore_errors.BadArgumentError, qry.count)
+    self.assertRaises(datastore_errors.BadArgumentError, list, qry)
+    self.assertRaises(datastore_errors.BadArgumentError, qry.iter)
+
+  def checkGql(self, expected, gql, args=(), kwds={},
+               fetch=lambda q: list(q)):
+    actual = fetch(query.gql(gql).bind(*args, **kwds))
+    self.assertEqual(expected, actual)
+
+  def testGqlBasicQueries(self):
+    self.checkGql([self.joe, self.jill, self.moe], "SELECT * FROM Foo")
+
+  def testGqlKeyQueries(self):
+    self.checkGql([self.joe.key, self.jill.key, self.moe.key],
+                  "SELECT __key__ FROM Foo")
+
+  def testGqlOperatorQueries(self):
+    self.checkGql([self.joe], "SELECT * FROM Foo WHERE name = 'joe'")
+    self.checkGql([self.moe], "SELECT * FROM Foo WHERE name > 'joe'")
+    self.checkGql([self.jill], "SELECT * FROM Foo WHERE name < 'joe'")
+    self.checkGql([self.joe, self.moe],
+                  "SELECT * FROM Foo WHERE name >= 'joe'")
+    self.checkGql([self.jill, self.joe],
+                  "SELECT * FROM Foo WHERE name <= 'joe'")
+    self.checkGql([self.jill, self.moe],
+                  "SELECT * FROM Foo WHERE name != 'joe'")
+    # NOTE: The ordering on these is questionable:
+    self.checkGql([self.joe, self.jill],
+                  "SELECT * FROM Foo WHERE name IN ('joe', 'jill')")
+    self.checkGql([self.jill, self.joe],
+                  "SELECT * FROM Foo WHERE name IN ('jill', 'joe')")
+
+  def testGqlOrderQueries(self):
+    self.checkGql([self.jill, self.joe, self.moe],
+                  "SELECT * FROM Foo ORDER BY name")
+    self.checkGql([self.moe, self.joe, self.jill],
+                  "SELECT * FROM Foo ORDER BY name DESC")
+    self.checkGql([self.joe, self.jill, self.moe],
+                  "SELECT * FROM Foo ORDER BY __key__ ASC")
+    self.checkGql([self.moe, self.jill, self.joe],
+                  "SELECT * FROM Foo ORDER BY __key__ DESC")
+    self.checkGql([self.jill, self.joe, self.moe],
+                  "SELECT * FROM Foo ORDER BY rate DESC, name")
+
+  def testGqlOffsetQuery(self):
+    self.checkGql([self.jill, self.moe], "SELECT * FROM Foo OFFSET 1")
+
+  def testGqlLimitQuery(self):
+    self.checkGql([self.joe, self.jill], "SELECT * FROM Foo LIMIT 2")
+
+  def testGqlLimitOffsetQuery(self):
+    self.checkGql([self.jill], "SELECT * FROM Foo LIMIT 1 OFFSET 1")
+
+  def testGqlLimitOffsetQueryUsingFetch(self):
+    self.checkGql([self.jill], "SELECT * FROM Foo LIMIT 1 OFFSET 1",
+                  fetch=lambda q: q.fetch())
+
+# XXX TODO: Make this work:
+##   def testGqlLimitQueryUsingFetch(self):
+##     self.checkGql([self.joe, self.jill], "SELECT * FROM Foo LIMIT 2",
+##                   fetch=lambda q: q.fetch(3))
+
+  def testGqlOffsetQueryUsingFetchPage(self):
+    q = query.gql("SELECT * FROM Foo LIMIT 2")
+    res1, cur1, more1 = q.fetch_page(1)
+    self.assertEqual([self.joe], res1)
+    self.assertEqual(True, more1)
+    res2, cur2, more2 = q.fetch_page(1, start_cursor=cur1)
+    self.assertEqual([self.jill], res2)
+    # XXX TODO: Gotta make this work:
+##     self.assertEqual(False, more2)
+##     res3, cur3, more3 = q.fetch_page(1, start_cursor=cur2)
+##     self.assertEqual([], res3)
+##     self.assertEqual(False, more3)
+##     self.assertEqual(None, cur3)
+
+  def testGqlLimitQueryUsingFetchPage(self):
+    q = query.gql("SELECT * FROM Foo OFFSET 1")
+    res1, cur1, more1 = q.fetch_page(1)
+    self.assertEqual([self.jill], res1)
+    self.assertEqual(True, more1)
+    # NOTE: Without offset=0, the following break.
+    res2, cur2, more2 = q.fetch_page(1, start_cursor=cur1, offset=0)
+    self.assertEqual([self.moe], res2)
+    self.assertEqual(False, more2)
+    res3, cur3, more3 = q.fetch_page(1, start_cursor=cur2, offset=0)
+    self.assertEqual([], res3)
+    self.assertEqual(False, more3)
+    self.assertEqual(None, cur3)
+
+  def testGqlParameterizedAncestor(self):
+    q = query.gql("SELECT * FROM Foo WHERE ANCESTOR IS :1")
+    self.assertEqual([self.moe], q.bind(self.moe.key).fetch())
+
+  def testGqlParameterizedInClause(self):
+    # NOTE: The ordering on these is questionable:
+    q = query.gql("SELECT * FROM Foo WHERE name IN :1")
+    self.assertEqual([self.jill, self.joe], q.bind(('jill', 'joe')).fetch())
+    # Exercise the LIST function.
+    q = query.gql("SELECT * FROM Foo WHERE name IN (:a, :b)")
+    self.assertEqual([self.jill, self.joe], q.bind(a='jill', b='joe').fetch())
+    # Generate OR/AND nodes containing parameter nodes.
+    q = query.gql("SELECT * FROM Foo WHERE name = :1 AND rate in (1, 2)")
+    self.assertEqual([self.jill], q.bind('jill').fetch())
+
+  def testGqlKeyFunction(self):
+    class Bar(model.Model):
+      ref = model.KeyProperty(kind=Foo)
+    noref = Bar()
+    noref.put()
+    joeref = Bar(ref=self.joe.key)
+    joeref.put()
+    moeref = Bar(ref=self.moe.key)
+    moeref.put()
+    self.assertEqual(
+      [noref],
+      Bar.gql("WHERE ref = NULL").fetch())
+    self.assertEqual(
+      [noref],
+      Bar.gql("WHERE ref = :1").bind(None).fetch())
+    self.assertEqual(
+      [joeref],
+      Bar.gql("WHERE ref = :1").bind(self.joe.key).fetch())
+    self.assertEqual(
+      [joeref],
+      Bar.gql("WHERE ref = KEY('%s')" % self.joe.key.urlsafe()).fetch())
+    self.assertEqual(
+      [joeref],
+      Bar.gql("WHERE ref = KEY('Foo', %s)" % self.joe.key.id()).fetch())
+    self.assertEqual(
+      [joeref],
+      Bar.gql("WHERE ref = KEY(:1)").bind(self.joe.key.urlsafe()).fetch())
+    self.assertEqual(
+      [joeref],
+      Bar.gql("WHERE ref = KEY('Foo', :1)").bind(self.joe.key.id()).fetch())
+
+  def testGqlKeyFunctionAncestor(self):
+    class Bar(model.Model):
+      pass
+    nobar = Bar()
+    nobar.put()
+    joebar = Bar(parent=self.joe.key)
+    joebar.put()
+    moebar = Bar(parent=self.moe.key)
+    moebar.put()
+    self.assertEqual(
+      [joebar],
+      Bar.gql("WHERE ANCESTOR IS KEY('%s')" % self.joe.key.urlsafe()).fetch())
+    self.assertEqual(
+      [joebar],
+      Bar.gql("WHERE ANCESTOR IS :1").bind(self.joe.key).fetch())
+    self.assertEqual(
+      [joebar],
+      Bar.gql("WHERE ANCESTOR IS KEY(:1)").bind(self.joe.key.urlsafe()).fetch())
+    self.assertEqual(
+      [joebar],
+      Bar.gql("WHERE ANCESTOR IS KEY('Foo', :1)")
+         .bind(self.joe.key.id()).fetch())
+
+  def testGqlAncestorFunctionError(self):
+    self.assertRaises(TypeError,
+                      query.gql, 'SELECT * FROM Foo WHERE ANCESTOR IS USER(:1)')
+
+  def testGqlOtherFunctions(self):
+    class Bar(model.Model):
+      auser = model.UserProperty()
+      apoint = model.GeoPtProperty()
+      adatetime = model.DateTimeProperty()
+      adate = model.DateProperty()
+      atime = model.TimeProperty()
+    abar = Bar(
+      auser=users.User('test@example.com'),
+      apoint=model.GeoPt(52.35, 4.9166667),
+      adatetime=datetime.datetime(2012, 2, 1, 14, 54, 0),
+      adate=datetime.date(2012, 2, 2),
+      atime=datetime.time(14, 54, 0),
+      )
+    abar.put()
+    bbar = Bar()
+    bbar.put()
+    self.assertEqual(
+      [abar.key],
+      query.gql("SELECT __key__ FROM Bar WHERE auser=USER(:1)")
+           .bind('test@example.com').fetch())
+    self.assertEqual(
+      [abar.key],
+      query.gql("SELECT __key__ FROM Bar WHERE apoint=GEOPT(:1, :2)")
+           .bind(52.35, 4.9166667).fetch())
+    self.assertEqual(
+      [abar.key],
+      query.gql("SELECT __key__ FROM Bar WHERE adatetime=DATETIME(:1)")
+           .bind('2012-02-01 14:54:00').fetch())
+    self.assertEqual(
+      [abar.key],
+      query.gql("SELECT __key__ FROM Bar WHERE adate=DATE(:1, :2, :2)")
+           .bind(2012, 2).fetch())
+    self.assertEqual(
+      [abar.key],
+      query.gql("SELECT __key__ FROM Bar WHERE atime=TIME(:hour, :min, :sec)")
+           .bind(hour=14, min=54, sec=0).fetch())
+
+  def testGqlStructuredPropertyQuery(self):
+    class Bar(model.Model):
+      foo = model.StructuredProperty(Foo)
+    barf = Bar(foo=Foo(name='one', rate=3, tags=['a', 'b']))
+    barf.put()
+    barg = Bar(foo=Foo(name='two', rate=4, tags=['b', 'c']))
+    barg.put()
+    barh = Bar()
+    barh.put()
+    # TODO: Once SDK 1.6.3 is released, drop quotes around foo.name.
+    q = Bar.gql("WHERE \"foo.name\" = 'one'")
+    self.assertEqual([barf], q.fetch())
+    q = Bar.gql("WHERE foo = :1").bind(Foo(name='two', rate=4))
+    self.assertEqual([barg], q.fetch())
+    q = Bar.gql("WHERE foo = NULL")
+    self.assertEqual([barh], q.fetch())
+    q = Bar.gql("WHERE foo = :1")
+    self.assertEqual([barh], q.bind(None).fetch())
+
+  def testGqlExpandoProperty(self):
+    class Bar(model.Expando):
+      pass
+    babar = Bar(name='Babar')
+    babar.put()
+    bare = Bar(nude=42)
+    bare.put()
+    q = Bar.gql("WHERE name = 'Babar'")
+    self.assertEqual([babar], q.fetch())
+    q = Bar.gql("WHERE nude = :1")
+    self.assertEqual([bare], q.bind(42).fetch())
+
+  def testGqlExpandoInStructure(self):
+    class Bar(model.Expando):
+      pass
+    class Baz(model.Model):
+      bar = model.StructuredProperty(Bar)
+    bazar = Baz(bar=Bar(bow=1, wow=2))
+    bazar.put()
+    bazone = Baz()
+    bazone.put()
+    q = Baz.gql("WHERE \"bar.bow\" = 1")
+    self.assertEqual([bazar], q.fetch())
+
+  def testGqlKindlessQuery(self):
+    results = query.gql('SELECT *').fetch()
+    self.assertEqual([self.joe, self.jill, self.moe], results)
+
+  def testGqlSubclass(self):
+    # You can pass gql() a subclass of Query and it'll use that.
+    class MyQuery(query.Query):
+      pass
+    q = query._gql("SELECT * FROM Foo WHERE name = :1", query_class=MyQuery)
+    self.assertTrue(isinstance(q, MyQuery))
+    # And bind() preserves the class.
+    qb = q.bind('joe')
+    self.assertTrue(isinstance(qb, MyQuery))
+    # .filter() also preserves the class, as well as default_options.
+    qf = q.filter(Foo.rate == 1)
+    self.assertTrue(isinstance(qf, MyQuery))
+    self.assertEqual(qf.default_options, q.default_options)
+    # Same for .options().
+    qo = q.order(-Foo.name)
+    self.assertTrue(isinstance(qo, MyQuery))
+    self.assertEqual(qo.default_options, q.default_options)
+
+  def testGqlUnusedBindings(self):
+    # Only unused positional bindings raise an error.
+    q = Foo.gql("WHERE ANCESTOR IS :1 AND rate >= :2")
+    qb = q.bind(self.joe.key, 2, foo=42)  # Must not fail
+    self.assertRaises(datastore_errors.BadArgumentError, q.bind)
+    self.assertRaises(datastore_errors.BadArgumentError, q.bind, self.joe.key)
+    self.assertRaises(datastore_errors.BadArgumentError, q.bind,
+                      self.joe.key, 2, 42)
+
+  def testGqlWithBind(self):
+    q = Foo.gql("WHERE name = :1", 'joe')
+    self.assertEqual([self.joe], q.fetch())
+
+  def testGqlAnalyze(self):
+    q = Foo.gql("WHERE name = 'joe'")
+    self.assertEqual([], q.analyze())
+    q = Foo.gql("WHERE name = :1 AND rate = :2")
+    self.assertEqual([1, 2], q.analyze())
+    q = Foo.gql("WHERE name = :foo AND rate = :bar")
+    self.assertEqual(['bar', 'foo'], q.analyze())
+    q = Foo.gql("WHERE tags = :1 AND name = :foo AND rate = :bar")
+    self.assertEqual([1, 'bar', 'foo'], q.analyze())
+
 
 def main():
   unittest.main()

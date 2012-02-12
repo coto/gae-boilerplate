@@ -17,6 +17,8 @@ from . import test_utils
 
 class KeyTests(test_utils.NDBTest):
 
+  the_module = key
+
   def testShort(self):
     k0 = key.Key('Kind', None)
     self.assertEqual(k0.flat(), ('Kind', None))

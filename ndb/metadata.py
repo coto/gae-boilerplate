@@ -20,6 +20,11 @@ range of names, such that start <= name < end.
 
 from . import model
 
+__all__ = ['Namespace', 'Kind', 'Property',
+           'get_namespaces', 'get_kinds',
+           'get_properties_of_kind', 'get_representations_of_kind',
+           ]
+
 
 class _BaseMetadata(model.Model):
   """Base class for all metadata models."""

@@ -22,6 +22,8 @@ class PolyModelTests(test_utils.NDBTest):
   def setUp(self):
     super(PolyModelTests, self).setUp()
 
+  the_module = polymodel
+
   def testBasics(self):
     # Test basic PolyModel functionality.
     class Shoe(PolyModel):

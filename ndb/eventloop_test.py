@@ -19,6 +19,8 @@ class EventLoopTests(test_utils.NDBTest):
       del os.environ[eventloop._EVENT_LOOP_KEY]
     self.ev = eventloop.get_event_loop()
 
+  the_module = eventloop
+
   def testQueueTasklet(self):
     def f(unused_number, unused_string, unused_a, unused_b): return 1
     def g(unused_number, unused_string): return 2

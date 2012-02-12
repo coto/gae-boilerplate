@@ -25,6 +25,8 @@ class TaskletTests(test_utils.NDBTest):
     self.ev = eventloop.get_event_loop()
     self.log = []
 
+  the_module = tasklets
+
   def universal_callback(self, *args):
     self.log.append(args)
 

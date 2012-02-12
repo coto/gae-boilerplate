@@ -85,3 +85,29 @@ class NDBTest(unittest.TestCase):
     tasklets.set_context(ctx)
     ctx.set_cache_policy(False)
     ctx.set_memcache_policy(False)
+
+  # Set to the module under test to check its __all__ for inconsistencies.
+  the_module = None
+
+  def testAllVariableIsConsistent(self):
+    if self.the_module is None:
+      return
+    modname = self.the_module.__name__
+    undefined = []
+    for name in self.the_module.__all__:
+      if not hasattr(self.the_module, name):
+        undefined.append(name)
+    self.assertFalse(undefined,
+                     '%s.__all__ has some names that are not defined: %s' %
+                     (modname, undefined))
+    module_type = type(self.the_module)
+    unlisted = []
+    for name in dir(self.the_module):
+      if not name.startswith('_'):
+        obj = getattr(self.the_module, name)
+        if not isinstance(obj, module_type):
+          if name not in self.the_module.__all__:
+            unlisted.append(name)
+    self.assertFalse(unlisted,
+                     '%s defines some names that are not in __all__: %s' %
+                     (modname, unlisted))

@@ -62,7 +62,8 @@ exceptions indicated in the list below:
 
 - GeoPtProperty: a geographical location, i.e. (latitude, longitude)
 
-- KeyProperty: a datastore Key value
+- KeyProperty: a datastore Key value, optionally constrained to
+  referring to a specific kind
 
 - UserProperty: a User object (for backwards compatibility only)
 
@@ -79,6 +80,15 @@ exceptions indicated in the list below:
 
 - GenericProperty: a property whose type is not constrained; mostly
   used by the Expando class (see below) but also usable explicitly
+
+- JsonProperty: a property whose value is any object that can be
+  serialized using JSON; the value written to the datastore is a JSON
+  representation of that object
+
+- PickleProperty: a property whose value is any object that can be
+  serialized using Python's pickle protocol; the value written to the
+  datastore is the pickled representation of that object, using the
+  highest available pickle protocol
 
 Most Property classes have similar constructor signatures.  They
 accept several optional keyword arguments:
@@ -298,6 +308,7 @@ __all__ = ['Key', 'ModelAdapter', 'ModelAttribute',
            'get_multi', 'get_multi_async',
            'put_multi', 'put_multi_async',
            'delete_multi', 'delete_multi_async',
+           'make_connection',
            ]
 
 
@@ -361,7 +372,9 @@ class ModelAdapter(datastore_rpc.AbstractAdapter):
       kind = key.kind()
     modelclass = Model._kind_map.get(kind, self.default_model)
     if modelclass is None:
-      raise KindError("No implementation found for kind '%s'" % kind)
+      raise KindError(
+        "No model class found for kind '%s'. Did you forget to import it?" %
+        kind)
     entity = modelclass._from_pb(pb, key=key, set_key=False)
     if self.want_pbs:
       entity._orig_pb = pb
@@ -546,7 +559,7 @@ class Property(ModelAttribute):
                  '_choices', '_validator', '_verbose_name']
   _positional = 1  # Only name is a positional argument.
 
-  @utils.positional(1 + _positional)
+  @utils.positional(1 + _positional)  # Add 1 for self.
   def __init__(self, name=None, indexed=None, repeated=None,
                required=None, default=None, choices=None, validator=None,
                verbose_name=None):
@@ -554,8 +567,10 @@ class Property(ModelAttribute):
     if name is not None:
       if isinstance(name, unicode):
         name = name.encode('utf-8')
+      if not isinstance(name, str):
+        raise TypeError('Name %r is not a string' % (name,))
       if '.' in name:
-        raise ValueError('name cannot contain period characters' % name)
+        raise ValueError('Name %r cannot contain period characters' % (name,))
       self._name = name
     if indexed is not None:
       self._indexed = indexed
@@ -627,6 +642,7 @@ class Property(ModelAttribute):
     Returns:
       A FilterNode instance representing the requested comparison.
     """
+    # NOTE: This is also used by query.gql().
     if not self._indexed:
       raise datastore_errors.BadFilterError(
         'Cannot query for unindexed property %s' % self._name)
@@ -1385,7 +1401,7 @@ class PickleProperty(BlobProperty):
   """A Property whose value is any picklable Python object."""
 
   def _to_base_type(self, value):
-    return pickle.dumps(value, 2)
+    return pickle.dumps(value, pickle.HIGHEST_PROTOCOL)
 
   def _from_base_type(self, value):
     return pickle.loads(value)
@@ -1397,12 +1413,18 @@ class JsonProperty(BlobProperty):
   # Use late import so the dependency is optional.
 
   def _to_base_type(self, value):
-    import simplejson
-    return simplejson.dumps(value, 2)
+    try:
+      import json
+    except ImportError:
+      import simplejson as json
+    return json.dumps(value, 2)
 
   def _from_base_type(self, value):
-    import simplejson
-    return simplejson.loads(value)
+    try:
+      import json
+    except ImportError:
+      import simplejson as json
+    return json.loads(value)
 
 
 class UserProperty(Property):
@@ -1457,8 +1479,62 @@ class UserProperty(Property):
 
 
 class KeyProperty(Property):
-  """A Property whose value is a Key object."""
-  # TODO: optionally check the kind (or maybe require this?)
+  """A Property whose value is a Key object.
+
+  Optional keyword argument: kind=<kind>, to require that keys
+  assigned to this property always have the indicated kind.  May be a
+  string or a Model subclass.
+  """
+
+  _attributes = Property._attributes + ['_kind']
+
+  _kind = None
+
+  @utils.positional(2 + Property._positional)
+  def __init__(self, *args, **kwds):
+    # Support several positional signatures:
+    # ()  =>  name=None, kind from kwds
+    # (None)  =>  name=None, kind from kwds
+    # (name)  =>  name=arg 0, kind from kwds
+    # (kind)  =>  name=None, kind=arg 0
+    # (name, kind)  => name=arg 0, kind=arg 1
+    # (kind, name)  => name=arg 1, kind=arg 0
+    # The positional kind must be a Model subclass; it cannot be a string.
+    name = kind = None
+
+    for arg in args:
+      if isinstance(arg, basestring):
+        if name is not None:
+          raise TypeError('You can only specify one name')
+        name = arg
+      elif isinstance(arg, type) and issubclass(arg, Model):
+        if kind is not None:
+          raise TypeError('You can only specify one kind')
+        kind = arg
+      elif arg is not None:
+        raise TypeError('Unexpected positional argument: %r' % (arg,))
+
+    if name is None:
+      name = kwds.pop('name', None)
+    elif 'name' in kwds:
+      raise TypeError('You can only specify name once')
+
+    if kind is None:
+      kind = kwds.pop('kind', None)
+    elif 'kind' in kwds:
+      raise TypeError('You can only specify kind once')
+
+    if kind is not None:
+      if isinstance(kind, type) and issubclass(kind, Model):
+        kind = kind._get_kind()
+      if isinstance(kind, unicode):
+        kind = kind.encode('utf-8')
+      if not isinstance(kind, str):
+        raise TypeError('kind must be a Model class or a string')
+
+    super(KeyProperty, self).__init__(name, **kwds)
+
+    self._kind = kind
 
   def _datastore_type(self, value):
     return datastore_types.Key(value.urlsafe())
@@ -1470,6 +1546,10 @@ class KeyProperty(Property):
     if not value.id():
       raise datastore_errors.BadValueError('Expected complete Key, got %r' %
                                            (value,))
+    if self._kind is not None:
+      if value.kind() != self._kind:
+        raise datastore_errors.BadValueError(
+          'Expected Key with kind=%r, got %r' % (self._kind, value))
 
   def _db_set_value(self, v, unused_p, value):
     if not isinstance(value, Key):
@@ -1661,7 +1741,7 @@ class TimeProperty(DateTimeProperty):
     return datetime.datetime.now().time()
 
 
-class StructuredGetForDictMixin(Property):
+class _StructuredGetForDictMixin(Property):
   """Mixin class so *StructuredProperty can share _get_for_dict().
 
   The behavior here is that sub-entities are converted to dictionaries
@@ -1678,7 +1758,7 @@ class StructuredGetForDictMixin(Property):
     return value
 
 
-class StructuredProperty(StructuredGetForDictMixin):
+class StructuredProperty(_StructuredGetForDictMixin):
   """A Property whose value is itself an entity.
 
   The values of the sub-entity are indexed and can be queried.
@@ -1700,21 +1780,29 @@ class StructuredProperty(StructuredGetForDictMixin):
                         'properties of its own.' % self._name)
     self._modelclass = modelclass
 
-  def _fix_up(self, cls, code_name):
-    super(StructuredProperty, self)._fix_up(cls, code_name)
-    self._fix_up_nested_properties()
-
-  def _fix_up_nested_properties(self):
-    for prop in self._modelclass._properties.itervalues():
-      prop_copy = copy.copy(prop)
-      prop_copy._name = self._name + '.' + prop._name
-      if isinstance(prop_copy, StructuredProperty):
-        # Guard against simple recursive model definitions.
-        # See model_test: testRecursiveStructuredProperty().
-        # TODO: Guard against indirect recursion.
-        if prop_copy._modelclass is not self._modelclass:
-          prop_copy._fix_up_nested_properties()
-      setattr(self, prop._code_name, prop_copy)
+  def __getattr__(self, attrname):
+    """Dynamically get a subproperty."""
+    # Optimistically try to use the dict key.
+    prop = self._modelclass._properties.get(attrname)
+    # We're done if we have a hit and _code_name matches.
+    if prop is None or prop._code_name != attrname:
+      # Otherwise, use linear search looking for a matching _code_name.
+      for prop in self._modelclass._properties.values():
+        if prop._code_name == attrname:
+          break
+      else:
+        # This is executed when we never execute the above break.
+        prop = None
+    if prop is None:
+      raise AttributeError('Model subclass %s has no attribute %s' %
+                           (self._modelclass.__name__, attrname))
+    prop_copy = copy.copy(prop)
+    prop_copy._name = self._name + '.' + prop_copy._name
+    # Cache the outcome, so subsequent requests for the same attribute
+    # name will get the copied property directly rather than going
+    # through the above motions all over again.
+    setattr(self, attrname, prop_copy)
+    return prop_copy
 
   def _comparison(self, op, value):
     if op != '=':
@@ -1726,7 +1814,10 @@ class StructuredProperty(StructuredGetForDictMixin):
     # Import late to avoid circular imports.
     from .query import ConjunctionNode, PostFilterNode
     from .query import RepeatedStructuredPropertyPredicate
-    value = self._do_validate(value)  # None is not allowed!
+    if value is None:
+      from .query import FilterNode  # Import late to avoid circular imports.
+      return FilterNode(self._name, op, value)
+    value = self._do_validate(value)
     value = self._call_to_base_type(value)
     filters = []
     match_keys = []
@@ -1790,10 +1881,12 @@ class StructuredProperty(StructuredGetForDictMixin):
     ok = super(StructuredProperty, self)._has_value(entity)
     if ok and rest:
       lst = self._get_base_value_unwrapped_as_list(entity)
-      if len(lst) != 1 or lst == [None]:
+      if len(lst) != 1:
         raise RuntimeError('Failed to retrieve sub-entity of StructuredProperty'
                            ' %s' % self._name)
       subent = lst[0]
+      if subent is None:
+        return True
       subprop = subent._properties.get(rest[0])
       if subprop is None:
         ok = False
@@ -1810,6 +1903,10 @@ class StructuredProperty(StructuredGetForDictMixin):
         for unused_name, prop in sorted(value._properties.iteritems()):
           prop._serialize(value, pb, prefix + self._name + '.',
                           self._repeated or parent_repeated)
+      else:
+        # Serialize a single None
+        super(StructuredProperty, self)._serialize(
+          entity, pb, prefix=prefix, parent_repeated=parent_repeated)
 
   def _deserialize(self, entity, p, depth=1):
     if not self._repeated:
@@ -1827,6 +1924,10 @@ class StructuredProperty(StructuredGetForDictMixin):
                            'retrieved not a %s instance %r' %
                            (self._name, cls.__name__, subentity))
       prop = subentity._get_property_for(p, depth=depth)
+      if prop is None:
+        # Special case: kill subentity after all.
+        self._store_value(entity, None)
+        return
       prop._deserialize(subentity, p, depth + 1)
       return
 
@@ -1871,7 +1972,7 @@ class StructuredProperty(StructuredGetForDictMixin):
         value._prepare_for_put()
 
 
-class LocalStructuredProperty(StructuredGetForDictMixin, BlobProperty):
+class LocalStructuredProperty(_StructuredGetForDictMixin, BlobProperty):
   """Substructure that is serialized to an opaque blob.
 
   This looks like StructuredProperty on the Python side, but is
@@ -1944,7 +2045,10 @@ class GenericProperty(Property):
     # (We don't even want to think about multiple members... :-)
     if v.has_stringvalue():
       sval = v.stringvalue()
-      if p.meaning() not in (entity_pb.Property.BLOB,
+      meaning = p.meaning()
+      if meaning == entity_pb.Property.BLOBKEY:
+        sval = BlobKey(sval)
+      elif meaning not in (entity_pb.Property.BLOB,
                              entity_pb.Property.BYTESTRING):
         try:
           sval.decode('ascii')
@@ -2025,8 +2129,10 @@ class GenericProperty(Property):
       pv.set_y(value.lon)
     elif isinstance(value, users.User):
       datastore_types.PackUser(p.name(), value, v)
+    elif isinstance(value, BlobKey):
+      v.set_stringvalue(str(value))
+      p.set_meaning(entity_pb.Property.BLOBKEY)
     else:
-      # TODO: BlobKey.
       raise NotImplementedError('Property %s does not support %s types.' %
                                 (self._name, type(value)))
 
@@ -2146,7 +2252,7 @@ class Model(object):
 
   @utils.positional(1)
   def __init__(self, key=None, id=None, parent=None, **kwds):
-    """Creates a new instance of this model (a.k.a. as an entity).
+    """Creates a new instance of this model (a.k.a. an entity).
 
     The new entity must be written to the datastore using an explicit
     call to .put().
@@ -2165,6 +2271,8 @@ class Model(object):
     through the constructor, but can be assigned to entity attributes
     after the entity has been created.
     """
+    # TODO: Use the same signature hacks as in get_or_insert() to
+    # fully support properties named id, parent or key?
     if key is not None:
       if id is not None:
         raise datastore_errors.BadArgumentError(
@@ -2387,9 +2495,13 @@ class Model(object):
     name = p.name()
     parts = name.split('.')
     if len(parts) <= depth:
-      raise RuntimeError('Model %s expected to find property %s separated by '
-                         'periods at a depth of %i; received %r' %
-                         (self.__class__.__name__, name, depth, parts))
+      # Apparently there's an unstructured value here.
+      # Assume it is a None written for a missing value.
+      # (It could also be that a schema change turned an unstructured
+      # value into a structured one.  In that case, too, it seems
+      # better to return None than to return an unstructured value,
+      # since the latter doesn't match the current schema.)
+      return None
     next = parts[depth]
     prop = self._properties.get(next)
     if prop is None:
@@ -2513,12 +2625,21 @@ class Model(object):
     Returns:
       A Query object.
     """
+    # TODO: Disallow non-empty args and filter=.
     from .query import Query  # Import late to avoid circular imports.
     qry = Query(kind=cls._get_kind(), **kwds)
     if args:
       qry = qry.filter(*args)
     return qry
   query = _query
+
+  @classmethod
+  def _gql(cls, query_string, *args, **kwds):
+    """Run a GQL query."""
+    from .query import gql  # Import late to avoid circular imports.
+    return gql('SELECT * FROM %s %s' % (cls._get_kind(), query_string),
+               *args, **kwds)
+  gql = _gql
 
   def _put(self, **ctx_options):
     """Write this entity to the datastore.
@@ -2577,9 +2698,50 @@ class Model(object):
 
     This is the asynchronous version of Model._get_or_insert().
     """
+    # NOTE: The signature is really weird here because we want to support
+    # models with properties named e.g. 'cls' or 'name'.
     from . import tasklets
-    ctx = tasklets.get_context()
-    return ctx.get_or_insert(*args, **kwds)
+    cls, name = args  # These must always be positional.
+    our_kwds = {}
+    for kwd in 'app', 'namespace', 'parent', 'context_options':
+      # For each of these keyword arguments, if there is a property
+      # with the same name, the caller *must* use _foo=..., otherwise
+      # they may use either _foo=... or foo=..., but _foo=... wins.
+      alt_kwd = '_' + kwd
+      if alt_kwd in kwds:
+        our_kwds[kwd] = kwds.pop(alt_kwd)
+      elif (kwd in kwds and
+          not isinstance(getattr(cls, kwd, None), Property)):
+        our_kwds[kwd] = kwds.pop(kwd)
+    app = our_kwds.get('app')
+    namespace = our_kwds.get('namespace')
+    parent = our_kwds.get('parent')
+    context_options = our_kwds.get('context_options')
+    # (End of super-special argument parsing.)
+    # TODO: Test the heck out of this, in all sorts of evil scenarios.
+    if not isinstance(name, basestring):
+      raise TypeError('name must be a string; received %r' % name)
+    elif not name:
+      raise ValueError('name cannot be an empty string.')
+    key = Key(cls, name, app=app, namespace=namespace, parent=parent)
+
+    @tasklets.tasklet
+    def internal_tasklet():
+      ent = yield key.get_async(options=context_options)
+      if ent is None:
+        @tasklets.tasklet
+        def txn():
+          ent = yield key.get_async(options=context_options)
+          if ent is None:
+            ent = cls(**kwds)  # TODO: Use _populate().
+            ent._key = key
+            yield ent.put_async(options=context_options)
+          raise tasklets.Return(ent)
+        ent = yield transaction_async(txn)
+      raise tasklets.Return(ent)
+
+    return internal_tasklet()
+
   get_or_insert_async = _get_or_insert_async
 
   @classmethod
@@ -2622,7 +2784,7 @@ class Model(object):
 
   @classmethod
   def _get_by_id(cls, id, parent=None, **ctx_options):
-    """Returns a instance of Model class by ID.
+    """Returns an instance of Model class by ID.
 
     This is really just a shorthand for Key(cls, id).get().
 
@@ -2639,7 +2801,7 @@ class Model(object):
 
   @classmethod
   def _get_by_id_async(cls, id, parent=None, **ctx_options):
-    """Returns a instance of Model class by ID.
+    """Returns an instance of Model class by ID.
 
     This is the asynchronous version of Model._get_by_id().
     """
@@ -2813,22 +2975,39 @@ def in_transaction():
 
 
 @utils.positional(1)
-def transactional(func):
+def transactional(func=None, **ctx_options):
   """Decorator to make a function automatically run in a transaction.
 
   If we're already in a transaction this is a no-op.
 
-  Note: If you need to override the retry count, or want some kind of
-  async behavior, or pass Context options, use the transaction()
-  function above.
+  This supports two forms:
+
+  (1) Vanilla:
+      @transactional
+      def callback(arg):
+        ...
+
+  (2) With options:
+      @transactional(retries=1)
+      def callback(arg):
+        ...
   """
-  @utils.wrapping(func)
-  def transactional_wrapper(*args, **kwds):
-    if in_transaction():
-      return func(*args, **kwds)
-    else:
-      return transaction(lambda: func(*args, **kwds))
-  return transactional_wrapper
+  if func is not None:
+    # Form (1), vanilla.
+    if ctx_options:
+      raise TypeError('@transactional() does not take positional arguments')
+    return transactional()(func)
+
+  # Form (2), with options.
+  def outer_transactional_wrapper(func):
+    @utils.wrapping(func)
+    def transactional_wrapper(*args, **kwds):
+      if in_transaction():
+        return func(*args, **kwds)
+      else:
+        return transaction(lambda: func(*args, **kwds), **ctx_options)
+    return transactional_wrapper
+  return outer_transactional_wrapper
 
 
 def get_multi_async(keys, **ctx_options):

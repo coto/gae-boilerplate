@@ -16,7 +16,7 @@
 
 __author__ = 'James A. Morrison'
 
-from ndb import eventloop, tasklets
+from . import eventloop, tasklets
 
 
 class NdbDjangoMiddleware(object):

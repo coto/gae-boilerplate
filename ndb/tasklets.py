@@ -65,23 +65,24 @@ import os
 import sys
 import types
 
-from google.appengine.api.apiproxy_stub_map import UserRPC
-from google.appengine.api.apiproxy_rpc import RPC
+from google.appengine.api import apiproxy_stub_map
+from google.appengine.api import apiproxy_rpc
 from google.appengine.datastore import datastore_rpc
 
 from . import eventloop
 from . import utils
 
-__all__ = ['Return', 'tasklet', 'get_context', 'set_context', 'sleep',
-           'synctasklet',
+__all__ = ['Return', 'tasklet', 'synctasklet', 'sleep',
+           'add_flow_exception', 'get_return_value',
+           'get_context', 'set_context', 'make_default_context',
            'Future', 'MultiFuture', 'QueueFuture', 'SerialQueueFuture',
            'ReducingFuture',
            ]
 
-logging_debug = utils.logging_debug
+_logging_debug = utils.logging_debug
 
 
-def is_generator(obj):
+def _is_generator(obj):
   """Helper to test for a generator object.
 
   NOTE: This tests for the (iterable) object returned by calling a
@@ -100,22 +101,22 @@ class _State(utils.threading_local):
     self.all_pending = set()
 
   def add_pending(self, fut):
-    logging_debug('all_pending: add %s', fut)
+    _logging_debug('all_pending: add %s', fut)
     self.all_pending.add(fut)
 
   def remove_pending(self, fut, status='success'):
     if fut in self.all_pending:
-      logging_debug('all_pending: %s: remove %s', status, fut)
+      _logging_debug('all_pending: %s: remove %s', status, fut)
       self.all_pending.remove(fut)
     else:
-      logging_debug('all_pending: %s: not found %s', status, fut)
+      _logging_debug('all_pending: %s: not found %s', status, fut)
 
   def clear_all_pending(self):
     if self.all_pending:
       logging.info('all_pending: clear %s', self.all_pending)
       self.all_pending.clear()
     else:
-      logging_debug('all_pending: clear no-op')
+      _logging_debug('all_pending: clear no-op')
 
   def dump_all_pending(self, verbose=False):
     pending = []
@@ -179,9 +180,9 @@ class Future(object):
   # TODO: Compare to Monocle's much simpler Callback class.
 
   # Constants for state property.
-  IDLE = RPC.IDLE  # Not yet running (unused)
-  RUNNING = RPC.RUNNING  # Not yet completed.
-  FINISHING = RPC.FINISHING  # Completed.
+  IDLE = apiproxy_rpc.RPC.IDLE  # Not yet running (unused)
+  RUNNING = apiproxy_rpc.RPC.RUNNING  # Not yet completed.
+  FINISHING = apiproxy_rpc.RPC.FINISHING  # Completed.
 
   # XXX Add docstrings to all methods.  Separate PEP 3148 API from RPC API.
 
@@ -297,7 +298,7 @@ class Future(object):
       if not ev.run1():
         logging.info('Deadlock in %s', self)
         logging.info('All pending Futures:\n%s', _state.dump_all_pending())
-        logging_debug('All pending Futures (verbose):\n%s',
+        _logging_debug('All pending Futures (verbose):\n%s',
                       _state.dump_all_pending(verbose=True))
         self.set_exception(RuntimeError('Deadlock waiting for %s' % self))
 
@@ -350,11 +351,11 @@ class Future(object):
       try:
         set_context(self._context)
         if exc is not None:
-          logging_debug('Throwing %s(%s) into %s',
+          _logging_debug('Throwing %s(%s) into %s',
                         exc.__class__.__name__, exc, info)
           value = gen.throw(exc.__class__, exc, tb)
         else:
-          logging_debug('Sending %r to %s', val, info)
+          _logging_debug('Sending %r to %s', val, info)
           value = gen.send(val)
           self._context = get_context()
       finally:
@@ -362,7 +363,7 @@ class Future(object):
 
     except StopIteration, err:
       result = get_return_value(err)
-      logging_debug('%s returned %r', info, result)
+      _logging_debug('%s returned %r', info, result)
       self.set_result(result)
       return
 
@@ -376,7 +377,7 @@ class Future(object):
     except Exception, err:
       _, _, tb = sys.exc_info()
       if isinstance(err, _flow_exceptions):
-        logging_debug('%s raised %s(%s)',
+        _logging_debug('%s raised %s(%s)',
                       info, err.__class__.__name__, err)
       elif logging.getLogger().level > logging.INFO:
         logging.warning('%s raised %s(%s)',
@@ -388,8 +389,9 @@ class Future(object):
       return
 
     else:
-      logging_debug('%s yielded %r', info, value)
-      if isinstance(value, (UserRPC, datastore_rpc.MultiRpc)):
+      _logging_debug('%s yielded %r', info, value)
+      if isinstance(value, (apiproxy_stub_map.UserRPC,
+                            datastore_rpc.MultiRpc)):
         # TODO: Tail recursion if the RPC is already complete.
         eventloop.queue_rpc(value, self._on_rpc_completion, value, gen)
         return
@@ -400,12 +402,12 @@ class Future(object):
                              self._next)
         self._next = value
         self._geninfo = utils.gen_info(gen)
-        logging_debug('%s is now blocked waiting for %s', self, value)
+        _logging_debug('%s is now blocked waiting for %s', self, value)
         value.add_callback(self._on_future_completion, value, gen)
         return
       if isinstance(value, (tuple, list)):
         # Arrange for yield to return a list of results (not Futures).
-        info = 'multi-yield from ' + utils.gen_info(gen)
+        info = 'multi-yield from %s' % utils.gen_info(gen)
         mfut = MultiFuture(info)
         try:
           for subfuture in value:
@@ -418,7 +420,7 @@ class Future(object):
           mfut.set_exception(err, tb)
         mfut.add_callback(self._on_future_completion, mfut, gen)
         return
-      if is_generator(value):
+      if _is_generator(value):
         # TODO: emulate PEP 380 here?
         raise NotImplementedError('Cannot defer to another generator.')
       raise RuntimeError('A tasklet should not yield plain values.')
@@ -438,7 +440,7 @@ class Future(object):
     if self._next is future:
       self._next = None
       self._geninfo = None
-      logging_debug('%s is no longer blocked waiting for %s', self, future)
+      _logging_debug('%s is no longer blocked waiting for %s', self, future)
     exc = future.get_exception()
     if exc is not None:
       self._help_tasklet_along(gen, exc=exc, tb=future.get_traceback())
@@ -976,7 +978,7 @@ def tasklet(func):
       # Just in case the function is not a generator but still uses
       # the "raise Return(...)" idiom, we'll extract the return value.
       result = get_return_value(err)
-    if is_generator(result):
+    if _is_generator(result):
       eventloop.queue_call(None, fut._help_tasklet_along, result)
     else:
       fut.set_result(result)

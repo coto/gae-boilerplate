@@ -99,7 +99,7 @@ class Key(object):
   - Key(pairs=[(kind1, id1), (kind2, id2), ...])
   - Key(flat=[kind1, id1, kind2, id2, ...])
 
-  Either of the above constructor forms can additional pass in another
+  Either of the above constructor forms can additionally pass in another
   key using parent=<key>.  The (kind, id) pairs of the parent key are
   inserted before the (kind, id) pairs passed explicitly.
 
@@ -201,7 +201,8 @@ class Key(object):
         kwargs = _args[0]
       else:
         if 'flat' in kwargs:
-          raise TypeError('Key() cannot accept flat as a keyword argument.')
+          raise TypeError('Key() with positional arguments '
+                          'cannot accept flat as a keyword argument.')
         kwargs['flat'] = _args
     self = super(Key, cls).__new__(cls)
     # Either __reference or (__pairs, __app, __namespace) must be set.
@@ -554,6 +555,7 @@ class Key(object):
 
 
 # The remaining functions in this module are private.
+# TODO: Conform to PEP 8 naming, e.g. _construct_reference() etc.
 
 @utils.positional(1)
 def _ConstructReference(cls, pairs=None, flat=None,

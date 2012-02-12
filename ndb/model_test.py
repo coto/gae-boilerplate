@@ -232,51 +232,87 @@ key <
 >
 entity_group <
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.left.left.left"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.left.left.name"
   value <
     stringValue: "a1a"
   >
   multiple: false
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.left.left.rite"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.left.name"
   value <
     stringValue: "a1"
   >
   multiple: false
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.left.rite.left"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.left.rite.name"
   value <
     stringValue: "a1b"
   >
   multiple: false
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.left.rite.rite"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.name"
   value <
     stringValue: "a"
   >
   multiple: false
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.rite.left"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.rite.name"
   value <
     stringValue: "a2"
   >
   multiple: false
 >
-raw_property <
-  meaning: 15
+property <
+  name: "root.rite.rite.left"
+  value <
+  >
+  multiple: false
+>
+property <
   name: "root.rite.rite.name"
   value <
     stringValue: "a2b"
+  >
+  multiple: false
+>
+property <
+  name: "root.rite.rite.rite"
+  value <
   >
   multiple: false
 >
@@ -415,6 +451,8 @@ class ModelTests(test_utils.NDBTest):
     self.assertTrue(model.Model._properties == {})
     self.assertTrue(model.Expando._properties == {})
     super(ModelTests, self).tearDown()
+
+  the_module = model
 
   def testKey(self):
     m = model.Model()
@@ -802,6 +840,102 @@ class ModelTests(test_utils.NDBTest):
                         repeated=True, required=True, default='')
     self.assertEqual('MyModel()', repr(MyModel()))
 
+  def testKeyProperty(self):
+    class RefModel(model.Model):
+      pass
+    class FancyModel(model.Model):
+      @classmethod
+      def _get_kind(cls):
+        return 'Fancy'
+    class FancierModel(model.Model):
+      @classmethod
+      def _get_kind(cls):
+        return u'Fancier'
+    class FanciestModel(model.Model):
+      @classmethod
+      def _get_kind(cls):
+        return '\xff'
+    class MyModel(model.Model):
+      basic = model.KeyProperty(kind=None)
+      ref = model.KeyProperty(kind=RefModel)
+      refs = model.KeyProperty(kind=RefModel, repeated=True)
+      fancy = model.KeyProperty(kind=FancyModel)
+      fancee = model.KeyProperty(kind='Fancy')
+      fancier = model.KeyProperty(kind=FancierModel)
+      fanciest = model.KeyProperty(kind=FanciestModel)
+      faanceest = model.KeyProperty(kind=u'\xff')
+    a = MyModel(basic=model.Key('Foo', 1),
+                ref=model.Key(RefModel, 1),
+                refs=[model.Key(RefModel, 2), model.Key(RefModel, 3)],
+                fancy=model.Key(FancyModel, 1),
+                fancee=model.Key(FancyModel, 2),
+                fancier=model.Key('Fancier', 1),
+                fanciest=model.Key(FanciestModel, 1))
+    a.put()
+    b = a.key.get()
+    self.assertEqual(a, b)
+    # Try some assignments.
+    b.basic = model.Key('Bar', 1)
+    b.ref = model.Key(RefModel, 2)
+    b.refs = [model.Key(RefModel, 4)]
+    # Try the repr().
+    self.assertEqual(repr(MyModel.basic), "KeyProperty('basic')")
+    self.assertEqual(repr(MyModel.ref), "KeyProperty('ref', kind='RefModel')")
+    # Try some errors declaring properties.
+    self.assertRaises(TypeError, model.KeyProperty, kind=42)  # Non-class.
+    self.assertRaises(TypeError, model.KeyProperty, kind=int)  # Non-Model.
+    # Try some errors assigning property values.
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, a, 'ref', model.Key('Bar', 1))
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, a, 'refs', [model.Key('Bar', 1)])
+
+  def testKeyPropertyPositionalKind(self):
+    class RefModel(model.Model):
+      pass
+    class MyModel(model.Model):
+      ref0 = model.KeyProperty('REF0')
+      ref1 = model.KeyProperty(RefModel)
+      ref2 = model.KeyProperty(RefModel, 'REF2')
+      ref3 = model.KeyProperty('REF3', RefModel)
+      ref4 = model.KeyProperty(None)
+      ref5 = model.KeyProperty(None, None)
+      ref6 = model.KeyProperty(RefModel, None)
+      ref7 = model.KeyProperty(None, RefModel)
+      ref8 = model.KeyProperty('REF8', None)
+      ref9 = model.KeyProperty(None, 'REF9')
+
+    self.assertEqual(MyModel.ref0._kind, None)
+    self.assertEqual(MyModel.ref1._kind, 'RefModel')
+    self.assertEqual(MyModel.ref2._kind, 'RefModel')
+    self.assertEqual(MyModel.ref3._kind, 'RefModel')
+    self.assertEqual(MyModel.ref4._kind, None)
+    self.assertEqual(MyModel.ref5._kind, None)
+    self.assertEqual(MyModel.ref6._kind, 'RefModel')
+    self.assertEqual(MyModel.ref7._kind, 'RefModel')
+    self.assertEqual(MyModel.ref8._kind, None)
+    self.assertEqual(MyModel.ref9._kind, None)
+
+    self.assertEqual(MyModel.ref0._name, 'REF0')
+    self.assertEqual(MyModel.ref1._name, 'ref1')
+    self.assertEqual(MyModel.ref2._name, 'REF2')
+    self.assertEqual(MyModel.ref3._name, 'REF3')
+    self.assertEqual(MyModel.ref4._name, 'ref4')
+    self.assertEqual(MyModel.ref5._name, 'ref5')
+    self.assertEqual(MyModel.ref6._name, 'ref6')
+    self.assertEqual(MyModel.ref7._name, 'ref7')
+    self.assertEqual(MyModel.ref8._name, 'REF8')
+    self.assertEqual(MyModel.ref9._name, 'REF9')
+
+    for args in [(1,), (int,), (1, int), (int, 1),
+                 ('x', 'y'), (RefModel, RefModel),
+                 (None, int), (int, None), (None, 1), (1, None)]:
+      self.assertRaises(TypeError, model.KeyProperty, *args)
+
+    self.assertRaises(TypeError, model.KeyProperty, RefModel, kind='K')
+    self.assertRaises(TypeError, model.KeyProperty, None, RefModel, kind='k')
+    self.assertRaises(TypeError, model.KeyProperty, 'n', RefModel, kind='k')
+
   def testBlobKeyProperty(self):
     class MyModel(model.Model):
       image = model.BlobKeyProperty()
@@ -1125,9 +1259,9 @@ class ModelTests(test_utils.NDBTest):
 
   def testRecursiveStructuredProperty(self):
     class Node(model.Model):
-      name = model.StringProperty(indexed=False)
+      name = model.StringProperty()
     Node.left = model.StructuredProperty(Node)
-    Node.rite = model.StructuredProperty(Node)
+    Node.right = model.StructuredProperty(Node, 'rite')
     Node._fix_up_properties()
     class Tree(model.Model):
       root = model.StructuredProperty(Node)
@@ -1138,14 +1272,19 @@ class ModelTests(test_utils.NDBTest):
     tree.root = Node(name='a',
                      left=Node(name='a1',
                                left=Node(name='a1a'),
-                               rite=Node(name='a1b')),
-                     rite=Node(name='a2',
-                               rite=Node(name='a2b')))
+                               right=Node(name='a1b')),
+                     right=Node(name='a2',
+                                right=Node(name='a2b')))
     pb = tree._to_pb()
     self.assertEqual(str(pb), RECURSIVE_PB)
 
     tree2 = Tree._from_pb(pb)
     self.assertEqual(tree2, tree)
+
+    # Also test querying nodes.
+    tree.put()
+    tree3 = Tree.query(Tree.root.left.right.name == 'a1b').get()
+    self.assertEqual(tree3, tree)
 
   def testRenamedProperty(self):
     class MyModel(model.Model):
@@ -2106,6 +2245,30 @@ class ModelTests(test_utils.NDBTest):
     self.assertNotEqual(key.get(), None)
     self.assertEqual(key.get().text, 'baz')
 
+
+  def testGetOrInsertAsync(self):
+    class Mod(model.Model):
+      data = model.StringProperty()
+    @tasklets.tasklet
+    def foo():
+      ent = yield Mod.get_or_insert_async('a', data='hello')
+      self.assertTrue(isinstance(ent, Mod))
+      ent2 = yield Mod.get_or_insert_async('a', data='hello')
+      self.assertEqual(ent2, ent)
+    foo().check_success()
+
+  def testGetOrInsertAsyncWithParent(self):
+    class Mod(model.Model):
+      data = model.StringProperty()
+    @tasklets.tasklet
+    def foo():
+      parent = model.Key(flat=('Foo', 1))
+      ent = yield Mod.get_or_insert_async('a', _parent=parent, data='hello')
+      self.assertTrue(isinstance(ent, Mod))
+      ent2 = yield Mod.get_or_insert_async('a', parent=parent, data='hello')
+      self.assertEqual(ent2, ent)
+    foo().check_success()
+
   def testGetById(self):
     class MyModel(model.Model):
       pass
@@ -2614,6 +2777,35 @@ class ModelTests(test_utils.NDBTest):
     self.assertEqual(logs[0], logs[1])
     self.assertNotEqual(before, logs[0])
 
+  def testTransactionalDecoratorExtensions(self):
+    # Test that @transactional(flag=value, ...) works too.
+    @model.transactional()
+    def callback1(log):
+      self.assertTrue(model.in_transaction())
+      ctx = tasklets.get_context()
+      orig_async_commit = ctx._conn.async_commit
+      def wrap_async_commit(options):
+        log.append(options)
+        return orig_async_commit(options)
+      ctx._conn.async_commit = wrap_async_commit
+    log = []
+    callback1(log)
+    self.assertEqual(log, [None])
+
+    @model.transactional(retries=42)
+    def callback2(log):
+      self.assertTrue(model.in_transaction())
+      ctx = tasklets.get_context()
+      orig_async_commit = ctx._conn.async_commit
+      def wrap_async_commit(options):
+        log.append(options)
+        return orig_async_commit(options)
+      ctx._conn.async_commit = wrap_async_commit
+    log = []
+    callback2(log)
+    self.assertEqual(len(log), 1)
+    self.assertEqual(log[0].retries, 42)
+
   def testPropertyFilters(self):
     class M(model.Model):
       dt = model.DateTimeProperty()
@@ -3071,6 +3263,17 @@ class ModelTests(test_utils.NDBTest):
     self.assertEqual(key.id(), 'b')
     self.assertEqual(key.kind(), 'Foo')
 
+  def testExpandoBlobKey(self):
+    class Foo(model.Expando):
+      pass
+    bk = model.BlobKey('blah')
+    foo = Foo(bk=bk)
+    foo.put()
+    bar = foo.key.get(use_memcache=False, use_cache=False)
+    self.assertTrue(isinstance(bar.bk, model.BlobKey))
+    self.assertEqual(bar.bk, bk)
+
+
 class CacheTests(test_utils.NDBTest):
 
   def SetupContextCache(self):
@@ -3190,6 +3393,26 @@ class CacheTests(test_utils.NDBTest):
     q = Outer.query()
     copy = q.get()
     self.assertEqual(copy, orig)
+
+  def testSubStructureEqualToNone(self):
+    class IntRangeModel(model.Model):
+      first = model.IntegerProperty()
+      last = model.IntegerProperty()
+
+    class Inner(model.Model):
+      range = model.StructuredProperty(IntRangeModel)
+      other = model.IntegerProperty()
+
+    class Outer(model.Model):
+      wrap = model.StructuredProperty(Inner, repeated=True)
+
+    orig = Outer(wrap=[Inner(other=2),
+                       Inner(range=IntRangeModel(first=0, last=10), other=4)])
+    orig.put()
+    q = Outer.query()
+    copy = q.get()
+    self.assertEqual(copy.wrap[0].range, None)
+    self.assertEqual(copy.wrap[1].range, IntRangeModel(first=0, last=10))
 
 def main():
   unittest.main()

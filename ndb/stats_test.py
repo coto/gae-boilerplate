@@ -17,6 +17,8 @@ class StatsTests(test_utils.NDBTest):
     super(StatsTests, self).setUp()
     self.PopulateStatEntities()
 
+  the_module = stats
+
   def PopulateStatEntities(self):
     """Insert stat entities into the datastore."""
     # GlobalStat
