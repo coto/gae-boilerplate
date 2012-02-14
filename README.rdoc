@@ -14,6 +14,7 @@ Feedback, comments and ideas are welcome, if you want to be a commiter {email me
 - Update User Information
 - Handlers with @user_required
 - Handlers with @login_required (for Google Authentication)
+- Template with Jinja2 and {html5boilerplate}[http://html5boilerplate.com/]
 
 If you want add a feature and know how to implement it, just post an {issue}[https://github.com/coto/gae-boilerplate/issues]
 

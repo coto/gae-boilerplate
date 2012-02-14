@@ -44,14 +44,21 @@ def user_required(handler):
     return check_login
 
 class BaseHandler(webapp2.RequestHandler):
+    """
+        BaseHandler for all requests
+
+        Holds the auth and session properties so they are reachable for all requests
+    """
+
     def dispatch(self):
-        """
-        Save the sessions for preservation across requests
-        """
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
         try:
-            response = super(BaseHandler, self).dispatch()
-            self.response.write(response)
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
         finally:
+            # Save all sessions.
             self.session_store.save_sessions(self.response)
 
     @webapp2.cached_property
