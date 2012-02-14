@@ -125,6 +125,7 @@ class PasswordResetHandler(BaseHandler):
         return self.render_template('password_reset.html', **params)
 
     def post(self):
+        # TODO: Implement it
         email = self.request.POST.get('email')
         auth_id = "own:%s" % email
         user = User.get_by_auth_id(auth_id)
@@ -140,6 +141,7 @@ class PasswordResetHandler(BaseHandler):
 
 class PasswordResetCompleteHandler(BaseHandler):
     def get(self, token):
+        # TODO: implement it
         # Verify token
         token = User.token_model.query(User.token_model.token == token).get()
         if token is None:
@@ -151,6 +153,7 @@ class PasswordResetCompleteHandler(BaseHandler):
         return self.render_template('password_reset_complete.html', **params)
 
     def post(self, token):
+        # TODO: implement it
         if self.form.validate():
             token = User.token_model.query(User.token_model.token == token).get()
             # test current password
