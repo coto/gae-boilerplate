@@ -28,7 +28,7 @@ If you want add a feature and know how to implement it, just post an {issue}[htt
   * webapp2_extras.routes
   * webapp2_extras.auth
 * jQuery Mobile 1.0.1 with jQuery 1.7.1
-    In order to have a nice template to show {the demo}[http://sandengine.appspot.com] it uses jQuery Mobile,
+    In order to have a nice template to show the demo it uses jQuery Mobile,
     We know you will know how to remove it if you don't need a mobile app.
 
 == Test this code (Demo)
