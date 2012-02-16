@@ -8,6 +8,10 @@
     Routes are setup in routes.py and added in main.py
 
 """
+
+__author__ = 'Rodrigo Augosto (@coto)'
+__website__ = 'www.protoboard.cl'
+
 import webapp2
 from models import User
 from webapp2_extras import jinja2

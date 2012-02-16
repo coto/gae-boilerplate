@@ -1,5 +1,5 @@
 
-__author__ = 'coto'
+__author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.protoboard.cl'
 
 from webapp2_extras.appengine.auth.models import User

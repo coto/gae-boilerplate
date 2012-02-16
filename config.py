@@ -1,4 +1,8 @@
 
+
+__author__ = 'Rodrigo Augosto (@coto)'
+__website__ = 'www.protoboard.cl'
+
 webapp2_config = {}
 webapp2_config['webapp2_extras.sessions'] = {
     'secret_key': 'D[f mQ~39W0D?q()B9H7,dvBzcl$]Le2Z@ R,cmsoQCPP}Hy5BXb|+vp$_|?t93',
