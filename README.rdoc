@@ -3,9 +3,7 @@
 This Google App Engine Boilerplate helps to get your project off the ground quickly, just download the code and run it
 with the App Engine SDK.
 
-Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
-
-If you want to be a commiter just {email me}[http://www.protoboard.cl/contact]
+Feel free to commit improvements or new features. Feedback, comments and ideas are welcome. And of course you could be a commiter.
 
 == This Boilerplate has:
 - Registration (create user)
