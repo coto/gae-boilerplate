@@ -7,11 +7,13 @@ import pickle
 import re
 import unittest
 
-from google.appengine.api import datastore_errors
-from google.appengine.api import datastore_types
-from google.appengine.api import memcache
-from google.appengine.api import namespace_manager
-from google.appengine.api import users
+from .google_imports import datastore_errors
+from .google_imports import datastore_types
+from .google_imports import db
+from .google_imports import memcache
+from .google_imports import namespace_manager
+from .google_imports import users
+from .google_test_imports import datastore_stub_util
 
 from . import eventloop
 from . import key
@@ -1574,7 +1576,6 @@ class ModelTests(test_utils.NDBTest):
 
   def testRejectOldPickles(self):
     global MyModel
-    from google.appengine.ext import db
     class MyModel(db.Model):
       name = db.StringProperty()
     dumped = []
@@ -3274,6 +3275,70 @@ class ModelTests(test_utils.NDBTest):
     self.assertEqual(bar.bk, bk)
 
 
+class IndexTests(test_utils.NDBTest):
+
+  def create_index(self):
+    ci = datastore_stub_util.datastore_pb.CompositeIndex()
+    ci.set_app_id(os.environ['APPLICATION_ID'])
+    ci.set_id(0)
+    ci.set_state(ci.WRITE_ONLY)
+    index = ci.mutable_definition()
+    index.set_ancestor(0)
+    index.set_entity_type('Kind')
+    property = index.add_property()
+    property.set_name('property1')
+    property.set_direction(property.DESCENDING)
+    property = index.add_property()
+    property.set_name('property2')
+    property.set_direction(property.ASCENDING)
+    stub = self.testbed.get_stub('datastore_v3')
+    stub.CreateIndex(ci)
+
+  def testGetIndexes(self):
+    self.assertEqual([], model.get_indexes())
+
+    self.create_index()
+
+    self.assertEqual(
+      [model.IndexState(
+        definition=model.Index(kind='Kind',
+                               properties=[
+                                 model.IndexProperty(name='property1',
+                                                     direction='desc'),
+                                 model.IndexProperty(name='property2',
+                                                     direction='asc'),
+                                 ],
+                               ancestor=False),
+        state='building',
+        id=1,
+        ),
+       ],
+      model.get_indexes())
+
+  def testGetIndexesAsync(self):
+    fut = model.get_indexes_async()
+    self.assertTrue(isinstance(fut, tasklets.Future))
+    self.assertEqual([], fut.get_result())
+
+    self.create_index()
+
+    self.assertEqual(
+      [model.IndexState(
+        definition=model.Index(kind='Kind',
+                               properties=[
+                                 model.IndexProperty(name='property1',
+                                                     direction='desc'),
+                                 model.IndexProperty(name='property2',
+                                                     direction='asc'),
+                                 ],
+                               ancestor=False),
+        state='building',
+        id=1,
+        ),
+       ],
+      model.get_indexes_async().get_result())
+
+
 class CacheTests(test_utils.NDBTest):
 
   def SetupContextCache(self):
@@ -3414,8 +3479,10 @@ class CacheTests(test_utils.NDBTest):
     self.assertEqual(copy.wrap[0].range, None)
     self.assertEqual(copy.wrap[1].range, IntRangeModel(first=0, last=10))
 
+
 def main():
   unittest.main()
+
 
 if __name__ == '__main__':
   main()

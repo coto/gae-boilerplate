@@ -6,8 +6,8 @@ import datetime
 import pickle
 import unittest
 
-from google.appengine.api import namespace_manager
-from google.appengine.api import datastore_types
+from .google_imports import namespace_manager
+from .google_imports import datastore_types
 
 from . import blobstore
 from . import model

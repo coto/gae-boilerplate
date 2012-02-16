@@ -21,7 +21,7 @@ If you want add a feature and know how to implement it, just post an {issue}[htt
 
 == Technology
 * Python 2.7
-* {NDB 0.9.7}[http://code.google.com/p/appengine-ndb-experiment/]
+* {NDB 0.9.8}[http://code.google.com/p/appengine-ndb-experiment/]
 * {Jinja2}[http://jinja.pocoo.org/docs/]
 * {webapp2}[http://webapp-improved.appspot.com/]
   * webapp2_extras.sessions

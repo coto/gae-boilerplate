@@ -8,7 +8,7 @@ and other environment variables.
 import logging
 import unittest
 
-from google.appengine.ext import testbed
+from .google_test_imports import testbed
 
 from . import model
 from . import tasklets

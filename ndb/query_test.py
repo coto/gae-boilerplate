@@ -1,10 +1,12 @@
 """Tests for query.py."""
 
 import datetime
+import os
 import unittest
 
-from google.appengine.api import datastore_errors
-from google.appengine.api import users
+from .google_imports import datastore_errors
+from .google_imports import users
+from .google_test_imports import datastore_stub_util
 
 from . import model
 from . import query
@@ -629,6 +631,95 @@ class QueryTests(test_utils.NDBTest):
     self.assertEqual(mores, {1: True, 2: True, 3: False, 4: False})
     self.assertEqual(cursors[3], cursors[4])
     # TODO: Assert that only one RPC call was made.
+
+  def create_index(self):
+    ci = datastore_stub_util.datastore_pb.CompositeIndex()
+    ci.set_app_id(os.environ['APPLICATION_ID'])
+    ci.set_id(0)
+    ci.set_state(ci.WRITE_ONLY)
+    index = ci.mutable_definition()
+    index.set_ancestor(0)
+    index.set_entity_type('Foo')
+    property = index.add_property()
+    property.set_name('name')
+    property.set_direction(property.DESCENDING)
+    property = index.add_property()
+    property.set_name('tags')
+    property.set_direction(property.ASCENDING)
+    stub = self.testbed.get_stub('datastore_v3')
+    stub.CreateIndex(ci)
+
+  def testIndexListPremature(self):
+    # Before calling next() we don't have the information.
+    self.create_index()
+    q = Foo.query(Foo.name >= 'joe', Foo.tags == 'joe')
+    qi = q.iter()
+    self.assertEqual(qi.index_list(), None)
+
+  def testIndexListEmpty(self):
+    # A simple query requires no composite indexes.
+    q = Foo.query(Foo.name == 'joe', Foo.tags == 'joe')
+    qi = q.iter()
+    qi.next()
+    self.assertEqual(qi.index_list(), [])
+
+  def testIndexListNontrivial(self):
+    # Test a non-trivial query.
+    q = Foo.query(Foo.name >= 'joe', Foo.tags == 'joe')
+    qi = q.iter()
+    qi.next()
+    properties=[model.IndexProperty(name='tags', direction='asc'),
+                model.IndexProperty(name='name', direction='asc')]
+    self.assertEqual(qi.index_list(),
+                     [model.IndexState(
+                       definition=model.Index(kind='Foo',
+                                              properties=properties,
+                                              ancestor=False),
+                       state='serving',
+                       id=1000000)])
+
+  def testIndexListExhausted(self):
+    # Test that the information is preserved after the iterator is
+    # exhausted.
+    q = Foo.query(Foo.name >= 'joe', Foo.tags == 'joe')
+    qi = q.iter()
+    list(qi)
+    properties=[model.IndexProperty(name='tags', direction='asc'),
+                model.IndexProperty(name='name', direction='asc')]
+    self.assertEqual(qi.index_list(),
+                     [model.IndexState(
+                       definition=model.Index(kind='Foo',
+                                              properties=properties,
+                                              ancestor=False),
+                       state='serving',
+                       id=1000000)])
+
+  def testIndexListWithIndexAndOrder(self):
+    # Test a non-trivial query with sort order and an actual composite
+    # index present.
+    self.create_index()
+    q = Foo.query(Foo.name >= 'joe', Foo.tags == 'joe')
+    q = q.order(-Foo.name, Foo.tags)
+    qi = q.iter()
+    qi.next()
+    # TODO: This is a little odd, because that's not exactly the index
+    # we created...?
+    properties=[model.IndexProperty(name='tags', direction='asc'),
+                model.IndexProperty(name='name', direction='desc')]
+    self.assertEqual(qi.index_list(),
+                     [model.IndexState(
+                       definition=model.Index(kind='Foo',
+                                              properties=properties,
+                                              ancestor=False),
+                       state='serving',
+                       id=1000000)])
+
+  def testIndexListMultiQuery(self):
+    self.create_index()
+    q = Foo.query(query.OR(Foo.name == 'joe', Foo.name == 'jill'))
+    qi = q.iter()
+    qi.next()
+    self.assertEqual(qi.index_list(), None)
 
   def testCount(self):
     q = query.Query(kind='Foo').filter(Foo.tags == 'jill').order(Foo.name)

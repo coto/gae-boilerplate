@@ -3,14 +3,15 @@
 import logging
 import sys
 
-from google.appengine.api import datastore  # For taskqueue coordination
-from google.appengine.api import datastore_errors
-from google.appengine.api import memcache
-from google.appengine.api import namespace_manager
-from google.appengine.datastore import datastore_rpc
-from google.appengine.datastore import entity_pb
+from .google_imports import datastore  # For taskqueue coordination
+from .google_imports import datastore_errors
+from .google_imports import memcache
+from .google_imports import namespace_manager
+from .google_imports import urlfetch
+from .google_imports import datastore_rpc
+from .google_imports import entity_pb
 
-from google.net.proto import ProtocolBuffer
+from .google_imports import ProtocolBuffer
 
 from . import key as key_module
 from . import model
@@ -18,10 +19,16 @@ from . import tasklets
 from . import eventloop
 from . import utils
 
-__all__ = ['toplevel', 'Context', 'ContextOptions', 'AutoBatcher']
+__all__ = ['Context', 'ContextOptions', 'AutoBatcher',
+           'EVENTUAL_CONSISTENCY',
+           ]
 
 _LOCK_TIME = 32  # Time to lock out memcache.add() after datastore updates.
 _LOCKED = 0  # Special value to store in memcache indicating locked value.
+
+
+# Constant for read_policy.
+EVENTUAL_CONSISTENCY = datastore_rpc.Configuration.EVENTUAL_CONSISTENCY
 
 
 class ContextOptions(datastore_rpc.TransactionOptions):
@@ -709,8 +716,15 @@ class Context(object):
     lo_hi = yield self._conn.async_allocate_ids(options, key, size, max)
     raise tasklets.Return(lo_hi)
 
+  @tasklets.tasklet
+  def get_indexes(self, **ctx_options):
+    options = _make_ctx_options(ctx_options)
+    index_list = yield self._conn.async_get_indexes(options)
+    raise tasklets.Return(index_list)
+
   @utils.positional(3)
-  def map_query(self, query, callback, options=None, merge_future=None):
+  def map_query(self, query, callback, pass_batch_into_callback=None,
+                options=None, merge_future=None):
     mfut = merge_future
     if mfut is None:
       mfut = tasklets.MultiFuture('map_query')
@@ -748,7 +762,7 @@ class Context(object):
             val = ent
           else:
             # TODO: If the callback raises, log and ignore.
-            if options is not None and options.produce_cursors:
+            if pass_batch_into_callback:
               val = callback(batch, i, ent)
             else:
               val = callback(ent)
@@ -766,8 +780,10 @@ class Context(object):
     return mfut
 
   @utils.positional(2)
-  def iter_query(self, query, callback=None, options=None):
+  def iter_query(self, query, callback=None, pass_batch_into_callback=None,
+                 options=None):
     return self.map_query(query, callback=callback, options=options,
+                          pass_batch_into_callback=pass_batch_into_callback,
                           merge_future=tasklets.SerialQueueFuture())
 
   @tasklets.tasklet
@@ -1035,7 +1051,6 @@ class Context(object):
   def urlfetch(self, url, payload=None, method='GET', headers={},
                allow_truncated=False, follow_redirects=True,
                validate_certificate=None, deadline=None, callback=None):
-    from google.appengine.api import urlfetch
     rpc = urlfetch.create_rpc(deadline=deadline, callback=callback)
     urlfetch.make_fetch_call(rpc, url,
                              payload=payload,
@@ -1046,25 +1061,3 @@ class Context(object):
                              validate_certificate=validate_certificate)
     result = yield rpc
     raise tasklets.Return(result)
-
-
-def toplevel(func):
-  """A sync tasklet that sets a fresh default Context.
-
-  Use this for toplevel view functions such as
-  webapp.RequestHandler.get() or Django view functions.
-  """
-  @utils.wrapping(func)
-  def add_context_wrapper(*args, **kwds):
-    __ndb_debug__ = utils.func_info(func)
-    tasklets._state.clear_all_pending()
-    # Create and install a new context.
-    ctx = tasklets.make_default_context()
-    try:
-      tasklets.set_context(ctx)
-      return tasklets.synctasklet(func)(*args, **kwds)
-    finally:
-      tasklets.set_context(None)
-      ctx.flush().check_success()
-      eventloop.run()  # Ensure writes are flushed, etc.
-  return add_context_wrapper

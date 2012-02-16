@@ -2,7 +2,7 @@
 
 import unittest
 
-from google.appengine.api import namespace_manager
+from .google_imports import namespace_manager
 
 from . import metadata
 from . import model

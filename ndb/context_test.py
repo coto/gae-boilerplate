@@ -1,16 +1,18 @@
 """Tests for context.py."""
 
 import logging
+import random
 import socket
 import threading
+import time
 import unittest
 
-from google.appengine.api import datastore_errors
-from google.appengine.api import memcache
-from google.appengine.api import taskqueue
-from google.appengine.datastore import datastore_rpc
-from google.appengine.datastore import datastore_stub_util
-from google.appengine.runtime import apiproxy_errors
+from .google_imports import datastore_errors
+from .google_imports import memcache
+from .google_imports import taskqueue
+from .google_imports import datastore_rpc
+from .google_imports import apiproxy_errors
+from .google_test_imports import datastore_stub_util
 
 from . import context
 from . import eventloop
@@ -616,7 +618,7 @@ class ContextTests(test_utils.NDBTest):
   def testContext_MapQuery_Cursors(self):
     qo = query.QueryOptions(produce_cursors=True)
     @tasklets.tasklet
-    def callback(unused_batch, _, ent):
+    def callback(ent):
       return ent.key.pairs()[-1]
     @tasklets.tasklet
     def foo():
@@ -773,28 +775,6 @@ class ContextTests(test_utils.NDBTest):
     eventloop.run()  # Wait for memcache.set() RPCs
     self.assertNotEqual(memcache.get(skey1), None)
     self.assertNotEqual(memcache.get(skey2), None)
-
-  def testAddContextDecorator(self):
-    class Demo(object):
-      @context.toplevel
-      def method(self, arg):
-        return tasklets.get_context(), arg
-
-      @context.toplevel
-      def method2(self, **kwds):
-        return tasklets.get_context(), kwds
-    a = Demo()
-    old_ctx = tasklets.get_context()
-    ctx, arg = a.method(42)
-    self.assertTrue(isinstance(ctx, context.Context))
-    self.assertEqual(arg, 42)
-    self.assertTrue(ctx is not old_ctx)
-
-    old_ctx = tasklets.get_context()
-    ctx, kwds = a.method2(foo='bar', baz='ding')
-    self.assertTrue(isinstance(ctx, context.Context))
-    self.assertEqual(kwds, dict(foo='bar', baz='ding'))
-    self.assertTrue(ctx is not old_ctx)
 
   def testDefaultContextTransaction(self):
     @tasklets.synctasklet
@@ -1118,30 +1098,45 @@ class ContextTests(test_utils.NDBTest):
     # Check that ndb ignores the corrupt memcache value
     self.assertEqual(ent, key.get())
 
-  def start_test_server(self, host, port):
+
+  def start_test_server(self):
+    host = '127.0.0.1'
     lock = threading.Lock()
     lock.acquire()
+    s = socket.socket()
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    for i in range(10):
+      port = random.randrange(32768, 60000)
+      try:
+        s.bind((host, port))
+        break
+      except socket.error:
+        continue
+    else:
+      self.fail('Could not find an unused port in 10 tries')
     def run():
-      s = socket.socket()
-      s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-      s.bind((host, port))
       s.listen(1)
-      lock.release()  # Signal socket is set up.
+      lock.release()  # Signal socket is all set up.
       c, addr = s.accept()
       s.close()
       c.recv(1000)  # Throw away request.
       c.send('HTTP/1.0 200 Ok\r\n\r\n')  # Emptiest response.
       c.close()
     t = threading.Thread(target=run)
+    t.setDaemon(True)
     t.start()
-    return lock
+    return host, port, lock
 
   def testUrlFetch(self):
     self.testbed.init_urlfetch_stub()
-    host = '127.0.0.1'
-    port = 12345  # TODO: Pick a random port?
-    lock = self.start_test_server(host, port)
-    lock.acquire()  # Block until socket is set up.
+    host, port, lock = self.start_test_server()
+    # Block until socket is set up, or 5 seconds have passed.
+    for i in xrange(500):
+      if lock.acquire(False):
+        break
+      time.sleep(0.01)
+    else:
+      self.fail('Socket was not ready in 5 seconds')
     fut = self.ctx.urlfetch('http://%s:%d' % (host, port))
     result = fut.get_result()
     self.assertEqual(result.status_code, 200)

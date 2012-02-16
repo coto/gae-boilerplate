@@ -15,8 +15,8 @@ import logging
 import os
 import time
 
-from google.appengine.api import apiproxy_rpc
-from google.appengine.datastore import datastore_rpc
+from .google_imports import apiproxy_rpc
+from .google_imports import datastore_rpc
 
 from . import utils
 

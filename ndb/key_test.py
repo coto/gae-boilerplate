@@ -4,9 +4,9 @@ import base64
 import pickle
 import unittest
 
-from google.appengine.api import datastore_errors
-from google.appengine.api import datastore_types
-from google.appengine.datastore import entity_pb
+from .google_imports import datastore_errors
+from .google_imports import datastore_types
+from .google_imports import entity_pb
 
 from . import eventloop
 from . import key
@@ -430,6 +430,7 @@ class KeyTests(test_utils.NDBTest):
 
 def main():
   unittest.main()
+
 
 if __name__ == '__main__':
   main()

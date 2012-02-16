@@ -41,8 +41,8 @@ similar API.  The main API differences:
 import base64
 import email
 
-from google.appengine.api.blobstore import blobstore  # Internal version
-from google.appengine.ext.blobstore import blobstore as ext_blobstore
+from .google_imports import api_blobstore as blobstore
+from .google_imports import ext_blobstore
 
 from . import model
 from . import tasklets

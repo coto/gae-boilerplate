@@ -17,11 +17,11 @@ are re-exported here.
 
 import base64
 
-from google.appengine.api import datastore
-from google.appengine.api import datastore_types
-from google.appengine.api import prospective_search
-from google.appengine.api.prospective_search import prospective_search_pb
-from google.appengine.datastore import entity_pb
+from .google_imports import datastore
+from .google_imports import datastore_types
+from .google_imports import prospective_search
+from .google_imports import prospective_search_pb
+from .google_imports import entity_pb
 
 from . import model
 from . import tasklets

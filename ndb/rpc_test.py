@@ -2,8 +2,8 @@
 
 import unittest
 
-from google.appengine.api import apiproxy_stub_map
-from google.appengine.datastore import datastore_rpc
+from .google_imports import apiproxy_stub_map
+from .google_imports import datastore_rpc
 
 from . import model
 from . import test_utils
@@ -76,8 +76,10 @@ class PendingTests(test_utils.NDBTest):
     self.conn.wait_for_all_pending_rpcs()
     self.assertEqual(self.conn.get_pending_rpcs(), set())
 
+
 def main():
   unittest.main()
+
 
 if __name__ == '__main__':
   main()

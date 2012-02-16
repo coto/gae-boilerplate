@@ -4,8 +4,8 @@ import base64
 import os
 import unittest
 
-from google.appengine.api import apiproxy_stub_map
-from google.appengine.api.prospective_search import prospective_search_stub
+from .google_imports import apiproxy_stub_map
+from .google_test_imports import prospective_search_stub
 
 
 from . import prospective_search

@@ -7,6 +7,7 @@ import sys
 import time
 import unittest
 
+from . import context
 from . import eventloop
 from . import model
 from . import test_utils
@@ -677,6 +678,29 @@ class TaskletTests(test_utils.NDBTest):
 
     foo().get_result()
 
+  def testAddContextDecorator(self):
+    class Demo(object):
+      @tasklets.toplevel
+      def method(self, arg):
+        return tasklets.get_context(), arg
+
+      @tasklets.toplevel
+      def method2(self, **kwds):
+        return tasklets.get_context(), kwds
+    a = Demo()
+    old_ctx = tasklets.get_context()
+    ctx, arg = a.method(42)
+    self.assertTrue(isinstance(ctx, context.Context))
+    self.assertEqual(arg, 42)
+    self.assertTrue(ctx is not old_ctx)
+
+    old_ctx = tasklets.get_context()
+    ctx, kwds = a.method2(foo='bar', baz='ding')
+    self.assertTrue(isinstance(ctx, context.Context))
+    self.assertEqual(kwds, dict(foo='bar', baz='ding'))
+    self.assertTrue(ctx is not old_ctx)
+
+
 class TracebackTests(test_utils.NDBTest):
   """Checks that errors result in reasonable tracebacks."""
 
@@ -719,6 +743,7 @@ class TracebackTests(test_utils.NDBTest):
 
 def main():
   unittest.main()
+
 
 if __name__ == '__main__':
   main()

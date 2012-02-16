@@ -65,16 +65,17 @@ import os
 import sys
 import types
 
-from google.appengine.api import apiproxy_stub_map
-from google.appengine.api import apiproxy_rpc
-from google.appengine.datastore import datastore_rpc
+from .google_imports import apiproxy_stub_map
+from .google_imports import apiproxy_rpc
+from .google_imports import datastore_rpc
 
 from . import eventloop
 from . import utils
 
-__all__ = ['Return', 'tasklet', 'synctasklet', 'sleep',
+__all__ = ['Return', 'tasklet', 'synctasklet', 'toplevel', 'sleep',
            'add_flow_exception', 'get_return_value',
-           'get_context', 'set_context', 'make_default_context',
+           'get_context', 'set_context',
+           'make_default_context', 'make_context',
            'Future', 'MultiFuture', 'QueueFuture', 'SerialQueueFuture',
            'ReducingFuture',
            ]
@@ -959,6 +960,7 @@ def get_return_value(err):
     result = err.args
   return result
 
+
 def tasklet(func):
   # XXX Docstring
 
@@ -986,6 +988,7 @@ def tasklet(func):
 
   return tasklet_wrapper
 
+
 def synctasklet(func):
   """Decorator to run a function as a tasklet when called.
 
@@ -1001,9 +1004,33 @@ def synctasklet(func):
   return synctasklet_wrapper
 
 
+def toplevel(func):
+  """A sync tasklet that sets a fresh default Context.
+
+  Use this for toplevel view functions such as
+  webapp.RequestHandler.get() or Django view functions.
+  """
+  @utils.wrapping(func)
+  def add_context_wrapper(*args, **kwds):
+    __ndb_debug__ = utils.func_info(func)
+    _state.clear_all_pending()
+    # Create and install a new context.
+    ctx = make_default_context()
+    try:
+      set_context(ctx)
+      return synctasklet(func)(*args, **kwds)
+    finally:
+      set_context(None)
+      ctx.flush().check_success()
+      eventloop.run()  # Ensure writes are flushed, etc.
+  return add_context_wrapper
+
+
 _CONTEXT_KEY = '__CONTEXT__'
 
+
 def get_context():
+  # XXX Docstring
   ctx = None
   if os.getenv(_CONTEXT_KEY):
     ctx = _state.current_context
@@ -1012,13 +1039,24 @@ def get_context():
     set_context(ctx)
   return ctx
 
+
 def make_default_context():
+  # XXX Docstring
+  return make_context()
+
+
+@utils.positional(0)
+def make_context(conn=None, config=None):
+  # XXX Docstring
   from . import context  # Late import to deal with circular imports.
-  return context.Context()
+  return context.Context(conn=conn, config=config)
+
 
 def set_context(new_context):
+  # XXX Docstring
   os.environ[_CONTEXT_KEY] = '1'
   _state.current_context = new_context
+
 
 # TODO: Rework the following into documentation.
 

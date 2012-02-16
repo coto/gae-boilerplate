@@ -4,7 +4,7 @@ import datetime
 import os
 import unittest
 
-from google.appengine.api import datastore
+from .google_imports import datastore
 
 from . import stats
 from . import test_utils
