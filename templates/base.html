@@ -12,13 +12,12 @@
     <meta name="keywords" content="" />
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet"  href="/css/style.css" />
+    <link rel="stylesheet"  href="/mobile/jquery.mobile-1.0.1.min.css" />
 
-    {% block mediaCSS %}
-
-    {% endblock %}
+    {% block mediaCSS %}{% endblock %}
 
     <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance.
@@ -29,23 +28,29 @@
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    <div role="main">
-        <p class="messages">{{ messages }}</p>
 
-        {% block content %}{% endblock %}
-    </div>
-    <footer>
-        {% block footer %}{% endblock %}
-    </footer>
+    <div data-role="page"  data-theme="b">
 
+        <div data-role="header">
+            {% block header %}{% endblock %}
+        </div><!-- /header -->
+
+        <div data-role="content">
+            <p class="messages">{{ messages }}</p>
+
+            {% block content %}{% endblock %}
+        </div><!-- /content -->
+        <footer data-role="footer">
+            {% block footer %}<h4>App Engine Boilerplate</h4>{% endblock %}
+        </footer>
+
+    </div><!-- /page -->
     <!-- JavaScript at the bottom for fast page loading -->
 
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+    <script src="/mobile/jquery.mobile-1.0.1.min.js"></script>
 
     <!-- scripts concatenated and minified via build script -->
     <script src="/js/plugins.js"></script>

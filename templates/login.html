@@ -1,15 +1,30 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block header %}
     <h1>Login</h1>
+{% endblock %}
+
+{% block content %}
     <form action="{{ action }}" method="post">
         <fieldset>
-            <legend>Login form</legend>
-            <label>Username <input type="text" name="username" placeholder="Your username" /></label>
-            <label>Password <input type="password" name="password" placeholder="Your password" /></label>
-            <label>Remember me? <input type="checkbox" name="remember_me" placeholder="Remember me?" /></label>
+            <div data-role="fieldcontain" class="ui-hide-label">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" value="" placeholder="Username"/>
+            </div>
+            <div data-role="fieldcontain" class="ui-hide-label">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" value="" placeholder="Password"/>
+            </div>
+            <label for="remember_me">Remember me?</label>
+            <select name="remember_me" id="remember_me" data-role="slider">
+                <option value="off">Off</option>
+                <option value="on">On</option>
+            </select>
+
+            <button type="submit" data-theme="a" class="ui-btn-hidden" aria-disabled="false">Login</button>
+
         </fieldset>
-        <button>Login</button>
+
     </form>
     <ul>
         <li><a href="/create">Create user</a></li>
