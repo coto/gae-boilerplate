@@ -1,6 +1,6 @@
 = Google App Engine Boilerplate
 
-This Google App Engine Boilerplate helps to get your project off the ground quickly, just download the code and run it
+The Google App Engine Boilerplate helps to get your project off the ground quickly, just download the code and run it
 with the App Engine SDK.
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome. And of course you could be a commiter.
@@ -9,10 +9,10 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 - Registration (create user)
 - Authentication (Login and Logout)
 - Reset Password
-- Update User Information
+- Update User Profile
+- Templates with Jinja2
 - Handlers with @user_required
 - Handlers with @login_required (for Google Authentication)
-- Template with Jinja2 and {html5boilerplate}[http://html5boilerplate.com/]
 
 If you want add a feature and know how to implement it, just post an {issue}[https://github.com/coto/gae-boilerplate/issues]
 
@@ -25,11 +25,16 @@ If you want add a feature and know how to implement it, just post an {issue}[htt
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
-* jQuery Mobile 1.0.1 with jQuery 1.7.1
+
+
+== Front-end Technologies
+* {HTML5Boilerplate}[http://html5boilerplate.com/]
+* jQuery 1.7.1
+* jQuery Mobile 1.0.1
     In order to have a nice template to show the demo it uses jQuery Mobile,
     We know you will know how to remove it if you don't need a mobile app.
 
-== Test this code (Demo)
+== Run this Boilerplate
 http://sandengine.appspot.com
 
 
