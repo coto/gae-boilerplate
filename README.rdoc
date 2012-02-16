@@ -14,7 +14,7 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 - Handlers with @user_required
 - Handlers with @login_required (for Google Authentication)
 
-If you want add a feature and know how to implement it, let us knowwith a {issue}[https://github.com/coto/gae-boilerplate/issues] or push request.
+If you want add a feature and know how to implement it, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues].
 
 
 == Technology (The latest)
