@@ -114,7 +114,8 @@ class BaseHandler(webapp2.RequestHandler):
             })
         kwargs.update(self.auth_config)
         if self.messages:
-            kwargs['messages'] = self.messages
+            kwargs['messages'] = self.messages[0][0]
+            kwargs['level'] = self.messages[0][1]
 
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
@@ -217,7 +218,7 @@ class LoginHandler(BaseHandler):
             # Returns error message to self.response.write in the BaseHandler.dispatcher
             # Currently no message is attached to the exceptions
             message = "Login error, Try again"
-            self.add_message('Login error. Try again.', 'error')
+            self.add_message(message, 'error')
             return self.redirect_to('login')
 
 
@@ -238,9 +239,9 @@ class CreateUserHandler(BaseHandler):
               username: Get the username from POST dict
               password: Get the password from POST dict
         """
-        username = self.request.POST.get('username')
+        username = str(self.request.POST.get('username')).lower()
         password = self.request.POST.get('password')
-        email = self.request.POST.get('email')
+        email = str(self.request.POST.get('email')).lower()
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL. If True ok, If False no new user is created
         unique_properties = ['email', 'username']
@@ -249,14 +250,18 @@ class CreateUserHandler(BaseHandler):
             username=username, email=email, ip=self.request.remote_addr,
         )
         if not user[0]: #user is a tuple
-            message=  'Create user error: %s <a href="%s">Back</a>' % ( str(user), self.auth_config['login_url'] )# Error message
+            message= 'Sorry, A User with this {0:>s} is already created.'.format(user[1][0])# Error message
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
             # User is created, let's try redirecting to login page
             try:
+                message=  'User %s created successfully' % ( str(user) )# Info message
+                self.add_message(message, 'info')
                 self.redirect(self.auth_config['login_url'], abort=True)
             except (AttributeError, KeyError), e:
+                message= 'Error creating user {0:>s}'.format(username)# Error message
+                self.add_message(message, 'error')
                 self.abort(403)
 
 
@@ -269,6 +274,8 @@ class LogoutHandler(BaseHandler):
         self.auth.unset_session()
         # User is logged out, let's try redirecting to login page
         try:
+            message= "User is logged out" # Info message
+            self.add_message(message, 'info')
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
             return "User is logged out"

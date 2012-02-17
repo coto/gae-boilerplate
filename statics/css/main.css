@@ -1,4 +1,15 @@
 .messages {
     border: 1px gray solid;
     background: #dedede;
+    line-height: 2em;
+    padding: 0 1em;
+    display: none;
+}
+.messages.error{
+    display: block;
+    color: red;
+}
+.messages.info{
+    display: block;
+    color: green;
 }

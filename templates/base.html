@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet"  href="/css/style.css" />
+    <link rel="stylesheet"  href="/css/main.css" />
     <link rel="stylesheet"  href="/mobile/jquery.mobile-1.0.1.min.css" />
 
     {% block mediaCSS %}{% endblock %}
@@ -36,7 +37,7 @@
         </div><!-- /header -->
 
         <div data-role="content">
-            <p class="messages">{{ messages }}</p>
+            <p class="messages {{ level }}">{{ messages }}</p>
 
             {% block content %}{% endblock %}
             <ul>
