@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>Secure zone Google Account</h1>
+{% endblock %}
+
+{% block content %}
+
+    <h3>User information</h3>
+    <ul>
+        <li><b>nickname:</b> {{ nickname }}</li>
+    </ul>
+    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">Logout</a></p>
+
+{% endblock %}

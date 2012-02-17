@@ -256,11 +256,11 @@ class CreateUserHandler(BaseHandler):
         else:
             # User is created, let's try redirecting to login page
             try:
-                message=  'User %s created successfully' % ( str(user) )# Info message
+                message=  'User %s created successfully.' % ( str(user) )# Info message
                 self.add_message(message, 'info')
                 self.redirect(self.auth_config['login_url'], abort=True)
             except (AttributeError, KeyError), e:
-                message= 'Error creating user {0:>s}'.format(username)# Error message
+                message= 'Unexpected error creating user {0:>s}.'.format(username)# Error message
                 self.add_message(message, 'error')
                 self.abort(403)
 
@@ -274,11 +274,11 @@ class LogoutHandler(BaseHandler):
         self.auth.unset_session()
         # User is logged out, let's try redirecting to login page
         try:
-            message= "User is logged out" # Info message
+            message= "User is logged out." # Info message
             self.add_message(message, 'info')
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
-            return "User is logged out"
+            return "User is logged out, but there was an error on the redirection."
 
 
 class SecureRequestHandler(BaseHandler):
@@ -307,7 +307,7 @@ class SecureRequestHandler(BaseHandler):
                 }
             return self.render_template('secure_zone.html', **params)
         except (AttributeError, KeyError), e:
-            return "Secure zone <br> error: %s" % e
+            return "Secure zone error: %s." % e
 
 
 class GoogleLoginHandler(BaseHandler):
@@ -315,7 +315,11 @@ class GoogleLoginHandler(BaseHandler):
     def get(self):
         # Login App Engine
         user = users.get_current_user()
-        a = """
-        Hello, %(nickname)s (<a href=\"%(logout_url)s\">sign out</a>)
-        """ % {'nickname': user.nickname(), 'logout_url': users.create_logout_url("/")}
-        self.response.write(a)
+        try:
+            params = {
+                "nickname" : user.nickname(),
+                "userinfo_logout-url" : users.create_logout_url("/"),
+                }
+            return self.render_template('secure_zone_google.html', **params)
+        except (AttributeError, KeyError), e:
+            return "Secure zone Google error: %s." % e
