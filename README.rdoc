@@ -18,7 +18,6 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 
 If you want add a feature and know how to implement it, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues].
 
-
 == Technology (The latest)
 * Python 2.7
 * {NDB 0.9.9}[http://code.google.com/p/appengine-ndb-experiment/]
