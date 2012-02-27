@@ -13,3 +13,11 @@
     display: block;
     color: green;
 }
+
+/* Jquery Validate */
+
+label.error {
+    color: red;
+    padding: .4em 0;
+    display: block;
+}

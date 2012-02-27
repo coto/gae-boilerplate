@@ -17,12 +17,19 @@ class User(User):
     updated = model.DateTimeProperty(auto_now=True)
     #: User defined unique name, also used as key_name.
     username = model.StringProperty(required=True)
-    #: Password, only set for own authentication.
-    password = model.StringProperty(required=False)
+    #: User Name
+    name = model.StringProperty()
+    #: User Last Name
+    last_name = model.StringProperty()
     #: User email
-    email = model.StringProperty(required=False)
-    # Admin flag.
-    is_admin = model.BooleanProperty(default=False)
+    email = model.StringProperty(required=True)
+    #: Password, only set for own authentication.
+    password = model.StringProperty(required=True)
+    #: User Country
+    country = model.StringProperty()
+    #: User Date of Birth
+    date_of_birth = model.DateProperty()
+
     #: Authentication identifier according to the auth method in use. Examples:
     #: * own|username
     #: * gae|user_id
