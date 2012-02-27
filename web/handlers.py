@@ -9,7 +9,7 @@
 
 """
 
-__author__ = 'Rodrigo Augosto (@coto)'
+__author__ = 'Rodrigo Augosto (@coto) - contact@protoboard.cl'
 __website__ = 'www.protoboard.cl'
 
 import webapp2

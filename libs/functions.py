@@ -1,5 +1,5 @@
 
-__author__ = 'coto'
+__author__ = 'Rodrigo Augosto (@coto) - contact@protoboard.cl'
 __website__ = 'www.protoboard.cl'
 
 import os, re, hashlib, Cookie
