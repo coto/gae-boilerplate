@@ -19,6 +19,8 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
+from datetime import datetime
+from libs import functions
 
 from wtforms import Form
 from wtforms import fields
@@ -239,16 +241,48 @@ class CreateUserHandler(BaseHandler):
               username: Get the username from POST dict
               password: Get the password from POST dict
         """
-        username = str(self.request.POST.get('username')).lower()
-        password = self.request.POST.get('password')
-        email = str(self.request.POST.get('email')).lower()
+        username = str(self.request.POST.get('username')).lower().strip()
+        name = str(self.request.POST.get('name')).strip()
+        last_name = str(self.request.POST.get('last_name')).strip()
+        email = str(self.request.POST.get('email')).lower().strip()
+        password = str(self.request.POST.get('password')).strip()
+        c_password = str(self.request.POST.get('c_password')).strip()
+        country = str(self.request.POST.get('country')).strip()
+        # Format has to be yyyy-mm-dd
+        try:
+            date_of_birth = datetime.strptime(str(self.request.POST.get('date_of_birth')).strip(), '%Y-%m-%d')
+        except ValueError:
+            date_of_birth = None
+
+        if username == "" or email == "" or password == "":
+            message= 'Sorry, some fields are required.'
+            self.add_message(message, 'error')
+            return self.redirect_to('create-user')
+
+        if password != c_password:
+            message= 'Sorry, Passwords are not identical, you have to repeat again.'
+            self.add_message(message, 'error')
+            return self.redirect_to('create-user')
+
+        if not functions.is_email_valid(email):
+            message= 'Sorry, the email %s is not valid.' % email
+            self.add_message(message, 'error')
+            return self.redirect_to('create-user')
+
+        if not functions.is_alphanumeric(username):
+            message= 'Sorry, the username %s is not valid. Use only letters and numbers' % username
+            self.add_message(message, 'error')
+            return self.redirect_to('create-user')
+
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL. If True ok, If False no new user is created
-        unique_properties = ['email', 'username']
+        unique_properties = ['username','email']
         user = self.auth.store.user_model.create_user(
             username, unique_properties, password_raw=password,
-            username=username, email=email, ip=self.request.remote_addr,
+            username=username, name=name, last_name=last_name, email=email,
+            country=country, date_of_birth=date_of_birth, ip=self.request.remote_addr,
         )
+
         if not user[0]: #user is a tuple
             message= 'Sorry, A User with this {0:>s} is already created.'.format(user[1][0])# Error message
             self.add_message(message, 'error')
