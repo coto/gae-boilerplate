@@ -214,7 +214,7 @@ var MD5 = function (string) {
 
 $(document).ready(function() {
 
-
+    $("body").css({"visibility": "visible"});
 });
 
 

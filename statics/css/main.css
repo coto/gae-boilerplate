@@ -1,3 +1,8 @@
+body {
+    visibility: hidden;
+}
+
+
 .messages {
     border: 1px gray solid;
     background: #dedede;
