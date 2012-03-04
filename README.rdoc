@@ -1,31 +1,35 @@
 = Google App Engine Boilerplate
 
-The Google App Engine Boilerplate helps to get your project off the ground quickly, just download the code and run it
-with the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.2).
+The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
 
-Feel free to commit improvements or new features. Feedback, comments and ideas are welcome. And of course you could be a commiter.
+Just download the code and run it
+with the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.3).
+
+What's the difference with another Boilerplates?
+It is complete (the most required features for an application) and uses latest technology supported on Google App Engine.
+
+Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
 == This Boilerplate has:
-- Registration (create user)
+- Registration with captcha (create user)
 - Authentication (Login and Logout)
 - Reset Password
 - Update User Profile
-- Templates with Jinja2
-- Handlers with @user_required
-- Handlers with @login_required (for Google Authentication)
 
 If you want add a feature and know how to implement it, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues].
 
 
 == Technology (The latest)
 * Python 2.7
-* {NDB 0.9.8}[http://code.google.com/p/appengine-ndb-experiment/]
+* {NDB 0.9.9}[http://code.google.com/p/appengine-ndb-experiment/]
 * {Jinja2}[http://jinja.pocoo.org/docs/]
 * {webapp2}[http://webapp-improved.appspot.com/]
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
-
+* Templates with Jinja2
+* Handlers with @user_required
+* Handlers with @login_required (for Google Authentication)
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
