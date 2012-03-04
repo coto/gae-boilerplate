@@ -6,12 +6,14 @@ from web.handlers import CreateUserHandler
 from web.handlers import GoogleLoginHandler
 from web.handlers import PasswordResetHandler
 from web.handlers import PasswordResetCompleteHandler
+from web.delete import DeleteKindHandler
 
 # Using redirect route instead of simple routes since it supports strict_slash
 # Simple route: http://webapp-improved.appspot.com/guide/routing.html#simple-routes
 # RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 
 _routes = [
+    RedirectRoute('/delete/', DeleteKindHandler, name='delete', strict_slash=True),
     RedirectRoute('/google-login/', GoogleLoginHandler, name='google-login', strict_slash=True),
     RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
