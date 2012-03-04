@@ -676,7 +676,7 @@ class QueryTests(test_utils.NDBTest):
                                               properties=properties,
                                               ancestor=False),
                        state='serving',
-                       id=1000000)])
+                       id=0)])
 
   def testIndexListExhausted(self):
     # Test that the information is preserved after the iterator is
@@ -692,7 +692,7 @@ class QueryTests(test_utils.NDBTest):
                                               properties=properties,
                                               ancestor=False),
                        state='serving',
-                       id=1000000)])
+                       id=0)])
 
   def testIndexListWithIndexAndOrder(self):
     # Test a non-trivial query with sort order and an actual composite
@@ -712,7 +712,7 @@ class QueryTests(test_utils.NDBTest):
                                               properties=properties,
                                               ancestor=False),
                        state='serving',
-                       id=1000000)])
+                       id=0)])
 
   def testIndexListMultiQuery(self):
     self.create_index()
@@ -1058,9 +1058,8 @@ class QueryTests(test_utils.NDBTest):
     a.name = 'x'  # Modify, but don't write
     b = Bar.query().get()
     self.assertTrue(b is a)
-    self.assertEqual(a.name, 'a')
-    a.name = 'x'
-    a.key = None
+    self.assertEqual(a.name, 'x')
+    a.key = None  # Invalidate cache by resetting key.
     b = Bar.query().get()
     self.assertFalse(b is a)
     self.assertEqual(a.name, 'x')

@@ -535,6 +535,61 @@ class ModelTests(test_utils.NDBTest):
     self.assertRaises(datastore_errors.BadArgumentError, model.Model, key=k,
                       id='bar', parent=p)
 
+  def testNamespaceAndApp(self):
+    m = model.Model(namespace='')
+    self.assertEqual(m.key.namespace(), '')
+    m = model.Model(namespace='x')
+    self.assertEqual(m.key.namespace(), 'x')
+    m = model.Model(app='y')
+    self.assertEqual(m.key.app(), 'y')
+
+  def testNamespaceAndAppErrors(self):
+    self.assertRaises(datastore_errors.BadArgumentError,
+                      model.Model, key=model.Key('X', 1), namespace='')
+    self.assertRaises(datastore_errors.BadArgumentError,
+                      model.Model, key=model.Key('X', 1), namespace='x')
+    self.assertRaises(datastore_errors.BadArgumentError,
+                      model.Model, key=model.Key('X', 1), app='y')
+
+  def testPropsOverrideConstructorArgs(self):
+    class MyModel(model.Model):
+      key = model.StringProperty()
+      id = model.StringProperty()
+      app = model.StringProperty()
+      namespace = model.StringProperty()
+      parent = model.StringProperty()
+    root = model.Key('Root', 1, app='app', namespace='ns')
+    key = model.Key(MyModel, 42, parent=root)
+
+    a = MyModel(_key=key)
+    self.assertEqual(a._key, key)
+    self.assertEqual(a.key, None)
+
+    b = MyModel(_id=42, _app='app', _namespace='ns', _parent=root)
+    self.assertEqual(b._key, key)
+    self.assertEqual(b.key, None)
+    self.assertEqual(b.id, None)
+    self.assertEqual(b.app, None)
+    self.assertEqual(b.namespace, None)
+    self.assertEqual(b.parent, None)
+
+    c = MyModel(key='key', id='id', app='app', namespace='ns', parent='root')
+    self.assertEqual(c._key, None)
+    self.assertEqual(c.key, 'key')
+    self.assertEqual(c.id, 'id')
+    self.assertEqual(c.app, 'app')
+    self.assertEqual(c.namespace, 'ns')
+    self.assertEqual(c.parent, 'root')
+
+    d = MyModel(_id=42, _app='app', _namespace='ns', _parent=root,
+                key='key', id='id', app='app', namespace='ns', parent='root')
+    self.assertEqual(d._key, key)
+    self.assertEqual(d.key, 'key')
+    self.assertEqual(d.id, 'id')
+    self.assertEqual(d.app, 'app')
+    self.assertEqual(d.namespace, 'ns')
+    self.assertEqual(d.parent, 'root')
+
   def testAdapter(self):
     class Foo(model.Model):
       name = model.StringProperty()
@@ -1746,6 +1801,57 @@ class ModelTests(test_utils.NDBTest):
       s = repr(prop)
       self.assertTrue(s.startswith(prop.__class__.__name__ + '('), s)
 
+  def testLengthRestriction(self):
+    # Check the following rules for size validation of blobs and texts:
+    # - Unindexed blob and text properties can be unlimited in size.
+    # - Indexed blob properties are limited to 500 bytes.
+    # - Indexed text properties are limited to 500 characters.
+    class MyModel(model.Model):
+      ublob = model.BlobProperty()  # Defaults to indexed=False.
+      iblob = model.BlobProperty(indexed=True)
+      utext = model.TextProperty()  # Defaults to indexed=False.
+      itext = model.TextProperty(indexed=True)
+      ustr = model.StringProperty(indexed=False)
+      istr = model.StringProperty()  # Defaults to indexed=True.
+      ugen = model.GenericProperty(indexed=False)
+      igen = model.GenericProperty(indexed=True)
+    largeblob = 'x'*500
+    toolargeblob = 'x'*501
+    hugeblob = 'x'*10000
+    largetext = u'\u1234'*500
+    toolargetext = u'\u1234'*500 + 'x'
+    hugetext = u'\u1234'*10000
+    ent = MyModel()
+    # These should all fail:
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'iblob', toolargeblob)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'itext', toolargetext)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'itext', toolargeblob)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'istr', toolargetext)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'istr', toolargeblob)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'igen', toolargetext)
+    self.assertRaises(datastore_errors.BadValueError,
+                      setattr, ent, 'igen', toolargeblob)
+    # These should all work:
+    ent.ublob = hugeblob
+    ent.iblob = largeblob
+    ent.utext = hugetext
+    ent.itext = largetext
+    ent.ustr = hugetext
+    ent.istr = largetext
+    ent.ugen = hugetext
+    ent.igen = largetext
+    # Writing the entity should work:
+    key = ent.put()
+    # Reading it back should work:
+    ent2 = key.get()
+    self.assertEqual(ent2, ent)
+    self.assertTrue(ent2 is not ent)
 
   def testValidation(self):
     class All(model.Model):
@@ -1761,8 +1867,11 @@ class ModelTests(test_utils.NDBTest):
     a.s = None
     a.s = 'abc'
     a.s = u'def'
-    a.s = '\xff'  # Not UTF-8.
+    a.s = u'\xff'
+    a.s = u'\u1234'
+    a.s = u'\U00012345'
     self.assertRaises(BVE, setattr, a, 's', 0)
+    self.assertRaises(BVE, setattr, a, 's', '\xff')
 
     a.i = None
     a.i = 42
@@ -1777,14 +1886,17 @@ class ModelTests(test_utils.NDBTest):
     a.t = None
     a.t = 'abc'
     a.t = u'def'
-    a.t = '\xff'  # Not UTF-8.
+    a.t = u'\xff'
+    a.t = u'\u1234'
+    a.t = u'\U00012345'
     self.assertRaises(BVE, setattr, a, 't', 0)
+    self.assertRaises(BVE, setattr, a, 't', '\xff')
 
     a.b = None
     a.b = 'abc'
     a.b = '\xff'
     self.assertRaises(BVE, setattr, a, 'b', u'')
-    self.assertRaises(BVE, setattr, a, 'b', u'')
+    self.assertRaises(BVE, setattr, a, 'b', u'\u1234')
 
     a.k = None
     a.k = model.Key('Foo', 42)
@@ -2109,6 +2221,53 @@ class ModelTests(test_utils.NDBTest):
     self.assertFalse(b._properties['foo']._indexed)
     self.assertFalse(b._properties['bar']._indexed)
 
+  def testGenericPropertyCompressedRefusesIndexed(self):
+    self.assertRaises(NotImplementedError,
+                      model.GenericProperty, compressed=True, indexed=True)
+
+  def testGenericPropertyCompressed(self):
+    class Goo(model.Model):
+      comp = model.GenericProperty(compressed=True)
+      comps = model.GenericProperty(compressed=True, repeated=True)
+    self.assertFalse(Goo.comp._indexed)
+    self.assertFalse(Goo.comps._indexed)
+    a = Goo(comp='fizzy', comps=['x'*1000, 'y'*1000])
+    a.put()
+    self.assertTrue(isinstance(a._values['comp'].b_val,
+                               model._CompressedValue))
+    self.assertTrue(isinstance(a._values['comps'][0].b_val,
+                               model._CompressedValue))
+    self.assertTrue(isinstance(a._values['comps'][1].b_val,
+                               model._CompressedValue))
+    b = a.key.get()
+    self.assertEqual(a, b)
+    self.assertTrue(a is not b)
+    # Extra-double-check.
+    self.assertEqual(b.comp, 'fizzy')
+    self.assertEqual(b.comps, ['x'*1000, 'y'*1000])
+    # Now try some non-string values.
+    x = Goo(comp=42, comps=[u'\u1234'*1000, datetime.datetime(2012, 2, 23)])
+    x.put()
+    self.assertFalse(isinstance(x._values['comp'].b_val,
+                                model._CompressedValue))
+    self.assertFalse(isinstance(x._values['comps'][0].b_val,
+                                model._CompressedValue))
+    self.assertFalse(isinstance(x._values['comps'][1].b_val,
+                                model._CompressedValue))
+    y = x.key.get()
+    self.assertEqual(x, y)
+
+  def testExpandoReadsCompressed(self):
+    class Goo(model.Model):
+      comp = model.BlobProperty(compressed=True)
+    x = Goo(comp='foo')
+    x.put()
+    class Goo(model.Expando):
+      pass
+    y = x.key.get()
+    self.assertTrue(y._properties['comp']._compressed)
+    self.assertEqual(y.comp, 'foo')
+
   def testComputedProperty(self):
     class ComputedTest(model.Model):
       name = model.StringProperty()
@@ -2246,7 +2405,6 @@ class ModelTests(test_utils.NDBTest):
     self.assertNotEqual(key.get(), None)
     self.assertEqual(key.get().text, 'baz')
 
-
   def testGetOrInsertAsync(self):
     class Mod(model.Model):
       data = model.StringProperty()
@@ -2269,6 +2427,51 @@ class ModelTests(test_utils.NDBTest):
       ent2 = yield Mod.get_or_insert_async('a', parent=parent, data='hello')
       self.assertEqual(ent2, ent)
     foo().check_success()
+
+  def testGetOrInsertAsyncInTransaction(self):
+    class Mod(model.Model):
+      data = model.StringProperty()
+
+    def txn():
+      ent = Mod.get_or_insert('a', data='hola')
+      self.assertTrue(isinstance(ent, Mod))
+      ent2 = Mod.get_or_insert('a', data='hola2')
+      self.assertEqual(ent2, ent)
+      self.assertTrue(ent2 is ent)
+      raise model.Rollback()
+
+    # First with caching turned off.  (This works because the
+    # transactional context always starts out with caching turned on.)
+    model.transaction(txn)
+    self.assertEqual(Mod.query().get(), None)
+
+    # And again with caching turned on.
+    ctx = tasklets.get_context()
+    ctx.set_cache_policy(None)  # Restore default cache policy.
+    model.transaction(txn)
+    self.assertEqual(Mod.query().get(), None)
+
+  def testGetOrInsertAsyncInTransactionUncacheableModel(self):
+    class Mod(model.Model):
+      _use_cache = False
+      data = model.StringProperty()
+
+    def txn():
+      ent = Mod.get_or_insert('a', data='hola')
+      self.assertTrue(isinstance(ent, Mod))
+      ent2 = Mod.get_or_insert('a', data='hola2')
+      self.assertEqual(ent2.data, 'hola2')
+      raise model.Rollback()
+
+    # First with caching turned off.
+    model.transaction(txn)
+    self.assertEqual(Mod.query().get(), None)
+
+    # And again with caching turned on.
+    ctx = tasklets.get_context()
+    ctx.set_cache_policy(None)  # Restore default cache policy.
+    model.transaction(txn)
+    self.assertEqual(Mod.query().get(), None)
 
   def testGetById(self):
     class MyModel(model.Model):
@@ -2365,6 +2568,24 @@ class ModelTests(test_utils.NDBTest):
     self.assertNotEqual(c, None)
     self.assertEqual(c.text, 'baz')
     self.assertEqual(key.get(), c)
+
+  def testNoNestedTransactions(self):
+    self.ExpectWarnings()
+
+    class MyModel(model.Model):
+      text = model.StringProperty()
+
+    key = model.Key(MyModel, 'schtroumpf')
+    self.assertEqual(key.get(), None)
+
+    def inner():
+      self.fail('Should not get here')
+
+    def outer():
+      model.transaction(inner)
+
+    self.assertRaises(datastore_errors.BadRequestError,
+                      model.transaction, outer)
 
   def testGetMultiAsync(self):
     model.Model._kind_map['Model'] = model.Model

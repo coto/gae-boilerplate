@@ -378,14 +378,18 @@ class Future(object):
     except Exception, err:
       _, _, tb = sys.exc_info()
       if isinstance(err, _flow_exceptions):
+        # Flow exceptions aren't logged except in "heavy debug" mode,
+        # and then only at DEBUG level, without a traceback.
         _logging_debug('%s raised %s(%s)',
                       info, err.__class__.__name__, err)
-      elif logging.getLogger().level > logging.INFO:
-        logging.warning('%s raised %s(%s)',
-                        info, err.__class__.__name__, err)
-      else:
+      elif utils.DEBUG and logging.getLogger().level < logging.DEBUG:
+        # In "heavy debug" mode, log a warning with traceback.
+        # (This is the same condition as used in utils.logging_debug().)
         logging.warning('%s raised %s(%s)',
                         info, err.__class__.__name__, err, exc_info=True)
+      else:
+        # Otherwise, log a warning without a traceback.
+        logging.warning('%s raised %s(%s)', info, err.__class__.__name__, err)
       self.set_exception(err, tb)
       return
 
