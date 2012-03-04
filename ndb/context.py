@@ -740,24 +740,9 @@ class Context(object):
             batch, i, ent = yield inq.getq()
           except EOFError:
             break
-          if isinstance(ent, model.Key):
-            pass  # It was a keys-only query and ent is really a Key.
-          else:
-            key = ent._key
-            if self._use_cache(key, options):
-              # Update the cache. If this key was already in the
-              # cache, update the cached entity in-place and return
-              # the cached entity, to maintain the invariant that
-              # there is only one copy of each cached entity.
-              cached_ent = self._cache.get(key)
-              if cached_ent is not None and cached_ent.key == key:
-                # TODO: Do the in-place update more subtly, so that
-                # mutable property values (e.g. repeated or structured
-                # properties) keep their identity.
-                cached_ent._values = ent._values
-                ent = cached_ent
-              else:
-                self._cache[key] = ent
+          ent = self._update_cache_from_query_result(ent, options)
+          if ent is None:
+            continue
           if callback is None:
             val = ent
           else:
@@ -778,6 +763,25 @@ class Context(object):
 
     helper()
     return mfut
+
+  def _update_cache_from_query_result(self, ent, options):
+    if isinstance(ent, model.Key):
+      return ent  # It was a keys-only query and ent is really a Key.
+    key = ent._key
+    if not self._use_cache(key, options):
+      return ent  # This key should not be cached.
+
+    # Check the cache.  If there is a valid cached entry, substitute
+    # that for the result, even if the cache has an explicit None.
+    if key in self._cache:
+      cached_ent = self._cache[key]
+      if (cached_ent is None or
+          cached_ent.key == key and cached_ent.__class__ is ent.__class__):
+        return cached_ent
+
+    # Update the cache.
+    self._cache[key] = ent
+    return ent
 
   @utils.positional(2)
   def iter_query(self, query, callback=None, pass_batch_into_callback=None,
