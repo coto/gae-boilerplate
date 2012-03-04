@@ -883,17 +883,9 @@ class Query(object):
       batch = yield rpc
       rpc = batch.next_batch_async(options)
       for result in batch.results:
-        # Update cache, copying code from Context().map_query().
-        if not options or not options.keys_only:
-          key = result._key
-          if ctx._use_cache(key, options):
-            cached_result = ctx._cache.get(key)
-            if cached_result is not None and cached_result.key == key:
-              cached_result._values = result._values
-              result = cached_result
-            else:
-              ctx._cache[key] = result
-        results.append(result)
+        result = ctx._update_cache_from_query_result(result, options)
+        if result is not None:
+          results.append(result)
 
     raise tasklets.Return(results)
 

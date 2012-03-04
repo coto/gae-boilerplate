@@ -297,7 +297,6 @@ from . import utils
 # NOTE: 'key' is a common local variable name.
 from . import key as key_module
 Key = key_module.Key  # For export.
-_MAX_LONG = key_module._MAX_LONG
 
 # NOTE: Property and Error classes are added later.
 __all__ = ['Key', 'BlobKey', 'GeoPt', 'Rollback',
@@ -330,6 +329,9 @@ class KindError(datastore_errors.BadValueError):
 class ComputedPropertyError(datastore_errors.Error):
   """Raised when attempting to assign a value to a computed property."""
 
+# Various imported limits.
+_MAX_LONG = key_module._MAX_LONG
+_MAX_STRING_LENGTH = datastore_types._MAX_STRING_LENGTH
 
 # Map index directions to human-readable strings.
 _DIR_MAP = {
@@ -681,7 +683,7 @@ class Property(ModelAttribute):
     if not isinstance(value, <top type>):
       raise TypeError(...)  # Or datastore_errors.BadValueError(...).
 
-  def _to_base_type(sellf, value):
+  def _to_base_type(self, value):
     '(Strict) user value to base value.'
     if isinstance(value, <user type>):
       return <base type>(value)
@@ -777,8 +779,8 @@ class Property(ModelAttribute):
       # value.lower() or value.strip() is fine, but one that returns
       # value + '$' is not.
       if not hasattr(validator, '__call__'):
-        raise TypeError('validator must be callable or None; received %r'
-                        % validator)
+        raise TypeError('validator must be callable or None; received %r' %
+                        validator)
       self._validator = validator
 
   def __repr__(self):
@@ -823,7 +825,6 @@ class Property(ModelAttribute):
         'Cannot query for unindexed property %s' % self._name)
     from .query import FilterNode  # Import late to avoid circular imports.
     if value is not None:
-      # TODO: Allow query.Binding instances?
       value = self._do_validate(value)
       value = self._call_to_base_type(value)
       value = self._datastore_type(value)
@@ -1448,10 +1449,15 @@ class BlobProperty(Property):
                                 'indexed at the same time.' % self._name)
 
   def _validate(self, value):
-    # TODO: Enforce size limit when indexed.
     if not isinstance(value, str):
       raise datastore_errors.BadValueError('Expected str, got %r' %
                                            (value,))
+    if (self._indexed and
+        not isinstance(self, TextProperty) and
+        len(value) > _MAX_STRING_LENGTH):
+      raise datastore_errors.BadValueError(
+        'Indexed value %s must be at most %d bytes' %
+        (self._name, _MAX_STRING_LENGTH))
 
   def _to_base_type(self, value):
     if self._compressed:
@@ -1500,10 +1506,20 @@ class TextProperty(BlobProperty):
   """An unindexed Property whose value is a text string of unlimited length."""
 
   def _validate(self, value):
-    # TODO: Enforce size limit when indexed.
-    if not isinstance(value, basestring):
+    if isinstance(value, str):
+      # Decode from UTF-8 -- if this fails, we can't write it.
+      try:
+        value = unicode(value, 'utf-8')
+      except UnicodeError:
+        raise datastore_errors.BadValueError('Expected valid UTF-8, got %r' %
+                                             (value,))
+    elif not isinstance(value, unicode):
       raise datastore_errors.BadValueError('Expected string, got %r' %
                                            (value,))
+    if self._indexed and len(value) > _MAX_STRING_LENGTH:
+      raise datastore_errors.BadValueError(
+        'Indexed value %s must be at most %d characters' %
+        (self._name, _MAX_STRING_LENGTH))
 
   def _to_base_type(self, value):
     if isinstance(value, unicode):
@@ -1512,8 +1528,13 @@ class TextProperty(BlobProperty):
   def _from_base_type(self, value):
     if isinstance(value, str):
       try:
-        return value.decode('utf-8')
+        return unicode(value, 'utf-8')
       except UnicodeDecodeError:
+        # Since older versions of NDB could write non-UTF-8 TEXT
+        # properties, we can't just reject these.  But _validate() now
+        # rejects these, so you can't write new non-UTF-8 TEXT
+        # properties.
+        # TODO: Eventually we should close this hole.
         pass
 
   def _db_set_uncompressed_meaning(self, p):
@@ -2209,7 +2230,41 @@ class GenericProperty(Property):
   the datastore but not represented in the Model subclass) but can
   also be used explicitly for properties with dynamically-typed
   values.
+
+  This supports compressed=True, which is only effective for str
+  values (not for unicode), and implies indexed=False.
   """
+
+  _compressed = False
+
+  _attributes = Property._attributes + ['_compressed']
+
+  @utils.positional(1 + Property._positional)
+  def __init__(self, name=None, compressed=False, **kwds):
+    if compressed:  # Compressed implies unindexed.
+      kwds.setdefault('indexed', False)
+    super(GenericProperty, self).__init__(name=name, **kwds)
+    self._compressed = compressed
+    if compressed and self._indexed:
+      # TODO: Allow this, but only allow == and IN comparisons?
+      raise NotImplementedError('GenericProperty %s cannot be compressed and '
+                                'indexed at the same time.' % self._name)
+
+  def _to_base_type(self, value):
+    if self._compressed and isinstance(value, str):
+      return _CompressedValue(zlib.compress(value))
+
+  def _from_base_type(self, value):
+    if isinstance(value, _CompressedValue):
+      return zlib.decompress(value.z_val)
+
+  def _validate(self, value):
+    if (isinstance(value, basestring) and
+        self._indexed and
+        len(value) > _MAX_STRING_LENGTH):
+      raise datastore_errors.BadValueError(
+        'Indexed value %s must be at most %d bytes' %
+        (self._name, _MAX_STRING_LENGTH))
 
   def _db_get_value(self, v, p):
     # This is awkward but there seems to be no faster way to inspect
@@ -2221,8 +2276,10 @@ class GenericProperty(Property):
       meaning = p.meaning()
       if meaning == entity_pb.Property.BLOBKEY:
         sval = BlobKey(sval)
-      elif meaning not in (entity_pb.Property.BLOB,
-                             entity_pb.Property.BYTESTRING):
+      elif meaning == entity_pb.Property.BLOB:
+        if p.meaning_uri() == _MEANING_URI_COMPRESSED:
+          sval = _CompressedValue(sval)
+      elif meaning != entity_pb.Property.BYTESTRING:
         try:
           sval.decode('ascii')
           # If this passes, don't return unicode.
@@ -2305,6 +2362,11 @@ class GenericProperty(Property):
     elif isinstance(value, BlobKey):
       v.set_stringvalue(str(value))
       p.set_meaning(entity_pb.Property.BLOBKEY)
+    elif isinstance(value, _CompressedValue):
+      value = value.z_val
+      v.set_stringvalue(value)
+      p.set_meaning_uri(_MEANING_URI_COMPRESSED)
+      p.set_meaning(entity_pb.Property.BLOB)
     else:
       raise NotImplementedError('Property %s does not support %s types.' %
                                 (self._name, type(value)))
@@ -2423,19 +2485,20 @@ class Model(_NotEqualMixin):
   _key = ModelKey()
   key = _key
 
-  @utils.positional(1)
-  def __init__(self, key=None, id=None, parent=None, **kwds):
+  def __init__(*args, **kwds):
     """Creates a new instance of this model (a.k.a. an entity).
 
     The new entity must be written to the datastore using an explicit
     call to .put().
 
-    Args:
+    Keyword Args:
       key: Key instance for this model. If key is used, id and parent must
         be None.
       id: Key id for this model. If id is used, key must be None.
       parent: Key instance for the parent model or None for a top-level one.
         If parent is used, key must be None.
+      namespace: Optional namespace.
+      app: Optional app ID.
       **kwds: Keyword arguments mapping to properties of this model.
 
     Note: you cannot define a property named key; the .key attribute
@@ -2444,25 +2507,38 @@ class Model(_NotEqualMixin):
     through the constructor, but can be assigned to entity attributes
     after the entity has been created.
     """
-    # TODO: Use the same signature hacks as in get_or_insert() to
-    # fully support properties named id, parent or key?
+    (self,) = args
+    get_arg = self.__get_arg
+    key = get_arg(kwds, 'key')
+    id = get_arg(kwds, 'id')
+    app = get_arg(kwds, 'app')
+    namespace = get_arg(kwds, 'namespace')
+    parent = get_arg(kwds, 'parent')
     if key is not None:
-      if id is not None:
+      if (id is not None or parent is not None or
+          app is not None or namespace is not None):
         raise datastore_errors.BadArgumentError(
-            'Model constructor accepts key or id, not both.')
-      if parent is not None:
-        raise datastore_errors.BadArgumentError(
-            'Model constructor accepts key or parent, not both.')
+            'Model constructor given key= does not accept '
+            'id=, app=, namespace=, or parent=.')
       self._key = _validate_key(key, entity=self)
-    elif id is not None or parent is not None:
-      # When parent is set but id is not, we have an incomplete key.
-      # Key construction will fail with invalid ids or parents, so no check
-      # is needed.
-      # TODO: should this be restricted to string ids?
-      self._key = Key(self._get_kind(), id, parent=parent)
-
+    elif (id is not None or parent is not None or
+          app is not None or namespace is not None):
+      self._key = Key(self._get_kind(), id,
+                      parent=parent, app=app, namespace=namespace)
     self._values = {}
     self._set_attributes(kwds)
+
+  @classmethod
+  def __get_arg(cls, kwds, kwd):
+    """Helper method to parse keywords that may be property names."""
+    alt_kwd = '_' + kwd
+    if alt_kwd in kwds:
+      return kwds.pop(alt_kwd)
+    if kwd in kwds:
+      obj = getattr(cls, kwd, None)
+      if not isinstance(obj, Property) or isinstance(obj, ModelKey):
+        return kwds.pop(kwd)
+    return None
 
   def __getstate__(self):
     return self._to_pb().Encode()
@@ -2687,9 +2763,11 @@ class Model(_NotEqualMixin):
       prop = StructuredProperty(Expando, next)
       prop._store_value(self, _BaseValue(Expando()))
     else:
+      compressed = p.meaning_uri() == _MEANING_URI_COMPRESSED
       prop = GenericProperty(next,
                              repeated=p.multiple(),
-                             indexed=indexed)
+                             indexed=indexed,
+                             compressed=compressed)
     prop._code_name = next
     self._properties[prop._name] = prop
     return prop
@@ -2841,8 +2919,12 @@ class Model(_NotEqualMixin):
   def _get_or_insert(*args, **kwds):
     """Transactionally retrieves an existing entity or creates a new one.
 
-    Args:
+    Positional Args:
       name: Key name to retrieve or create.
+
+    Keyword Args:
+      namespace: Optional namespace.
+      app: Optional app ID.
       parent: Parent entity key, if any.
       context_options: ContextOptions object (not keyword args!) or None.
       **kwds: Keyword arguments to pass to the constructor of the model class
@@ -2868,21 +2950,11 @@ class Model(_NotEqualMixin):
     # models with properties named e.g. 'cls' or 'name'.
     from . import tasklets
     cls, name = args  # These must always be positional.
-    our_kwds = {}
-    for kwd in 'app', 'namespace', 'parent', 'context_options':
-      # For each of these keyword arguments, if there is a property
-      # with the same name, the caller *must* use _foo=..., otherwise
-      # they may use either _foo=... or foo=..., but _foo=... wins.
-      alt_kwd = '_' + kwd
-      if alt_kwd in kwds:
-        our_kwds[kwd] = kwds.pop(alt_kwd)
-      elif (kwd in kwds and
-          not isinstance(getattr(cls, kwd, None), Property)):
-        our_kwds[kwd] = kwds.pop(kwd)
-    app = our_kwds.get('app')
-    namespace = our_kwds.get('namespace')
-    parent = our_kwds.get('parent')
-    context_options = our_kwds.get('context_options')
+    get_arg = cls.__get_arg
+    app = get_arg(kwds, 'app')
+    namespace = get_arg(kwds, 'namespace')
+    parent = get_arg(kwds, 'parent')
+    context_options = get_arg(kwds, 'context_options')
     # (End of super-special argument parsing.)
     # TODO: Test the heck out of this, in all sorts of evil scenarios.
     if not isinstance(name, basestring):
@@ -2893,17 +2965,23 @@ class Model(_NotEqualMixin):
 
     @tasklets.tasklet
     def internal_tasklet():
-      ent = yield key.get_async(options=context_options)
-      if ent is None:
-        @tasklets.tasklet
-        def txn():
-          ent = yield key.get_async(options=context_options)
-          if ent is None:
-            ent = cls(**kwds)  # TODO: Use _populate().
-            ent._key = key
-            yield ent.put_async(options=context_options)
-          raise tasklets.Return(ent)
-        ent = yield transaction_async(txn)
+      @tasklets.tasklet
+      def txn():
+        ent = yield key.get_async(options=context_options)
+        if ent is None:
+          ent = cls(**kwds)  # TODO: Use _populate().
+          ent._key = key
+          yield ent.put_async(options=context_options)
+        raise tasklets.Return(ent)
+      if in_transaction():
+        # Run txn() in existing transaction.
+        ent = yield txn()
+      else:
+        # Maybe avoid a transaction altogether.
+        ent = yield key.get_async(options=context_options)
+        if ent is None:
+          # Run txn() in new transaction.
+          ent = yield transaction_async(txn)
       raise tasklets.Return(ent)
 
     return internal_tasklet()
@@ -3131,7 +3209,11 @@ def transaction_async(callback, **kwds):
   This is the asynchronous version of transaction().
   """
   from . import tasklets
-  return tasklets.get_context().transaction(callback, **kwds)
+  ctx = tasklets.get_context()
+  if ctx.in_transaction():
+    raise datastore_errors.BadRequestError(
+      'Nested transactions are not supported.')
+  return ctx.transaction(callback, **kwds)
 
 
 def in_transaction():
