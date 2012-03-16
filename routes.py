@@ -1,3 +1,12 @@
+"""
+Using redirect route instead of simple routes since it supports strict_slash
+Simple route: http://webapp-improved.appspot.com/guide/routing.html#simple-routes
+RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
+"""
+
+__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
+__website__ = 'www.protoboard.cl'
+
 from webapp2_extras.routes import RedirectRoute
 from web.handlers import LoginHandler
 from web.handlers import LogoutHandler
@@ -7,10 +16,6 @@ from web.handlers import GoogleLoginHandler
 from web.handlers import PasswordResetHandler
 from web.handlers import PasswordResetCompleteHandler
 from web.delete import DeleteKindHandler
-
-# Using redirect route instead of simple routes since it supports strict_slash
-# Simple route: http://webapp-improved.appspot.com/guide/routing.html#simple-routes
-# RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 
 _routes = [
     RedirectRoute('/delete/', DeleteKindHandler, name='delete', strict_slash=True),
