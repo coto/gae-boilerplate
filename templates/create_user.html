@@ -291,11 +291,6 @@
             </select>
         </div>
 
-        <div data-role="fieldcontain">
-            <label for="date_of_birth">Date of Birth:</label>
-            <input type="text" name="date_of_birth" id="date_of_birth" placeholder="Your Date of Birth" />
-        </div>
-
         <button data-theme="a">Create user</button>
 
     </form>
@@ -314,9 +309,18 @@
 
         $("#form_create_user").validate({
             submitHandler: function(form) {
-                console.log($("#password").val());
-                $("#username").val(MD5("clclclclc"));
-                debugger;
+                /*
+                * The real password never will be on the air.
+                * Hashed: to avoid rehash the password clicking on submit again.
+                * */
+                var el = $("#password");
+                var c_el = $("#c_password");
+                if (el.val() != "" && el.attr("hashed") != "true"){
+                    var md5 = MD5(el.val());
+                    console.log(el.val() + " -> " + md5 );
+                    el.val(md5).attr("hashed", "true");
+                    c_el.val(md5);
+                }
                 form.submit();
             },
             rules: {
