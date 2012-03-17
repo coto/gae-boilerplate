@@ -250,22 +250,22 @@ class CreateUserHandler(BaseHandler):
         country = str(self.request.POST.get('country')).strip()
 
         if username == "" or email == "" or password == "":
-            message= 'Sorry, some fields are required.'
+            message = 'Sorry, some fields are required.'
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
         if password != c_password:
-            message= 'Sorry, Passwords are not identical, you have to repeat again.'
+            message = 'Sorry, Passwords are not identical, you have to repeat again.'
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
         if not functions.is_email_valid(email):
-            message= 'Sorry, the email %s is not valid.' % email
+            message = 'Sorry, the email %s is not valid.' % email
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
         if not functions.is_alphanumeric(username):
-            message= 'Sorry, the username %s is not valid. Use only letters and numbers' % username
+            message = 'Sorry, the username %s is not valid. Use only letters and numbers' % username
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
@@ -279,17 +279,17 @@ class CreateUserHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message= 'Sorry, A User with this {0:>s} is already created.'.format(user[1][0])# Error message
+            message = 'Sorry, A User with this {0:>s} is already created.'.format(user[1][0])# Error message
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
             # User is created, let's try redirecting to login page
             try:
-                message=  'User %s created successfully.' % ( str(user) )# Info message
+                message = 'User %s created successfully.' % ( str(user) )# Info message
                 self.add_message(message, 'info')
                 self.redirect(self.auth_config['login_url'], abort=True)
             except (AttributeError, KeyError), e:
-                message= 'Unexpected error creating user {0:>s}.'.format(username)# Error message
+                message = 'Unexpected error creating user {0:>s}.'.format(username)# Error message
                 self.add_message(message, 'error')
                 self.abort(403)
 
@@ -303,7 +303,7 @@ class LogoutHandler(BaseHandler):
         self.auth.unset_session()
         # User is logged out, let's try redirecting to login page
         try:
-            message= "User is logged out." # Info message
+            message = "User is logged out." # Info message
             self.add_message(message, 'info')
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
@@ -318,20 +318,19 @@ class SecureRequestHandler(BaseHandler):
     @user_required
     def get(self, **kwargs):
         user_session = self.auth.get_user_by_session()
-        user = self.auth.store.user_model.get_by_auth_token(user_session['user_id'], user_session['token'])
+        user_session_object = self.auth.store.get_session(self.request)
 
         import models
         user_info = models.User.get_by_id(long( user_session['user_id'] ))
+        user_info_object = self.auth.store.user_model.get_by_auth_token(user_session['user_id'], user_session['token'])
+
 #        people = models.User.get_by_sponsor_key(user_session['user_id']).fetch()
         try:
             params = {
-                "session_user_id" : user_session['user_id'],
-                "session_remember" : user_session['remember'],
-                "userinfo_user_id" : user_info.key,
-                "userinfo_username" : user_info.username,
-                "userinfo_created" : user_info.created,
-                "userinfo_email" : user_info.email,
-                "userinfo_object" : user[0],
+                "user_session" : user_session,
+                "user_session_object" : user_session_object,
+                "user_info" : user_info,
+                "user_info_object" : user_info_object,
                 "userinfo_logout-url" : self.auth_config['logout_url'],
                 }
             return self.render_template('secure_zone.html', **params)
