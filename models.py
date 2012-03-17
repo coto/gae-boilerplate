@@ -27,8 +27,6 @@ class User(User):
     password = model.StringProperty(required=True)
     #: User Country
     country = model.StringProperty()
-    #: User Date of Birth
-    date_of_birth = model.DateProperty()
 
     #: Authentication identifier according to the auth method in use. Examples:
     #: * own|username

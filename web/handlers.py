@@ -248,11 +248,6 @@ class CreateUserHandler(BaseHandler):
         password = str(self.request.POST.get('password')).strip()
         c_password = str(self.request.POST.get('c_password')).strip()
         country = str(self.request.POST.get('country')).strip()
-        # Format has to be yyyy-mm-dd
-        try:
-            date_of_birth = datetime.strptime(str(self.request.POST.get('date_of_birth')).strip(), '%Y-%m-%d')
-        except ValueError:
-            date_of_birth = None
 
         if username == "" or email == "" or password == "":
             message= 'Sorry, some fields are required.'
@@ -280,7 +275,7 @@ class CreateUserHandler(BaseHandler):
         user = self.auth.store.user_model.create_user(
             username, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            country=country, date_of_birth=date_of_birth, ip=self.request.remote_addr,
+            country=country, ip=self.request.remote_addr,
         )
 
         if not user[0]: #user is a tuple

@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ action }}" method="post" class="ui-body ui-body-c">
+    <form id="form_login_user" action="{{ action }}" method="post" class="ui-body ui-body-c">
 
         <div data-role="fieldcontain">
             <label for="username">Username:</label>
-            <input type="text" name="username" id="username"  placeholder="Your username"  />
+            <input type="text" name="username" id="username" placeholder="Your username" class="required" />
         </div>
 
         <div data-role="fieldcontain">
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password" placeholder="Your Password" />
+            <input type="password" name="password" id="password" placeholder="Your Password" class="required" />
         </div>
 
         <div data-role="fieldcontain">
@@ -33,4 +33,27 @@
         <li><a href="/password/reset">Forgot Password</a></li>
         <li><a href="/google-login">Login with Google Account</a></li>
     </ul>
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                    /*
+                     * The real password never will be on the air.
+                     * Hashed: to avoid rehash the password clicking on submit again.
+                     * */
+                    var el = $("#password");
+                    if (el.val() != "" && el.attr("hashed") != "true"){
+                        var md5 = MD5(el.val());
+                        console.log(el.val() + " -> " + md5 );
+                        el.val(md5).attr("hashed", "true");
+                    }
+                    form.submit();
+                }
+            });
+        });
+    </script>
 {% endblock %}
