@@ -19,6 +19,10 @@ skip_files:
 - ^(.*/)?\..*
 - ^(.*/)?tests$
 - ^(.*/)?test$
+- Makefile
+- \.gitignore
+- ^\.git/.*
+- \.*\.lint$
 
 builtins:
 - appstats: on #/_ah/stats/
