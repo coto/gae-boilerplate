@@ -9,9 +9,6 @@
 
 """
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
-
 import webapp2
 from models import User
 from webapp2_extras import jinja2

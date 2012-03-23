@@ -1,7 +1,4 @@
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
-
 import os, re, hashlib, Cookie
 from datetime import datetime, timedelta
 
