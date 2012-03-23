@@ -17,7 +17,7 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from datetime import datetime
-from libs import functions
+from lib import functions
 
 from wtforms import Form
 from wtforms import fields
