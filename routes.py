@@ -4,9 +4,6 @@ Simple route: http://webapp-improved.appspot.com/guide/routing.html#simple-route
 RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 """
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
-
 from webapp2_extras.routes import RedirectRoute
 from web.handlers import LoginHandler
 from web.handlers import LogoutHandler
@@ -15,10 +12,8 @@ from web.handlers import CreateUserHandler
 from web.handlers import GoogleLoginHandler
 from web.handlers import PasswordResetHandler
 from web.handlers import PasswordResetCompleteHandler
-from web.delete import DeleteKindHandler
 
 _routes = [
-    RedirectRoute('/delete/', DeleteKindHandler, name='delete', strict_slash=True),
     RedirectRoute('/google-login/', GoogleLoginHandler, name='google-login', strict_slash=True),
     RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),

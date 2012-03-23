@@ -1,7 +1,4 @@
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
-
 from webapp2_extras.appengine.auth.models import User
 from ndb import model
 
