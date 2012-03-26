@@ -6,9 +6,6 @@ import Cookie
 from datetime import datetime
 from datetime import timedelta
 
-# If you move these methods into your own classes, then rename fake_fake_self
-# to fake_self.
-
 
 def encrypt(plaintext, salt="", sha="512"):
     """ Returns the encrypted hexdigest of a plaintext and salt"""
@@ -23,10 +20,10 @@ def encrypt(plaintext, salt="", sha="512"):
     return phrase.hexdigest()
 
 
-def write_cookie(fake_self, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
+def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
     """
     Write a cookie
-    @path = could be a fake_self.request.path to set a specific path
+    @path = could be a cls.request.path to set a specific path
     @expires = seconds (integer) to expire the cookie, by default 2 hours ()
     expires = 7200 # 2 hours
     expires = 1209600 # 2 weeks
@@ -37,22 +34,22 @@ def write_cookie(fake_self, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
     time_expire = datetime.now() + timedelta(seconds=expires)
     time_expire = time_expire.strftime("%a, %d-%b-%Y %H:%M:%S GMT")
 
-    fake_self.response.headers.add_header(
+    cls.response.headers.add_header(
         'Set-Cookie', COOKIE_NAME+'='+COOKIE_VALUE+'; expires='+str(time_expire)+'; path='+path+'; HttpOnly')
     return
 
 
-def read_cookie(fake_self, name):
+def read_cookie(cls, name):
     """
-    Use: cook.read(fake_self, COOKIE_NAME)
+    Use: cook.read(cls, COOKIE_NAME)
     """
 
     string_cookie = os.environ.get('HTTP_COOKIE', '')
-    fake_self.cookie = Cookie.SimpleCookie()
-    fake_self.cookie.load(string_cookie)
+    cls.cookie = Cookie.SimpleCookie()
+    cls.cookie.load(string_cookie)
     value = None
-    if fake_self.cookie.get(name):
-        value  = fake_self.cookie[name].value
+    if cls.cookie.get(name):
+        value  = cls.cookie[name].value
 
     return value
 
@@ -83,8 +80,8 @@ def is_alphanumeric(field):
     return 0
 
 
-def get_device(fake_self):
-    uastring = fake_self.request.user_agent
+def get_device(cls):
+    uastring = cls.request.user_agent
     if "Mobile" in uastring and "Safari" in uastring:
         kind = "mobile"
     else:
