@@ -1,4 +1,7 @@
 body {
+    /* To avoid load the DOM without Styles
+        script.js has a event to show the Body.
+    */
     visibility: hidden;
 }
 
