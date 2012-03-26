@@ -2,17 +2,17 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>Secure zone Google Account</h1>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+        <h1>{{ lang.menu_glogin }}</h1>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    <h3>User information</h3>
+    <h3>{{ lang.text_user_info }}</h3>
     <ul>
         <li><b>nickname:</b> {{ nickname }}</li>
     </ul>
-    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">Logout</a></p>
+    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout }}</a></p>
 
 {% endblock %}

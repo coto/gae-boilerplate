@@ -3,6 +3,8 @@ import webapp2
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from lib import i18n
+from lib import utils
 
 
 def user_required(handler):
@@ -95,6 +97,8 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update({
             'current_user': self.user,
             'current_url': self.request.url,
+            'lang': i18n.set_lang_cookie_and_return_dict(self),
+            'is_mobile': utils.get_device(self)["is_mobile"],
             })
         kwargs.update(self.auth_config)
         if self.messages:

@@ -36,22 +36,27 @@
         {% endblock %}
 
         <div data-role="content">
+            <h1>{{ is_mobile }}</h1>
             <p class="messages {{ level }}">{{ messages }}</p>
 
             {% block content %}{% endblock %}
             <div data-role="fieldcontain">
-                <label for="select-choice-1" class="select">Choose your language:</label>
+                <label for="select-choice-1" class="select">{{ lang.text_language }}:</label>
                 <select name="select-choice-1" id="select-choice-1">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
+                    <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish }}</option>
+                    <option value="en" {% if lang.id == "en" %}selected="selected"{% endif %}>{{ lang.english }}</option>
                 </select>
             </div>
         </div><!-- /content -->
 
         {% block footer %}
         <footer data-role="footer" class="ui-bar">
-            <a href="https://github.com/coto/gae-boilerplate" target="_blank" data-role="button" data-icon="gear">Source code</a>
-            <a href="/" data-role="button" data-icon="plus">Desktop Version</a>
+            <a href="https://github.com/coto/gae-boilerplate" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
+            {% if is_mobile %}
+            <a href="/?device=desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
+            {% else %}
+            <a href="/?device=mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
+            {% endif %}
         </footer>
         {% endblock %}
 

@@ -2,8 +2,8 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>Login</h1>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+        <h1>{{ lang.menu_login }}</h1>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
     </div>
 {% endblock %}
 
@@ -11,44 +11,44 @@
     <form id="form_login_user" action="{{ action }}" method="post" class="ui-body ui-body-c">
 
         <div data-role="fieldcontain">
-            <label for="username">Username:</label>
+            <label for="username">{{ lang.login_username }}:</label>
             <input type="text" name="username" id="username" placeholder="Your username" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="password">Password:</label>
+            <label for="password">{{ lang.login_password }}:</label>
             <input type="password" name="password" id="password" placeholder="Your Password" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="remember_me">Remember me?:</label>
+            <label for="remember_me">{{ lang.login_remember }}:</label>
             <select name="remember_me" id="remember_me" data-role="slider">
                 <option value="off">No</option>
-                <option value="on">Yes</option>
+                <option value="on">{{ lang.login_yes }}</option>
             </select>
         </div>
 
-        <button type="submit" data-theme="b" class="ui-btn-hidden" aria-disabled="false">Login</button>
+        <button type="submit" data-theme="b" class="ui-btn-hidden" aria-disabled="false">{{ lang.menu_login }}</button>
 
     </form>
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true">
         <li data-role="list-divider" role="heading">
-            Components
+            {{ lang.menu_components }}
         </li>
         <li data-theme="c">
             <a href="/create" data-transition="slide">
-                Create User
+                {{ lang.menu_create_user }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/password/reset" data-transition="slide">
-                Forgot you Password?
+                {{ lang.menu_fyp }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/google-login" data-transition="slide">
-                Login with Google Account
+                {{ lang.menu_glogin }}
             </a>
         </li>
     </ul>
