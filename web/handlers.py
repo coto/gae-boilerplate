@@ -16,7 +16,7 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
-from lib import functions
+from lib import utils
 
 # Just for Google Login
 from google.appengine.api import users
@@ -198,12 +198,12 @@ class CreateUserHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
-        if not functions.is_email_valid(email):
+        if not utils.is_email_valid(email):
             message = 'Sorry, the email %s is not valid.' % email
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
-        if not functions.is_alphanumeric(username):
+        if not utils.is_alphanumeric(username):
             message = 'Sorry, the username %s is not valid. ' \
                       'Use only letters and numbers' % username
             self.add_message(message, 'error')
