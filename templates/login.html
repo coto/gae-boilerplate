@@ -45,13 +45,16 @@
                      * The real password never will be on the air.
                      * Hashed: to avoid rehash the password clicking on submit again.
                      * */
-                    var el = $("#password");
-                    if (el.val() != "" && el.attr("hashed") != "true"){
-                        var md5 = MD5(el.val());
-                        console.log(el.val() + " -> " + md5 );
-                        el.val(md5).attr("hashed", "true");
-                    }
-                    form.submit();
+                    // TODO: implement this second layer of security,
+                    // it sometimes encrypt the password
+//                     var pwd = $("#password");
+//                    if ( pwd.val() != "" && pwd.attr("hashed") != "true" ){
+//                        var md5 = MD5(pwd.val());
+//                        console.log(pwd.val() + " -> " + md5 );
+//                        pwd.val(md5).attr("hashed", "true");
+                        form.submit();
+//                    }
+
                 }
             });
         });

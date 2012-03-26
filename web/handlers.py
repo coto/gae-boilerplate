@@ -10,21 +10,15 @@
 """
 
 import webapp2
-from models import User
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
-from datetime import datetime
 from lib import functions
 
-from wtforms import Form
-from wtforms import fields
-from wtforms import validators
-
 # Just for Google Login
-from google.appengine.api import users, taskqueue
+from google.appengine.api import users
 from webapp2_extras.appengine.users import login_required
 
 def user_required(handler):
@@ -119,74 +113,6 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
 
-
-class PasswordRestForm(Form):
-    email = fields.TextField('email')
-
-class PasswordChangeForm(Form):
-    current     = fields.PasswordField('Current Password')
-    password    = fields.PasswordField('New Password',)
-    confirm     = fields.PasswordField('New Password again', [validators.EqualTo('password', 'Passwords must match.')])
-
-class PasswordResetHandler(BaseHandler):
-    def get(self):
-        if self.user:
-            self.redirect_to('secure', id=self.user_id)
-        params = {}
-        return self.render_template('password_reset.html', **params)
-
-    def post(self):
-        # TODO: Implement it
-        email = self.request.POST.get('email')
-        auth_id = "own:%s" % email
-        user = User.get_by_auth_id(auth_id)
-        if user is not None:
-            # Send Message Received Email
-            taskqueue.add(url='/emails/password/reset', params={
-                'recipient_id': user.key.id(),
-                })
-            self.add_message('Password reset instruction have been sent to %s. Please check your inbox.' % email, 'success')
-            return self.redirect_to('login')
-        self.add_message('Your email address was not found. Please try another or <a href="/register">create an account</a>.', 'error')
-        return self.redirect_to('password-reset')
-
-class PasswordResetCompleteHandler(BaseHandler):
-    def get(self, token):
-        # TODO: implement it
-        # Verify token
-        token = User.token_model.query(User.token_model.token == token).get()
-        if token is None:
-            self.add_message('The token could not be found, please resubmit your email.', 'error')
-            self.redirect_to('password-reset')
-        params = {
-            'form': self.form,
-            }
-        return self.render_template('password_reset_complete.html', **params)
-
-    def post(self, token):
-        # TODO: implement it
-        if self.form.validate():
-            token = User.token_model.query(User.token_model.token == token).get()
-            # test current password
-            user = User.get_by_id(int(token.user))
-            if token and user:
-                user.password = security.generate_password_hash(self.form.password.data, length=12)
-                user.put()
-                # Delete token
-                token.key.delete()
-                # Login User
-                self.auth.get_user_by_password(user.auth_ids[0], self.form.password.data)
-                self.add_message('Password changed successfully', 'success')
-                return self.redirect_to('profile-show', id=user.key.id())
-
-        self.add_message('Please correct the form errors.', 'error')
-        return self.get(token)
-
-    @webapp2.cached_property
-    def form(self):
-        return forms.PasswordChangeForm(self.request.POST)
-
-
 class LoginHandler(BaseHandler):
     def get(self):
         """
@@ -212,6 +138,7 @@ class LoginHandler(BaseHandler):
         # Raises InvalidPasswordError if provided password doesn't match with specified user
         try:
             self.auth.get_user_by_password(username, password, remember=remember_me)
+#            print("sasa")
             self.redirect('/')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in the BaseHandler.dispatcher
