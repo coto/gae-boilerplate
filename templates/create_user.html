@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block header %}
-    <h1>Create User</h1>
+    <div data-role="header">
+        <h1>Create User</h1>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -291,14 +294,34 @@
             </select>
         </div>
 
-        <button data-theme="a">Create user</button>
+        <button data-theme="b">Create user</button>
 
     </form>
 
-    <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/password/reset">Forgot Password</a></li>
-        <li><a href="/google-login">Login with Google Account</a></li>
+    <ul data-role="listview" data-divider-theme="b" data-inset="true">
+        <li data-role="list-divider" role="heading">
+            Components
+        </li>
+        <li data-theme="c">
+            <a href="/login" data-transition="slide">
+                Login
+            </a>
+        </li>
+        <li data-theme="c">
+            <a href="/secure" data-transition="slide">
+                Secure Page
+            </a>
+        </li>
+        <li data-theme="c">
+            <a href="/password/reset" data-transition="slide">
+                Forgot you Password?
+            </a>
+        </li>
+        <li data-theme="c">
+            <a href="/google-login" data-transition="slide">
+                Login with Google Account
+            </a>
+        </li>
     </ul>
 
 {% endblock %}
