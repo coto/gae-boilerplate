@@ -2,12 +2,14 @@
 from webapp2_extras.appengine.auth.models import User
 from ndb import model
 
-# based on https://gist.github.com/kylefinley
+
 class User(User):
     """
     Universal user model. Can be used with App Engine's default users API,
     own auth or third party authentication methods (OpenId, OAuth etc).
+    based on https://gist.github.com/kylefinley
     """
+
     #: Creation date.
     created = model.DateTimeProperty(auto_now_add=True)
     #: Modification date.
