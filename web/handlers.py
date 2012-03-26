@@ -3,7 +3,8 @@
 """
 	A real simple app for using webapp2 with auth and session.
 
-	It just covers the basics. Creating a user, login, logout and a decorator for protecting certain handlers.
+	It just covers the basics. Creating a user, login, logout
+	and a decorator for protecting certain handlers.
 
     Routes are setup in routes.py and added in main.py
 
@@ -21,16 +22,20 @@ from lib import functions
 from google.appengine.api import users
 from webapp2_extras.appengine.users import login_required
 
+
 def user_required(handler):
     """
-         Decorator for checking if there's a user associated with the current session.
+         Decorator for checking if there's a user associated
+         with the current session.
          Will also fail if there's no session present.
     """
 
     def check_login(self, *args, **kwargs):
-        auth = self.auth
-        if not auth.get_user_by_session():
-            # If handler has no login_url specified invoke a 403 error
+        """
+            If handler has no login_url specified invoke a 403 error
+        """
+        auth = self.auth.get_user_by_session()
+        if not auth:
             try:
                 self.redirect(self.auth_config['login_url'], abort=True)
             except (AttributeError, KeyError), e:
@@ -40,15 +45,19 @@ def user_required(handler):
 
     return check_login
 
+
 class BaseHandler(webapp2.RequestHandler):
     """
         BaseHandler for all requests
 
-        Holds the auth and session properties so they are reachable for all requests
+        Holds the auth and session properties so they
+        are reachable for all requests
     """
 
     def dispatch(self):
-        # Get a session store for this request.
+        """
+            Get a session store for this request.
+        """
         self.session_store = sessions.get_store(request=self.request)
 
         try:
@@ -113,7 +122,9 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
 
+
 class LoginHandler(BaseHandler):
+
     def get(self):
         """
               Returns a simple HTML form for login
@@ -135,13 +146,15 @@ class LoginHandler(BaseHandler):
         remember_me = True if self.request.POST.get('remember_me') == 'on' else False
         # Try to login user with password
         # Raises InvalidAuthIdError if user is not found
-        # Raises InvalidPasswordError if provided password doesn't match with specified user
+        # Raises InvalidPasswordError if provided password
+        # doesn't match with specified user
         try:
-            self.auth.get_user_by_password(username, password, remember=remember_me)
-#            print("sasa")
+            self.auth.get_user_by_password(
+                username, password, remember=remember_me)
             self.redirect('/')
         except (InvalidAuthIdError, InvalidPasswordError), e:
-            # Returns error message to self.response.write in the BaseHandler.dispatcher
+            # Returns error message to self.response.write in
+            # the BaseHandler.dispatcher
             # Currently no message is attached to the exceptions
             message = "Login error, Try again"
             self.add_message(message, 'error')
@@ -149,6 +162,7 @@ class LoginHandler(BaseHandler):
 
 
 class CreateUserHandler(BaseHandler):
+
     def get(self):
         """
               Returns a simple HTML form for create a new user
@@ -179,7 +193,8 @@ class CreateUserHandler(BaseHandler):
             return self.redirect_to('create-user')
 
         if password != c_password:
-            message = 'Sorry, Passwords are not identical, you have to repeat again.'
+            message = 'Sorry, Passwords are not identical, ' \
+                      'you have to repeat again.'
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
@@ -189,12 +204,14 @@ class CreateUserHandler(BaseHandler):
             return self.redirect_to('create-user')
 
         if not functions.is_alphanumeric(username):
-            message = 'Sorry, the username %s is not valid. Use only letters and numbers' % username
+            message = 'Sorry, the username %s is not valid. ' \
+                      'Use only letters and numbers' % username
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
         # Passing password_raw=password so password will be hashed
-        # Returns a tuple, where first value is BOOL. If True ok, If False no new user is created
+        # Returns a tuple, where first value is BOOL.
+        # If True ok, If False no new user is created
         unique_properties = ['username','email']
         user = self.auth.store.user_model.create_user(
             username, unique_properties, password_raw=password,
@@ -203,17 +220,19 @@ class CreateUserHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = 'Sorry, A User with this {0:>s} is already created.'.format(user[1][0])# Error message
+            message = 'Sorry, User {0:>s} ' \
+                      'is already created.'.format(user[1][0])# Error message
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
             # User is created, let's try redirecting to login page
             try:
-                message = 'User %s created successfully.' % ( str(user) )# Info message
+                message = 'User %s created successfully.' % ( str(username) )
                 self.add_message(message, 'info')
-                self.redirect(self.auth_config['login_url'], abort=True)
+                self.redirect(self.auth_config['login_url'])
             except (AttributeError, KeyError), e:
-                message = 'Unexpected error creating user {0:>s}.'.format(username)# Error message
+                message = 'Unexpected error creating ' \
+                          'user {0:>s}.'.format(username)
                 self.add_message(message, 'error')
                 self.abort(403)
 
@@ -231,7 +250,8 @@ class LogoutHandler(BaseHandler):
             self.add_message(message, 'info')
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
-            return "User is logged out, but there was an error on the redirection."
+            return "User is logged out, but there was an error " \
+                   "on the redirection."
 
 
 class SecureRequestHandler(BaseHandler):
@@ -246,9 +266,11 @@ class SecureRequestHandler(BaseHandler):
 
         import models
         user_info = models.User.get_by_id(long( user_session['user_id'] ))
-        user_info_object = self.auth.store.user_model.get_by_auth_token(user_session['user_id'], user_session['token'])
+        user_info_object = self.auth.store.user_model.get_by_auth_token(
+            user_session['user_id'], user_session['token'])
 
-#        people = models.User.get_by_sponsor_key(user_session['user_id']).fetch()
+#        people = models.User.get_by_sponsor_key(
+#            user_session['user_id']).fetch()
         try:
             params = {
                 "user_session" : user_session,
@@ -263,12 +285,13 @@ class SecureRequestHandler(BaseHandler):
 
 
 class GoogleLoginHandler(BaseHandler):
+
     @login_required
     def get(self):
         # Login App Engine
         user = users.get_current_user()
         try:
-            #TODO: work with the logout url
+            #TODO: work with the logout url for jQuery Mobile
             params = {
                 "nickname" : user.nickname(),
                 "userinfo_logout-url" : users.create_logout_url("/"),
