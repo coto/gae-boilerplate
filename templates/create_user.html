@@ -2,8 +2,8 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>Create User</h1>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+        <h1>{{ lang.menu_create_user }}</h1>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
     </div>
 {% endblock %}
 
@@ -12,39 +12,39 @@
     <form id="form_create_user" action="{{ action }}" method="post" class="ui-body ui-body-c" data-ajax="false">
 
         <div data-role="fieldcontain">
-            <label for="username">Username:</label>
+            <label for="username">{{ lang.field_username }}:</label>
             <input type="text" name="username" id="username" placeholder="Your username" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="name">Name:</label>
+            <label for="name">{{ lang.field_name }}:</label>
             <input type="text" name="name" id="name" placeholder="Your Name" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="last_name">Last Name:</label>
+            <label for="last_name">{{ lang.field_lastname }}:</label>
             <input type="text" name="last_name" id="last_name" placeholder="Your Last Name" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="email">Email:</label>
+            <label for="email">{{ lang.field_email }}:</label>
             <input type="email" name="email" id="email" placeholder="Your Email" class="required email" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="password">Password:</label>
+            <label for="password">{{ lang.field_password }}:</label>
             <input type="password" name="password" id="password" placeholder="Your Password" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="c_password">Confirm Password:</label>
+            <label for="c_password">{{ lang.field_cpassword }}:</label>
             <input type="password" name="c_password" id="c_password" placeholder="Your Password again" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="country" class="select">Country:</label>
+            <label for="country" class="select">{{ lang.field_country }}:</label>
             <select name="country" id="country">
-            <option value="">Country...</option>
+            <option value="">{{ lang.field_country }}...</option>
             <option value="AF">Afghanistan</option>
             <option value="AL">Albania</option>
             <option value="DZ">Algeria</option>
@@ -294,32 +294,32 @@
             </select>
         </div>
 
-        <button data-theme="b">Create user</button>
+        <button data-theme="b">{{ lang.menu_create_user }}</button>
 
     </form>
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true">
         <li data-role="list-divider" role="heading">
-            Components
+            {{ lang.menu_components }}
         </li>
         <li data-theme="c">
             <a href="/login" data-transition="slide">
-                Login
+                {{ lang.menu_login }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/secure" data-transition="slide">
-                Secure Page
+                {{ lang.menu_secure }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/password/reset" data-transition="slide">
-                Forgot you Password?
+                {{ lang.menu_fyp }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/google-login" data-transition="slide">
-                Login with Google Account
+                {{ lang.menu_glogin }}
             </a>
         </li>
     </ul>

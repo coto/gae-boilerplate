@@ -82,10 +82,7 @@ def is_alphanumeric(field):
 
 def get_device(cls):
     uastring = cls.request.user_agent
-    if "Mobile" in uastring and "Safari" in uastring:
-        kind = "mobile"
-    else:
-        kind = "desktop"
+    is_mobile = "Mobile" in uastring and "Safari" in uastring
 
     if "MSIE" in uastring:
         browser = "Explorer"
@@ -109,7 +106,7 @@ def get_device(cls):
         browser = "unknow"
 
     device = {
-        "kind": kind,
+        "is_mobile": is_mobile,
         "browser": browser,
         "uastring": uastring
     }
