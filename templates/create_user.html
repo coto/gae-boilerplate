@@ -307,21 +307,27 @@
 <script type="text/javascript">
     $().ready(function() {
 
+        var pwd, c_pwd;
+
         $("#form_create_user").validate({
             submitHandler: function(form) {
                 /*
                 * The real password never will be on the air.
                 * Hashed: to avoid rehash the password clicking on submit again.
                 * */
-                var el = $("#password");
-                var c_el = $("#c_password");
-                if (el.val() != "" && el.attr("hashed") != "true"){
-                    var md5 = MD5(el.val());
-                    console.log(el.val() + " -> " + md5 );
-                    el.val(md5).attr("hashed", "true");
-                    c_el.val(md5);
-                }
-                form.submit();
+                // TODO: implement this second layer of security,
+                // it sometimes encrypt the password
+//                 pwd = $("#password");
+//                c_pwd = $("#c_password");
+//                console.log(pwd.val() + " and "+ c_pwd.val() );
+//                if ( pwd.val() != "" && pwd.attr("hashed") != "true" && (pwd.val() == c_pwd.val()) ){
+//                    var md5 = MD5(pwd.val());
+//                    console.log(pwd.val() + " -> " + md5 );
+//                    pwd.val(md5).attr("hashed", "true");
+//                    c_pwd.val(md5);
+                    form.submit();
+//                }
+
             },
             rules: {
                 password: 'required',
