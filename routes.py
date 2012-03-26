@@ -10,13 +10,15 @@ from web.handlers import LogoutHandler
 from web.handlers import SecureRequestHandler
 from web.handlers import CreateUserHandler
 from web.handlers import GoogleLoginHandler
+from web.handlers import HomeRequestHandler
 
 _routes = [
     RedirectRoute('/google-login/', GoogleLoginHandler, name='google-login', strict_slash=True),
     RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
     RedirectRoute('/create/', CreateUserHandler, name='create-user', strict_slash=True),
-    RedirectRoute('/', SecureRequestHandler, name='secure', strict_slash=True)
+    RedirectRoute('/secure', SecureRequestHandler, name='secure', strict_slash=True),
+    RedirectRoute('/', HomeRequestHandler, name='home', strict_slash=True)
 ]
 
 def get_routes():
