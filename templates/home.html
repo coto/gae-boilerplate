@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+            <h2>
+                It worked!
+            </h2>
+            <div>
+                <img src="img/google-app-engine-logo.png" />
+            </div>
+            <div>
+                Congratulations on your Google App Engine Boilerplate powered page.
+            </div>
+            <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                <li data-role="list-divider" role="heading">
+                    Components
+                </li>
+                <li data-theme="c">
+                    <a href="/create" data-transition="slide">
+                        Create User
+                    </a>
+                </li>
+                <li data-theme="c">
+                    <a href="/login" data-transition="slide">
+                        Login
+                    </a>
+                </li>
+                <li data-theme="c">
+                    <a href="/secure" data-transition="slide">
+                        Secure Page
+                    </a>
+                </li>
+                <li data-theme="c">
+                    <a href="/password/reset" data-transition="slide">
+                        Forgot you Password?
+                    </a>
+                </li>
+                <li data-theme="c">
+                    <a href="/google-login" data-transition="slide">
+                        Login with Google Account
+                    </a>
+                </li>
+            </ul>
+{% endblock %}
+

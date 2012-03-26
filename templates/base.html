@@ -14,7 +14,6 @@
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet"  href="/css/style.css" />
     <link rel="stylesheet"  href="/css/main.css" />
     <link rel="stylesheet"  href="/mobile/jquery.mobile-1.0.1.min.css" />
 
@@ -30,23 +29,31 @@
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-    <div data-role="page"  data-theme="b">
-
+    <div data-role="page"  data-theme="c">
+        {% block header %}
         <div data-role="header">
-            {% block header %}{% endblock %}
         </div><!-- /header -->
+        {% endblock %}
 
         <div data-role="content">
             <p class="messages {{ level }}">{{ messages }}</p>
 
             {% block content %}{% endblock %}
-            <ul>
-                <li><a href="https://github.com/coto/gae-boilerplate" target="_blank">Source code</a></li>
-            </ul>
+            <div data-role="fieldcontain">
+                <label for="select-choice-1" class="select">Choose your language:</label>
+                <select name="select-choice-1" id="select-choice-1">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                </select>
+            </div>
         </div><!-- /content -->
-        <footer data-role="footer">
-            {% block footer %}<h4>App Engine Boilerplate</h4>{% endblock %}
+
+        {% block footer %}
+        <footer data-role="footer" class="ui-bar">
+            <a href="https://github.com/coto/gae-boilerplate" target="_blank" data-role="button" data-icon="gear">Source code</a>
+            <a href="/" data-role="button" data-icon="plus">Desktop Version</a>
         </footer>
+        {% endblock %}
 
     </div><!-- /page -->
     <!-- JavaScript at the bottom for fast page loading -->

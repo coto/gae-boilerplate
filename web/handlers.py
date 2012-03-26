@@ -22,6 +22,17 @@ from google.appengine.api import users
 from webapp2_extras.appengine.users import login_required
 
 
+class HomeRequestHandler(BaseHandler):
+
+    def get(self):
+        """
+              Returns a simple HTML form for home
+        """
+        params = {
+            "action": self.request.url,
+            }
+        return self.render_template('home.html', **params)
+
 class LoginHandler(BaseHandler):
 
     def get(self):
