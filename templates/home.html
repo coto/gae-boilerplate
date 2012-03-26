@@ -5,41 +5,41 @@
 
 {% block content %}
             <h2>
-                It worked!
+                {{ lang.text_title }}
             </h2>
             <div>
                 <img src="img/google-app-engine-logo.png" />
             </div>
             <div>
-                Congratulations on your Google App Engine Boilerplate powered page.
+                {{ lang.text_description }}
             </div>
             <ul data-role="listview" data-divider-theme="b" data-inset="true">
                 <li data-role="list-divider" role="heading">
-                    Components
+                    {{ lang.menu_components }}
                 </li>
                 <li data-theme="c">
                     <a href="/create" data-transition="slide">
-                        Create User
+                        {{ lang.menu_create_user }}
                     </a>
                 </li>
                 <li data-theme="c">
                     <a href="/login" data-transition="slide">
-                        Login
+                        {{ lang.menu_login }}
                     </a>
                 </li>
                 <li data-theme="c">
                     <a href="/secure" data-transition="slide">
-                        Secure Page
+                        {{ lang.menu_secure }}
                     </a>
                 </li>
                 <li data-theme="c">
                     <a href="/password/reset" data-transition="slide">
-                        Forgot you Password?
+                        {{ lang.menu_fyp }}
                     </a>
                 </li>
                 <li data-theme="c">
                     <a href="/google-login" data-transition="slide">
-                        Login with Google Account
+                        {{ lang.menu_glogin }}
                     </a>
                 </li>
             </ul>

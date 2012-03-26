@@ -2,14 +2,14 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>Secure zone</h1>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">Home</a>
+        <h1>{{ lang.menu_secure }}</h1>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    <h3>Session information</h3>
+    <h3>{{ lang.text_session_info }}</h3>
     <ul>
         {% for us in user_session %}
         <li><b>{{ us }}:</b> {{ user_session[us] }}</li>
@@ -17,7 +17,7 @@
     </ul>
     <b>Session object:</b> {{ user_session_object }}
 
-    <h3>User information</h3>
+    <h3>{{ lang.text_user_info }}</h3>
     <ul>
         <li><b>user_id:</b> {{ user_info.key }}</li>
         <li><b>created:</b> {{ user_info.created }}</li>
@@ -30,6 +30,6 @@
         <li><b>Password:</b> {{ user_info.password }}</li>
     </ul>
     <b>User object:</b> {{ user_info_object }}
-    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">Logout</a></p>
+    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout }}</a></p>
 
 {% endblock %}

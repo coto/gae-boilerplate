@@ -29,3 +29,13 @@ label.error {
     padding: .4em 0;
     display: block;
 }
+
+.ui-page.ui-body-c {
+    background: #FFFFFF;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#FFF),to(#FFF));
+    background-image: -webkit-linear-gradient(#FFF,#FFF);
+    background-image: -moz-linear-gradient(#FFF,#FFF);
+    background-image: -ms-linear-gradient(#FFF,#FFF);
+    background-image: -o-linear-gradient(#FFF,#FFF);
+    background-image: linear-gradient(#FFF,#FFF);
+}
