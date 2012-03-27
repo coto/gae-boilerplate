@@ -14,11 +14,14 @@
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% if is_mobile %}
-    <link rel="stylesheet"  href="/mobile/jquery.mobile-1.0.1.min.css" />
+    <link rel="stylesheet" href="/mobile/jquery.mobile-1.0.1.min.css" />
     {% else %}
-    <link rel="stylesheet"  href="/css/style.css" />
+    <!--TODO: Add font color for visited on style.css -->
+    <link rel="stylesheet" href="/css/style.csss" />
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.css">
     {% endif %}
-    <link rel="stylesheet"  href="/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
 
 
     {% block mediaCSS %}{% endblock %}
@@ -33,14 +36,13 @@
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-    <div data-role="page"  data-theme="c">
+    <div data-role="page"  data-theme="c" class="container">
         {% block header %}
         <div data-role="header">
         </div><!-- /header -->
         {% endblock %}
 
         <div data-role="content">
-            {{ is_mobile }}
             <p class="messages {{ level }}">{{ messages }}</p>
 
             {% block content %}{% endblock %}
@@ -55,11 +57,11 @@
 
         {% block footer %}
         <footer data-role="footer" class="ui-bar">
-            <a href="https://github.com/coto/gae-boilerplate" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
+            <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
             {% if is_mobile %}
-            <a href="#" class="select_device" data-device="desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
+            <a href="#" class="select_device btn btn-success" data-device="desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
             {% else %}
-            <a href="#" class="select_device" data-device="mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
+            <a href="#" class="select_device btn btn-success" data-device="mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
             {% endif %}
         </footer>
         {% endblock %}
@@ -74,6 +76,8 @@
     <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
     {% if is_mobile %}
     <script src="/mobile/jquery.mobile-1.0.1.min.js"></script>
+    {% else %}
+    <script src="/js/bootstrap.min.js"></script>
     {% endif %}
 
     <!-- scripts concatenated and minified via build script -->
