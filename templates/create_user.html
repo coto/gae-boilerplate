@@ -3,13 +3,14 @@
 {% block header %}
     <div data-role="header">
         <h1>{{ lang.menu_create_user }}</h1>
+        <i class="icon-home"></i>
         <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    <form id="form_create_user" action="{{ action }}" method="post" class="ui-body ui-body-c" data-ajax="false">
+    <form id="form_create_user" action="{{ action }}" method="post" class="ui-body ui-body-c well" data-ajax="false">
 
         <div data-role="fieldcontain">
             <label for="username">{{ lang.field_username }}:</label>
@@ -294,11 +295,11 @@
             </select>
         </div>
 
-        <button data-theme="b">{{ lang.menu_create_user }}</button>
+        <button data-theme="b" class="btn btn-primary" >{{ lang.menu_create_user }}</button>
 
     </form>
 
-    <ul data-role="listview" data-divider-theme="b" data-inset="true">
+    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
         <li data-role="list-divider" role="heading">
             {{ lang.menu_components }}
         </li>
