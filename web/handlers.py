@@ -10,15 +10,16 @@
 
 """
 
+from webapp2_extras.appengine.auth.models import User
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from lib import utils
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
 
-
 # Just for Google Login
 from google.appengine.api import users
+from google.appengine.api import taskqueue
 from webapp2_extras.appengine.users import login_required
 
 
@@ -28,10 +29,68 @@ class HomeRequestHandler(BaseHandler):
         """
               Returns a simple HTML form for home
         """
-        params = {
-            "action": self.request.url,
-            }
+        params = {}
         return self.render_template('home.html', **params)
+
+
+class PasswordResetHandler(BaseHandler):
+    #TODO: Finish this handler
+    def get(self):
+        if self.user:
+            self.redirect_to('secure', id=self.user_id)
+        params = {
+            'action': self.request.url,
+        }
+        return self.render_template('password_reset.html', **params)
+
+    def post(self):
+        email = self.request.POST.get('email')
+        auth_id = "own:%s" % email
+        user = User.get_by_auth_id(auth_id)
+        if user is not None:
+            # Send Message Received Email
+            taskqueue.add(url='/emails/password/reset', params={
+                'recipient_id': user.key.id(),
+                })
+            _message = 'Password reset instruction have been sent to %s. Please check your inbox.' % email
+            self.add_message(_message, 'success')
+            return self.redirect_to('login')
+        _message = 'Your email address was not found. Please try another or <a href="/register">create an account</a>.'
+        self.add_message(_message, 'error')
+        return self.redirect_to('password-reset')
+
+
+class PasswordResetCompleteHandler(BaseHandler):
+    #TODO: Finish this handler
+    def get(self, token):
+        # Verify token
+        token = User.token_model.query(User.token_model.token == token).get()
+        if token is None:
+            self.add_message('The token could not be found, please resubmit your email.', 'error')
+            self.redirect_to('password-reset')
+        params = {
+            'action': self.request.url,
+            }
+        return self.render_template('password_reset_complete.html', **params)
+
+    def post(self, token):
+        if self.form.validate():
+            token = User.token_model.query(User.token_model.token == token).get()
+            # test current password
+            user = User.get_by_id(int(token.user))
+            if token and user:
+                user.password = security.generate_password_hash(self.form.password.data, length=12)
+                user.put()
+                # Delete token
+                token.key.delete()
+                # Login User
+                self.auth.get_user_by_password(user.auth_ids[0], self.form.password.data)
+                self.add_message('Password changed successfully', 'success')
+                return self.redirect_to('profile-show', id=user.key.id())
+
+        self.add_message('Please correct the form errors.', 'error')
+        return self.get(token)
+
 
 class LoginHandler(BaseHandler):
 
@@ -131,7 +190,7 @@ class CreateUserHandler(BaseHandler):
 
         if not user[0]: #user is a tuple
             message = 'Sorry, User {0:>s} ' \
-                      'is already created.'.format(user[1][0])# Error message
+                      'is already created.'.format(username)# Error message
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
