@@ -248,13 +248,6 @@ $(document).ready(function() {
         }
     });
 
-    /***** Choose language @ footer ****/
-    $(".select_device").click(function() {
-        newDev = $(this).attr("data-device");
-        if ($(this).attr("current") != newDev) {
-            insertParam("device", newDev)
-        }
-    });
 });
 
 
