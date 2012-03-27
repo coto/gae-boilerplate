@@ -59,9 +59,9 @@
         <footer data-role="footer" class="ui-bar">
             <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
             {% if is_mobile %}
-            <a href="#" class="select_device btn btn-success" data-device="desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
+            <a href="{{ path }}?device=desktop" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
             {% else %}
-            <a href="#" class="select_device btn btn-success" data-device="mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
+            <a href="{{ path }}?device=mobile" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
             {% endif %}
         </footer>
         {% endblock %}
