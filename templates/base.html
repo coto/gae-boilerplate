@@ -36,13 +36,12 @@
         {% endblock %}
 
         <div data-role="content">
-            <h1>{{ is_mobile }}</h1>
             <p class="messages {{ level }}">{{ messages }}</p>
 
             {% block content %}{% endblock %}
             <div data-role="fieldcontain">
-                <label for="select-choice-1" class="select">{{ lang.text_language }}:</label>
-                <select name="select-choice-1" id="select-choice-1">
+                <label for="select_language" class="select">{{ lang.text_language }}:</label>
+                <select name="select_language" id="select_language">
                     <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish }}</option>
                     <option value="en" {% if lang.id == "en" %}selected="selected"{% endif %}>{{ lang.english }}</option>
                 </select>
@@ -53,9 +52,9 @@
         <footer data-role="footer" class="ui-bar">
             <a href="https://github.com/coto/gae-boilerplate" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
             {% if is_mobile %}
-            <a href="/?device=desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
+            <a href="#" class="select_device" data-device="desktop" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
             {% else %}
-            <a href="/?device=mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
+            <a href="#" class="select_device" data-device="mobile" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
             {% endif %}
         </footer>
         {% endblock %}
@@ -64,8 +63,10 @@
     <!-- JavaScript at the bottom for fast page loading -->
 
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.4.min.js"><\/script>')</script>
+    <!-- TODO: Link to jquery 1.7.2 of googleapis.com when it is available-->
+    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+    <script src="//code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
     <script src="/mobile/jquery.mobile-1.0.1.min.js"></script>
 
     <!-- scripts concatenated and minified via build script -->
