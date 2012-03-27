@@ -4,16 +4,18 @@
 {% endblock %}
 
 {% block content %}
-            <h2>
-                {{ lang.text_title }}
-            </h2>
-            <div>
-                <img src="img/google-app-engine-logo.png" />
+            <div class="hero-unit">
+                <h2>
+                    {{ lang.text_title }}
+                </h2>
+                <div>
+                    <img src="img/google-app-engine-logo.png" />
+                </div>
+                <p>
+                    {{ lang.text_description }}
+                </p>
             </div>
-            <div>
-                {{ lang.text_description }}
-            </div>
-            <ul data-role="listview" data-divider-theme="b" data-inset="true">
+            <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
                 <li data-role="list-divider" role="heading">
                     {{ lang.menu_components }}
                 </li>
