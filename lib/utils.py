@@ -113,3 +113,22 @@ def get_device(cls):
 
     return device
 
+
+def set_device_cookie_and_return_bool(cls, force=""):
+    """
+    set language returning a dict and set cookie
+    """
+    if force != "":
+        device_cookie = force
+    elif cls.request.get("device") == "":
+        # ask for cookie
+        device_cookie = read_cookie(cls, "is_mobile")
+        if not device_cookie:
+            device_cookie = get_device(cls)["is_mobile"]
+    else:
+        # set cookie to param 'hl' value
+
+        device_cookie = cls.request.get("device") == "mobile"
+        # Two weeks for hl cookie
+    write_cookie(cls, "is_mobile", str(device_cookie), "/", 1209600)
+    return device_cookie

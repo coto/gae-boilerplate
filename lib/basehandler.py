@@ -98,7 +98,7 @@ class BaseHandler(webapp2.RequestHandler):
             'current_user': self.user,
             'current_url': self.request.url,
             'lang': i18n.set_lang_cookie_and_return_dict(self),
-            'is_mobile': utils.get_device(self)["is_mobile"],
+            'is_mobile': utils.set_device_cookie_and_return_bool(self),
             })
         kwargs.update(self.auth_config)
         if self.messages:
