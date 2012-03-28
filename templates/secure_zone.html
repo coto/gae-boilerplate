@@ -18,6 +18,8 @@
     </ul>
     <b>Session object:</b> {{ user_session_object }}
 
+    <hr>
+
     <h3>{{ lang.text_user_info }}</h3>
     <ul>
         <li><b>user_id:</b> {{ user_info.key }}</li>
@@ -31,6 +33,6 @@
         <li><b>Password:</b> {{ user_info.password }}</li>
     </ul>
     <b>User object:</b> {{ user_info_object }}
-    <p><a href='{{ logout_url }}' data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout }}</a></p>
+    <p><a href="{{ logout_url }}" class="btn btn-primary" data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout }}</a></p>
 
 {% endblock %}
