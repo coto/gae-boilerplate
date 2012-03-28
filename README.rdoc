@@ -2,44 +2,52 @@
 
 The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
 
-Just download the code and run it
-with the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.3).
+= First Steps
+# If you don't know what is Google App Engine, I recommend before to watch this video and read this website.
+# Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.4).
+# Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
+# Change the 'application' name ({here}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml])
+# Upload it ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
-What's the difference with another Boilerplates?
-It is complete (the most required features for an application) and uses latest technology supported on Google App Engine.
+What's the difference with other Boilerplates?
+It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
-== This Boilerplate has:
-- Registration with captcha (create user)
-- Authentication (Login and Logout)
-- Reset Password
-- Update User Profile
+== This Boilerplate has the following functions:
+- Login / Logout
+- User Registration
+- Reset Password (developing)
+- Update User Profile (developing)
+- Language Detection (English and Spanish support)
+- Device identification (Automatically jQuery Mobile for Tablets and Smartphones, Bootstrap Template for Desktop)
 
-If you want add a feature and know how to implement it, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues].
 
-== Technology (The latest)
+== Technologies used (The latest)
 * Python 2.7
-* {NDB 1.0}[http://code.google.com/p/appengine-ndb-experiment/]
-* {Jinja2}[http://jinja.pocoo.org/docs/]
-* {webapp2}[http://webapp-improved.appspot.com/]
+* {NDB 1.0}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
+* {Jinja2}[http://jinja.pocoo.org/docs/] (A full featured template engine for Python).
+* {webapp2}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
-* Templates with Jinja2
 * Handlers with @user_required
 * Handlers with @login_required (for Google Authentication)
 
+
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
-* jQuery 1.7.1
-* jQuery Mobile 1.0.1
-    In order to have a nice template to show the demo it uses jQuery Mobile,
-    We know you will know how to remove it if you don't need a mobile app.
+* jQuery 1.7.2
+* jQuery Mobile 1.0.1 for Mobile Version.
+* {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+
+
+== Open Source
+If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a Pull Request.
+
 
 == Try online this Boilerplate
 http://appengine.protoboard.cl
-
 
 
 Hope it works for you!! :)
