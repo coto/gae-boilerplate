@@ -20,7 +20,7 @@ If you want add a feature and know how to implement it, let us know with an {iss
 
 == Technology (The latest)
 * Python 2.7
-* {NDB 0.9.9}[http://code.google.com/p/appengine-ndb-experiment/]
+* {NDB 1.0}[http://code.google.com/p/appengine-ndb-experiment/]
 * {Jinja2}[http://jinja.pocoo.org/docs/]
 * {webapp2}[http://webapp-improved.appspot.com/]
   * webapp2_extras.sessions
