@@ -1,17 +1,17 @@
 = Google App Engine Boilerplate
 
-The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
+ The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
 
-Check {the online demo}[http://appengine.protoboard.cl] ut
+ Check {the online demo}[http://appengine.protoboard.cl] out.
 
-== 5 easy Steps
+== Only 5 easy steps
 1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
 2. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.4).
 3. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 4. Change the 'application' name ({here}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml])
 5. Upload it ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
-What's the difference with other Boilerplates?
+=== What's the difference with other Boilerplates?
 It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
