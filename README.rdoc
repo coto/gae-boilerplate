@@ -1,6 +1,6 @@
 = Google App Engine Boilerplate
 
- The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
+The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
 
 Check {the online demo}[http://appengine.protoboard.cl] out.
 
