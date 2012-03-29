@@ -1,6 +1,6 @@
 = Google App Engine Boilerplate
 
-The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even advanced developer to copying best practices.
+The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
 
 Check {the online demo}[http://appengine.protoboard.cl] out.
 
@@ -16,12 +16,12 @@ Check {the online demo}[http://appengine.protoboard.cl] out.
 It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
 
 == This Boilerplate has the following functions:
-- Login / Logout
+- Login / Logout (with a bunch of security practices)
 - User Registration
 - Reset Password (developing)
 - Update User Profile (developing)
-- Language Detection (English and Spanish support)
-- Device identification (Automatically jQuery Mobile for Tablets and Smartphones, Bootstrap Template for Desktop)
+- Language Detection (English and Spanish support, detecting the preferred user's language)
+- Device identification (Automatically the amazing Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
 
 
 == Technologies used (The latest)
@@ -34,6 +34,7 @@ It is complete (the most required features for an application) and uses latest t
   * webapp2_extras.auth
 * Handlers with @user_required
 * Handlers with @login_required (for Google Authentication)
+* Follow the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 
 
 == Front-end Technologies
