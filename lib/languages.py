@@ -17,6 +17,7 @@ en["menu_version_mob"] = "Mobile Version"
 
 en["spanish"] = "Espa&ntilde;ol"
 en["english"] = "English"
+en["italian"] = "Italian"
 
 en["field_username"] = "Username"
 en["field_name"] = "Name"
@@ -59,6 +60,7 @@ es["menu_version_mob"] = "Versi&oacute;n M&oacute;vil"
 
 es["spanish"] = "Espa&ntilde;ol"
 es["english"] = "English"
+es["italian"] = "Italiano"
 
 es["field_username"] = "Nombre de usuario"
 es["field_name"] = "Nombre"
@@ -79,3 +81,46 @@ es["text_session_info"] = "Informaci&oacute;n de Sesi&oacute;n"
 es["text_user_info"] = "Informaci&oacute;n de Usuario"
 es["text_title"] = "Funcion&oacute;!"
 es["text_description"] = "Felicitaciones por tu p&aacute;gina potenciada con Google App Engine Boilerplate."
+
+
+
+## italian dict
+
+it = {}
+it["id"] = "it"
+it["menu_components"] = "Componenti"
+it["menu_create_user"] = "Crea Utente"
+it["menu_home"] = "Home"
+it["menu_login"] = "Login"
+it["menu_logout"] = "Esci"
+it["menu_reset"] = "Reset password"
+it["menu_secure"] = "Pagina Sicura"
+it["menu_fyp"] = "Password dimenticata?"
+it["menu_glogin"] = "Login con l'account Google"
+it["menu_opensource"] = "Codice sorgente"
+it["menu_version_desk"] = "Versione Desktop"
+it["menu_version_mob"] = "Versione Mobile"
+
+it["spanish"] = "Spagnolo"
+it["english"] = "Inglese"
+it["italian"] = "Italiano"
+
+it["field_username"] = "Nome utente"
+it["field_name"] = "Nome"
+it["field_lastname"] = "Cognome"
+it["field_email"] = "Email"
+it["field_password"] = "Password"
+it["field_cpassword"] = "Conferma la password"
+it["field_country"] = "Stato"
+it["field_button"] = "Crea utente"
+
+it["login_username"] = "Username"
+it["login_password"] = "Password"
+it["login_remember"] = "Resta connesso"
+it["login_yes"] = "Si"
+
+it["text_language"] = "Scegli la lingua"
+it["text_session_info"] = "Info sessione"
+it["text_user_info"] = "Info utente"
+it["text_title"] = "Funziona!"
+it["text_description"] = "Congratulationi per la pagina creata con Google App Engine Boilerplate."
