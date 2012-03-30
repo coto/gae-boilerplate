@@ -118,6 +118,7 @@ def set_lang_cookie_and_return_dict(cls, force=""):
     utils.write_cookie(cls, "hl", str(lang_cookie), "/", 1209600)
     lang = {
         'en': languages.en,
-        'es': languages.es
+        'es': languages.es,
+        'it': languages.it,
     }[lang_cookie]
     return lang
