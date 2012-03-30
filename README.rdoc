@@ -2,7 +2,7 @@
 
 The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
 
-Check {the online demo}[http://appengine.protoboard.cl] out.
+Try it online {here}[http://appengine.protoboard.cl].
 
 == Just 6 easy steps
 1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
@@ -39,8 +39,7 @@ It is complete (the most required features for an application) and uses latest t
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
-* jQuery 1.7.2
-* jQuery Mobile 1.0.1 for Mobile Version.
+* jQuery 1.7.2 for desktop, jQuery 1.6.4 and jQuery Mobile 1.0.1 (this version is supported by jQuery Mobile)
 * {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
 
