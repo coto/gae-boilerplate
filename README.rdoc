@@ -7,10 +7,10 @@ Try it online {here}[http://appengine.protoboard.cl].
 == Just 6 easy steps
 1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
 1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
-1. Download the code for this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
+1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
-1. Change the 'application' name ({here}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml])
-1. Upload it ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
+1. Chage to your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
 === What's the difference with other Boilerplates?
 It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
@@ -20,7 +20,7 @@ It is complete (the most required features for an application) and uses latest t
 - User Registration
 - Reset Password (developing)
 - Update User Profile (developing)
-- Language Detection (English and Spanish support, detecting the preferred user's language)
+- Language Detection (English, Italian and Spanish support, detecting the preferred user's language)
 - Device identification (Automatically the amazing Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
 
 
@@ -34,7 +34,7 @@ It is complete (the most required features for an application) and uses latest t
   * webapp2_extras.auth
 * Handlers with @user_required
 * Handlers with @login_required (for Google Authentication)
-* Follow the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
+* Code wrote with the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 
 
 == Front-end Technologies
