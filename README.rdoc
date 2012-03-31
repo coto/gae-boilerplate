@@ -6,7 +6,7 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 == Just 6 easy steps
 1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
-1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] (Tested with SDK version 1.6.4).
+1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
 1. Download the code for this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 1. Change the 'application' name ({here}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml])
