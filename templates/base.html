@@ -41,26 +41,26 @@
         {% endblock %}
 
         <div data-role="content">
-            <p class="messages {{ level }}">{{ messages }}</p>
+            <p class="messages {{ level }}">{{ messages|safe }}</p>
 
             {% block content %}{% endblock %}
             <div data-role="fieldcontain">
-                <label for="select_language" class="select">{{ lang.text_language }}:</label>
+                <label for="select_language" class="select">{{ lang.text_language|safe }}:</label>
                 <select name="select_language" id="select_language">
-                    <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish }}</option>
-                    <option value="en" {% if lang.id == "en" %}selected="selected"{% endif %}>{{ lang.english }}</option>
-                    <option value="it" {% if lang.id == "it" %}selected="selected"{% endif %}>{{ lang.italian }}</option>
+                    <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish|safe }}</option>
+                    <option value="en" {% if lang.id == "en" %}selected="selected"{% endif %}>{{ lang.english|safe }}</option>
+                    <option value="it" {% if lang.id == "it" %}selected="selected"{% endif %}>{{ lang.italian|safe }}</option>
                 </select>
             </div>
         </div><!-- /content -->
 
         {% block footer %}
         <footer data-role="footer" class="ui-bar">
-            <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource }}</a>
+            <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource|safe }}</a>
             {% if is_mobile %}
-            <a href="{{ path }}?device=desktop" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_desk }}</a>
+            <a href="{{ path }}?device=desktop" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_desk|safe }}</a>
             {% else %}
-            <a href="{{ path }}?device=mobile" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_mob }}</a>
+            <a href="{{ path }}?device=mobile" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_mob|safe }}</a>
             {% endif %}
         </footer>
         {% endblock %}
