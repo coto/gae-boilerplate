@@ -2,54 +2,54 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>{{ lang.menu_login }}</h1>
+        <h1>{{ lang.menu_login|safe }}</h1>
         <i class="icon-home"></i>
-        <a href="/" class="" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
+        <a href="/" class="" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home|safe }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
-    <form id="form_login_user" action="{{ action }}" method="post" class="ui-body ui-body-c well">
+    <form id="form_login_user" action="{{ action|safe }}" method="post" class="ui-body ui-body-c well">
 
         <div data-role="fieldcontain">
-            <label for="username">{{ lang.login_username }}:</label>
-            <input type="text" name="username" id="username" placeholder="{{ lang.enter_your }} {{ lang.login_username }}" class="required" />
+            <label for="username">{{ lang.login_username|safe }}:</label>
+            <input type="text" name="username" id="username" placeholder="{{ lang.enter_your|safe }} {{ lang.login_username|safe }}" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="password">{{ lang.login_password }}:</label>
-            <input type="password" name="password" id="password" placeholder="{{ lang.enter_your }} {{ lang.field_password }}" class="required" />
+            <label for="password">{{ lang.login_password|safe }}:</label>
+            <input type="password" name="password" id="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="remember_me">{{ lang.login_remember }}:</label>
+            <label for="remember_me">{{ lang.login_remember|safe }}:</label>
             <select name="remember_me" id="remember_me" data-role="slider">
                 <option value="off">No</option>
-                <option value="on">{{ lang.login_yes }}</option>
+                <option value="on">{{ lang.login_yes|safe }}</option>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" data-theme="b" aria-disabled="false">{{ lang.menu_login }}</button>
+        <button type="submit" class="btn btn-primary" data-theme="b" aria-disabled="false">{{ lang.menu_login|safe }}</button>
 
     </form>
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
         <li data-role="list-divider" role="heading">
-            {{ lang.menu_components }}
+            {{ lang.menu_components|safe }}
         </li>
         <li data-theme="c">
             <a href="/create" data-transition="slide">
-                {{ lang.menu_create_user }}
+                {{ lang.menu_create_user|safe }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/password/reset" data-transition="slide">
-                {{ lang.menu_fyp }}
+                {{ lang.menu_fyp|safe }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/google-login" data-transition="slide">
-                {{ lang.menu_glogin }}
+                {{ lang.menu_glogin|safe }}
             </a>
         </li>
     </ul>

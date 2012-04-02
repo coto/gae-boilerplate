@@ -2,9 +2,9 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>{{ lang.menu_create_user }}</h1>
+        <h1>{{ lang.menu_create_user|safe }}</h1>
         <i class="icon-home"></i>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home|safe }}</a>
     </div>
 {% endblock %}
 
@@ -13,39 +13,39 @@
     <form id="form_create_user" action="{{ action }}" method="post" class="ui-body ui-body-c well" data-ajax="false">
 
         <div data-role="fieldcontain">
-            <label for="username">{{ lang.field_username }}:</label>
-            <input type="text" name="username" id="username" placeholder="{{ lang.enter_your }} {{ lang.field_username }}" class="required" />
+            <label for="username">{{ lang.field_username|safe }}:</label>
+            <input type="text" name="username" id="username" placeholder="{{ lang.enter_your|safe }} {{ lang.field_username|safe }}" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="name">{{ lang.field_name }}:</label>
-            <input type="text" name="name" id="name" placeholder="{{ lang.enter_your }} {{ lang.field_name }}" />
+            <label for="name">{{ lang.field_name|safe }}:</label>
+            <input type="text" name="name" id="name" placeholder="{{ lang.enter_your|safe }} {{ lang.field_name|safe }}" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="last_name">{{ lang.field_lastname }}:</label>
-            <input type="text" name="last_name" id="last_name" placeholder="{{ lang.enter_your }} {{ lang.field_lastname }}" />
+            <label for="last_name">{{ lang.field_lastname|safe }}:</label>
+            <input type="text" name="last_name" id="last_name" placeholder="{{ lang.enter_your|safe }} {{ lang.field_lastname|safe }}" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="email">{{ lang.field_email }}:</label>
-            <input type="email" name="email" id="email" placeholder="{{ lang.enter_your }} {{ lang.field_email }}" class="required email" />
+            <label for="email">{{ lang.field_email|safe }}:</label>
+            <input type="email" name="email" id="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" class="required email" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="password">{{ lang.field_password }}:</label>
-            <input type="password" name="password" id="password" placeholder="{{ lang.enter_your }} {{ lang.field_password }}" class="required" />
+            <label for="password">{{ lang.field_password|safe }}:</label>
+            <input type="password" name="password" id="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="c_password">{{ lang.field_cpassword }}:</label>
-            <input type="password" name="c_password" id="c_password" placeholder="{{ lang.enter_your }} {{ lang.field_password }}" class="required" />
+            <label for="c_password">{{ lang.field_cpassword|safe }}:</label>
+            <input type="password" name="c_password" id="c_password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
         <div data-role="fieldcontain">
-            <label for="country" class="select">{{ lang.field_country }}:</label>
+            <label for="country" class="select">{{ lang.field_country|safe }}:</label>
             <select name="country" id="country">
-            <option value="">{{ lang.field_country }}...</option>
+            <option value="">{{ lang.field_country|safe }}...</option>
             <option value="AF">Afghanistan</option>
             <option value="AL">Albania</option>
             <option value="DZ">Algeria</option>
@@ -295,32 +295,32 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" data-theme="b">{{ lang.menu_create_user }}</button>
+        <button type="submit" class="btn btn-primary" data-theme="b">{{ lang.menu_create_user|safe }}</button>
 
     </form>
 
     <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
         <li data-role="list-divider" role="heading">
-            {{ lang.menu_components }}
+            {{ lang.menu_components|safe }}
         </li>
         <li data-theme="c">
             <a href="/login" data-transition="slide">
-                {{ lang.menu_login }}
+                {{ lang.menu_login|safe }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/secure" data-transition="slide">
-                {{ lang.menu_secure }}
+                {{ lang.menu_secure|safe }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/password/reset" data-transition="slide">
-                {{ lang.menu_fyp }}
+                {{ lang.menu_fyp|safe }}
             </a>
         </li>
         <li data-theme="c">
             <a href="/google-login" data-transition="slide">
-                {{ lang.menu_glogin }}
+                {{ lang.menu_glogin|safe }}
             </a>
         </li>
     </ul>

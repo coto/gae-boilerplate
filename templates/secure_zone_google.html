@@ -2,18 +2,18 @@
 
 {% block header %}
     <div data-role="header">
-        <h1>{{ lang.menu_glogin }}</h1>
+        <h1>{{ lang.menu_glogin|safe }}</h1>
         <i class="icon-home"></i>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home }}</a>
+        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home|safe }}</a>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    <h3>{{ lang.text_user_info }}</h3>
+    <h3>{{ lang.text_user_info|safe }}</h3>
     <ul>
         <li><b>nickname:</b> {{ nickname }}</li>
     </ul>
-    <p><a href="{{ logout_url }}" class="btn btn-primary" data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout }}</a></p>
+    <p><a href="{{ logout_url }}" class="btn btn-primary" data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout|safe }}</a></p>
 
 {% endblock %}
