@@ -65,7 +65,7 @@ es["menu_version_mob"] = u"Versión Móvil"
 es["spanish"] = u"Español"
 es["english"] = u"English"
 es["italian"] = u"Italiano"
-es["chinese"] = u"chinese"
+es["chinese"] = u"Chinese"
 
 es["enter_your"] = u"Ingrese su"
 es["field_username"] = u"Nombre de usuario"
