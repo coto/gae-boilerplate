@@ -120,5 +120,6 @@ def set_lang_cookie_and_return_dict(cls, force=""):
         'en': languages.en,
         'es': languages.es,
         'it': languages.it,
+        'cn': languages.cn,
     }[lang_cookie]
     return lang
