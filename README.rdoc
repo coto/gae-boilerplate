@@ -2,18 +2,23 @@
 
 The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
 
+=== What's a Boilerplate?
+Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
+
+=== What's the difference with other Boilerplates?
+It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
+
 Try it online {here}[http://appengine.protoboard.cl].
+
 
 == Just 6 easy steps
 1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
 1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
-1. Chage to your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Change to your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
-=== What's the difference with other Boilerplates?
-It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
 
 == This Boilerplate has the following functions:
 - Login / Logout (with a bunch of security practices)
@@ -24,7 +29,7 @@ It is complete (the most required features for an application) and uses latest t
 - Device identification (Automatically the amazing Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
 
 
-== Technologies used (The latest)
+== Technologies used
 * Python 2.7
 * {NDB 1.0}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
 * {Jinja2}[http://jinja.pocoo.org/docs/] (A full featured template engine for Python).
@@ -34,7 +39,7 @@ It is complete (the most required features for an application) and uses latest t
   * webapp2_extras.auth
 * Handlers with @user_required
 * Handlers with @login_required (for Google Authentication)
-* Code wrote with the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
+* Code wrote following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 
 
 == Front-end Technologies
@@ -47,6 +52,7 @@ It is complete (the most required features for an application) and uses latest t
 If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
+
 
 == Try online this Boilerplate
 http://appengine.protoboard.cl
