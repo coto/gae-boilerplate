@@ -2,7 +2,7 @@
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ lang.id }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
@@ -50,6 +50,7 @@
                     <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish|safe }}</option>
                     <option value="en" {% if lang.id == "en" %}selected="selected"{% endif %}>{{ lang.english|safe }}</option>
                     <option value="it" {% if lang.id == "it" %}selected="selected"{% endif %}>{{ lang.italian|safe }}</option>
+                    <option value="cn" {% if lang.id == "cn" %}selected="selected"{% endif %}>{{ lang.chinese|safe }}</option>
                 </select>
             </div>
         </div><!-- /content -->
