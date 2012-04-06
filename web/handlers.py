@@ -10,6 +10,7 @@
 
 """
 
+import models.models as models
 from webapp2_extras.appengine.auth.models import User
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
@@ -120,7 +121,7 @@ class LoginHandler(BaseHandler):
         try:
             self.auth.get_user_by_password(
                 username, password, remember=remember_me)
-            self.redirect('/')
+            self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
@@ -232,8 +233,7 @@ class SecureRequestHandler(BaseHandler):
     def get(self, **kwargs):
         user_session = self.auth.get_user_by_session()
         user_session_object = self.auth.store.get_session(self.request)
-#       Move to top ?
-        import models.models as models
+
         user_info = models.User.get_by_id(long( user_session['user_id'] ))
         user_info_object = self.auth.store.user_model.get_by_auth_token(
             user_session['user_id'], user_session['token'])
