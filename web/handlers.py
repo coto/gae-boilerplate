@@ -31,7 +31,7 @@ class HomeRequestHandler(BaseHandler):
               Returns a simple HTML form for home
         """
         params = {}
-        return self.render_template('home.html', **params)
+        return self.render_template('boilerplate_home.html', **params)
 
 
 class PasswordResetHandler(BaseHandler):
@@ -42,7 +42,7 @@ class PasswordResetHandler(BaseHandler):
         params = {
             'action': self.request.url,
         }
-        return self.render_template('password_reset.html', **params)
+        return self.render_template('boilerplate_password_reset.html', **params)
 
     def post(self):
         email = self.request.POST.get('email')
@@ -72,7 +72,7 @@ class PasswordResetCompleteHandler(BaseHandler):
         params = {
             'action': self.request.url,
             }
-        return self.render_template('password_reset_complete.html', **params)
+        return self.render_template('boilerplate_password_reset_complete.html', **params)
 
     def post(self, token):
         if self.form.validate():
@@ -104,7 +104,7 @@ class LoginHandler(BaseHandler):
         params = {
             "action": self.request.url,
         }
-        return self.render_template('login.html', **params)
+        return self.render_template('boilerplate_login.html', **params)
 
     def post(self):
         """
@@ -141,7 +141,7 @@ class CreateUserHandler(BaseHandler):
         params = {
             "action": self.request.url,
             }
-        return self.render_template('create_user.html', **params)
+        return self.render_template('boilerplate_create_user.html', **params)
 
     def post(self):
         """
@@ -247,7 +247,7 @@ class SecureRequestHandler(BaseHandler):
                 "user_info_object" : user_info_object,
                 "userinfo_logout-url" : self.auth_config['logout_url'],
                 }
-            return self.render_template('secure_zone.html', **params)
+            return self.render_template('boilerplate_secure_zone.html', **params)
         except (AttributeError, KeyError), e:
             return "Secure zone error: %s." % e
 
@@ -264,6 +264,6 @@ class GoogleLoginHandler(BaseHandler):
                 "nickname" : user.nickname(),
                 "userinfo_logout-url" : users.create_logout_url("/"),
                 }
-            return self.render_template('secure_zone_google.html', **params)
+            return self.render_template('boilerplate_secure_zone_google.html', **params)
         except (AttributeError, KeyError), e:
             return "Secure zone Google error: %s." % e
