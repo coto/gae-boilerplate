@@ -11,16 +11,17 @@
 {% block content %}
 
     <h3>{{ lang.text_session_info|safe }}</h3>
+    <div class="tooltip-demo well">
     <ul>
         {% for us in user_session %}
         <li><b>{{ us }}:</b> {{ user_session[us] }}</li>
         {% endfor %}
     </ul>
     <b>Session object:</b> {{ user_session_object }}
-
-    <hr>
+    </div>
 
     <h3>{{ lang.text_user_info|safe }}</h3>
+    <div class="tooltip-demo well">
     <ul>
         <li><b>user_id:</b> {{ user_info.key }}</li>
         <li><b>created:</b> {{ user_info.created }}</li>
@@ -33,6 +34,6 @@
         <li><b>Password:</b> {{ user_info.password }}</li>
     </ul>
     <b>User object:</b> {{ user_info_object }}
-    <p><a href="{{ logout_url }}" class="btn btn-primary" data-role="button" data-inline="true" data-theme="b">{{ lang.menu_logout|safe }}</a></p>
+    </div>
 
 {% endblock %}
