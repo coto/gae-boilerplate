@@ -5,21 +5,17 @@ body {
     visibility: hidden;
 }
 
-
-.messages {
-    border: 1px gray solid;
-    background: #dedede;
-    line-height: 2em;
-    padding: 0 1em;
+/*
+* messages to self.response.write in
+* the BaseHandler.dispatcher
+*/
+.alert {
     display: none;
 }
-.messages.error{
+.alert.alert-success
+, .alert.alert-error
+, .alert.alert-info {
     display: block;
-    color: red;
-}
-.messages.info{
-    display: block;
-    color: green;
 }
 
 /* Jquery Validate */
