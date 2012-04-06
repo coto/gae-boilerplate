@@ -42,7 +42,10 @@
         {% endblock %}
 
         <div data-role="content">
-            <p class="messages {{ level }}">{{ messages|safe }}</p>
+            <p class="alert alert-{{ level }}">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ messages|safe }}
+            </p>
 
             {% block content %}{% endblock %}
             <div data-role="fieldcontain">

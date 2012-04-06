@@ -125,7 +125,6 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            # Currently no message is attached to the exceptions
             message = "Login error, Try again"
             self.add_message(message, 'error')
             return self.redirect_to('login')
@@ -198,7 +197,7 @@ class CreateUserHandler(BaseHandler):
             # User is created, let's try redirecting to login page
             try:
                 message = 'User %s created successfully.' % ( str(username) )
-                self.add_message(message, 'info')
+                self.add_message(message, 'success')
                 self.redirect(self.auth_config['login_url'])
             except (AttributeError, KeyError), e:
                 message = 'Unexpected error creating ' \
