@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
-{% block header %}
-    <div data-role="header">
-        <h1>{{ lang.menu_secure|safe }}</h1>
-        <i class="icon-home"></i>
-        <a href="/" data-role="button" data-icon="home" data-iconpos="notext">{{ lang.menu_home|safe }}</a>
-    </div>
+{% block header_content_title %}
+    {{ lang.menu_secure|safe }}
 {% endblock %}
 
 {% block content %}
