@@ -35,13 +35,30 @@
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-    <div data-role="page"  data-theme="c" class="container">
+    <div data-role="page" data-theme="c">
         {% block header %}
-        <div data-role="header">
-        </div><!-- /header -->
+            <header data-role="header" class="jumbotron subhead" id="overview">
+                <h1>{% block header_content_title %}{% endblock %}</h1>
+                {% if is_mobile %}
+                <a href="/" data-role="button" data-icon="home" data-iconpos="notext">
+                    <i class="icon-home"></i> {{ lang.menu_home|safe }}
+                </a>
+               {% else %}
+                    {% block header_content_lead %}
+                    <p class="lead">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="icon-home"></i> <a href="/">{{ lang.menu_home|safe }}</a> <span class="divider">/</span>
+                        </li>
+                        <!--li class="active">Data</li-->
+                    </ul>
+                    </p>
+                    {% endblock %}
+               {% endif %}
+            </header>
         {% endblock %}
 
-        <div data-role="content">
+        <div data-role="content" class="container">
             <p class="alert alert-{{ level }}">
                 <a class="close" data-dismiss="alert">×</a>
                 {{ messages|safe }}
