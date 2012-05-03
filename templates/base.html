@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.ico">
     {% if is_mobile %}
-    <link rel="stylesheet" href="/mobile/jquery.mobile-1.0.1.min.css" />
+    <link rel="stylesheet" href="/mobile/jquery.mobile-1.1.0.min.css" />
     {% else %}
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/css/style.css" />
@@ -28,7 +28,7 @@
     <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance.
        Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script src="/js/libs/modernizr-2.5.2.min.js"></script>
+    <script src="/js/libs/modernizr-2.5.3.min.js"></script>
 </head>
 <body>
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
@@ -90,13 +90,11 @@
     <!-- JavaScript at the bottom for fast page loading -->
 
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="//code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
     {% if is_mobile %}
-    <script src="//code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.4.min.js"><\/script>')</script>
-    <script src="/mobile/jquery.mobile-1.0.1.min.js"></script>
+    <script src="/mobile/jquery.mobile-1.1.0.min.js"></script>
     {% else %}
-    <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="/js/bootstrap.min.js"></script>
     {% endif %}
 
