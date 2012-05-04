@@ -17,13 +17,14 @@
             <input type="password" name="password" id="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
-        <div data-role="fieldcontain">
-            <label for="remember_me">{{ lang.login_remember|safe }}:</label>
-            <select name="remember_me" id="remember_me" data-role="slider">
-                <option value="off">No</option>
-                <option value="on">{{ lang.login_yes|safe }}</option>
-            </select>
-        </div>
+        <div class="control-group">
+            <div class="controls">
+              <label class="checkbox">
+                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                  {{ lang.login_remember|safe }}
+              </label>
+            </div>
+          </div>
 
         <button type="submit" class="btn btn-primary" data-theme="b" aria-disabled="false">{{ lang.menu_login|safe }}</button>
 
@@ -39,7 +40,7 @@
             </a>
         </li>
         <li data-theme="c">
-            <a href="/password/reset" data-transition="slide">
+            <a href="/password-reset/" data-transition="slide">
                 {{ lang.menu_fyp|safe }}
             </a>
         </li>
@@ -57,20 +58,7 @@
 
             $("#form_login_user").validate({
                 submitHandler: function(form) {
-                    /*
-                     * The real password never will be on the air.
-                     * Hashed: to avoid rehash the password clicking on submit again.
-                     * */
-                    // TODO: implement this second layer of security,
-                    // it sometimes encrypt the password
-//                     var pwd = $("#password");
-//                    if ( pwd.val() != "" && pwd.attr("hashed") != "true" ){
-//                        var md5 = MD5(pwd.val());
-//                        console.log(pwd.val() + " -> " + md5 );
-//                        pwd.val(md5).attr("hashed", "true");
-                        form.submit();
-//                    }
-
+                          form.submit();
                 }
             });
         });
