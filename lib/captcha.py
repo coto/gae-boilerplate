@@ -1,20 +1,12 @@
-import urllib
-from google.appengine.api import urlfetch
+import urllib2, urllib
 
-"""
-    Adapted from http://pypi.python.org/pypi/recaptcha-client
-    to use with Google App Engine
-    by Joscha Feth <joscha@feth.com>
-    Version 0.1
-"""
-
-API_SSL_SERVER  ="https://api-secure.recaptcha.net"
-API_SERVER      ="http://api.recaptcha.net"
-VERIFY_SERVER   ="api-verify.recaptcha.net"
+API_SSL_SERVER="https://www.google.com/recaptcha/api"
+API_SERVER="http://www.google.com/recaptcha/api"
+VERIFY_SERVER="www.google.com"
 
 class RecaptchaResponse(object):
     def __init__(self, is_valid, error_code=None):
-        self.is_valid   = is_valid
+        self.is_valid = is_valid
         self.error_code = error_code
 
 def displayhtml (public_key,
@@ -66,41 +58,37 @@ def submit (recaptcha_challenge_field,
     if not (recaptcha_response_field and recaptcha_challenge_field and
             len (recaptcha_response_field) and len (recaptcha_challenge_field)):
         return RecaptchaResponse (is_valid = False, error_code = 'incorrect-captcha-sol')
-    
-    headers = {
-               'Content-type':  'application/x-www-form-urlencoded',
-               "User-agent"  :  "reCAPTCHA GAE Python"
-               }         
-    
-    params = urllib.urlencode ({
-	    'privatekey': private_key,
-        'remoteip' : remoteip,
-	    'challenge': recaptcha_challenge_field,
-	    'response' : recaptcha_response_field,
-	    })
 
-    httpresp = urlfetch.fetch(
-                   url      = "http://%s/verify" % VERIFY_SERVER,
-                   payload  = params,
-                   method   = urlfetch.POST,
-                   headers  = headers
-                    )     
-    
-    if httpresp.status_code == 200:
-        # response was fine
-        
-        # get the return values
-        return_values = httpresp.content.splitlines();
-        
-        # get the return code (true/false)
-        return_code = return_values[0]
-        
-        if return_code == "true":
-            # yep, filled perfectly
-            return RecaptchaResponse (is_valid=True)
-        else:
-            # nope, something went wrong
-            return RecaptchaResponse (is_valid=False, error_code = return_values [1])
+
+    def encode_if_necessary(s):
+        if isinstance(s, unicode):
+            return s.encode('utf-8')
+        return s
+
+    params = urllib.urlencode ({
+        'privatekey': encode_if_necessary(private_key),
+        'remoteip' :  encode_if_necessary(remoteip),
+        'challenge':  encode_if_necessary(recaptcha_challenge_field),
+        'response' :  encode_if_necessary(recaptcha_response_field),
+        })
+
+    request = urllib2.Request (
+        url = "http://%s/recaptcha/api/verify" % VERIFY_SERVER,
+        data = params,
+        headers = {
+            "Content-type": "application/x-www-form-urlencoded",
+            "User-agent": "reCAPTCHA Python"
+        }
+    )
+
+    httpresp = urllib2.urlopen (request)
+
+    return_values = httpresp.read ().splitlines ();
+    httpresp.close();
+
+    return_code = return_values [0]
+
+    if (return_code == "true"):
+        return RecaptchaResponse (is_valid=True)
     else:
-        # recaptcha server was not reachable
-        return RecaptchaResponse (is_valid=False, error_code = "recaptcha-not-reachable")
+        return RecaptchaResponse (is_valid=False, error_code = return_values [1])
