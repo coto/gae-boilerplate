@@ -1,4 +1,3 @@
-
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext.ndb import model
 
@@ -25,25 +24,15 @@ class User(User):
     password = model.StringProperty(required=True)
     #: User Country
     country = model.StringProperty()
+    
+    @classmethod
+    def get_by_email(cls, email):
+        """Returns a user object based on an email.
 
-    #: Authentication identifier according to the auth method in use. Examples:
-    #: * own|username
-    #: * gae|user_id
-    #: * openid|identifier
-    #: * twitter|username
-    #: * facebook|username
-    auth_id = model.StringProperty(repeated=True)
-#    auth_id = model.StringProperty()
-    # Flag to persist the auth across sessions for third party auth.
-    auth_remember = model.BooleanProperty(default=False)
+        :param email:
+            String representing the user email. Examples:
 
-# TODO: use these methods for authentication and reset password
-#    @classmethod
-#    def get_by_username(cls, username):
-#        return cls.query(cls.username == username).get()
-#
-#    @classmethod
-#    def get_by_auth_id(cls, auth_id):
-#        return cls.query(cls.auth_id == auth_id).get()
-#
-
+        :returns:
+            A user object.
+        """
+        return cls.query(cls.email == email).get()
