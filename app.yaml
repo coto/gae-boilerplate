@@ -30,19 +30,24 @@ builtins:
 
 handlers:
 - url: /favicon\.ico
+  mime_type: image/vnd.microsoft.icon
   static_files: static/favicon.ico
   upload: static/favicon.ico
-  mime_type: image/vnd.microsoft.icon
 
 - url: /apple-touch-icon\.png
   static_files: static/apple-touch-icon.png
   upload: static/apple-touch-icon.png
+
+- url: /(robots\.txt|humans\.txt|crossdomain\.xml)
+  static_files: static/\1
+  upload: static/(robots\.txt|humans\.txt|crossdomain\.xml)
 
 - url: /img/(.*\.(gif|png|jpg))
   static_files: static/img/\1
   upload: static/img/(.*\.(gif|png|jpg))
 
 - url: /css
+  mime_type: text/css
   static_dir: static/css
 
 - url: /mobile
