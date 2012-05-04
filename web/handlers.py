@@ -11,17 +11,18 @@
 """
 
 import models.models as models
-from webapp2_extras.appengine.auth.models import User
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
+from webapp2_extras import security
+from webapp2_extras.appengine.users import login_required
 from lib import utils
+from lib import captcha
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
-
-# Just for Google Login
-from google.appengine.api import users
 from google.appengine.api import taskqueue
-from webapp2_extras.appengine.users import login_required
+from google.appengine.api import mail
+from google.appengine.api import app_identity
+import logging
 
 
 class HomeRequestHandler(BaseHandler):
@@ -35,62 +36,140 @@ class HomeRequestHandler(BaseHandler):
 
 
 class PasswordResetHandler(BaseHandler):
-    #TODO: Finish this handler
+    ##########################################################################
+    # Recapcha setup keys                                                    #
+    # get your own recaptcha keys by registering at www.google.com/recaptcha #
+    ##########################################################################
+    #reCaptcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
+    #reCaptcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
+    reCaptcha_public_key = "6Lf7EtESAAAAAHIkufycZlj0F-VijH1sO-Zx5Fx0"
+    reCaptcha_private_key = "6Lf7EtESAAAAAL2dj7C_d2YENzUMnGObxGtbWGdS"
+    
     def get(self):
         if self.user:
-            self.redirect_to('secure', id=self.user_id)
+            self.redirect_to('secure')
+        
+        chtml = captcha.displayhtml(
+            public_key = self.reCaptcha_public_key,
+            use_ssl = False,
+            error = None)
         params = {
             'action': self.request.url,
+            'captchahtml': chtml,
         }
         return self.render_template('boilerplate_password_reset.html', **params)
 
     def post(self):
-        email = self.request.POST.get('email')
-        auth_id = "own:%s" % email
-        user = User.get_by_auth_id(auth_id)
+        # check captcha
+        challenge = self.request.POST.get('recaptcha_challenge_field')
+        response  = self.request.POST.get('recaptcha_response_field')
+        remoteip  = self.request.remote_addr
+
+        cResponse = captcha.submit(
+            challenge,
+            response,
+            self.reCaptcha_private_key,
+            remoteip)
+
+        if cResponse.is_valid:
+            # captcha was valid... carry on..nothing to see here
+            pass
+        else:
+            logging.warning(cResponse.error_code)
+            _message = 'Wrong image verification code. Please try again.'
+            self.add_message(_message, 'error')
+            return self.redirect_to('password-reset')
+        #check if we got an email or an username
+        email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
+        if utils.is_email_valid(email_or_username):
+            user = models.User.get_by_email(email_or_username)
+        else:
+            auth_id = "own:%s" % email_or_username
+            user = models.User.get_by_auth_id(auth_id)
+
         if user is not None:
-            # Send Message Received Email
-            taskqueue.add(url='/emails/password/reset', params={
-                'recipient_id': user.key.id(),
+            user_id = user.get_id()
+            token = models.User.create_auth_token(user_id)
+            email_send_url = self.uri_for('send-reset-email')
+            taskqueue.add(url = email_send_url, params={
+                'recipient_email': user.email,
+                'token' : token,
+                'user_id' : user_id,
                 })
-            _message = 'Password reset instruction have been sent to %s. Please check your inbox.' % email
+            _message = 'Password reset instruction have been sent. Please check your email inbox.'
             self.add_message(_message, 'success')
             return self.redirect_to('login')
-        _message = 'Your email address was not found. Please try another or <a href="/register">create an account</a>.'
+        _message = 'Your email / username was not found. Please try another or <a href="/register">create an account</a>.'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
 
 
+class SendPasswordResetEmailHandler(BaseHandler):
+    """
+    Hanlder for sending Emails
+    Better use with TaskQueue
+    """
+
+    def post(self):
+        user_address = self.request.get("recipient_email")
+        user_token = self.request.get("token")
+        user_id = self.request.get("user_id")
+        reset_url = self.uri_for('password-reset-check', user_id=user_id, token=user_token, _full=True)
+        app_id = app_identity.get_application_id()
+        sender_address = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+        subject = "Password reminder"
+        body = """
+            Please click below to create a new password:
+
+            %s
+            """ % reset_url
+
+        mail.send_mail(sender_address, user_address, subject, body)
+
+
 class PasswordResetCompleteHandler(BaseHandler):
-    #TODO: Finish this handler
-    def get(self, token):
-        # Verify token
-        token = User.token_model.query(User.token_model.token == token).get()
-        if token is None:
-            self.add_message('The token could not be found, please resubmit your email.', 'error')
-            self.redirect_to('password-reset')
+
+    def get(self, user_id, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
         params = {
             'action': self.request.url,
             }
-        return self.render_template('boilerplate_password_reset_complete.html', **params)
+        if verify[0] is None:
+            self.add_message('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.', 'error')
+            return self.redirect_to('password-reset')
 
-    def post(self, token):
-        if self.form.validate():
-            token = User.token_model.query(User.token_model.token == token).get()
-            # test current password
-            user = User.get_by_id(int(token.user))
-            if token and user:
-                user.password = security.generate_password_hash(self.form.password.data, length=12)
-                user.put()
-                # Delete token
-                token.key.delete()
-                # Login User
-                self.auth.get_user_by_password(user.auth_ids[0], self.form.password.data)
-                self.add_message('Password changed successfully', 'success')
-                return self.redirect_to('profile-show', id=user.key.id())
+        else:
+            return self.render_template('boilerplate_password_reset_complete.html', **params)
 
-        self.add_message('Please correct the form errors.', 'error')
-        return self.get(token)
+    def post(self, user_id, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
+        user = verify[0]
+        password = str(self.request.POST.get('password')).strip()
+        c_password = str(self.request.POST.get('c_password')).strip()
+        if user:
+            if password == "" or c_password == "":
+                message = 'Password required.'
+                self.add_message(message, 'error')
+                return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+
+            if password != c_password:
+                message = 'Sorry, Passwords are not identical, ' \
+                          'you have to repeat again.'
+                self.add_message(message, 'error')
+                return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+        
+            user.password = security.generate_password_hash(password, length=12)
+            user.put()
+            # Delete token
+            models.User.delete_auth_token(int(user_id), token)
+            # Login User
+            self.auth.get_user_by_password(user.auth_ids[0], password)
+            self.add_message('Password changed successfully', 'success')
+            return self.redirect_to('secure')
+
+        else:
+            self.add_message('Please correct the form errors.', 'error')
+            return self.redirect_to('password-reset-check',user_id=user_id, token=token)
 
 
 class LoginHandler(BaseHandler):
@@ -111,16 +190,17 @@ class LoginHandler(BaseHandler):
               username: Get the username from POST dict
               password: Get the password from POST dict
         """
-        username = self.request.POST.get('username')
+        username = str(self.request.POST.get('username')).lower().strip()
+        auth_id = "own:%s" % username
         password = self.request.POST.get('password')
-        remember_me = True if self.request.POST.get('remember_me') == 'on' else False
+        remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
         # Try to login user with password
         # Raises InvalidAuthIdError if user is not found
         # Raises InvalidPasswordError if provided password
         # doesn't match with specified user
         try:
             self.auth.get_user_by_password(
-                username, password, remember=remember_me)
+                auth_id, password, remember=remember_me)
             self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
@@ -131,6 +211,9 @@ class LoginHandler(BaseHandler):
 
 
 class CreateUserHandler(BaseHandler):
+    """
+    Handler for creating a User
+    """
 
     def get(self):
         """
@@ -182,8 +265,9 @@ class CreateUserHandler(BaseHandler):
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
         unique_properties = ['username','email']
+        auth_id = "own:%s" % username
         user = self.auth.store.user_model.create_user(
-            username, unique_properties, password_raw=password,
+            auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
             country=country, ip=self.request.remote_addr,
         )
@@ -194,11 +278,13 @@ class CreateUserHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
-            # User is created, let's try redirecting to login page
+            # User is created, let's try loging the user  in and redirecting to secure page
             try:
-                message = 'User %s created successfully.' % ( str(username) )
+                self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                message = 'Welcome %s you are now loged in.' % ( str(username) )
                 self.add_message(message, 'success')
-                self.redirect(self.auth_config['login_url'])
+                return self.redirect_to('secure')
+
             except (AttributeError, KeyError), e:
                 message = 'Unexpected error creating ' \
                           'user {0:>s}.'.format(username)
@@ -237,8 +323,6 @@ class SecureRequestHandler(BaseHandler):
         user_info_object = self.auth.store.user_model.get_by_auth_token(
             user_session['user_id'], user_session['token'])
 
-#        people = models.User.get_by_sponsor_key(
-#            user_session['user_id']).fetch()
         try:
             params = {
                 "user_session" : user_session,

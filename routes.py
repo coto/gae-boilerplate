@@ -10,6 +10,7 @@ from web.handlers import LogoutHandler
 from web.handlers import SecureRequestHandler
 from web.handlers import CreateUserHandler
 from web.handlers import GoogleLoginHandler
+from web.handlers import SendPasswordResetEmailHandler
 from web.handlers import PasswordResetHandler
 from web.handlers import PasswordResetCompleteHandler
 from web.handlers import HomeRequestHandler
@@ -19,9 +20,10 @@ _routes = [
     RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
     RedirectRoute('/create/', CreateUserHandler, name='create-user', strict_slash=True),
-    RedirectRoute('/password/reset/', PasswordResetHandler, name='password-reset', strict_slash=True),
-    RedirectRoute('/password/reset/<token>', PasswordResetCompleteHandler, name='password-reset-check', strict_slash=True),
-    RedirectRoute('/secure', SecureRequestHandler, name='secure', strict_slash=True),
+    RedirectRoute('/send-reset-email/', SendPasswordResetEmailHandler, name='send-reset-email', strict_slash=True),
+    RedirectRoute('/password-reset/', PasswordResetHandler, name='password-reset', strict_slash=True),
+    RedirectRoute('/password-reset/<user_id>/<token>', PasswordResetCompleteHandler, name='password-reset-check', strict_slash=True),
+    RedirectRoute('/secure/', SecureRequestHandler, name='secure', strict_slash=True),
     RedirectRoute('/', HomeRequestHandler, name='home', strict_slash=True)
 ]
 
