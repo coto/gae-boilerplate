@@ -116,10 +116,19 @@ def set_lang_cookie_and_return_dict(cls, force=""):
         lang_cookie = cls.request.get("hl")
         # Two weeks for hl cookie
     utils.write_cookie(cls, "hl", str(lang_cookie), "/", 1209600)
-    lang = {
-        'en': languages.en,
-        'es': languages.es,
-        'it': languages.it,
-        'cn': languages.cn,
-    }[lang_cookie]
+
+    try:
+        lang = {
+            'en': languages.en,
+            'es': languages.es,
+            'it': languages.it,
+            'cn': languages.cn,
+        }[lang_cookie]
+    except KeyError:
+        lang = {
+            'en': languages.en,
+            'es': languages.es,
+            'it': languages.it,
+            'cn': languages.cn,
+        }['en']
     return lang
