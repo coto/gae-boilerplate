@@ -5,7 +5,7 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 from lib import i18n
 from lib import utils
-
+import config
 
 def user_required(handler):
     """
@@ -95,6 +95,7 @@ class BaseHandler(webapp2.RequestHandler):
 
     def render_template(self, filename, **kwargs):
         kwargs.update({
+            'google_analytics_code' : config.google_analytics_code,
             'current_user': self.user,
             'current_url': self.request.url,
             'lang': i18n.set_lang_cookie_and_return_dict(self),
