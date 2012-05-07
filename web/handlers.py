@@ -23,6 +23,7 @@ from google.appengine.api import taskqueue
 from google.appengine.api import mail
 from google.appengine.api import app_identity
 import logging
+import config
 
 
 class HomeRequestHandler(BaseHandler):
@@ -34,16 +35,13 @@ class HomeRequestHandler(BaseHandler):
         params = {}
         return self.render_template('boilerplate_home.html', **params)
 
-
 class PasswordResetHandler(BaseHandler):
-    ##########################################################################
-    # Recapcha setup keys                                                    #
-    # get your own recaptcha keys by registering at www.google.com/recaptcha #
-    ##########################################################################
-    #reCaptcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
-    #reCaptcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
-    reCaptcha_public_key = "6Lf7EtESAAAAAHIkufycZlj0F-VijH1sO-Zx5Fx0"
-    reCaptcha_private_key = "6Lf7EtESAAAAAL2dj7C_d2YENzUMnGObxGtbWGdS"
+    """
+    Password Reset Handler
+    """
+
+    reCaptcha_public_key = config.captcha_public_key
+    reCaptcha_private_key = config.captcha_private_key
     
     def get(self):
         if self.user:
