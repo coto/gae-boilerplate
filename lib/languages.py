@@ -42,6 +42,7 @@ en["text_session_info"] = "Session information"
 en["text_user_info"] = "User information"
 en["text_title"] = "It Worked!"
 en["text_description"] = 'Congratulations on your Google App Engine Boilerplate powered page.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Learn more</a> about this Boilerplate and its potential or <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">download the Source Code</a>.'
+en["text_loginerror"] = 'Wrong username, email or password, please try again'
 
 
 
@@ -87,7 +88,7 @@ es["text_session_info"] = u"Información de Sesión"
 es["text_user_info"] = u"Información de Usuario"
 es["text_title"] = u"Funcionó!"
 es["text_description"] = u'Felicitaciones por tu página potenciada con Google App Engine Boilerplate.<br> <a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Aprende más</a> acerca de este Boilerplate y su potencial o <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">descarga el código fuente</a>.'
-
+es["text_loginerror"] = u'Nombre de usuario, email o contraseña erroneos. Por favor, intenta nuevamente'
 
 
 ## italian dict
@@ -132,6 +133,7 @@ it["text_session_info"] = "Info sessione"
 it["text_user_info"] = "Info utente"
 it["text_title"] = "Funziona!"
 it["text_description"] = u'Congratulationi per la pagina creata con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Saperne di</a> più boilerplate e il suo potenziale o <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a>.'
+it["text_loginerror"] = u'Username, Email o Password sbagliata. Per favore, riprova più'
 
 ## Chinese dict
 
@@ -175,3 +177,4 @@ cn["text_session_info"] = u"会话信息"
 cn["text_user_info"] = u"用户信息"
 cn["text_title"] = u"它的工作！"
 cn["text_description"] = u'恭喜您的“Google App Engine的样板供电页。<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">了解更多</a> 有关此样板和其潜在的或 <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">下载源代码</a>.'
+cn["text_loginerror"] = u'错误的用户名，电子邮件或密码，请再试一次'

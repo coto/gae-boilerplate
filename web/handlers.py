@@ -173,6 +173,9 @@ class PasswordResetCompleteHandler(BaseHandler):
 
 
 class LoginHandler(BaseHandler):
+    """
+    Handler for authentication
+    """
 
     def get(self):
         """
@@ -214,7 +217,6 @@ class CreateUserHandler(BaseHandler):
     """
     Handler for creating a User
     """
-
     def get(self):
         """
               Returns a simple HTML form for create a new user
