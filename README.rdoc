@@ -8,11 +8,12 @@ Boilerplate is used to describe sections of code that can be reused over and ove
 === What's the difference with other Boilerplates?
 It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
 
+If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
+
 Try it online {here}[http://appengine.protoboard.cl].
 
 
-== Just 6 easy steps
-1. If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
+== Just 5 easy steps
 1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
@@ -44,8 +45,8 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
-* jQuery 1.7.2 for desktop, jQuery 1.6.4 and jQuery Mobile 1.0.1 (this version is supported by jQuery Mobile)
-* {Twitter Bootstrap}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+* jQuery 1.7.1 and jQuery Mobile 1.1.0
+* {Twitter Bootstrap 2.0.2}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
 
 == Open Source
