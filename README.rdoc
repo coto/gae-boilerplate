@@ -14,11 +14,21 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 
 == Just 5 easy steps
-1. Download the last version of the {SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
+1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 1. Change to your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
+
+
+== Open Source
+If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
+
+Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
+
+
+== Try online this Boilerplate
+http://appengine.protoboard.cl
 
 
 == This Boilerplate has the following functions:
@@ -44,19 +54,11 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 
 == Front-end Technologies
-* {HTML5Boilerplate}[http://html5boilerplate.com/]
+* {HTML5Boilerplate}[http://html5boilerplate.com/] with {Modernizr 2.5.3}[http://modernizr.com]
 * jQuery 1.7.1 and jQuery Mobile 1.1.0
-* {Twitter Bootstrap 2.0.2}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+* {Twitter Bootstrap 2.0.3}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
 
-== Open Source
-If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
-
-Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
-
-
-== Try online this Boilerplate
-http://appengine.protoboard.cl
 
 
 Hope it works for you!! :)
