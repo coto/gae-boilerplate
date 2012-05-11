@@ -21,6 +21,14 @@ Try it online {here}[http://appengine.protoboard.cl].
 1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
 
+== This Boilerplate has the following functions:
+- Authentication (Login, Logout, Create User)
+- Reset Password
+- Update User Profile (developing)
+- Automatic Language Detection
+- Device identification (Automatically it uses the amazing Twitter-Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
+
+
 == Open Source
 If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
 
@@ -29,15 +37,6 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 
 == Try online this Boilerplate
 http://appengine.protoboard.cl
-
-
-== This Boilerplate has the following functions:
-- Login / Logout (with a bunch of security practices)
-- User Registration
-- Reset Password (developing)
-- Update User Profile (developing)
-- Language Detection (English, Italian and Spanish support, detecting the preferred user's language)
-- Device identification (Automatically the amazing Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
 
 
 == Technologies used
