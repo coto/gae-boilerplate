@@ -26,6 +26,7 @@ Try it online {here}[http://appengine.protoboard.cl].
 - Reset Password
 - Update User Profile (developing)
 - Automatic Language Detection
+- Contact Form (getting information for logged user)
 - Device identification (Automatically it uses the amazing Twitter-Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
 
 
