@@ -35,19 +35,16 @@
             {{ lang.menu_components|safe }}
         </li>
         <li data-theme="c">
-            <a href="/create" data-transition="slide">
-                {{ lang.menu_create_user|safe }}
-            </a>
+            <a href="/create" data-transition="slide">{{ lang.menu_create_user|safe }}</a>
         </li>
         <li data-theme="c">
-            <a href="/password-reset/" data-transition="slide">
-                {{ lang.menu_fyp|safe }}
-            </a>
+            <a href="/contact" data-transition="slide">{{ lang.menu_contact|safe }}</a>
         </li>
         <li data-theme="c">
-            <a href="/google-login" data-transition="slide">
-                {{ lang.menu_glogin|safe }}
-            </a>
+            <a href="/password-reset/" data-transition="slide">{{ lang.menu_fyp|safe }}</a>
+        </li>
+        <li data-theme="c">
+            <a href="/google-login" data-transition="slide">{{ lang.menu_glogin|safe }}</a>
         </li>
     </ul>
 {% endblock %}
