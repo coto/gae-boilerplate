@@ -6,6 +6,7 @@ RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 
 from webapp2_extras.routes import RedirectRoute
 from web.handlers import LoginHandler
+from web.handlers import ContactHandler
 from web.handlers import LogoutHandler
 from web.handlers import SecureRequestHandler
 from web.handlers import CreateUserHandler
@@ -18,6 +19,7 @@ from web.handlers import HomeRequestHandler
 _routes = [
     RedirectRoute('/google-login/', GoogleLoginHandler, name='google-login', strict_slash=True),
     RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
+    RedirectRoute('/contact/', ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
     RedirectRoute('/create/', CreateUserHandler, name='create-user', strict_slash=True),
     RedirectRoute('/send-reset-email/', SendPasswordResetEmailHandler, name='send-reset-email', strict_slash=True),

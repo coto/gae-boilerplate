@@ -9,6 +9,8 @@ webapp2_config['webapp2_extras.auth'] = {
     'cookie_name': 'session_name'
 }
 
+contact_recipient = "PUT_YOUR_EMAIL_HERE"
+
 # get your own recaptcha keys by registering at www.google.com/recaptcha
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"

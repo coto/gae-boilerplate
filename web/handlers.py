@@ -211,6 +211,74 @@ class LoginHandler(BaseHandler):
             return self.redirect_to('login')
 
 
+class ContactHandler(BaseHandler):
+    """
+    Handler for creating a User
+    """
+    def get(self):
+        """
+              Returns a simple HTML for contact form
+        """
+
+        params = {
+            "action": self.request.url,
+            }
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+
+            params.update({
+                "name" : user_info.name + " " + user_info.last_name,
+                "email" : user_info.email,
+            })
+
+        return self.render_template('boilerplate_contact.html', **params)
+
+    def post(self):
+        """
+              validate contact form
+        """
+        remoteip  = self.request.remote_addr
+        user_agent  = self.request.user_agent
+        name = str(self.request.POST.get('name')).strip()
+        email = str(self.request.POST.get('email')).lower().strip()
+        message = str(self.request.POST.get('message')).strip()
+
+        if name == "" or email == "" or message == "":
+            message = 'Sorry, some fields are required.'
+            self.add_message(message, 'error')
+            return self.redirect_to('contact')
+
+        if not utils.is_email_valid(email):
+            message = 'Sorry, your email %s is not valid.' % email
+            self.add_message(message, 'error')
+            return self.redirect_to('contact')
+
+
+        try:
+            app_id = app_identity.get_application_id()
+            sender_address = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+            subject = "Contact"
+            body = """
+            IP Address : %s
+            Web Browser  : %s
+
+            Sender : %s <%s>
+            %s
+            """ % (remoteip, user_agent, name, email, message)
+
+            mail.send_mail(sender_address, config.contact_recipient, subject, body)
+
+            message = 'Message sent successfully.'
+            self.add_message(message, 'success')
+            return self.redirect_to('contact')
+
+        except (AttributeError, KeyError), e:
+            message = 'Error sending the message. Please try again later.'
+            self.add_message(message, 'error')
+            return self.redirect_to('contact')
+
+
+
 class CreateUserHandler(BaseHandler):
     """
     Handler for creating a User
@@ -319,7 +387,8 @@ class SecureRequestHandler(BaseHandler):
         user_session = self.auth.get_user_by_session()
         user_session_object = self.auth.store.get_session(self.request)
 
-        user_info = models.User.get_by_id(long( user_session['user_id'] ))
+        # Also you can use user_info = models.User.get_by_id(long( user_session['user_id'] ))
+        user_info = models.User.get_by_id(long( self.user_id ))
         user_info_object = self.auth.store.user_model.get_by_auth_token(
             user_session['user_id'], user_session['token'])
 
