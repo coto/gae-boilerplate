@@ -82,8 +82,9 @@ def is_alphanumeric(field):
 
 def get_device(cls):
     uastring = cls.request.user_agent
-    is_mobile = ("Mobile" in uastring and "Safari" in uastring) or \
-	 ("Windows Phone OS" in uastring and "IEMobile" in uastring)
+    is_mobile = (("Mobile" in uastring and "Safari" in uastring) or \
+	 ("Windows Phone OS" in uastring and "IEMobile" in uastring) or \
+     ("Blackberry") in uastring)
 
     if "MSIE" in uastring:
         browser = "Explorer"
@@ -117,26 +118,25 @@ def get_device(cls):
 
 def set_device_cookie_and_return_bool(cls, force=""):
     """
-    set language returning a dict and set cookie
+    set a cookie for device (dvc) returning a dict and set cookie
     Cookie value has to be "mobile" or "desktop" string
     """
     if force != "":
+        # force cookie to param
         device_cookie = force
     elif cls.request.get("device") == "":
-        # ask for cookie
+        # ask for cookie of device
         device_cookie = str(read_cookie(cls, "dvc"))
-#        print("1st coorhiki"+ str(device_cookie))
         if not device_cookie or device_cookie == "None" or device_cookie == "":
-#            print("alale")
+            # If cookie has an error, check which device is been used
             if get_device(cls)["is_mobile"]:
                 device_cookie = "mobile"
             else:
                 device_cookie = "desktop"
-#            print("ete es" + device_cookie)
     else:
-        # set cookie to param 'is_mobile' value
-
+        # set cookie to param 'is_mobile' value directly
         device_cookie = cls.request.get("device")
-        # Two weeks for is_mobile cookie
+
+    # Set Cookie for Two weeks with 'device_cookie' value
     write_cookie(cls, "dvc", str(device_cookie), "/", 1209600)
     return device_cookie == "mobile"
