@@ -366,11 +366,13 @@ class LogoutHandler(BaseHandler):
     """
 
     def get(self):
+        if self.user:
+            message = "You’ve signed out successfully." # Info message
+            self.add_message(message, 'info')
+
         self.auth.unset_session()
         # User is logged out, let's try redirecting to login page
         try:
-            message = "User is logged out." # Info message
-            self.add_message(message, 'info')
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
             return "User is logged out, but there was an error " \
