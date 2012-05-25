@@ -42,8 +42,8 @@ en["login_yes"] = "Yes"
 en["text_language"] = "Choose your language"
 en["text_session_info"] = "Session information"
 en["text_user_info"] = "User information"
-en["text_title"] = "It Worked!"
-en["text_description"] = 'Congratulations on your Google App Engine Boilerplate powered page.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Learn more</a> about this Boilerplate and its potential or <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">download the Source Code</a>.'
+en["text_title"] = "Google App Engine Boilerplate"
+en["text_description"] = 'Congratulations on your Google App Engine Boilerplate powered page.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Learn why this Boilerplate Rocks</a> or just <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">download the Source Code</a> to help you to create your application.'
 en["text_loginerror"] = 'Wrong username, email or password, please try again'
 en["text_oldbrowser"] = '<p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>'
 
@@ -91,8 +91,8 @@ es["login_yes"] = u"Si"
 es["text_language"] = u"Elige tu idioma"
 es["text_session_info"] = u"Información de Sesión"
 es["text_user_info"] = u"Información de Usuario"
-es["text_title"] = u"Funcionó!"
-es["text_description"] = u'Felicitaciones por tu página potenciada con Google App Engine Boilerplate.<br> <a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Aprende más</a> acerca de este Boilerplate y su potencial o <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">descarga el código fuente</a>.'
+es["text_title"] = u"Google App Engine Boilerplate"
+es["text_description"] = u'Felicitaciones por tu página potenciada con Google App Engine Boilerplate.<br> <a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Aprende porque este Boilerplate es Asombroso </a> o sólo <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">descarga su código fuente</a> para ayudarte a crear tu aplicación.'
 es["text_loginerror"] = u'Nombre de usuario, email o contraseña erroneos. Por favor, intenta nuevamente'
 es["text_oldbrowser"] = u'<p class=chromeframe>Tu Navegador es demasiado <em>antiguo!</em> <a href="http://browsehappy.com/">Actualiza a un nevagador más seguro</a> o <a href="http://www.google.com/chromeframe/?redirect=true">instala Google Chrome Frame</a> para experimentar este sitio.</p>'
 
@@ -139,8 +139,8 @@ it["login_yes"] = "Si"
 it["text_language"] = "Scegli la lingua"
 it["text_session_info"] = "Info sessione"
 it["text_user_info"] = "Info utente"
-it["text_title"] = "Funziona!"
-it["text_description"] = u'Congratulationi per la pagina creata con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Saperne di</a> più boilerplate e il suo potenziale o <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a>.'
+it["text_title"] = "Google App Engine Boilerplate"
+it["text_description"] = u'Congratulationi per la pagina creata con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Saperne perché questo Boilerplate è Sorprendente</a> o semplicemente <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a> per aiutarvi a creare l\'applicazione.'
 it["text_loginerror"] = u'Username, Email o Password sbagliata. Per favore, riprova più'
 it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>antico!</em> <a href="http://browsehappy.com/">Aggiornamento a un browser diverso</a> o <a href="http://www.google.com/chromeframe/?redirect=true">installare Google Chrome Frame</a> di provare questo sito.</p>'
 
@@ -186,7 +186,7 @@ cn["login_yes"] = u"是"
 cn["text_language"] = u"选择你的语言"
 cn["text_session_info"] = u"会话信息"
 cn["text_user_info"] = u"用户信息"
-cn["text_title"] = u"它的工作！"
-cn["text_description"] = u'恭喜您的“Google App Engine的样板供电页。<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">了解更多</a> 有关此样板和其潜在的或 <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">下载源代码</a>.'
+cn["text_title"] = u"Google App Engine Boilerplate"
+cn["text_description"] = u'恭喜您的“Google App Engine的样板供电页。<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">了解为什么这个样板是惊人的</a> 或只是 <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">下载源代码</a> 以帮助您创建您的应用程序。.'
 cn["text_loginerror"] = u'错误的用户名，电子邮件或密码，请再试一次'
 cn["text_oldbrowser"] = u'<p class=chromeframe>您的浏览器 <em>古!</em> <a href="http://browsehappy.com/">升级到不同的浏览器</a> 或 <a href="http://www.google.com/chromeframe/?redirect=true">安装“Google Chrome Frame以</a> 体验本网站.</p>'
