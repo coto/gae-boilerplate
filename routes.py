@@ -8,7 +8,6 @@ from webapp2_extras.routes import RedirectRoute
 from web import handlers
 
 _routes = [
-    RedirectRoute('/google-login/', handlers.GoogleLoginHandler, name='google-login', strict_slash=True),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/logout/', handlers.LogoutHandler, name='logout', strict_slash=True),
