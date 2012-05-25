@@ -412,7 +412,6 @@ class GoogleLoginHandler(BaseHandler):
         # Login App Engine
         user = users.get_current_user()
         try:
-            #TODO: work with the logout url for jQuery Mobile
             params = {
                 "nickname" : user.nickname(),
                 "userinfo_logout-url" : users.create_logout_url("/"),

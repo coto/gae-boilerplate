@@ -15,8 +15,6 @@ en["menu_contact"] = "Contact"
 en["menu_fyp"] = "Forgot your password?"
 en["menu_glogin"] = "Login with Google Account"
 en["menu_opensource"] = "Source Code"
-en["menu_version_desk"] = "Desktop Version"
-en["menu_version_mob"] = "Mobile Version"
 
 en["spanish"] = u"Español"
 en["english"] = "English"
@@ -48,7 +46,6 @@ en["text_loginerror"] = 'Wrong username, email or password, please try again'
 en["text_oldbrowser"] = '<p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>'
 
 
-
 ## spanish dict
 
 es = {}
@@ -64,8 +61,6 @@ es["menu_contact"] = u"Contacto"
 es["menu_fyp"] = u"Olvidó su contraseña?"
 es["menu_glogin"] = u"Login con Cuenta Google"
 es["menu_opensource"] = u"Código fuente"
-es["menu_version_desk"] = u"Versión Escritorio"
-es["menu_version_mob"] = u"Versión Móvil"
 
 es["spanish"] = u"Español"
 es["english"] = u"English"
@@ -112,8 +107,6 @@ it["menu_contact"] = "Contattare"
 it["menu_fyp"] = "Password dimenticata?"
 it["menu_glogin"] = "Login con l'account Google"
 it["menu_opensource"] = "Codice sorgente"
-it["menu_version_desk"] = "Versione Desktop"
-it["menu_version_mob"] = "Versione Mobile"
 
 it["spanish"] = u"Español"
 it["english"] = "English"
@@ -159,8 +152,6 @@ cn["menu_contact"] = u"联系"
 cn["menu_fyp"] = u"忘记密码？"
 cn["menu_glogin"] = u"登录Google帐户"
 cn["menu_opensource"] = u"源代码"
-cn["menu_version_desk"] = u"桌面版"
-cn["menu_version_mob"] = u"移动版"
 
 cn["spanish"] = u"Espa&ntilde;ol"
 cn["english"] = u"English"

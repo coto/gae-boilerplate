@@ -50,9 +50,6 @@ handlers:
   mime_type: text/css
   static_dir: static/css
 
-- url: /mobile
-  static_dir: static/mobile/1.1.0
-
 - url: /js
   mime_type: text/javascript
   static_dir: static/js

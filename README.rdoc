@@ -14,10 +14,10 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 
 == Just 5 easy steps
-1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.4).
+1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
-1. Change to your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Use your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
 
@@ -27,7 +27,8 @@ Try it online {here}[http://appengine.protoboard.cl].
 - Update User Profile (developing)
 - Automatic Language Detection
 - Contact Form (getting information for logged user)
-- Device identification (Automatically it uses the amazing Twitter-Bootstrap Template for Desktop and jQuery Mobile for Tablets and Smartphones)
+- Responsive Design (using the amazing Twitter-Bootstrap Template)
+- Device identification (Mobile or Desktop)
 
 
 == Open Source
@@ -42,7 +43,7 @@ http://appengine.protoboard.cl
 
 == Technologies used
 * Python 2.7
-* {NDB 1.0}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
+* {NDB 1.0.1}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
 * {Jinja2}[http://jinja.pocoo.org/docs/] (A full featured template engine for Python).
 * {webapp2}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
   * webapp2_extras.sessions
@@ -55,9 +56,8 @@ http://appengine.protoboard.cl
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/] with {Modernizr 2.5.3}[http://modernizr.com]
-* jQuery 1.7.1 and jQuery Mobile 1.1.0
+* jQuery 1.7.2
 * {Twitter Bootstrap 2.0.3}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
-
 
 
 
