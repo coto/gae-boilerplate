@@ -386,7 +386,7 @@ class SecureRequestHandler(BaseHandler):
 
     @user_required
     def get(self, **kwargs):
-        user_session = self.auth.get_user_by_session()
+        user_session = self.user
         user_session_object = self.auth.store.get_session(self.request)
 
         # Also you can use user_info = models.User.get_by_id(long( user_session['user_id'] ))
@@ -405,19 +405,3 @@ class SecureRequestHandler(BaseHandler):
             return self.render_template('boilerplate_secure_zone.html', **params)
         except (AttributeError, KeyError), e:
             return "Secure zone error: %s." % e
-
-
-class GoogleLoginHandler(BaseHandler):
-
-    @login_required
-    def get(self):
-        # Login App Engine
-        user = users.get_current_user()
-        try:
-            params = {
-                "nickname" : user.nickname(),
-                "userinfo_logout-url" : users.create_logout_url("/"),
-                }
-            return self.render_template('boilerplate_secure_zone_google.html', **params)
-        except (AttributeError, KeyError), e:
-            return "Secure zone Google error: %s." % e
