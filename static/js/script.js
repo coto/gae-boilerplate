@@ -1,5 +1,6 @@
 /* Author:  @coto
-
+ insertParam Function:
+ Insert parameters to the URL recognizing if it had parameters before.
 */
 function insertParam(key, value)
 {
@@ -27,14 +28,6 @@ function insertParam(key, value)
 
 
 $(document).ready(function() {
-
-    /***** Choose language @ footer ****/
-    $("#select_language").change(function() {
-        newLang = $(this).val();
-        if ($(this).attr("current") != newLang) {
-            insertParam("hl", newLang)
-        }
-    });
 
 });
 
