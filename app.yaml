@@ -1,5 +1,5 @@
 application: sandengine
-version: latest
+version: jquery-mobile
 runtime: python27
 api_version: 1
 threadsafe: true
