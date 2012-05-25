@@ -4,6 +4,7 @@
 
 en = {}
 en["id"] = "en"
+en["lang_name"] = "English"
 en["menu_components"] = "Components"
 en["menu_create_user"] = "Create user"
 en["menu_home"] = "Home"
@@ -16,9 +17,9 @@ en["menu_fyp"] = "Forgot your password?"
 en["menu_glogin"] = "Login with Google Account"
 en["menu_opensource"] = "Source Code"
 
-en["spanish"] = u"Español"
+en["spanish"] = "Spanish"
 en["english"] = "English"
-en["italian"] = "Italiano"
+en["italian"] = "Italian"
 en["chinese"] = "Chinese"
 
 en["enter_your"] = "Enter your"
@@ -37,7 +38,7 @@ en["login_password"] = "Password"
 en["login_remember"] = "Remember me?"
 en["login_yes"] = "Yes"
 
-en["text_language"] = "Choose your language"
+en["text_language"] = "Language"
 en["text_session_info"] = "Session information"
 en["text_user_info"] = "User information"
 en["text_title"] = "Google App Engine Boilerplate"
@@ -50,6 +51,7 @@ en["text_oldbrowser"] = '<p class=chromeframe>Your browser is <em>ancient!</em> 
 
 es = {}
 es["id"] = "es"
+es["lang_name"] = u"Español"
 es["menu_components"] = u"Componentes"
 es["menu_create_user"] = u"Crear usuario"
 es["menu_home"] = u"Inicio"
@@ -63,9 +65,9 @@ es["menu_glogin"] = u"Login con Cuenta Google"
 es["menu_opensource"] = u"Código fuente"
 
 es["spanish"] = u"Español"
-es["english"] = u"English"
+es["english"] = u"Inglés"
 es["italian"] = u"Italiano"
-es["chinese"] = u"Chinese"
+es["chinese"] = u"Chino"
 
 es["enter_your"] = u"Ingrese su"
 es["field_username"] = u"Nombre de usuario"
@@ -83,7 +85,7 @@ es["login_password"] = u"Contraseña"
 es["login_remember"] = u"Recordarme?"
 es["login_yes"] = u"Si"
 
-es["text_language"] = u"Elige tu idioma"
+es["text_language"] = u"Idioma"
 es["text_session_info"] = u"Información de Sesión"
 es["text_user_info"] = u"Información de Usuario"
 es["text_title"] = u"Google App Engine Boilerplate"
@@ -96,6 +98,7 @@ es["text_oldbrowser"] = u'<p class=chromeframe>Tu Navegador es demasiado <em>ant
 
 it = {}
 it["id"] = "it"
+it["lang_name"] = "Italiano"
 it["menu_components"] = "Componenti"
 it["menu_create_user"] = "Crea Utente"
 it["menu_home"] = "Home"
@@ -108,10 +111,10 @@ it["menu_fyp"] = "Password dimenticata?"
 it["menu_glogin"] = "Login con l'account Google"
 it["menu_opensource"] = "Codice sorgente"
 
-it["spanish"] = u"Español"
-it["english"] = "English"
-it["italian"] = "Italian"
-it["chinese"] = "Chinese"
+it["spanish"] = "Spagnolo"
+it["english"] = "Inglese"
+it["italian"] = "Italiano"
+it["chinese"] = "Cinese"
 
 it["enter_your"] = "Inserisci tua"
 it["field_username"] = "Nome utente"
@@ -129,7 +132,7 @@ it["login_password"] = "Password"
 it["login_remember"] = "Resta connesso"
 it["login_yes"] = "Si"
 
-it["text_language"] = "Scegli la lingua"
+it["text_language"] = "Lingua"
 it["text_session_info"] = "Info sessione"
 it["text_user_info"] = "Info utente"
 it["text_title"] = "Google App Engine Boilerplate"
@@ -141,6 +144,7 @@ it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>antico!</em
 
 cn = {}
 cn["id"] = "cn"
+cn["lang_name"] = u"简体中文"
 cn["menu_components"] = u"组件"
 cn["menu_create_user"] = u"创建用户"
 cn["menu_home"] = u"家"
@@ -153,10 +157,10 @@ cn["menu_fyp"] = u"忘记密码？"
 cn["menu_glogin"] = u"登录Google帐户"
 cn["menu_opensource"] = u"源代码"
 
-cn["spanish"] = u"Espa&ntilde;ol"
-cn["english"] = u"English"
-cn["italian"] = u"Italiano"
-cn["chinese"] = u"中国的"
+cn["spanish"] = u"西班牙人"
+cn["english"] = u"英语"
+cn["italian"] = u"意大利的"
+cn["chinese"] = u"简体中文"
 
 cn["enter_your"] = u"输入您的"
 cn["field_username"] = u"用户名"
@@ -174,7 +178,7 @@ cn["login_password"] = u"密码"
 cn["login_remember"] = u"记得我吗？"
 cn["login_yes"] = u"是"
 
-cn["text_language"] = u"选择你的语言"
+cn["text_language"] = u"语言"
 cn["text_session_info"] = u"会话信息"
 cn["text_user_info"] = u"用户信息"
 cn["text_title"] = u"Google App Engine Boilerplate"
