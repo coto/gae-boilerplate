@@ -6,45 +6,45 @@
 
 {% block content %}
 
-    <form id="form_contact" action="{{ action }}" method="post" class="ui-body ui-body-c well" data-ajax="false">
+    <form id="form_contact" action="{{ action }}" method="post" class="well">
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="name">{{ lang.field_name|safe }}:</label>
             <input type="text" name="name" id="name" placeholder="{{ lang.enter_your|safe }} {{ lang.field_name|safe }}" value="{{ name }}" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="email">{{ lang.field_email|safe }}:</label>
             <input type="email" name="email" id="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" class="required email" value="{{ email }}" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="message">{{ lang.field_message|safe }}:</label>
-            <textarea cols="40" rows="8" name="message" id="message" data-role="none" class="required"></textarea>
+            <textarea cols="40" rows="8" name="message" id="message" class="required"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary" data-theme="b">{{ lang.button_contact|safe }}</button>
+        <button type="submit" class="btn btn-primary">{{ lang.button_contact|safe }}</button>
 
     </form>
 
-    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
-        <li data-role="list-divider" role="heading">
+    <ul class="nav nav-tabs nav-stacked">
+        <li>
             {{ lang.menu_components|safe }}
         </li>
-        <li data-theme="c">
-            <a href="/login" data-transition="slide">{{ lang.menu_login|safe }}</a>
+        <li>
+            <a href="/login">{{ lang.menu_login|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/create" data-transition="slide">{{ lang.menu_create_user|safe }}</a>
+        <li>
+            <a href="/create">{{ lang.menu_create_user|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/secure" data-transition="slide">{{ lang.menu_secure|safe }}</a>
+        <li>
+            <a href="/secure">{{ lang.menu_secure|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/password-reset/" data-transition="slide">{{ lang.menu_fyp|safe }}</a>
+        <li>
+            <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/google-login" data-transition="slide">{{ lang.menu_glogin|safe }}</a>
+        <li>
+            <a href="/google-login">{{ lang.menu_glogin|safe }}</a>
         </li>
     </ul>
 

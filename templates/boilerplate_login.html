@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block content %}
-    <form id="form_login_user" action="{{ action|safe }}" method="post" class="ui-body ui-body-c well">
+    <form id="form_login_user" action="{{ action|safe }}" method="post" class="well">
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="username">{{ lang.login_username|safe }}:</label>
             <input type="text" name="username" id="username" placeholder="{{ lang.enter_your|safe }} {{ lang.login_username|safe }}" class="required" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="password">{{ lang.login_password|safe }}:</label>
             <input type="password" name="password" id="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
@@ -26,25 +26,25 @@
             </div>
           </div>
 
-        <button type="submit" class="btn btn-primary" data-theme="b" aria-disabled="false">{{ lang.menu_login|safe }}</button>
+        <button type="submit" class="btn btn-primary">{{ lang.menu_login|safe }}</button>
 
     </form>
 
-    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
-        <li data-role="list-divider" role="heading">
+    <ul class="nav nav-tabs nav-stacked">
+        <li>
             {{ lang.menu_components|safe }}
         </li>
-        <li data-theme="c">
-            <a href="/create" data-transition="slide">{{ lang.menu_create_user|safe }}</a>
+        <li>
+            <a href="/create">{{ lang.menu_create_user|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/contact" data-transition="slide">{{ lang.menu_contact|safe }}</a>
+        <li>
+            <a href="/contact">{{ lang.menu_contact|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/password-reset/" data-transition="slide">{{ lang.menu_fyp|safe }}</a>
+        <li>
+            <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/google-login" data-transition="slide">{{ lang.menu_glogin|safe }}</a>
+        <li>
+            <a href="/google-login">{{ lang.menu_glogin|safe }}</a>
         </li>
     </ul>
 {% endblock %}

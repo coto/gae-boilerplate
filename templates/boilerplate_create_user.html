@@ -6,39 +6,39 @@
 
 {% block content %}
 
-    <form id="form_create_user" action="{{ action }}" method="post" class="ui-body ui-body-c well" data-ajax="false">
+    <form id="form_create_user" action="{{ action }}" method="post" class="well">
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="username">{{ lang.field_username|safe }}:</label>
             <input type="text" name="username" id="username" placeholder="{{ lang.enter_your|safe }} {{ lang.field_username|safe }}" class="required" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="name">{{ lang.field_name|safe }}:</label>
             <input type="text" name="name" id="name" placeholder="{{ lang.enter_your|safe }} {{ lang.field_name|safe }}" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="last_name">{{ lang.field_lastname|safe }}:</label>
             <input type="text" name="last_name" id="last_name" placeholder="{{ lang.enter_your|safe }} {{ lang.field_lastname|safe }}" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="email">{{ lang.field_email|safe }}:</label>
             <input type="email" name="email" id="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" class="required email" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="password">{{ lang.field_password|safe }}:</label>
             <input type="password" name="password" id="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="c_password">{{ lang.field_cpassword|safe }}:</label>
             <input type="password" name="c_password" id="c_password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}" class="required" />
         </div>
 
-        <div data-role="fieldcontain">
+        <div>
             <label for="country" class="select">{{ lang.field_country|safe }}:</label>
             <select name="country" id="country">
             <option value="">{{ lang.field_country|safe }}...</option>
@@ -291,28 +291,28 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" data-theme="b">{{ lang.menu_create_user|safe }}</button>
+        <button type="submit" class="btn btn-primary">{{ lang.menu_create_user|safe }}</button>
 
     </form>
 
-    <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
-        <li data-role="list-divider" role="heading">
+    <ul class="nav nav-tabs nav-stacked">
+        <li>
             {{ lang.menu_components|safe }}
         </li>
-        <li data-theme="c">
-            <a href="/login" data-transition="slide">{{ lang.menu_login|safe }}</a>
+        <li>
+            <a href="/login">{{ lang.menu_login|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/contact" data-transition="slide">{{ lang.menu_contact|safe }}</a>
+        <li>
+            <a href="/contact">{{ lang.menu_contact|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/secure" data-transition="slide">{{ lang.menu_secure|safe }}</a>
+        <li>
+            <a href="/secure">{{ lang.menu_secure|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/password-reset/" data-transition="slide">{{ lang.menu_fyp|safe }}</a>
+        <li>
+            <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
         </li>
-        <li data-theme="c">
-            <a href="/google-login" data-transition="slide">{{ lang.menu_glogin|safe }}</a>
+        <li>
+            <a href="/google-login">{{ lang.menu_glogin|safe }}</a>
         </li>
     </ul>
 

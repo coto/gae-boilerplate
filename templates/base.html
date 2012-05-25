@@ -26,13 +26,11 @@
         })();
     </script>
     {% if is_mobile %}
-    <link rel="stylesheet" href="/mobile/jquery.mobile-1.1.0.min.css" />
-    {% else %}
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {% endif %}
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    {% endif %}
     <link rel="stylesheet" href="/css/main.css" />
 
     {% block mediaCSS %}{% endblock %}
@@ -46,37 +44,31 @@
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
     <!--[if lt IE 7]>{{ lang.text_oldbrowser|safe }}<![endif]-->
 
-    <div data-role="page" data-theme="c">
+    <div>
         {% block header %}
-            <header data-role="header" class="jumbotron subhead" id="overview">
+            <header class="subhead" id="overview">
                 <h1>{% block header_content_title %}{% endblock %}</h1>
-                {% if is_mobile %}
-                <a href="/" data-role="button" data-icon="home" data-iconpos="notext">
-                    <i class="icon-home"></i> {{ lang.menu_home|safe }}
-                </a>
-               {% else %}
-                    {% block header_content_lead %}
-                    <p class="lead">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="icon-home"></i> <a href="/">{{ lang.menu_home|safe }}</a> <span class="divider">/</span>
-                        </li>
-                        <!--li class="active">Data</li-->
-                    </ul>
-                    </p>
-                    {% endblock %}
-               {% endif %}
+                {% block header_content_lead %}
+                <p class="lead">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home"></i> <a href="/">{{ lang.menu_home|safe }}</a> <span class="divider">/</span>
+                    </li>
+                    <!--li class="active">Data</li-->
+                </ul>
+                </p>
+                {% endblock %}
             </header>
         {% endblock %}
 
-        <div data-role="content" class="container">
+        <div class="container">
             <p class="alert alert-{{ level }}">
                 <a class="close" data-dismiss="alert">×</a>
                 {{ messages|safe }}
             </p>
 
             {% block content %}{% endblock %}
-            <div data-role="fieldcontain">
+            <div>
                 <label for="select_language" class="select">{{ lang.text_language|safe }}:</label>
                 <select name="select_language" id="select_language">
                     <option value="es" {% if lang.id == "es" %}selected="selected"{% endif %}>{{ lang.spanish|safe }}</option>
@@ -88,26 +80,17 @@
         </div><!-- /content -->
 
         {% block footer %}
-        <footer data-role="footer" class="ui-bar">
-            <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank" data-role="button" data-icon="gear">{{ lang.menu_opensource|safe }}</a>
-            {% if is_mobile %}
-            <a href="{{ path }}?device=desktop" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_desk|safe }}</a>
-            {% else %}
-            <a href="{{ path }}?device=mobile" class="btn btn-success" data-ajax="false" data-role="button" data-icon="plus">{{ lang.menu_version_mob|safe }}</a>
-            {% endif %}
+        <footer>
+            <a href="https://github.com/coto/gae-boilerplate" class="btn btn-success" target="_blank">{{ lang.menu_opensource|safe }}</a>
         </footer>
         {% endblock %}
     </div><!-- /page -->
     <!-- JavaScript at the bottom for fast page loading -->
 
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-    <script src="//code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
-    {% if is_mobile %}
-    <script src="/mobile/jquery.mobile-1.1.0.min.js"></script>
-    {% else %}
+    <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="/js/libs/bootstrap.min.js"></script>
-    {% endif %}
 
     <!-- scripts concatenated and minified via build script -->
     <script src="/js/plugins.js"></script>

@@ -13,27 +13,27 @@
                     {{ lang.text_description|safe }}
                 </p>
             </div>
-            <ul data-role="listview" data-divider-theme="b" data-inset="true" class="nav nav-tabs nav-stacked">
-                <li data-role="list-divider" role="heading">
+            <ul class="nav nav-tabs nav-stacked">
+                <li>
                     {{ lang.menu_components|safe }}
                 </li>
-                <li data-theme="c">
-                    <a href="/create" data-transition="slide">{{ lang.menu_create_user|safe }}</a>
+                <li>
+                    <a href="/create">{{ lang.menu_create_user|safe }}</a>
                 </li>
-                <li data-theme="c">
-                    <a href="/login" data-transition="slide">{{ lang.menu_login|safe }}</a>
+                <li>
+                    <a href="/login">{{ lang.menu_login|safe }}</a>
                 </li>
-                <li data-theme="c">
-                    <a href="/contact" data-transition="slide">{{ lang.menu_contact|safe }}</a>
+                <li>
+                    <a href="/contact">{{ lang.menu_contact|safe }}</a>
                 </li>
-                <li data-theme="c">
-                    <a href="/secure" data-transition="slide">{{ lang.menu_secure|safe }}</a>
+                <li>
+                    <a href="/secure">{{ lang.menu_secure|safe }}</a>
                 </li>
-                <li data-theme="c">
-                    <a href="/password-reset/" data-transition="slide">{{ lang.menu_fyp|safe }}</a>
+                <li>
+                    <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
                 </li>
-                <li data-theme="c">
-                    <a href="/google-login" data-transition="slide">{{ lang.menu_glogin|safe }}</a>
+                <li>
+                    <a href="/google-login">{{ lang.menu_glogin|safe }}</a>
                 </li>
             </ul>
 {% endblock %}
