@@ -93,9 +93,10 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def path_for_language(self):
         """
-        path_for_language function get the
+        Get an path + query_string without language parameter (hl=something)
+        Useful to put it in the template to concatenate with '&hl=NEW_LANGUAGE'
         """
-        path_lang = re.sub(r'(hl=(\w{2})\&*)|(\&*hl=(\w{2})\&*?)', '', str(self.request.query_string))
+        path_lang = re.sub(r'(^hl=(\w{2})\&*)|(\&hl=(\w{2})\&*?)', '', str(self.request.query_string))
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
 
