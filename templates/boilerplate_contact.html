@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% block header_content_title %}
+{% block header_title %}
         {{ lang.menu_contact|safe }}
 {% endblock %}
 
 {% block content %}
-
     <form id="form_contact" action="{{ action }}" method="post" class="well">
 
         <div>
@@ -26,14 +25,6 @@
         <button type="submit" class="btn btn-primary">{{ lang.button_contact|safe }}</button>
 
     </form>
-
-    <ul class="nav nav-tabs nav-stacked">
-        <li>{{ lang.menu_components|safe }}</li>
-        <li><a href="/create">{{ lang.menu_create_user|safe }}</a></li>
-        <li><a href="/secure">{{ lang.menu_secure|safe }}</a></li>
-        <li><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
-    </ul>
-
 {% endblock %}
 
 {% block mediaJS %}

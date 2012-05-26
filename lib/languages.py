@@ -5,7 +5,6 @@
 en = {}
 en["id"] = "en"
 en["lang_name"] = "English"
-en["menu_components"] = "Components"
 en["menu_create_user"] = "Create user"
 en["menu_home"] = "Home"
 en["menu_login"] = "Login"
@@ -51,7 +50,6 @@ en["text_oldbrowser"] = '<p class=chromeframe>Your browser is <em>ancient!</em> 
 es = {}
 es["id"] = "es"
 es["lang_name"] = u"Español"
-es["menu_components"] = u"Componentes"
 es["menu_create_user"] = u"Crear usuario"
 es["menu_home"] = u"Inicio"
 es["menu_login"] = u"Login"
@@ -97,7 +95,6 @@ es["text_oldbrowser"] = u'<p class=chromeframe>Tu Navegador es demasiado <em>ant
 it = {}
 it["id"] = "it"
 it["lang_name"] = "Italiano"
-it["menu_components"] = "Componenti"
 it["menu_create_user"] = "Crea Utente"
 it["menu_home"] = "Home"
 it["menu_login"] = "Login"
@@ -142,7 +139,6 @@ it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>antico!</em
 cn = {}
 cn["id"] = "cn"
 cn["lang_name"] = u"简体中文"
-cn["menu_components"] = u"组件"
 cn["menu_create_user"] = u"创建用户"
 cn["menu_home"] = u"家"
 cn["menu_login"] = u"登录"

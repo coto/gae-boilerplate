@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block header_content_title %}
+{% block header_title %}
     {{ lang.menu_login|safe }}
 {% endblock %}
 
@@ -29,13 +29,6 @@
         <button type="submit" class="btn btn-primary">{{ lang.menu_login|safe }}</button>
 
     </form>
-
-    <ul class="nav nav-tabs nav-stacked">
-        <li>{{ lang.menu_components|safe }}</li>
-        <li><a href="/create">{{ lang.menu_create_user|safe }}</a></li>
-        <li><a href="/contact">{{ lang.menu_contact|safe }}</a></li>
-        <li><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
-    </ul>
 {% endblock %}
 
 {% block mediaJS %}
