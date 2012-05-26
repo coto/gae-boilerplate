@@ -35,11 +35,11 @@ class HomeRequestHandler(BaseHandler):
         params = {}
         return self.render_template('boilerplate_home.html', **params)
 
+
 class PasswordResetHandler(BaseHandler):
     """
     Password Reset Handler
     """
-
     reCaptcha_public_key = config.captcha_public_key
     reCaptcha_private_key = config.captcha_private_key
     
@@ -107,7 +107,6 @@ class SendPasswordResetEmailHandler(BaseHandler):
     Hanlder for sending Emails
     Better use with TaskQueue
     """
-
     def post(self):
         user_address = self.request.get("recipient_email")
         user_token = self.request.get("token")
@@ -174,7 +173,6 @@ class LoginHandler(BaseHandler):
     """
     Handler for authentication
     """
-
     def get(self):
         """
               Returns a simple HTML form for login
@@ -219,7 +217,6 @@ class ContactHandler(BaseHandler):
         """
               Returns a simple HTML for contact form
         """
-
         params = {
             "action": self.request.url,
             }
@@ -253,7 +250,6 @@ class ContactHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('contact')
 
-
         try:
             app_id = app_identity.get_application_id()
             sender_address = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
@@ -276,7 +272,6 @@ class ContactHandler(BaseHandler):
             message = 'Error sending the message. Please try again later.'
             self.add_message(message, 'error')
             return self.redirect_to('contact')
-
 
 
 class CreateUserHandler(BaseHandler):
@@ -364,7 +359,6 @@ class LogoutHandler(BaseHandler):
     """
          Destroy user session and redirect to login
     """
-
     def get(self):
         if self.user:
             message = "You’ve signed out successfully." # Info message
@@ -383,7 +377,6 @@ class SecureRequestHandler(BaseHandler):
     """
          Only accessible to users that are logged in
     """
-
     @user_required
     def get(self, **kwargs):
         user_session = self.user
