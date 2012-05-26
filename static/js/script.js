@@ -1,8 +1,13 @@
-/* Author:  @coto
- insertParam Function:
- Insert parameters to the URL recognizing if it had parameters before.
-*/
-function insertParam(key, value)
+/**
+ *  Author:  @coto
+ *  Function: insertParamToURL
+ *  @param {String} key Parameter to insert into URL
+ *  @param {String} value Value for new parameter
+ *
+ *  Insert parameters to the URL recognizing if it had parameters before.
+ *  It will reload the page, it's likely better to store this until finished
+ */
+function insertParamToURL(key, value)
 {
     key = escape(key); value = escape(value);
 
@@ -22,7 +27,6 @@ function insertParam(key, value)
 
     if(i<0) {kvp[kvp.length] = [key,value].join('=');}
 
-    //this will reload the page, it's likely better to store this until finished
     document.location.search = kvp.join('&');
 }
 
