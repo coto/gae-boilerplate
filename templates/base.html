@@ -88,10 +88,11 @@
         {% endblock %}
 
 
-        <div id="content" class="container">
+        <div id="content" class="container xled">
             {% block header %}
-                <header class="jumbotron subhead" id="overview">
-                        <h1>{% block header_title %}{% endblock %}</h1>
+                <header class="subhead" id="overview">
+                        <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
+                        <p class="lead">{{ lang.text_description|safe }}</p>
                         <div class="subnav">
                             <ul class="nav nav-pills">
                                 <li><a href="/create">{{ lang.menu_create_user|safe }}</a></li>
