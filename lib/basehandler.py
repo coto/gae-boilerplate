@@ -91,6 +91,14 @@ class BaseHandler(webapp2.RequestHandler):
         return str(self.user['user_id']) if self.user else None
 
     @webapp2.cached_property
+    def username(self):
+        import models.models as models
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            return str(user_info.username)
+        return  None
+
+    @webapp2.cached_property
     def path_for_language(self):
         """
         Get an path + query_string without language parameter (hl=something)
@@ -108,7 +116,7 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
             'user_id': self.user_id,
-            'username': self.user['user_id'],
+            'username': self.username,
             'url': self.request.url,
             'path': self.request.path,
             'query_string': self.request.query_string,
