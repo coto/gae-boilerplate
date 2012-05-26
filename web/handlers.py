@@ -381,7 +381,6 @@ class SecureRequestHandler(BaseHandler):
         user_session = self.user
         user_session_object = self.auth.store.get_session(self.request)
 
-        # Also you can use user_info = models.User.get_by_id(long( user_session['user_id'] ))
         user_info = models.User.get_by_id(long( self.user_id ))
         user_info_object = self.auth.store.user_model.get_by_auth_token(
             user_session['user_id'], user_session['token'])
