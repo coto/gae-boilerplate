@@ -2,6 +2,8 @@
 
 The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
 
+{Try it online}[http://appengine.protoboard.cl]
+
 === What's a Boilerplate?
 Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
 
