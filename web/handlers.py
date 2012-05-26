@@ -14,7 +14,6 @@ import models.models as models
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from webapp2_extras import security
-from webapp2_extras.appengine.users import login_required
 from lib import utils
 from lib import captcha
 from lib.basehandler import BaseHandler
