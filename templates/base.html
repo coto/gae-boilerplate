@@ -52,7 +52,7 @@
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-chevron-down icon-white"></span>
                     </a>
-                    <a class="brand" href="/">Boilerplate</a>
+                    <a class="brand" href="/">Boilerplate {{ path_for_language }}</a>
                     <div class="nav-collapse">
                         <ul class="nav pull-right">
                             <li><a href="https://github.com/coto/gae-boilerplate" target="_blank">{{ lang.menu_opensource|safe }}</a></li>
@@ -61,16 +61,16 @@
                                     {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    {% if lang.id != "es" %}<li value="es"><a href="{{ path }}?&es">{{ lang.spanish|safe }}</a></li>{% endif %}
-                                    {% if lang.id != "en" %}<li value="en"><a href="{{ path }}?&en">{{ lang.english|safe }}</a></li>{% endif %}
-                                    {% if lang.id != "it" %}<li value="it"><a href="{{ path }}?&it">{{ lang.italian|safe }}</a></li>{% endif %}
-                                    {% if lang.id != "cn" %}<li value="cn"><a href="{{ path }}?&cn">{{ lang.chinese|safe }}</a></li>{% endif %}
+                                    {% if lang.id != "es" %}<li><a href="{{ path_for_language }}es">{{ lang.spanish|safe }}</a></li>{% endif %}
+                                    {% if lang.id != "en" %}<li><a href="{{ path_for_language }}en">{{ lang.english|safe }}</a></li>{% endif %}
+                                    {% if lang.id != "it" %}<li><a href="{{ path_for_language }}it">{{ lang.italian|safe }}</a></li>{% endif %}
+                                    {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}cn">{{ lang.chinese|safe }}</a></li>{% endif %}
                                 </ul>
                             </li>
                             <li class="divider-vertical"></li>
-                            {% if current_user %}
+                            {% if user_id %}
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@coto <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
 {#                                    <li><a href="#">Configuración de la cuenta</a></li>#}
                                     <li class="divider"></li>
@@ -104,10 +104,12 @@
         {% endblock %}
 
         <div id="content" class="container">
+            {% if messages != "" %}
             <p class="alert alert-{{ level }}">
                 <a class="close" data-dismiss="alert">×</a>
                 {{ messages|safe }}
             </p>
+            {% endif %}
 
             {% block content %}{% endblock %}
         </div><!-- /content -->

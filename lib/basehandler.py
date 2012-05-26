@@ -6,6 +6,7 @@ from webapp2_extras import sessions
 from lib import i18n
 from lib import utils
 import config
+import re
 
 def user_required(handler):
     """
@@ -90,17 +91,29 @@ class BaseHandler(webapp2.RequestHandler):
         return str(self.user['user_id']) if self.user else None
 
     @webapp2.cached_property
+    def path_for_language(self):
+        """
+        path_for_language function get the
+        """
+        path_lang = re.sub(r'(hl=(\w{2})\&*)|(\&*hl=(\w{2})\&*?)', '', str(self.request.query_string))
+
+        return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
+
+    @webapp2.cached_property
     def jinja2(self):
         return jinja2.get_jinja2(app=self.app)
 
     def render_template(self, filename, **kwargs):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
-            'current_user': self.user,
-            'current_url': self.request.url,
+            'user_id': self.user_id,
+            'username': self.user['user_id'],
+            'url': self.request.url,
+            'path': self.request.path,
+            'query_string': self.request.query_string,
+            'path_for_language': self.path_for_language,
             'lang': i18n.set_lang_cookie_and_return_dict(self),
             'is_mobile': utils.set_device_cookie_and_return_bool(self),
-            'path': self.request.path,
             })
         kwargs.update(self.auth_config)
         if self.messages:
