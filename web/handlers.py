@@ -25,6 +25,16 @@ import logging
 import config
 
 
+class BootstrapHandler(BaseHandler):
+
+    def get(self):
+        """
+              Returns a simple HTML form for home
+        """
+        params = {}
+        return self.render_template('boilerplate_bootstrap.html', **params)
+
+
 class HomeRequestHandler(BaseHandler):
 
     def get(self):
