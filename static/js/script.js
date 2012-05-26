@@ -29,6 +29,61 @@ function insertParam(key, value)
 
 $(document).ready(function() {
 
+    /***** Obtiene definición del tipo de dispositivo  ****/
+    var ua = navigator.userAgent;
+    var checker = {
+        ios: ua.match(/(iPhone|iPod|iPad)/),
+        blackberry: ua.match(/BlackBerry/),
+        android: ua.match(/Android/),
+        mobile: ua.match(/(iPhone|iPod|iPad|BlackBerry|Android)/)
+    };
+
+    /* Fija la barra en la parte superior, excepto para iOS */
+    var $win = $(window)
+        , $nav = $('.subnav')
+        , $brand = $('.brand')
+        , navTop = $('.subnav').length && $('.subnav').offset().top - 40
+        , isFixed = 0
+
+    processScroll();
+
+    $nav.on('click', function () {
+        if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
+    });
+
+    $win.on('scroll', processScroll);
+
+    function processScroll() {
+        if(checker.ios) {
+            return;
+        }
+        var i, scrollTop = $win.scrollTop();
+        if (scrollTop >= navTop && !isFixed) {
+            isFixed = 1;
+            $nav.addClass('subnav-fixed');
+            $brand.addClass('brand-fixed');
+        } else if (scrollTop <= navTop && isFixed) {
+            isFixed = 0;
+            $nav.removeClass('subnav-fixed');
+            $brand.removeClass('brand-fixed');
+        }
+    }
+
+    /* Change CSS definitión for collapse button */
+    $('body').on('click.collapse.data-api', '[data-toggle=collapse]', function ( e ) {
+        var $this = $(this), href
+            , target = $this.attr('data-target')
+                || e.preventDefault()
+                || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+            , option = $(target).data('collapse') ? 'toggle' : $this.data()
+        if(!$(target).hasClass("in")){
+            $this.find("span").addClass("icon-chevron-down").removeClass("icon-chevron-up");
+        }
+        else {
+            $this.find("span").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+        }
+
+    })
 });
 
 
