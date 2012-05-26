@@ -106,7 +106,7 @@
 
             {% endblock %}
 
-            {% if messages != "" %}
+            {% if messages|safe %}
             <p class="alert alert-{{ level }}">
                 <a class="close" data-dismiss="alert">×</a>
                 {{ messages|safe }}
