@@ -55,7 +55,7 @@
                     <a class="brand" href="/">Boilerplate</a>
                     <div class="nav-collapse">
                         <ul class="nav pull-right">
-                            <li><a href="https://github.com/coto/gae-boilerplate" target="_blank">{{ lang.menu_opensource|safe }}</a></li>
+                            <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
@@ -87,23 +87,23 @@
         </div><!-- /navbar -->
         {% endblock %}
 
-        {% block header %}
-        <header class="subhead" id="overview">
-            <h1>{% block header_content_title %}{% endblock %}</h1>
-            {% block header_content_lead %}
-            <p class="lead">
-            <ul class="breadcrumb">
-                <li>
-                    <i class="icon-home"></i> <a href="/">{{ lang.menu_home|safe }}</a> <span class="divider">/</span>
-                </li>
-                <!--li class="active">Data</li-->
-            </ul>
-            </p>
-            {% endblock %}
-        </header>
-        {% endblock %}
 
         <div id="content" class="container">
+            {% block header %}
+                <header class="jumbotron subhead" id="overview">
+                        <h1>{% block header_title %}{% endblock %}</h1>
+                        <div class="subnav">
+                            <ul class="nav nav-pills">
+                                <li><a href="/create">{{ lang.menu_create_user|safe }}</a></li>
+                                <li><a href="/contact">{{ lang.menu_contact|safe }}</a></li>
+                                <li class="active"><a href="/secure">{{ lang.menu_secure|safe }}</a></li>
+                                <li><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
+                            </ul>
+                        </div>
+                </header>
+
+            {% endblock %}
+
             {% if messages != "" %}
             <p class="alert alert-{{ level }}">
                 <a class="close" data-dismiss="alert">×</a>
@@ -111,12 +111,13 @@
             </p>
             {% endif %}
             {% block content %}{% endblock %}
-        </div><!-- /content -->
-        {% block footer %}
-        <footer>
 
-        </footer>
-        {% endblock %}
+            {% block footer %}
+                <footer>
+
+                </footer>
+            {% endblock %}
+        </div><!-- /content -->
     </div><!-- /page -->
 
     <!-- JavaScript at the bottom for fast page loading -->

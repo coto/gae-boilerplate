@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% block header %}{% endblock %}
-
 {% block content %}
             <div class="hero-unit">
                 <h1>
@@ -13,13 +11,5 @@
                     {{ lang.text_description|safe }}
                 </p>
             </div>
-
-            <ul class="nav nav-tabs nav-stacked">
-                <li>{{ lang.menu_components|safe }}</li>
-                <li><a href="/create">{{ lang.menu_create_user|safe }}</a></li>
-                <li><a href="/contact">{{ lang.menu_contact|safe }}</a></li>
-                <li><a href="/secure">{{ lang.menu_secure|safe }}</a></li>
-                <li><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
-            </ul>
 {% endblock %}
 
