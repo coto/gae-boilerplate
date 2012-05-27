@@ -122,6 +122,7 @@ class BaseHandler(webapp2.RequestHandler):
             'query_string': self.request.query_string,
             'path_for_language': self.path_for_language,
             'lang': i18n.set_lang_cookie_and_return_dict(self),
+            'lang_native': i18n.languages,
             'is_mobile': utils.set_device_cookie_and_return_bool(self),
             })
         kwargs.update(self.auth_config)
