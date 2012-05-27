@@ -290,7 +290,7 @@ class ContactHandler(BaseHandler):
             return self.redirect_to('contact')
 
 
-class CreateUserHandler(BaseHandler):
+class RegisterHandler(BaseHandler):
     """
     Handler for creating a User
     """
@@ -303,7 +303,7 @@ class CreateUserHandler(BaseHandler):
         params = {
             "action": self.request.url,
             }
-        return self.render_template('boilerplate_create_user.html', **params)
+        return self.render_template('boilerplate_register.html', **params)
 
     def post(self):
         """
@@ -321,24 +321,24 @@ class CreateUserHandler(BaseHandler):
         if username == "" or email == "" or password == "":
             message = 'Sorry, some fields are required.'
             self.add_message(message, 'error')
-            return self.redirect_to('create-user')
+            return self.redirect_to('register')
 
         if password != c_password:
             message = 'Sorry, Passwords are not identical, ' \
                       'you have to repeat again.'
             self.add_message(message, 'error')
-            return self.redirect_to('create-user')
+            return self.redirect_to('register')
 
         if not utils.is_email_valid(email):
             message = 'Sorry, the email %s is not valid.' % email
             self.add_message(message, 'error')
-            return self.redirect_to('create-user')
+            return self.redirect_to('register')
 
         if not utils.is_alphanumeric(username):
             message = 'Sorry, the username %s is not valid. ' \
                       'Use only letters and numbers' % username
             self.add_message(message, 'error')
-            return self.redirect_to('create-user')
+            return self.redirect_to('register')
 
         # Password to SHA512
         password = utils.encrypt(password, config.salt)
@@ -358,9 +358,9 @@ class CreateUserHandler(BaseHandler):
             message = 'Sorry, This user {0:>s} ' \
                       'is already registered.'.format(username)# Error message
             self.add_message(message, 'error')
-            return self.redirect_to('create-user')
+            return self.redirect_to('register')
         else:
-            # User is created, let's try sign in the user and redirect to a secure page.
+            # User registered successfully, let's try sign in the user and redirect to a secure page.
             try:
                 self.auth.get_user_by_password(user[1].auth_ids[0], password)
                 message = 'Welcome %s you are now loged in.' % ( str(username) )
