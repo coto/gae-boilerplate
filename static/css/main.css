@@ -1,22 +1,3 @@
-/*
-* messages to self.response.write in
-* the BaseHandler.dispatcher
-*/
-.alert {
-    display: none;
-}
-.alert.alert-success
-, .alert.alert-error
-, .alert.alert-info {
-    display: block;
-}
-
-label.error {
-    color: red;
-    padding: .4em 0;
-    display: block;
-}
-
 /* Barra Header (Subnavegacion) */
 /* Subnav */
 .subnav {
@@ -84,6 +65,11 @@ label.error {
     body {
         padding-right: 0;
         padding-left: 0;
+    }
+
+    .container {
+        padding-right: 0.5em;
+        padding-left: 0.5em;
     }
 
     .navbar-fixed-top, .navbar-fixed-bottom {
