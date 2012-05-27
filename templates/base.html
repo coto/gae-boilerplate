@@ -67,8 +67,8 @@
                                     {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
                                 </ul>
                             </li>
-                            <li class="divider-vertical"></li>
                             {% if user_id %}
+                            <li class="divider-vertical"></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -77,7 +77,8 @@
                                     <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
                                 </ul>
                             </li>
-                            {% else %}
+                            {% elif path != "/" %}
+                            <li class="divider-vertical"></li>
                             <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
                             {% endif %}
                         </ul>
@@ -87,27 +88,25 @@
         </div><!-- /navbar -->
         {% endblock %}
 
-
         <div id="content" class="container xled">
             {% block header %}
-                <header class="subhead" id="overview">
-                        {% block header_title_lead %}
-                        <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
-                        <p class="lead">{{ lang.text_description|safe }}</p>
-                        {% endblock %}
-                        <div class="subnav">
-                            <ul class="nav nav-pills">
-                                <li {% if path == "/bootstrap/" %}class="active"{% endif %}><a href="/bootstrap/">Bootstrap</a></li>
-                                <li {% if path == "/contact/" %}class="active"{% endif %}><a href="/contact/">{{ lang.menu_contact|safe }}</a></li>
-                                <li {% if path == "/secure/" %}class="active"{% endif %}><a href="/secure/">{{ lang.menu_secure|safe }}</a></li>
-                                {% if not user_id %}
-                                    <li {% if path == "/register/" %}class="active"{% endif %}><a href="/register/">{{ lang.menu_register|safe }}</a></li>
-                                    <li {% if path == "/password-reset/" %}class="active"{% endif %}><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                </header>
-
+            <header class="subhead" id="overview">
+                {% block header_title_lead %}
+                <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
+                <p class="lead">{{ lang.text_description|safe }}</p>
+                {% endblock %}
+                <div class="subnav">
+                    <ul class="nav nav-pills">
+                        <li{% if path == "/bootstrap/" %} class="active"{% endif %}><a href="/bootstrap/">Bootstrap</a></li>
+                        <li{% if path == "/contact/" %} class="active"{% endif %}><a href="/contact/">{{ lang.menu_contact|safe }}</a></li>
+                        <li{% if path == "/secure/" %} class="active"{% endif %}><a href="/secure/">{{ lang.menu_secure|safe }}</a></li>
+                        {% if not user_id %}
+                        <li{% if path == "/register/" %} class="active"{% endif %}><a href="/register/">{{ lang.menu_register|safe }}</a></li>
+                        <li{% if path == "/password-reset/" %} class="active"{% endif %}><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </header>
             {% endblock %}
 
             {% if messages|safe %}
@@ -119,9 +118,9 @@
             {% block content %}{% endblock %}
 
             {% block footer %}
-                <footer>
+            <footer>
 
-                </footer>
+            </footer>
             {% endblock %}
         </div><!-- /content -->
     </div><!-- /page -->
