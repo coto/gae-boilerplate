@@ -98,10 +98,12 @@
                         <div class="subnav">
                             <ul class="nav nav-pills">
                                 <li {% if path == "/bootstrap/" %}class="active"{% endif %}><a href="/bootstrap/">Bootstrap</a></li>
-                                <li {% if path == "/create/" %}class="active"{% endif %}><a href="/create/">{{ lang.menu_create_user|safe }}</a></li>
                                 <li {% if path == "/contact/" %}class="active"{% endif %}><a href="/contact/">{{ lang.menu_contact|safe }}</a></li>
                                 <li {% if path == "/secure/" %}class="active"{% endif %}><a href="/secure/">{{ lang.menu_secure|safe }}</a></li>
-                                <li {% if path == "/password-reset/" %}class="active"{% endif %}><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
+                                {% if not user_id %}
+                                    <li {% if path == "/register/" %}class="active"{% endif %}><a href="/register/">{{ lang.menu_register|safe }}</a></li>
+                                    <li {% if path == "/password-reset/" %}class="active"{% endif %}><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                 </header>

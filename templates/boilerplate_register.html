@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block header_title %}
-        {{ lang.menu_create_user|safe }}
+        {{ lang.menu_register|safe }}
 {% endblock %}
 
 {% block content %}
 
-    <form id="form_create_user" action="{{ action|safe }}" method="post" class="well form-horizontal">
+    <form id="form_register" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="username">{{ lang.field_username|safe }}:</label>
@@ -299,7 +299,7 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{{ lang.menu_create_user|safe }}</button>
+                <button type="submit" class="btn btn-primary">{{ lang.menu_register|safe }}</button>
             </div>
         </fieldset>
     </form>
@@ -310,7 +310,7 @@
 <script type="text/javascript">
     $().ready(function() {
         var pwd, c_pwd;
-        $("#form_create_user").validate({
+        $("#form_register").validate({
             submitHandler: function(form) {
                     form.submit();
             },

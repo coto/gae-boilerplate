@@ -24,7 +24,7 @@ Try it online {here}[http://appengine.protoboard.cl].
 
 
 == This Boilerplate has the following functions:
-- Authentication (Login, Logout, Create User)
+- Authentication (Login, Logout, Register User)
 - Reset Password
 - Update User Profile (developing)
 - Automatic Language Detection

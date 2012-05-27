@@ -12,7 +12,7 @@ _routes = [
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/logout/', handlers.LogoutHandler, name='logout', strict_slash=True),
-    RedirectRoute('/create/', handlers.CreateUserHandler, name='create-user', strict_slash=True),
+    RedirectRoute('/register/', handlers.RegisterHandler, name='register', strict_slash=True),
     RedirectRoute('/send-reset-email/', handlers.SendPasswordResetEmailHandler, name='send-reset-email', strict_slash=True),
     RedirectRoute('/password-reset/', handlers.PasswordResetHandler, name='password-reset', strict_slash=True),
     RedirectRoute('/password-reset/<user_id>/<token>', handlers.PasswordResetCompleteHandler, name='password-reset-check', strict_slash=True),
