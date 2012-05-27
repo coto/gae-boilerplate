@@ -91,8 +91,10 @@
         <div id="content" class="container xled">
             {% block header %}
                 <header class="subhead" id="overview">
+                        {% block header_title_lead %}
                         <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
                         <p class="lead">{{ lang.text_description|safe }}</p>
+                        {% endblock %}
                         <div class="subnav">
                             <ul class="nav nav-pills">
                                 <li><a href="/bootstrap">Bootstrap</a></li>
