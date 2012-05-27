@@ -11,6 +11,8 @@ webapp2_config['webapp2_extras.auth'] = {
 
 contact_recipient = "PUT_YOUR_EMAIL_HERE"
 
+salt = "_PUT_SALT_HERE_TO_SHA512_PASSWORDS_"
+
 # get your own recaptcha keys by registering at www.google.com/recaptcha
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"

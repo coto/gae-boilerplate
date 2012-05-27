@@ -86,7 +86,7 @@ class PasswordResetHandler(BaseHandler):
             _message = 'Wrong image verification code. Please try again.'
             self.add_message(_message, 'error')
             return self.redirect_to('password-reset')
-        #check if we got an email or an username
+        #check if we got an email or username
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
@@ -141,7 +141,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             'action': self.request.url,
             }
         if verify[0] is None:
-            self.add_message('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.', 'error')
+            self.add_message('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.', 'warning')
             return self.redirect_to('password-reset')
 
         else:
@@ -163,6 +163,9 @@ class PasswordResetCompleteHandler(BaseHandler):
                           'you have to repeat again.'
                 self.add_message(message, 'error')
                 return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+
+            # Password to SHA512
+            password = utils.encrypt(password, config.salt)
         
             user.password = security.generate_password_hash(password, length=12)
             user.put()
@@ -202,6 +205,10 @@ class LoginHandler(BaseHandler):
         auth_id = "own:%s" % username
         password = self.request.POST.get('password')
         remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
+
+        # Password to SHA512
+        password = utils.encrypt(password, config.salt)
+
         # Try to login user with password
         # Raises InvalidAuthIdError if user is not found
         # Raises InvalidPasswordError if provided password
@@ -333,6 +340,9 @@ class CreateUserHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
 
+        # Password to SHA512
+        password = utils.encrypt(password, config.salt)
+
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
@@ -345,12 +355,12 @@ class CreateUserHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = 'Sorry, User {0:>s} ' \
-                      'is already created.'.format(username)# Error message
+            message = 'Sorry, This user {0:>s} ' \
+                      'is already registered.'.format(username)# Error message
             self.add_message(message, 'error')
             return self.redirect_to('create-user')
         else:
-            # User is created, let's try loging the user  in and redirecting to secure page
+            # User is created, let's try sign in the user and redirect to a secure page.
             try:
                 self.auth.get_user_by_password(user[1].auth_ids[0], password)
                 message = 'Welcome %s you are now loged in.' % ( str(username) )
