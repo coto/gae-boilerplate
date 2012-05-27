@@ -3,7 +3,22 @@
 {% block header_title_lead %}{% endblock %}
 
 {% block content %}
-            <div class="hero-unit">
+
+    {% if user_id %}
+    <div class="hero-unit">
+        <h1>
+            {{ lang.text_title|safe }}
+        </h1>
+        <p style="text-align: center">
+            <img src="img/google-app-engine-logo.png" />
+            <br/>
+            {{ lang.text_description|safe }}
+        </p>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="span8">
+            <div class="">
                 <h1>
                     {{ lang.text_title|safe }}
                 </h1>
@@ -13,5 +28,100 @@
                     {{ lang.text_description|safe }}
                 </p>
             </div>
+        </div>
+        <div class="span4">
+            <h3>Login</h3>
+            <div>
+            <form id="form_login_user" action="/login/" method="post" class="">
+                <fieldset class="well">
+                    <div class="control-group">
+                        <div class="controls">
+                            <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.login_username|safe }}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input class="focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.login_password|safe }}">
+                        </div>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                                {{ lang.login_remember|safe }}
+                                <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">{{ lang.menu_login|safe }}</button>
+                    </div>
+                </fieldset>
+            </form>
+            </div>
+            <h3>{{ lang.menu_register|safe }}</h3>
+            <form id="form_register" action="/register/" method="post" class="well form-vertical">
+            <fieldset>
+            <div class="control-group">
+                <div class="controls">
+                    <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_username|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input class="focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input class="focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.field_cpassword|safe }}">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{ lang.menu_register|safe }}</button>
+            </div>
+            </fieldset>
+            </form>
+        </div>
+    </div><!-- /row -->
+    {% endif %}
+
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+
+            $("#form_register").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                rules: {
+                    password: 'required',
+                    c_password: {
+                        required: true,
+                        equalTo: '#password'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
 {% endblock %}
 

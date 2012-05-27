@@ -41,7 +41,7 @@
             <div class="control-group">
                 <label class="control-label" for="c_password">{{ lang.field_cpassword|safe }}:</label>
                 <div class="controls">
-                    <input class="input-xlarge focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_cpassword|safe }}">
+                    <input class="input-xlarge focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.field_cpassword|safe }}">
                 </div>
             </div>
             <div class="control-group">
@@ -309,7 +309,6 @@
 {% block mediaJS %}
 <script type="text/javascript">
     $().ready(function() {
-        var pwd, c_pwd;
         $("#form_register").validate({
             submitHandler: function(form) {
                     form.submit();
