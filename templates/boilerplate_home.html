@@ -31,7 +31,6 @@
         </div>
         <div class="span4">
             <h3>Login</h3>
-            <div>
             <form id="form_login_user" action="/login/" method="post" class="">
                 <fieldset class="well">
                     <div class="control-group">
@@ -56,35 +55,35 @@
                     </div>
                 </fieldset>
             </form>
-            </div>
+
             <h3>{{ lang.menu_register|safe }}</h3>
             <form id="form_register" action="/register/" method="post" class="well form-vertical">
-            <fieldset>
-            <div class="control-group">
-                <div class="controls">
-                    <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_username|safe }}">
+                <fieldset>
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_username|safe }}">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input class="focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}">
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input class="focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}">
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.field_cpassword|safe }}">
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.field_cpassword|safe }}">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{{ lang.menu_register|safe }}</button>
-            </div>
-            </fieldset>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">{{ lang.menu_register|safe }}</button>
+                </div>
+                </fieldset>
             </form>
         </div>
     </div><!-- /row -->
