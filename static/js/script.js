@@ -33,7 +33,7 @@ function insertParamToURL(key, value)
 
 $(document).ready(function() {
 
-    /***** Obtiene definición del tipo de dispositivo  ****/
+    /***** Get kind of device ****/
     var ua = navigator.userAgent;
     var checker = {
         ios: ua.match(/(iPhone|iPod|iPad)/),
@@ -42,7 +42,7 @@ $(document).ready(function() {
         mobile: ua.match(/(iPhone|iPod|iPad|BlackBerry|Android)/)
     };
 
-    /* Fija la barra en la parte superior, excepto para iOS */
+    /* Fix Bar at top, except for iOS */
     var $win = $(window)
         , $nav = $('.subnav')
         , $brand = $('.brand')
@@ -73,8 +73,8 @@ $(document).ready(function() {
         }
     }
 
-    // Detecta si existe el evento  orientationchange, otherwise fall back to
-    // the resize event.
+    // Detects orientationchange event, otherwise fall back to the resize event.
+    // Fixing this bug: http://webdesignerwall.com/tutorials/iphone-safari-viewport-scaling-bug
     if (checker.mobile && checker.ios){
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
@@ -83,7 +83,7 @@ $(document).ready(function() {
             $("body").css("width", "100%");
             //alert('HOLY ROTATING SCREENS BATMAN:' + window.orientation + " " + screen.width);
         }, false);
-        //http://webdesignerwall.com/tutorials/iphone-safari-viewport-scaling-bug
+
         var viewportmeta = document.querySelector('meta[name="viewport"]');
         if (viewportmeta) {
             viewportmeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
