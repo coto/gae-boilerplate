@@ -1,4 +1,19 @@
-/* Barra Header (Subnavegacion) */
+/**################  Begin of Styles only for Google App Engine Boilerplate ################**/
+.home_bp {
+    background: transparent url(../img/google-app-engine-logo.png) top center no-repeat;
+    padding-top: 20em;
+    text-align: center;
+}
+.home_bp h1, .hero-unit.home_bp h1 {
+    font-size: 1.6em;
+}
+.home_bp p, .hero-unit.home_bp p {
+    font-size: 1.2em;
+}
+/**##################  End of Styles only for Google App Engine Boilerplate ################**/
+
+
+/* Header Bar (Subnavegacion) */
 /* Subnav */
 .subnav {
     width: 100%;
@@ -62,6 +77,8 @@
 * Mediaqueries
 */
 @media (max-width: 767px) {
+    /* Most Landscape Phones */
+
     body {
         padding-right: 0;
         padding-left: 0;
@@ -108,12 +125,24 @@
 
 }
 @media (max-width: 480px) {
+    /* Most Portrait Phones */
+
+    .home_bp {
+        background-size: 60%;
+        padding-top: 18em;
+    }
+
     .led {
         background-color: fuchsia;
     }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
+
+    .well {
+        padding: 20px 2px;
+    }
+    /* Most Portrait Tablets */
     .led {
         background-color: blue;
     }
@@ -124,6 +153,8 @@
 
 /* Fixed subnav on scroll, but only for 980px and up (sorry IE!) */
 @media (min-width: 980px) {
+    /* Most Landscape Tablets */
+
     body {
         padding-top: 50px;
     }

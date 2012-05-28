@@ -5,26 +5,22 @@
 {% block content %}
 
     {% if user_id %}
-    <div class="hero-unit">
+    <div class="hero-unit home_bp">
         <h1>
             {{ lang.text_title|safe }}
         </h1>
-        <p style="text-align: center">
-            <img src="img/google-app-engine-logo.png" />
-            <br/>
+        <p>
             {{ lang.text_description|safe }}
         </p>
     </div>
     {% else %}
     <div class="row">
         <div class="span8">
-            <div class="">
+            <div class="home_bp">
                 <h1>
                     {{ lang.text_title|safe }}
                 </h1>
-                <p style="text-align: center">
-                    <img src="img/google-app-engine-logo.png" />
-                    <br/>
+                <p>
                     {{ lang.text_description|safe }}
                 </p>
             </div>
