@@ -9,6 +9,8 @@ from web import handlers
 
 _routes = [
     RedirectRoute('/bootstrap/', handlers.BootstrapHandler, name='bootstrap', strict_slash=True),
+    RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
+    RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/logout/', handlers.LogoutHandler, name='logout', strict_slash=True),

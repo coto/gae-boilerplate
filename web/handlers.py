@@ -156,13 +156,13 @@ class PasswordResetCompleteHandler(BaseHandler):
             if password == "" or c_password == "":
                 message = 'Password required.'
                 self.add_message(message, 'error')
-                return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+                return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
             if password != c_password:
                 message = 'Sorry, Passwords are not identical, ' \
                           'you have to repeat again.'
                 self.add_message(message, 'error')
-                return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+                return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
             # Password to SHA512
             password = utils.encrypt(password, config.salt)
@@ -178,7 +178,7 @@ class PasswordResetCompleteHandler(BaseHandler):
 
         else:
             self.add_message('Please correct the form errors.', 'error')
-            return self.redirect_to('password-reset-check',user_id=user_id, token=token)
+            return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
 
 class LoginHandler(BaseHandler):
@@ -307,8 +307,7 @@ class RegisterHandler(BaseHandler):
 
     def post(self):
         """
-              username: Get the username from POST dict
-              password: Get the password from POST dict
+              Get fields from POST dict
         """
         username = str(self.request.POST.get('username')).lower().strip()
         name = str(self.request.POST.get('name')).strip()
@@ -372,6 +371,149 @@ class RegisterHandler(BaseHandler):
                           'user {0:>s}.'.format(username)
                 self.add_message(message, 'error')
                 self.abort(403)
+
+
+class EditProfileHandler(BaseHandler):
+    """
+    Handler for creating a User
+    """
+    @user_required
+    def get(self):
+        """
+              Returns a simple HTML form for edit profile
+        """
+        params = {
+            "action": self.request.url,
+            }
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+
+            params.update({
+                "username" : str(user_info.username),
+                "name" : str(user_info.name),
+                "last_name" : str(user_info.last_name),
+                "email" : str(user_info.email),
+                "country" : str(user_info.country),
+            })
+
+        return self.render_template('boilerplate_edit_profile.html', **params)
+
+    def post(self):
+        """
+              Get fields from POST dict
+        """
+        username = str(self.request.POST.get('username')).lower().strip()
+        name = str(self.request.POST.get('name')).strip()
+        last_name = str(self.request.POST.get('last_name')).strip()
+        email = str(self.request.POST.get('email')).lower().strip()
+        country = str(self.request.POST.get('country')).strip()
+
+        if username == "" or email == "":
+            message = 'Sorry, some fields are required.'
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-profile')
+
+        if not utils.is_email_valid(email):
+            message = 'Sorry, the email %s is not valid.' % email
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-profile')
+
+        if not utils.is_alphanumeric(username):
+            message = 'Sorry, the username %s is not valid. '\
+                      'Use only letters and numbers' % username
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-profile')
+
+        #TODO: Update profile identifying unique_properties
+
+        # Passing password_raw=password so password will be hashed
+        # Returns a tuple, where first value is BOOL.
+        # If True ok, If False no new user is created
+        unique_properties = ['username','email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, password_raw=password,
+            username=username, name=name, last_name=last_name, email=email,
+            country=country, ip=self.request.remote_addr,
+        )
+
+        if not user[0]: #user is a tuple
+            message = 'Sorry, This user {0:>s} '\
+                      'is already registered.'.format(username)# Error message
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        else:
+            # User registered successfully, let's try sign in the user and redirect to a secure page.
+            try:
+                self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                message = 'Welcome %s you are now loged in.' % ( str(username) )
+                self.add_message(message, 'success')
+                return self.redirect_to('secure')
+
+            except (AttributeError, KeyError), e:
+                message = 'Unexpected error creating '\
+                          'user {0:>s}.'.format(username)
+                self.add_message(message, 'error')
+                self.abort(403)
+
+
+class EditPasswordHandler(BaseHandler):
+    """
+    Handler for creating a User
+    """
+    @user_required
+    def get(self):
+        """
+              Returns a simple HTML form for editing password
+        """
+        params = {
+            "action": self.request.url,
+            }
+        return self.render_template('boilerplate_edit_password.html', **params)
+
+    def post(self):
+        """
+              Get fields from POST dict
+        """
+        current_password = str(self.request.POST.get('current_password')).strip()
+        password = str(self.request.POST.get('password')).strip()
+        c_password = str(self.request.POST.get('c_password')).strip()
+
+        if current_password == "" or password == "" or c_password == "":
+            message = 'Sorry, some fields are required.'
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-password')
+
+        if password != c_password:
+            message = 'Sorry, Passwords are not identical, '\
+                      'you have to repeat again.'
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-password')
+
+        #TODO: Update profile identifying unique_properties
+
+        user_info = models.User.get_by_id(long(self.user_id))
+
+        logging.error(user_info)
+        auth_id = "own:%s" % user_info.username
+
+        verify = models.User.get_by_auth_password(auth_id, current_password)
+        user = verify[0]
+        if user:
+            # Password to SHA512
+            password = utils.encrypt(password, config.salt)
+
+            user.password = security.generate_password_hash(password, length=12)
+            user.put()
+            # Login User
+            coto = self.auth.get_user_by_password(user.auth_ids[0], password)
+            logging.error(coto)
+            self.add_message('Password changed successfully', 'success')
+            return self.redirect_to('secure')
+
+        else:
+            self.add_message('Your current password is wrong, please try again.', 'error')
+            return self.redirect_to('edit-password')
 
 
 class LogoutHandler(BaseHandler):
