@@ -73,6 +73,27 @@ $(document).ready(function() {
         }
     }
 
+    // Detecta si existe el evento  orientationchange, otherwise fall back to
+    // the resize event.
+    if (checker.mobile && checker.ios){
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+        window.addEventListener(orientationEvent, function() {
+            $("body").css("width", "100%");
+            //alert('HOLY ROTATING SCREENS BATMAN:' + window.orientation + " " + screen.width);
+        }, false);
+        //http://webdesignerwall.com/tutorials/iphone-safari-viewport-scaling-bug
+        var viewportmeta = document.querySelector('meta[name="viewport"]');
+        if (viewportmeta) {
+            viewportmeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
+            document.body.addEventListener('gesturestart', function () {
+                viewportmeta.content = 'width=device-width, minimum-scale=0.25, maximum-scale=1';
+            }, false);
+        }
+
+    }
+
     /* Change CSS definitión for collapse button */
     $('body').on('click.collapse.data-api', '[data-toggle=collapse]', function ( e ) {
         var $this = $(this), href
