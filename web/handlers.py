@@ -90,9 +90,11 @@ class PasswordResetHandler(BaseHandler):
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
+            _message = "If the e-mail address you entered <strong>%s</strong> " % email_or_username
         else:
             auth_id = "own:%s" % email_or_username
             user = models.User.get_by_auth_id(auth_id)
+            _message = "If the username you entered <strong>%s</strong> " % email_or_username
 
         if user is not None:
             user_id = user.get_id()
@@ -103,7 +105,10 @@ class PasswordResetHandler(BaseHandler):
                 'token' : token,
                 'user_id' : user_id,
                 })
-            _message = 'Password reset instruction have been sent. Please check your email inbox.'
+            _message = _message + "is associated with an account in our records, you will receive " \
+                       "an e-mail from us with instructions for resetting your password. " \
+                       "<br>If you don't receive this e-mail, please check your junk mail folder or " \
+                       "<a href='/contact'>contact us</a> for further assistance."
             self.add_message(_message, 'success')
             return self.redirect_to('login')
         _message = 'Your email / username was not found. Please try another or <a href="/register">create an account</a>.'
