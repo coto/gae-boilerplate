@@ -19,7 +19,9 @@ skip_files:
 - ^(.*/)?\..*
 - ^(.*/)?tests$
 - ^(.*/)?test$
-- Makefile
+- ^Makefile
+- ^COPYING.LESSER
+- ^README.rdoc
 - \.gitignore
 - ^\.git/.*
 - \.*\.lint$
