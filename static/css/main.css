@@ -12,6 +12,13 @@
 }
 /**##################  End of Styles only for Google App Engine Boilerplate ################**/
 
+body {
+    padding-top: 50px;
+}
+/* Used by plugins.js (jQuery placeholder support for IE) */
+.hasPlaceholder {
+    color: #777;
+}
 
 /* Header Bar (Subnavegacion) */
 /* Subnav */
@@ -154,10 +161,6 @@
 /* Fixed subnav on scroll, but only for 980px and up (sorry IE!) */
 @media (min-width: 980px) {
     /* Most Landscape Tablets */
-
-    body {
-        padding-top: 50px;
-    }
 
     .led {
         background-color: red;
