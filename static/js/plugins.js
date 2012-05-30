@@ -60,5 +60,29 @@ else{var a=true,b=c(this[0].form).validate();this.each(function(){a&=b.element(t
 (function(c){!jQuery.event.special.focusin&&!jQuery.event.special.focusout&&document.addEventListener&&c.each({focus:"focusin",blur:"focusout"},function(a,b){function d(e){e=c.event.fix(e);e.type=b;return c.event.handle.call(this,e)}c.event.special[b]={setup:function(){this.addEventListener(a,d,true)},teardown:function(){this.removeEventListener(a,d,true)},handler:function(e){arguments[0]=c.event.fix(e);arguments[0].type=b;return c.event.handle.apply(this,arguments)}}});c.extend(c.fn,{validateDelegate:function(a,
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     b,d){return this.bind(b,function(e){var f=c(e.target);if(f.is(a))return d.apply(f,arguments)})}})})(jQuery);
 /**
- * END jQuery Validation Plugin 1.9.0
-**/                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+ * jQuery placeholder support for IE
+**/
+jQuery(function() {
+    jQuery.support.placeholder = false;
+    test = document.createElement('input');
+    if('placeholder' in test) jQuery.support.placeholder = true;
+});
+$(function() {
+    if(!$.support.placeholder) {
+        var active = document.activeElement;
+        $('input[type=text],input[type=email],input[type=url],input[type=number],input[type=search]').focus(function () {
+            if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+                $(this).val('').removeClass('hasPlaceholder');
+            }
+        }).blur(function () {
+            if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+                $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
+            }
+        });
+        $('input[type=text],input[type=email],input[type=url],input[type=number],input[type=search]').blur();
+        $(active).focus();
+        $('form').submit(function () {
+            $(this).find('.hasPlaceholder').each(function() { $(this).val(''); });
+        });
+    }
+});
