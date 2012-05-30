@@ -12,9 +12,16 @@
 }
 /**##################  End of Styles only for Google App Engine Boilerplate ################**/
 
+/* Rewrite Twitter Bootstrap */
+.well .form-actions {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 body {
     padding-top: 50px;
 }
+
 /* Used by plugins.js (jQuery placeholder support for IE) */
 .hasPlaceholder {
     color: #777;
