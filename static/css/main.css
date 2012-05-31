@@ -163,6 +163,9 @@ body {
 }
 
 @media (max-width: 979px) {
+    body {
+        padding-top: 0;
+    }
 }
 
 /* Fixed subnav on scroll, but only for 980px and up (sorry IE!) */
