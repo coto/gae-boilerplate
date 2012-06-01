@@ -64,3 +64,15 @@ libraries:
   version: "2.6"
 - name: webapp2
   version: "2.5.1"
+
+error_handlers:
+  - file: templates/errors/default_error.html
+
+  - error_code: over_quota
+    file: templates/errors/over_quota.html
+
+  - error_code: dos_api_denial
+    file: templates/errors/dos_api_denial.html
+
+  - error_code: timeout
+    file: templates/errors/timeout.html
