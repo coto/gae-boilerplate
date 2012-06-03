@@ -47,7 +47,7 @@ class HomeRequestHandler(BaseHandler):
 
 class PasswordResetHandler(BaseHandler):
     """
-    Password Reset Handler
+    Password Reset Handler with Captcha
     """
     reCaptcha_public_key = config.captcha_public_key
     reCaptcha_private_key = config.captcha_private_key
@@ -232,7 +232,7 @@ class LoginHandler(BaseHandler):
 
 class ContactHandler(BaseHandler):
     """
-    Handler for creating a User
+    Handler for Contact Form
     """
     def get(self):
         """
@@ -297,7 +297,7 @@ class ContactHandler(BaseHandler):
 
 class RegisterHandler(BaseHandler):
     """
-    Handler for creating a User
+    Handler for Register Users
     """
     def get(self):
         """
@@ -380,7 +380,7 @@ class RegisterHandler(BaseHandler):
 
 class EditProfileHandler(BaseHandler):
     """
-    Handler for creating a User
+    Handler for Edit User Profile
     """
     @user_required
     def get(self):
@@ -464,7 +464,7 @@ class EditProfileHandler(BaseHandler):
 
 class EditPasswordHandler(BaseHandler):
     """
-    Handler for creating a User
+    Handler for Edit User Password
     """
     @user_required
     def get(self):
