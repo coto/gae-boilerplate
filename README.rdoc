@@ -59,7 +59,7 @@ http://appengine.protoboard.cl
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/] with {Modernizr 2.5.3}[http://modernizr.com]
 * jQuery 1.7.2
-* {Twitter Bootstrap 2.0.3}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+* {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
 
 
