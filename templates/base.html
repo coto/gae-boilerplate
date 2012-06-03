@@ -14,6 +14,14 @@
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.ico">
+    {% if is_mobile %}
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {% endif %}
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    {% block mediaCSS %}{% endblock %}
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', '{{ google_analytics_code }}']);
@@ -25,15 +33,6 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
-    {% if is_mobile %}
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    {% endif %}
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="/css/main.css" />
-
-    {% block mediaCSS %}{% endblock %}
     <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance.
        Create your own custom Modernizr build: www.modernizr.com/download/ -->
@@ -48,42 +47,40 @@
         {% block navbar %}
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-chevron-down icon-white"></span>
-                    </button>
-                    <a class="brand" href="/">Boilerplate</a>
-                    <div class="nav-collapse">
-                        <ul class="nav pull-right">
-                            <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    {% if lang.id != "es" %}<li><a href="{{ path_for_language }}&hl=es">{{ lang.spanish|safe }} - {{ lang_native.es['spanish']  }}</a></li>{% endif %}
-                                    {% if lang.id != "en" %}<li><a href="{{ path_for_language }}&hl=en">{{ lang.english|safe }} - {{ lang_native.en['english']  }}</a></li>{% endif %}
-                                    {% if lang.id != "it" %}<li><a href="{{ path_for_language }}&hl=it">{{ lang.italian|safe }} - {{ lang_native.it['italian']  }}</a></li>{% endif %}
-                                    {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
-                                </ul>
-                            </li>
-                            {% if user_id %}
-                            <li class="divider-vertical"></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/settings/profile">{{ lang.menu_edit_profile|safe }}</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
-                                </ul>
-                            </li>
-                            {% elif path != "/" %}
-                            <li class="divider-vertical"></li>
-                            <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
-                            {% endif %}
-                        </ul>
-                    </div><!-- /.nav-collapse -->
-                </div>
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-chevron-down icon-white"></span>
+                </button>
+                <a class="brand" href="/">Boilerplate</a>
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if lang.id != "es" %}<li><a href="{{ path_for_language }}&hl=es">{{ lang.spanish|safe }} - {{ lang_native.es['spanish']  }}</a></li>{% endif %}
+                                {% if lang.id != "en" %}<li><a href="{{ path_for_language }}&hl=en">{{ lang.english|safe }} - {{ lang_native.en['english']  }}</a></li>{% endif %}
+                                {% if lang.id != "it" %}<li><a href="{{ path_for_language }}&hl=it">{{ lang.italian|safe }} - {{ lang_native.it['italian']  }}</a></li>{% endif %}
+                                {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
+                            </ul>
+                        </li>
+                        {% if user_id %}
+                        <li class="divider-vertical"></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/settings/profile">{{ lang.menu_edit_profile|safe }}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
+                            </ul>
+                        </li>
+                        {% elif path != "/" %}
+                        <li class="divider-vertical"></li>
+                        <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div><!-- /.nav-collapse -->
             </div><!-- /navbar-inner -->
         </div><!-- /navbar -->
         {% endblock %}
