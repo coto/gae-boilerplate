@@ -53,8 +53,8 @@
             </form>
 
             <h3>{{ lang.menu_register|safe }}</h3>
-            <form id="form_register" action="/register/" method="post" class="well form-vertical">
-                <fieldset>
+            <form id="form_register" action="/register/" method="post">
+                <fieldset class="well">
                 <div class="control-group">
                     <div class="controls">
                         <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.field_username|safe }}">
