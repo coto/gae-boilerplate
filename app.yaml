@@ -64,6 +64,8 @@ libraries:
   version: "2.6"
 - name: webapp2
   version: "2.5.1"
+- name: markupsafe
+  version: "0.15"
 
 error_handlers:
   - file: templates/errors/default_error.html

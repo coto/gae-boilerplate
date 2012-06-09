@@ -106,12 +106,14 @@
             </header>
             {% endblock %}
 
-            {% if messages|safe %}
-            <p class="alert alert-{{ level }}">
+        {% if messages|safe %}
+        	{% for message in messages %}
+            <p class="alert alert-{{ message[1]|safe }}">
                 <a class="close" data-dismiss="alert">×</a>
-                {{ messages|safe }}
+                {{ message[0]|safe }}
             </p>
-            {% endif %}
+            {% endfor %}
+        {% endif %}
             {% block content %}{% endblock %}
 
             {% block footer %}
