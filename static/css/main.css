@@ -1,6 +1,6 @@
 /**################  Begin of Styles only for Google App Engine Boilerplate ################**/
 .home_bp {
-    background: transparent url(../img/google-app-engine-logo.png) top center no-repeat;
+    background: transparent url(../img/logo.png) top center no-repeat;
     padding-top: 20em;
     text-align: center;
 }
@@ -16,6 +16,10 @@
 .well .form-actions {
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+.navbar .brand {
+    margin-left: 0;
 }
 
 body {
