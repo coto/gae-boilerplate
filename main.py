@@ -17,10 +17,28 @@ __author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
 __website__ = 'www.protoboard.cl'
 
 import webapp2
+from webapp2_extras import jinja2 
 import config
 import routes
 import os
 
+def handle_404(request, response, exception):
+    c = { 'exception': exception.status }
+    template = config.error_templates[404]
+    t = jinja2.get_jinja2(app=app).render_template(template, **c)
+    response.write(t)
+    response.set_status(exception.status_int)
+
+def handle_500(request, response, exception):
+    c = { 'exception': exception.status }
+    template = config.error_templates[500]
+    t = jinja2.get_jinja2(app=app).render_template(template, **c)
+    response.write(t)
+    response.set_status(exception.status_int)
+
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
+
+app.error_handlers[404] = handle_404
+app.error_handlers[500] = handle_500
 routes.add_routes(app)
 
