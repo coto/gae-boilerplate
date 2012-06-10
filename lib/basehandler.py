@@ -97,6 +97,14 @@ class BaseHandler(webapp2.RequestHandler):
             user_info = models.User.get_by_id(long(self.user_id))
             return str(user_info.username)
         return  None
+    
+    @webapp2.cached_property
+    def email(self):
+        import models.models as models
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            return str(user_info.email)
+        return  None
 
     @webapp2.cached_property
     def path_for_language(self):
@@ -109,26 +117,46 @@ class BaseHandler(webapp2.RequestHandler):
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
 
     @webapp2.cached_property
+    def is_mobile(self):
+        return utils.set_device_cookie_and_return_bool(self)
+
+    def jinja2_factory(self, app):
+        j = jinja2.Jinja2(app)
+        j.environment.filters.update({
+            # Set filters.
+            # ...
+        })
+        j.environment.globals.update({
+            # Set global variables.
+            'uri_for': webapp2.uri_for,
+        })
+        j.environment.tests.update({
+            # Set tests.
+            # ...
+        })
+        return j
+
+    @webapp2.cached_property
     def jinja2(self):
-        return jinja2.get_jinja2(app=self.app)
+        return jinja2.get_jinja2(factory=self.jinja2_factory, app=self.app)
 
     def render_template(self, filename, **kwargs):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
             'user_id': self.user_id,
             'username': self.username,
+            'email': self.email,
             'url': self.request.url,
             'path': self.request.path,
             'query_string': self.request.query_string,
             'path_for_language': self.path_for_language,
             'lang': i18n.set_lang_cookie_and_return_dict(self),
             'lang_native': i18n.languages,
-            'is_mobile': utils.set_device_cookie_and_return_bool(self),
+            'is_mobile': self.is_mobile,
             })
         kwargs.update(self.auth_config)
         if self.messages:
-            kwargs['messages'] = self.messages[0][0]
-            kwargs['level'] = self.messages[0][1]
+            kwargs['messages'] = self.messages
 
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))

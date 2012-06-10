@@ -3,3 +3,6 @@
 ndb/*.pyc
 .idea
 *.lint
+.pydevproject
+.project
+.settings*
