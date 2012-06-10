@@ -70,7 +70,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/settings/profile">{{ lang.menu_edit_profile|safe }}</a></li>
+                                <li><a href="{{ uri_for("edit-profile") }}">{{ lang.menu_edit_profile|safe }}</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
                             </ul>
@@ -94,12 +94,12 @@
                 {% endblock %}
                 <div class="subnav">
                     <ul class="nav nav-pills">
-                        <li{% if path == "/bootstrap/" %} class="active"{% endif %}><a href="/bootstrap/">Bootstrap</a></li>
-                        <li{% if path == "/contact/" %} class="active"{% endif %}><a href="/contact/">{{ lang.menu_contact|safe }}</a></li>
-                        <li{% if path == "/secure/" %} class="active"{% endif %}><a href="/secure/">{{ lang.menu_secure|safe }}</a></li>
+                        <li{% if path == uri_for("bootstrap") %} class="active"{% endif %}><a href="{{ uri_for("bootstrap") }}">Bootstrap</a></li>
+                        <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{{ lang.menu_contact|safe }}</a></li>
+                        <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{{ lang.menu_secure|safe }}</a></li>
                         {% if not user_id %}
-                        <li{% if path == "/register/" %} class="active"{% endif %}><a href="/register/">{{ lang.menu_register|safe }}</a></li>
-                        <li{% if path == "/password-reset/" %} class="active"{% endif %}><a href="/password-reset/">{{ lang.menu_fyp|safe }}</a></li>
+                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{{ lang.menu_register|safe }}</a></li>
+                        <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a></li>
                         {% endif %}
                     </ul>
                 </div>

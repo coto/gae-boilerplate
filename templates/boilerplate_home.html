@@ -27,7 +27,7 @@
         </div>
         <div class="span4">
             <h3>Login</h3>
-            <form id="form_login_user" action="/login/" method="post" class="">
+            <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="">
                 <fieldset class="well">
                     <div class="control-group">
                         <div class="controls">
@@ -42,7 +42,7 @@
                             <label class="checkbox">
                                 <input type="checkbox" name="remember_me" id="remember_me" value="on">
                                 {{ lang.login_remember|safe }}
-                                <a href="/password-reset/">{{ lang.menu_fyp|safe }}</a>
+                                <a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a>
                             </label>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
             </form>
 
             <h3>{{ lang.menu_register|safe }}</h3>
-            <form id="form_register" action="/register/" method="post">
+            <form id="form_register" action="{{ uri_for("register") }}" method="post">
                 <fieldset class="well">
                 <div class="control-group">
                     <div class="controls">
