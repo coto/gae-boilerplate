@@ -246,7 +246,7 @@ class ContactHandler(BaseHandler):
 
             params.update({
                 "name" : user_info.name + " " + user_info.last_name,
-                "email" : str(user_info.email),
+                "email" : user_info.email,
             })
 
         return self.render_template('boilerplate_contact.html', **params)
@@ -257,9 +257,9 @@ class ContactHandler(BaseHandler):
         """
         remoteip  = self.request.remote_addr
         user_agent  = self.request.user_agent
-        name = str(self.request.POST.get('name')).strip()
-        email = str(self.request.POST.get('email')).lower().strip()
-        message = str(self.request.POST.get('message')).strip()
+        name = self.request.POST.get('name').strip()
+        email = self.request.POST.get('email').strip()
+        message = self.request.POST.get('message').strip()
 
         if name == "" or email == "" or message == "":
             message = 'Sorry, some fields are required.'
@@ -267,7 +267,7 @@ class ContactHandler(BaseHandler):
             return self.redirect_to('contact')
 
         if not utils.is_email_valid(email):
-            message = 'Sorry, your email %s is not valid.' % email
+            message = 'Sorry, this email %s is not valid.' % email
             self.add_message(message, 'error')
             return self.redirect_to('contact')
 
@@ -394,11 +394,11 @@ class EditProfileHandler(BaseHandler):
             user_info = models.User.get_by_id(long(self.user_id))
 
             params.update({
-                "username" : str(user_info.username),
-                "name" : str(user_info.name),
-                "last_name" : str(user_info.last_name),
-                "email" : str(user_info.email),
-                "country" : str(user_info.country),
+                "username" : user_info.username,
+                "name" : user_info.name,
+                "last_name" : user_info.last_name,
+                "email" : user_info.email,
+                "country" : user_info.country,
             })
 
         return self.render_template('boilerplate_edit_profile.html', **params)
@@ -407,11 +407,11 @@ class EditProfileHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        username = str(self.request.POST.get('username')).lower().strip()
-        name = str(self.request.POST.get('name', "")).strip()
-        last_name = str(self.request.POST.get('last_name', "")).strip()
-        email = str(self.request.POST.get('email')).lower().strip()
-        country = str(self.request.POST.get('country', "")).strip()
+        username = self.request.POST.get('username').lower().strip()
+        name = self.request.POST.get('name', "").strip()
+        last_name = self.request.POST.get('last_name', "").strip()
+        email = self.request.POST.get('email').lower().strip()
+        country = self.request.POST.get('country', "").strip()
 
         if username == "" or email == "":
             message = 'Sorry, some fields are required.'
