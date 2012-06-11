@@ -245,7 +245,7 @@ class ContactHandler(BaseHandler):
             user_info = models.User.get_by_id(long(self.user_id))
 
             params.update({
-                "name" : str(user_info.name) + " " + str(user_info.last_name),
+                "name" : user_info.name + " " + user_info.last_name,
                 "email" : str(user_info.email),
             })
 
