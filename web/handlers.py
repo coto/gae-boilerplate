@@ -314,13 +314,13 @@ class RegisterHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        username = str(self.request.POST.get('username')).lower().strip()
-        name = str(self.request.POST.get('name', "")).strip()
-        last_name = str(self.request.POST.get('last_name', "")).strip()
-        email = str(self.request.POST.get('email')).lower().strip()
-        password = str(self.request.POST.get('password')).strip()
-        c_password = str(self.request.POST.get('c_password')).strip()
-        country = str(self.request.POST.get('country', "")).strip()
+        username = self.request.POST.get('username').lower().strip()
+        name = self.request.POST.get('name', "").strip()
+        last_name = self.request.POST.get('last_name', "").strip()
+        email = self.request.POST.get('email').lower().strip()
+        password = self.request.POST.get('password').strip()
+        c_password = self.request.POST.get('c_password').strip()
+        country = self.request.POST.get('country', "").strip()
 
         if username == "" or email == "" or password == "":
             message = 'Sorry, some fields are required.'
