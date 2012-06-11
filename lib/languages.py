@@ -139,7 +139,7 @@ it["text_language"] = "Lingua"
 it["text_session_info"] = "Info sessione"
 it["text_user_info"] = "Info utente"
 it["text_title"] = "Google App Engine Boilerplate"
-it["text_description"] = u'Congratulationi, hai creato questa pagina con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Puoi sapere perché questo Boilerplate è sorprendente</a> o semplicemente <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a> per iniziare a creare l\'applicazione.'
+it["text_description"] = u'Congratulationi, hai creato questa pagina con Google App Engine Boilerplate.<br>Puoi <a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">sapere perché questo Boilerplate è sorprendente</a> o semplicemente <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a> per iniziare a creare la tua applicazione.'
 it["text_loginerror"] = u'Nome utente, Email o Password sbagliata. Per favore, ritenta'
 it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>obsoleto!</em> <a href="http://browsehappy.com/">Utilizza un browser diverso</a> o <a href="http://www.google.com/chromeframe/?redirect=true">installa Google Chrome Frame</a> per provare questo sito.</p>'
 
