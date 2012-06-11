@@ -102,13 +102,13 @@ it = {}
 it["id"] = "it"
 it["lang_name"] = "Italiano"
 it["menu_register"] = "Crea Utente"
-it["menu_home"] = "Home"
-it["menu_login"] = "Login"
+it["menu_home"] = "Pagina Iniziale"
+it["menu_login"] = "Entra"
 it["menu_logout"] = "Esci"
 it["menu_reset"] = "Reset password"
 it["menu_edit_profile"] = "Modifica Profilo"
 it["menu_edit_password"] = "Cambia la tua password"
-it["menu_secure"] = "Pagina Sicura"
+it["menu_secure"] = "Pagina d'accesso"
 it["menu_contact"] = "Contattare"
 it["menu_fyp"] = "Password dimenticata?"
 it["menu_opensource"] = "Codice sorgente"
@@ -118,14 +118,14 @@ it["english"] = "Inglese"
 it["italian"] = "Italiano"
 it["chinese"] = "Cinese"
 
-it["enter_your"] = "Inserisci tua"
+it["enter_your"] = "Inserire"
 it["field_username"] = "Nome utente"
 it["field_name"] = "Nome"
 it["field_lastname"] = "Cognome"
 it["field_email"] = "Email"
 it["field_password"] = "Password"
-it["field_current_password"] = "Current Password"
-it["field_new_password"] = "Nouva Password"
+it["field_current_password"] = "Password attuale"
+it["field_new_password"] = "Nuova Password"
 it["field_cpassword"] = "Conferma la password"
 it["field_country"] = "Stato"
 it["field_message"] = "Messaggio"
@@ -139,9 +139,9 @@ it["text_language"] = "Lingua"
 it["text_session_info"] = "Info sessione"
 it["text_user_info"] = "Info utente"
 it["text_title"] = "Google App Engine Boilerplate"
-it["text_description"] = u'Congratulationi per la pagina creata con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Saperne perché questo Boilerplate è Sorprendente</a> o semplicemente <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a> per aiutarvi a creare l\'applicazione.'
-it["text_loginerror"] = u'Username, Email o Password sbagliata. Per favore, riprova più'
-it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>antico!</em> <a href="http://browsehappy.com/">Aggiornamento a un browser diverso</a> o <a href="http://www.google.com/chromeframe/?redirect=true">installare Google Chrome Frame</a> di provare questo sito.</p>'
+it["text_description"] = u'Congratulationi, hai creato questa pagina con Google App Engine Boilerplate.<br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">Puoi sapere perché questo Boilerplate è sorprendente</a> o semplicemente <a href="http://github.com/coto/gae-boilerplate/zipball/master" target="_blank">scaricare il codice sorgente</a> per iniziare a creare l\'applicazione.'
+it["text_loginerror"] = u'Nome utente, Email o Password sbagliata. Per favore, ritenta'
+it["text_oldbrowser"] = u'<p class=chromeframe>Il tuo browser è <em>obsoleto!</em> <a href="http://browsehappy.com/">Utilizza un browser diverso</a> o <a href="http://www.google.com/chromeframe/?redirect=true">installa Google Chrome Frame</a> per provare questo sito.</p>'
 
 ## Chinese dict
 
