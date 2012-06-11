@@ -2,7 +2,7 @@
 
 The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
 
-{Try it online}[http://appengine.protoboard.cl]
+{Try it online}[http://appengine.beecoss.com]
 
 === What's a Boilerplate?
 Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
@@ -12,7 +12,7 @@ It is complete (the most required features for an application) and uses latest t
 
 If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
 
-Try it online {here}[http://appengine.protoboard.cl].
+Try it online {here}[http://appengine.beecoss.com].
 
 
 == Just 5 easy steps
@@ -40,7 +40,7 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 
 
 == Try online this Boilerplate
-http://appengine.protoboard.cl
+http://appengine.beecoss.com
 
 
 == Technologies used
