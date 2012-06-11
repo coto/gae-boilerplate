@@ -13,8 +13,8 @@
 # limitations under the License.
 #
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
+__author__ = 'Rodrigo Augosto (@coto)'
+__website__ = 'www.beecoss.com'
 
 import webapp2
 from webapp2_extras import jinja2 
