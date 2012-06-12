@@ -21,9 +21,8 @@ from webapp2_extras import jinja2
 import config
 import routes
 import os
-import logging
+
 def handle_error(request, response, exception):
-    logging.exception(exception)
     c = { 'exception': str(exception) }
     if hasattr(exception, 'status_int'):
         template = exception.status_int
@@ -31,12 +30,6 @@ def handle_error(request, response, exception):
     else:
         template = 500
         status = 500
-    print exception
-    print '<hr>'
-    print request
-    print '<hr>'
-    print response
-    print '<hr>'
     template = config.error_templates[template]
     t = jinja2.get_jinja2(app=app).render_template(template, **c)
     response.write(t)
