@@ -1,6 +1,6 @@
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
+__author__ = 'Rodrigo Augosto (@coto)'
+__website__ = 'www.beecoss.com'
 
 import operator
 import re

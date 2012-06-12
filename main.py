@@ -13,8 +13,8 @@
 # limitations under the License.
 #
 
-__author__ = 'Rodrigo Augosto (@coto) - coto@protoboard.cl'
-__website__ = 'www.protoboard.cl'
+__author__ = 'Rodrigo Augosto (@coto)'
+__website__ = 'www.beecoss.com'
 
 import webapp2
 from webapp2_extras import jinja2 
@@ -24,10 +24,16 @@ import os
 
 def handle_error(request, response, exception):
     c = { 'exception': str(exception) }
-    template = config.error_templates[exception.status_int]
+    if hasattr(exception, 'status_int'):
+        template = exception.status_int
+        status = exception.status_int
+    else:
+        template = 500
+        status = 500
+    template = config.error_templates[template]
     t = jinja2.get_jinja2(app=app).render_template(template, **c)
     response.write(t)
-    response.set_status(exception.status_int)
+    response.set_status(status)
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
 
