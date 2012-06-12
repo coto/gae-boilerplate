@@ -430,37 +430,31 @@ class EditProfileHandler(BaseHandler):
             return self.redirect_to('edit-profile')
 
         #TODO: Update profile identifying unique_properties
+        try:
+            user_info = models.User.get_by_id(long(self.user_id))
+            try:
+                user_info.email=email
+                user_info.name=name
+                user_info.last_name=last_name
+                user_info.country=country
+                user_info.put()
+                message='Your profile has been updated!'
+                self.add_message(message,'success')
+                self.redirect_to('edit-profile')
+            except(AttributeError,KeyError), e:
+                message='Unable to update profile!'
+                self.add_message(message,'error')
+                self.redirect_to('edit-profile')
 
+        except(AttributeError,TypeError),e:
+            login_error_message='Sorry you are not logged in!'
+            self.add_message(login_error_message,'error')
+            self.redirect_to('login')
+
+        
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
-        unique_properties = ['username','email']
-        auth_id = "own:%s" % username
-        user = self.auth.store.user_model.create_user(
-            auth_id, unique_properties, password_raw=password,
-            username=username, name=name, last_name=last_name, email=email,
-            country=country, ip=self.request.remote_addr,
-        )
-
-        if not user[0]: #user is a tuple
-            message = 'Sorry, This user {0:>s} '\
-                      'is already registered.'.format(username)# Error message
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-        else:
-            # User registered successfully, let's try sign in the user and redirect to a secure page.
-            try:
-                self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                message = 'Welcome %s you are now loged in.' % ( str(username) )
-                self.add_message(message, 'success')
-                return self.redirect_to('secure')
-
-            except (AttributeError, KeyError), e:
-                message = 'Unexpected error creating '\
-                          'user {0:>s}.'.format(username)
-                self.add_message(message, 'error')
-                self.abort(403)
-
 
 class EditPasswordHandler(BaseHandler):
     """
@@ -496,29 +490,31 @@ class EditPasswordHandler(BaseHandler):
             return self.redirect_to('edit-password')
 
         #TODO: Update profile identifying unique_properties
-
-        user_info = models.User.get_by_id(long(self.user_id))
-
-        logging.error(user_info)
-        auth_id = "own:%s" % user_info.username
-
-        verify = models.User.get_by_auth_password(auth_id, current_password)
-        user = verify[0]
-        if user:
-            # Password to SHA512
-            password = utils.encrypt(password, config.salt)
-
-            user.password = security.generate_password_hash(password, length=12)
-            user.put()
-            # Login User
-            coto = self.auth.get_user_by_password(user.auth_ids[0], password)
-            logging.error(coto)
-            self.add_message('Password changed successfully', 'success')
-            return self.redirect_to('secure')
-
-        else:
-            self.add_message('Your current password is wrong, please try again.', 'error')
-            return self.redirect_to('edit-password')
+        try:
+            user_info = models.User.get_by_id(long(self.user_id))
+        
+            auth_id = "own:%s" % user_info.username
+            current_password = utils.encrypt(current_password, config.salt)
+            try:
+                user=models.User.get_by_auth_password(auth_id, current_password)
+                password = utils.encrypt(password, config.salt)
+                user.password = security.generate_password_hash(password, length=12)
+                user.put()
+                #Login User
+                coto = self.auth.get_user_by_password(user.auth_ids[0], password)
+                logging.error(coto)
+                self.add_message('Password changed successfully', 'success')
+                return self.redirect_to('secure')
+            except (InvalidAuthIdError, InvalidPasswordError), e:
+                # Returns error message to self.response.write in
+                # the BaseHandler.dispatcher
+                message = "Your Current Password is wrong, please try again"
+                self.add_message(message, 'error')
+                return self.redirect_to('edit-password')
+        except(AttributeError,TypeError),e:
+            login_error_message='Sorry you are not logged in!'
+            self.add_message(login_error_message,'error')
+            self.redirect_to('login')
 
 
 class LogoutHandler(BaseHandler):
