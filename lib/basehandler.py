@@ -103,7 +103,7 @@ class BaseHandler(webapp2.RequestHandler):
         import models.models as models
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            return str(user_info.email)
+            return user_info.email
         return  None
 
     @webapp2.cached_property
