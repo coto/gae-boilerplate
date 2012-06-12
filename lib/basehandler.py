@@ -144,6 +144,7 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
             'user_id': self.user_id,
+            'boilerplate_version': config.boilerplate_version,
             'username': self.username,
             'email': self.email,
             'url': self.request.url,
