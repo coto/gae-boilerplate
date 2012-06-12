@@ -68,7 +68,7 @@ def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
 
 def is_email_valid(email):
     if len(email) > 7:
-        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
+        if re.match("^[_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,4}$", email) != None:
             return 1
     return 0
 
