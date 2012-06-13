@@ -429,7 +429,6 @@ class EditProfileHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('edit-profile')
 
-        #TODO: Update profile identifying unique_properties
         try:
             user_info = models.User.get_by_id(long(self.user_id))
             try:
@@ -441,21 +440,17 @@ class EditProfileHandler(BaseHandler):
                 message='Your profile has been updated!'
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
-            except(AttributeError,KeyError), e:
+            except (AttributeError,KeyError), e:
                 message='Unable to update profile!'
                 self.add_message(message,'error')
                 self.redirect_to('edit-profile')
 
-        except(AttributeError,TypeError),e:
+        except (AttributeError,TypeError),e:
             login_error_message='Sorry you are not logged in!'
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
         
-        # Passing password_raw=password so password will be hashed
-        # Returns a tuple, where first value is BOOL.
-        # If True ok, If False no new user is created
-
 class EditPasswordHandler(BaseHandler):
     """
     Handler for Edit User Password
@@ -474,9 +469,9 @@ class EditPasswordHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        current_password = str(self.request.POST.get('current_password')).strip()
-        password = str(self.request.POST.get('password')).strip()
-        c_password = str(self.request.POST.get('c_password')).strip()
+        current_password = self.request.POST.get('current_password').strip()
+        password = self.request.POST.get('password').strip()
+        c_password = self.request.POST.get('c_password').strip()
 
         if current_password == "" or password == "" or c_password == "":
             message = 'Sorry, some fields are required.'
@@ -489,7 +484,6 @@ class EditPasswordHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('edit-password')
 
-        #TODO: Update profile identifying unique_properties
         try:
             user_info = models.User.get_by_id(long(self.user_id))
         
@@ -511,7 +505,7 @@ class EditPasswordHandler(BaseHandler):
                 message = "Your Current Password is wrong, please try again"
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
-        except(AttributeError,TypeError),e:
+        except (AttributeError,TypeError), e:
             login_error_message='Sorry you are not logged in!'
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
