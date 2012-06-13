@@ -350,7 +350,7 @@ class RegisterHandler(BaseHandler):
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
-        unique_properties = ['username','email']
+        unique_properties = ['username', 'email']
         auth_id = "own:%s" % username
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
@@ -429,15 +429,33 @@ class EditProfileHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('edit-profile')
 
+        new_auth_id='own:%s' % username
+        
+
         try:
             user_info = models.User.get_by_id(long(self.user_id))
             try:
+                #checking if new username exists
+                message=''
+                new_user_info=models.User.get_by_auth_id(new_auth_id)
+                if new_user_info==None:
+                    user_info.username=username
+                    user_info.auth_ids[0]=new_auth_id
+                    message+=' Your new username is %s .' % username
+                    
+                else:
+                    if user_info.username == new_user_info.username:
+                        message+='Your new username is %s.' % username
+                    else:
+                        message+='Username: %s is already taken. It is not changed.' % username
+                user_info.unique_properties = ['username','email']
                 user_info.email=email
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
-                message='Your profile has been updated!'
+                logging.error(user_info)
+                message+=' Your profile has been updated! '
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
             except (AttributeError,KeyError), e:
