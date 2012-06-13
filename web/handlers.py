@@ -429,15 +429,32 @@ class EditProfileHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('edit-profile')
 
+        new_auth_id='own:%s' % username
+        
+
         try:
             user_info = models.User.get_by_id(long(self.user_id))
+            logging.error(user_info)
             try:
+                #checking if new username exists
+                message=''
+                new_user_info=models.User.get_by_auth_id(new_auth_id)
+                if new_user_info==None:
+                    user_info.username=username
+                    user_info.auth_ids[0]=new_auth_id
+                    message+=' Your new username is %s .' % username
+                else:
+                    if user_info.username == new_user_info.username:
+                        message+='Your new username is %s.' % username
+                    else:
+                        message+='Username: %s is already taken. It is not changed.' % username
+
                 user_info.email=email
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
-                message='Your profile has been updated!'
+                message+=' Your profile has been updated! '
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
             except (AttributeError,KeyError), e:
