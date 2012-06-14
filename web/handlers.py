@@ -23,6 +23,8 @@ from google.appengine.api import mail
 from google.appengine.api import app_identity
 import logging
 import config
+import webapp2
+import web.forms as forms
 
 
 class BootstrapHandler(BaseHandler):
@@ -144,6 +146,7 @@ class PasswordResetCompleteHandler(BaseHandler):
         verify = models.User.get_by_auth_token(int(user_id), token)
         params = {
             'action': self.request.url,
+            'form': self.form
             }
         if verify[0] is None:
             self.add_message('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.', 'warning')
@@ -155,20 +158,8 @@ class PasswordResetCompleteHandler(BaseHandler):
     def post(self, user_id, token):
         verify = models.User.get_by_auth_token(int(user_id), token)
         user = verify[0]
-        password = str(self.request.POST.get('password')).strip()
-        c_password = str(self.request.POST.get('c_password')).strip()
-        if user:
-            if password == "" or c_password == "":
-                message = 'Password required.'
-                self.add_message(message, 'error')
-                return self.redirect_to('password-reset-check', user_id=user_id, token=token)
-
-            if password != c_password:
-                message = 'Sorry, Passwords are not identical, ' \
-                          'you have to repeat again.'
-                self.add_message(message, 'error')
-                return self.redirect_to('password-reset-check', user_id=user_id, token=token)
-
+        password = self.form.password.data.strip()
+        if user and self.form.validate():
             # Password to SHA512
             password = utils.encrypt(password, config.salt)
         
@@ -185,6 +176,12 @@ class PasswordResetCompleteHandler(BaseHandler):
             self.add_message('Please correct the form errors.', 'error')
             return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.PasswordResetCompleteMobileForm(self.request.POST)
+        else:
+            return forms.PasswordResetCompleteForm(self.request.POST)
 
 class LoginHandler(BaseHandler):
     """
@@ -198,6 +195,7 @@ class LoginHandler(BaseHandler):
             self.redirect_to('secure', id=self.user_id)
         params = {
             "action": self.request.url,
+            "form": self.form
         }
         return self.render_template('boilerplate_login.html', **params)
 
@@ -206,9 +204,11 @@ class LoginHandler(BaseHandler):
               username: Get the username from POST dict
               password: Get the password from POST dict
         """
-        username = str(self.request.POST.get('username')).lower().strip()
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
         auth_id = "own:%s" % username
-        password = self.request.POST.get('password')
+        password = self.form.password.data.strip()
         remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
 
         # Password to SHA512
@@ -229,6 +229,9 @@ class LoginHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
+    @webapp2.cached_property
+    def form(self):
+        return forms.LoginForm(self.request.POST)
 
 class ContactHandler(BaseHandler):
     """
@@ -240,6 +243,7 @@ class ContactHandler(BaseHandler):
         """
         params = {
             "action": self.request.url,
+            "form": self.form
             }
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -255,21 +259,13 @@ class ContactHandler(BaseHandler):
         """
               validate contact form
         """
+        if not self.form.validate():
+            return self.get()
         remoteip  = self.request.remote_addr
         user_agent  = self.request.user_agent
-        name = self.request.POST.get('name').strip()
-        email = self.request.POST.get('email').strip()
-        message = self.request.POST.get('message').strip()
-
-        if name == "" or email == "" or message == "":
-            message = 'Sorry, some fields are required.'
-            self.add_message(message, 'error')
-            return self.redirect_to('contact')
-
-        if not utils.is_email_valid(email):
-            message = 'Sorry, this email %s is not valid.' % email
-            self.add_message(message, 'error')
-            return self.redirect_to('contact')
+        name = self.form.name.data.strip()
+        email = self.form.email.data.lower()
+        message = self.form.message.data.strip()
 
         try:
             app_id = app_identity.get_application_id()
@@ -294,6 +290,9 @@ class ContactHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('contact')
 
+    @webapp2.cached_property
+    def form(self):
+        return forms.ContactForm(self.request.POST)
 
 class RegisterHandler(BaseHandler):
     """
@@ -307,6 +306,7 @@ class RegisterHandler(BaseHandler):
             self.redirect_to('secure', id=self.user_id)
         params = {
             "action": self.request.url,
+            "form": self.form
             }
         return self.render_template('boilerplate_register.html', **params)
 
@@ -314,35 +314,14 @@ class RegisterHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        username = self.request.POST.get('username').lower().strip()
-        name = self.request.POST.get('name', "").strip()
-        last_name = self.request.POST.get('last_name', "").strip()
-        email = self.request.POST.get('email').lower().strip()
-        password = self.request.POST.get('password').strip()
-        c_password = self.request.POST.get('c_password').strip()
-        country = self.request.POST.get('country', "").strip()
-
-        if username == "" or email == "" or password == "":
-            message = 'Sorry, some fields are required.'
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-
-        if password != c_password:
-            message = 'Sorry, Passwords are not identical, ' \
-                      'you have to repeat again.'
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-
-        if not utils.is_email_valid(email):
-            message = 'Sorry, the email %s is not valid.' % email
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-
-        if not utils.is_alphanumeric(username):
-            message = 'Sorry, the username %s is not valid. ' \
-                      'Use only letters and numbers' % username
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        email = self.form.email.data.lower()
+        password = self.form.password.data.strip()
+        country = self.form.country
 
         # Password to SHA512
         password = utils.encrypt(password, config.salt)
@@ -377,6 +356,12 @@ class RegisterHandler(BaseHandler):
                 self.add_message(message, 'error')
                 self.abort(403)
 
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.RegisterMobileForm(self.request.POST)
+        else:
+            return forms.RegisterForm(self.request.POST)
 
 class EditProfileHandler(BaseHandler):
     """
@@ -389,6 +374,7 @@ class EditProfileHandler(BaseHandler):
         """
         params = {
             "action": self.request.url,
+            "form": self.form
             }
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -407,27 +393,13 @@ class EditProfileHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        username = self.request.POST.get('username').lower().strip()
-        name = self.request.POST.get('name', "").strip()
-        last_name = self.request.POST.get('last_name', "").strip()
-        email = self.request.POST.get('email').lower().strip()
-        country = self.request.POST.get('country', "").strip()
-
-        if username == "" or email == "":
-            message = 'Sorry, some fields are required.'
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-profile')
-
-        if not utils.is_email_valid(email):
-            message = 'Sorry, the email %s is not valid.' % email
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-profile')
-
-        if not utils.is_alphanumeric(username):
-            message = 'Sorry, the username %s is not valid. '\
-                      'Use only letters and numbers' % username
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-profile')
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        email = self.form.email.data.lower()
+        country = self.form.country
 
         #TODO: Update profile identifying unique_properties
 
@@ -461,7 +433,10 @@ class EditProfileHandler(BaseHandler):
                 self.add_message(message, 'error')
                 self.abort(403)
 
-
+    @webapp2.cached_property
+    def form(self):
+        return forms.EditProfileForm(self.request.POST)
+    
 class EditPasswordHandler(BaseHandler):
     """
     Handler for Edit User Password
@@ -473,6 +448,7 @@ class EditPasswordHandler(BaseHandler):
         """
         params = {
             "action": self.request.url,
+            "form": self.form
             }
         return self.render_template('boilerplate_edit_password.html', **params)
 
@@ -480,20 +456,10 @@ class EditPasswordHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        current_password = str(self.request.POST.get('current_password')).strip()
-        password = str(self.request.POST.get('password')).strip()
-        c_password = str(self.request.POST.get('c_password')).strip()
-
-        if current_password == "" or password == "" or c_password == "":
-            message = 'Sorry, some fields are required.'
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-password')
-
-        if password != c_password:
-            message = 'Sorry, Passwords are not identical, '\
-                      'you have to repeat again.'
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-password')
+        if not self.form.validate():
+            return self.get()
+        current_password = self.form.current_password.data.strip()
+        password = self.form.password.data.strip()
 
         #TODO: Update profile identifying unique_properties
 
@@ -520,6 +486,12 @@ class EditPasswordHandler(BaseHandler):
             self.add_message('Your current password is wrong, please try again.', 'error')
             return self.redirect_to('edit-password')
 
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.EditPasswordMobileForm(self.request.POST)
+        else:
+            return forms.EditPasswordForm(self.request.POST)
 
 class LogoutHandler(BaseHandler):
     """
