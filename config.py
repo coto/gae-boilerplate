@@ -1,4 +1,5 @@
 
+boilerplate_version = "Google App Engine Boilerplate 2.0 RC1"
 
 webapp2_config = {}
 webapp2_config['webapp2_extras.sessions'] = {
