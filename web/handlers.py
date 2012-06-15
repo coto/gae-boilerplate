@@ -221,6 +221,12 @@ class LoginHandler(BaseHandler):
         try:
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
+            visitLog = models.VisitLog(
+                uastring = self.request.user_agent,
+                ip = self.request.remote_addr,
+                timestamp = utils.get_date_time()
+            )
+            visitLog.put()
             self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
