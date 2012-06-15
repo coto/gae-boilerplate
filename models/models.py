@@ -1,5 +1,6 @@
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext.ndb import model
+from google.appengine.ext import ndb
 
 class User(User):
     """
@@ -36,3 +37,8 @@ class User(User):
             A user object.
         """
         return cls.query(cls.email == email).get()
+
+class VisitLog(ndb.Model):
+    uastring = ndb.StringProperty()
+    ip = ndb.StringProperty()
+    timestamp = ndb.StringProperty()
