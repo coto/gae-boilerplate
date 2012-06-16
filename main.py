@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+# edited by:copycat91
 
 __author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
