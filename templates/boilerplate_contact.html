@@ -7,24 +7,9 @@
 {% block content %}
     <form id="form_contact" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
-            <div class="control-group">
-                <label class="control-label" for="name">{{ lang.field_name|safe }}:</label>
-                <div class="controls">
-                    <input class="input-xlarge focused required" name="name" id="name" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_name|safe }}" value="{{ name }}" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="email">{{ lang.field_email|safe }}:</label>
-                <div class="controls">
-                    <input class="input-xlarge focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" value="{{ email }}" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="message">{{ lang.field_message|safe }}:</label>
-                <div class="controls">
-                    <textarea cols="40" rows="8" name="message" id="message" class="input-xlarge required"></textarea>
-                </div>
-            </div>
+        	{{ macros.input(form, "name", lang.field_name, placeholder=lang.enter_your+" "+lang.field_name, class="input-xlarge focused required") }}
+        	{{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
+        	{{ macros.input(form, "message", lang.field_message, class="input-xlarge required", cols="40", rows="8") }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{{ lang.button_contact|safe }}</button>
             </div>
