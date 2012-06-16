@@ -14,7 +14,7 @@
         	{{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
         	{{ macros.input(form, "password", lang.field_password, placeholder=lang.enter_your+" "+lang.field_password, class="input-xlarge focused required", type="password") }}
             {% if not is_mobile %}
-            {{ macros.input(form, "confirm_password", lang.field_cpassword, placeholder=lang.field_cpassword, class="input-xlarge focused required", type="password") }}
+            {{ macros.input(form, "c_password", lang.field_cpassword, placeholder=lang.field_cpassword, class="input-xlarge focused required", type="password") }}
             {% endif %}
             {{ macros.input(form, "country", lang.field_country) }}
             <div class="form-actions">

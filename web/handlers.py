@@ -326,7 +326,7 @@ class RegisterHandler(BaseHandler):
         last_name = self.form.last_name.data.strip()
         email = self.form.email.data.lower()
         password = self.form.password.data.strip()
-        country = self.form.country
+        country = self.form.country.data
 
         # Password to SHA512
         password = utils.encrypt(password, config.salt)
@@ -383,14 +383,11 @@ class EditProfileHandler(BaseHandler):
             }
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-
-            params.update({
-                "username" : user_info.username,
-                "name" : user_info.name,
-                "last_name" : user_info.last_name,
-                "email" : user_info.email,
-                "country" : user_info.country,
-            })
+            self.form.username.data = user_info.username
+            self.form.name.data = user_info.name
+            self.form.last_name.data = user_info.last_name
+            self.form.email.data = user_info.email
+            self.form.country.data = user_info.country
 
         return self.render_template('boilerplate_edit_profile.html', **params)
 
@@ -404,7 +401,7 @@ class EditProfileHandler(BaseHandler):
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
         email = self.form.email.data.lower()
-        country = self.form.country
+        country = self.form.country.data
 
         new_auth_id='own:%s' % username
         

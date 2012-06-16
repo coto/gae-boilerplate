@@ -5,7 +5,7 @@
 	<div class="control-group{% if getattr(form,name).errors %} error{% endif %}">
 		<label class="control-label" for="{{ name }}">{{ label|safe }}:</label>
 	    <div class="controls">
-	        {{ getattr(form,name)(**kwargs)|safe }}
+	        {{ getattr(form,name)(type=type, **kwargs)|safe }}
 			{% if getattr(form,name).errors %}
 				{% for error in getattr(form,name).errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
 			{% endif %}
