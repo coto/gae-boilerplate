@@ -143,6 +143,7 @@ def set_device_cookie_and_return_bool(cls, force=""):
     return device_cookie == "mobile"
 
 COUNTRIES = [
+    ("", "Country..."),
     ("AF", "Afghanistan"),
     ("AL", "Albania"),
     ("DZ", "Algeria"),

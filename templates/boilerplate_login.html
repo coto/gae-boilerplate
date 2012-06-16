@@ -7,18 +7,8 @@
 {% block content %}
     <form id="form_login_user" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
-            <div class="control-group">
-                <label class="control-label" for="username">{{ lang.login_username|safe }}:</label>
-                <div class="controls">
-                    <input class="input-xlarge focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.login_username|safe }}">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="password">{{ lang.login_password|safe }}:</label>
-                <div class="controls">
-                    <input class="input-xlarge focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.login_password|safe }}">
-                </div>
-            </div>
+        	{{ macros.input(form, "username", lang.login_username, placeholder=lang.enter_your+" "+lang.login_username, class="input-xlarge focused required") }}
+        	{{ macros.input(form, "password", lang.login_password, placeholder=lang.enter_your+" "+lang.login_password, class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
                   <label class="checkbox">

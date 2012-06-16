@@ -231,7 +231,7 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = "Login error, Try again"
+            message = "Login invalid, Try again"
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
@@ -247,17 +247,16 @@ class ContactHandler(BaseHandler):
         """
               Returns a simple HTML for contact form
         """
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            if user_info.name or user_info.last_name:
+                self.form.name.data = user_info.name + " " + user_info.last_name
+            if user_info.email:
+                self.form.email.data = user_info.email
         params = {
             "action": self.request.url,
             "form": self.form
             }
-        if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
-
-            params.update({
-                "name" : user_info.name + " " + user_info.last_name,
-                "email" : user_info.email,
-            })
 
         return self.render_template('boilerplate_contact.html', **params)
 
