@@ -29,7 +29,8 @@
             <div class="control-group">
                 <label class="control-label" for="email">{{ lang.field_email|safe }}:</label>
                 <div class="controls">
-                    <input class="input-xlarge focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" value="{{ email }}" />
+					{{ email }} (<a href="{{ uri_for("edit-email") }}">{{ lang.menu_edit_email|safe }}</a>)
+                    <!--<input class="input-xlarge focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" value="{{ email }}" /> -->
                 </div>
             </div>
             <div class="control-group">
@@ -288,7 +289,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <a href="{{ uri_for("edit-password") }}">{{ lang.menu_edit_password|safe }}</a>
+                    <a href="{{ uri_for('edit-password') }}">{{ lang.menu_edit_password|safe }}</a>
                 </div>
             </div>
             <div class="form-actions">
