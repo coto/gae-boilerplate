@@ -1,5 +1,5 @@
-application: sandengine
-version: latest
+application: mfkproject
+version: email1
 runtime: python27
 api_version: 1
 threadsafe: true

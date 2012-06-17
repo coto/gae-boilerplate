@@ -1,0 +1,8 @@
+Hello, {{first_name}}
+
+Recently you've changed the email address associated with your Boilerplate account (@{{username}}).
+To confirm your new e-mail contact, please follow the link in the confirmation message sent to that address.
+
+If you do not request this change and believe that your Boilerplate account has been compromised, contact Boilerplate support by clicking this link: {{support_url}}
+
+Team Boilerplate

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block header_title %}
+    {{ lang.menu_edit_email|safe }}
+{% endblock %}
+
+{% block content %}
+
+    <form id="form_edit_email" action="{{ action|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="new_email">{{ lang.field_email|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required" name="new_email" id="new_email" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_current_email|safe }}" value="{{ email }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">{{ lang.field_password|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <a href="{{ uri_for('edit-profile') }}">{{ lang.menu_edit_profile|safe }}</a>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{ lang.menu_edit_email|safe }}</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_edit_password").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
+{% endblock %}
