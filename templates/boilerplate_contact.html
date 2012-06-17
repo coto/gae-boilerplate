@@ -7,9 +7,9 @@
 {% block content %}
     <form id="form_contact" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
-        	{{ macros.input(form, "name", lang.field_name, placeholder=lang.enter_your+" "+lang.field_name, class="input-xlarge focused required") }}
-        	{{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
-        	{{ macros.input(form, "message", lang.field_message, class="input-xlarge required", cols="40", rows="8") }}
+            {{ macros.input(form, "name", lang.field_name, placeholder=lang.enter_your+" "+lang.field_name, class="input-xlarge focused required") }}
+            {{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
+            {{ macros.input(form, "message", lang.field_message, class="input-xlarge required", cols="40", rows="8") }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{{ lang.button_contact|safe }}</button>
             </div>
