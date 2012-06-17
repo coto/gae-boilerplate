@@ -7,8 +7,8 @@
 {% block content %}
     <form id="form_login_user" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
-        	{{ macros.input(form, "username", lang.login_username, placeholder=lang.enter_your+" "+lang.login_username, class="input-xlarge focused required") }}
-        	{{ macros.input(form, "password", lang.login_password, placeholder=lang.enter_your+" "+lang.login_password, class="input-xlarge focused required", type="password") }}
+            {{ macros.input(form, "username", lang.login_username, placeholder=lang.enter_your+" "+lang.login_username, class="input-xlarge focused required") }}
+            {{ macros.input(form, "password", lang.login_password, placeholder=lang.enter_your+" "+lang.login_password, class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
                   <label class="checkbox">

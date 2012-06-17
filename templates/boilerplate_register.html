@@ -8,11 +8,11 @@
 
     <form id="form_register" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
-        	{{ macros.input(form, "username", lang.field_username, placeholder=lang.enter_your+" "+lang.field_username, class="input-xlarge focused required") }}
-        	{{ macros.input(form, "name", lang.field_name, placeholder=lang.enter_your+" "+lang.field_name, class="input-xlarge focused") }}
-        	{{ macros.input(form, "last_name", lang.field_lastname, placeholder=lang.enter_your+" "+lang.field_lastname, class="input-xlarge focused") }}
-        	{{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
-        	{{ macros.input(form, "password", lang.field_password, placeholder=lang.enter_your+" "+lang.field_password, class="input-xlarge focused required", type="password") }}
+            {{ macros.input(form, "username", lang.field_username, placeholder=lang.enter_your+" "+lang.field_username, class="input-xlarge focused required") }}
+            {{ macros.input(form, "name", lang.field_name, placeholder=lang.enter_your+" "+lang.field_name, class="input-xlarge focused") }}
+            {{ macros.input(form, "last_name", lang.field_lastname, placeholder=lang.enter_your+" "+lang.field_lastname, class="input-xlarge focused") }}
+            {{ macros.input(form, "email", lang.field_email, placeholder=lang.enter_your+" "+lang.field_email, class="input-xlarge focused required email", type="email") }}
+            {{ macros.input(form, "password", lang.field_password, placeholder=lang.enter_your+" "+lang.field_password, class="input-xlarge focused required", type="password") }}
             {% if not is_mobile %}
             {{ macros.input(form, "c_password", lang.field_cpassword, placeholder=lang.field_cpassword, class="input-xlarge focused required", type="password") }}
             {% endif %}
