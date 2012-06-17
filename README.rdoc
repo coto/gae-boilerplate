@@ -1,6 +1,6 @@
 = Google App Engine Boilerplate
 
-The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
+Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. It introduces new developers to App Engine and advanced developers to best practices.
 
 {Try it online}[http://appengine.beecoss.com]
 
@@ -8,15 +8,16 @@ The Google App Engine Boilerplate helps to get your project off the ground quick
 A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
 
 === What makes this Boilerplate Amazing?
-It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
+It is fully featured, actively maintained, and uses the latest technologies supported by Google App Engine.
 
-If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or read {this website}[https://developers.google.com/appengine/].
+New to Google App Engine? Learn about it by watching {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or reading {this website}[https://developers.google.com/appengine/].
 
-== Just 5 easy steps
+== Just 6 easy steps
 1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
-1. Use your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Set your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Set parameters in config.py in the root directory.  (secret key, {recaptcha code}[http://www.google.com/recaptcha/whyrecaptcha], salt etc.)
 1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
 
 
@@ -31,7 +32,7 @@ If you don't know what is Google App Engine, I recommend before to watch {this v
 
 
 == Open Source
-If you want add, fix or improve something, let us creating an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
+If you want to add, fix or improve something, create an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
@@ -43,12 +44,13 @@ http://appengine.beecoss.com
 == Technologies used
 * Python 2.7
 * {NDB 1.0.1}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
-* {Jinja2 2.6}[http://jinja.pocoo.org/docs/] (A full featured template engine for Python).
+* {Jinja2 2.6}[http://jinja.pocoo.org/docs/] (A fully featured template engine for Python).
+* {WTForms-1.0.1}[http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript)
 * {webapp2 2.5.1}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
-* Code wrote following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
+* Code written following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 
 
 == Front-end Technologies
