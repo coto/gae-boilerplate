@@ -129,7 +129,6 @@ class BaseHandler(webapp2.RequestHandler):
         j.environment.globals.update({
             # Set global variables.
             'uri_for': webapp2.uri_for,
-            'getattr': getattr
         })
         j.environment.tests.update({
             # Set tests.
