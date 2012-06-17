@@ -207,7 +207,13 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
-        auth_id = "own:%s" % username
+
+        if utils.is_email_valid(username):
+            user = models.User.get_by_email(username)
+            auth_id = user.auth_ids[0]
+        else:
+            auth_id = "own:%s" % username
+
         password = self.form.password.data.strip()
         remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
 
