@@ -1,0 +1,14 @@
+<!-- creates a form input field of the type specified.  
+	Note that in addition to the listed parameters, any set of kwargs can be passed and will appear as attributes on the html input element
+	type, class, value, placeholder are noteable kwargs for the input element -->
+{% macro input(form, name, label, type='text') -%}
+	<div class="control-group{% if getattr(form,name).errors %} error{% endif %}">
+		<label class="control-label" for="{{ name }}">{{ label|safe }}:</label>
+	    <div class="controls">
+	        {{ getattr(form,name)(type=type, **kwargs)|safe }}
+			{% if getattr(form,name).errors %}
+				{% for error in getattr(form,name).errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
+			{% endif %}
+	    </div>
+	</div>
+{%- endmacro %}
