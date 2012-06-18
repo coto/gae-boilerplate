@@ -19,6 +19,30 @@ def encrypt(plaintext, salt="", sha="512"):
     return phrase.hexdigest()
 
 
+def encode(plainText):
+    num = 0
+    key = "0123456789abcdefghijklmnopqrstuvwxyz"
+    key += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for c in plainText: num = (num << 8) + ord(c)
+    encodedMsg = ""
+    while num > 0:
+        encodedMsg = key[num % len(key)] + encodedMsg
+        num /= len(key)
+    return encodedMsg
+
+
+def decode(encodedMsg):
+    num = 0
+    key = "0123456789abcdefghijklmnopqrstuvwxyz"
+    key += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for c in encodedMsg: num = num * len(key) + key.index(c)
+    text = ""
+    while num > 0:
+        text = chr(num % 256) + text
+        num /= 256
+    return text
+
+
 def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
     """
     Write a cookie

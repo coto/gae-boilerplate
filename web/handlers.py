@@ -183,6 +183,35 @@ class PasswordResetCompleteHandler(BaseHandler):
         else:
             return forms.PasswordResetCompleteForm(self.request.POST)
 
+
+class EmailChangedCompleteHandler(BaseHandler):
+    """
+        Handler for completed email change
+        Will be called when the user click confirmation link from email
+    """
+
+    def get(self, user_id, encoded_email, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
+        email = utils.decode(encoded_email)
+        params = {
+            'action': self.request.url,
+            }
+        if verify[0] is None:
+            self.add_message('There was an error. Please copy and paste the link from your email.', 'warning')
+            self.redirect_to('secure')
+        
+        else:
+            # save new email
+            user = verify[0]
+            user.email = email
+            user.put()
+            # delete token
+            models.User.delete_auth_token(int(user_id), token)
+            # add successful message and redirect
+            self.add_message("Your email has been successfully updated!", "success")
+            self.redirect_to('edit-profile')
+
+
 class LoginHandler(BaseHandler):
     """
     Handler for authentication
@@ -244,6 +273,7 @@ class LoginHandler(BaseHandler):
     @webapp2.cached_property
     def form(self):
         return forms.LoginForm(self.request.POST)
+
 
 class ContactHandler(BaseHandler):
     """
@@ -392,7 +422,7 @@ class EditProfileHandler(BaseHandler):
             self.form.username.data = user_info.username
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
-            self.form.email.data = user_info.email
+            # self.form.email.data = user_info.email
             self.form.country.data = user_info.country
 
         return self.render_template('boilerplate_edit_profile.html', **params)
@@ -406,7 +436,7 @@ class EditProfileHandler(BaseHandler):
         username = self.form.username.data.lower()
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
-        email = self.form.email.data.lower()
+        # email = self.form.email.data.lower()
         country = self.form.country.data
 
         new_auth_id='own:%s' % username
@@ -429,7 +459,7 @@ class EditProfileHandler(BaseHandler):
                     else:
                         message+='Username: %s is already taken. It is not changed.' % username
                 user_info.unique_properties = ['username','email']
-                user_info.email=email
+                # user_info.email=email
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
@@ -486,6 +516,23 @@ class EditPasswordHandler(BaseHandler):
                 password = utils.encrypt(password, config.salt)
                 user.password = security.generate_password_hash(password, length=12)
                 user.put()
+                
+                # send email
+                subject = "Boilerplate Account Password Changed"
+                app_id = app_identity.get_application_id()
+                sender_address = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+                
+                # load email's template
+                template_val = {
+                    "first_name": user.name,
+                    "username": user.username,
+                    "email": user.email,
+                    "reset_password_url": self.uri_for("password-reset", _full=True)
+                }
+                email_body_path = "emails/password_changed.txt"
+                email_body = self.jinja2.render_template(email_body_path, **template_val)
+                mail.send_mail(sender_address, user.email, subject, email_body)
+                
                 #Login User
                 coto = self.auth.get_user_by_password(user.auth_ids[0], password)
                 logging.error(coto)
@@ -508,6 +555,111 @@ class EditPasswordHandler(BaseHandler):
             return forms.EditPasswordMobileForm(self.request.POST)
         else:
             return forms.EditPasswordForm(self.request.POST)
+
+
+class EditEmailHandler(BaseHandler):
+    """
+    Handler for Edit User's Email
+    """
+    @user_required
+    def get(self):
+        """
+              Returns a simple HTML form for edit email
+        """
+        params = {
+            "action": self.request.url,
+            }
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+
+            params.update({
+                "email" : user_info.email
+            })
+
+        return self.render_template('boilerplate_edit_email.html', **params)
+
+    def post(self):
+        """
+              Get fields from POST dict
+        """
+        new_email = self.request.POST.get('new_email').strip()
+        password = self.request.POST.get('password').strip()
+        
+        if new_email == "" or password == "":
+            message = 'Sorry, some fields are required.'
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-email')
+        
+        if not utils.is_email_valid(new_email):
+            message = 'Sorry, the email %s is not valid.' % new_email
+            self.add_message(message, 'error')
+            return self.redirect_to('edit-email')
+        
+        try:
+            user_info = models.User.get_by_id(long(self.user_id))
+            
+            auth_id = "own:%s" % user_info.username
+            password = utils.encrypt(password, config.salt)
+            
+            try:
+                # authenticate user by its password
+                user = models.User.get_by_auth_password(auth_id, password)
+                
+                # if the user change his/her email address
+                if new_email != user.email:
+                    subject = "Boilerplate Email Changed Notification"
+                    app_id = app_identity.get_application_id()
+                    sender_address = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+                    user_token = models.User.create_auth_token(self.user_id)
+                    confirmation_url = self.uri_for("email-changed-check", 
+                        user_id = user_info.get_id(),
+                        encoded_email = utils.encode(new_email),
+                        token = user_token,
+                        _full = True)
+                    
+                    # load email's template
+                    template_val = {
+                        "first_name": user.name,
+                        "username": user.username,
+                        "new_email": new_email,
+                        "confirmation_url": confirmation_url,
+                        "support_url": self.uri_for("contact", _full=True)
+                    }
+                    
+                    old_body_path = "emails/email_changed_notification_old.txt"
+                    old_body = self.jinja2.render_template(old_body_path, **template_val)
+                    
+                    new_body_path = "emails/email_changed_notification_new.txt"
+                    new_body = self.jinja2.render_template(new_body_path, **template_val)
+                    
+                    mail.send_mail(sender_address, user.email, subject, old_body)
+                    mail.send_mail(sender_address, new_email , subject, new_body)
+                    
+                    logging.error(user)
+                    
+                    # display successful message
+                    msg = "Please check your new email for confirmation. "
+                    msg += "Your email will be updated after confirmation. "
+                    self.add_message(msg, 'success')
+                    return self.redirect_to('secure')
+                    
+                else:
+                    self.add_message("You didn't change your email", "warning")
+                    return self.redirect_to("edit-email")
+                
+                
+            except (InvalidAuthIdError, InvalidPasswordError), e:
+                # Returns error message to self.response.write in
+                # the BaseHandler.dispatcher
+                message = "Your password is wrong, please try again"
+                self.add_message(message, 'error')
+                return self.redirect_to('edit-email')
+                
+        except (AttributeError,TypeError), e:
+            login_error_message='Sorry you are not logged in!'
+            self.add_message(login_error_message,'error')
+            self.redirect_to('login')
+
 
 class LogoutHandler(BaseHandler):
     """

@@ -123,6 +123,7 @@ def set_lang_cookie_and_return_dict(cls, force=""):
             'es': languages.es,
             'it': languages.it,
             'cn': languages.cn,
+            'id': languages.id,
         }[lang_cookie]
     except KeyError:
         lang = {
@@ -130,5 +131,6 @@ def set_lang_cookie_and_return_dict(cls, force=""):
             'es': languages.es,
             'it': languages.it,
             'cn': languages.cn,
+            'id': languages.id,
         }['en']
     return lang
