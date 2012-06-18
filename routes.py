@@ -10,6 +10,7 @@ from web import handlers
 _routes = [
     RedirectRoute('/bootstrap/', handlers.BootstrapHandler, name='bootstrap', strict_slash=True),
     RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
+    RedirectRoute('/settings/email', handlers.EditEmailHandler, name='edit-email', strict_slash=True),
     RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
@@ -18,6 +19,7 @@ _routes = [
     RedirectRoute('/send-reset-email/', handlers.SendPasswordResetEmailHandler, name='send-reset-email', strict_slash=True),
     RedirectRoute('/password-reset/', handlers.PasswordResetHandler, name='password-reset', strict_slash=True),
     RedirectRoute('/password-reset/<user_id>/<token>', handlers.PasswordResetCompleteHandler, name='password-reset-check', strict_slash=True),
+    RedirectRoute('/change-email/<user_id>/<encoded_email>/<token>', handlers.EmailChangedCompleteHandler, name='email-changed-check', strict_slash=True),
     RedirectRoute('/secure/', handlers.SecureRequestHandler, name='secure', strict_slash=True),
     RedirectRoute('/', handlers.HomeRequestHandler, name='home', strict_slash=True)
 ]
