@@ -64,6 +64,7 @@
                                 {% if lang.id != "en" %}<li><a href="{{ path_for_language }}&hl=en">{{ lang.english|safe }} - {{ lang_native.en['english']  }}</a></li>{% endif %}
                                 {% if lang.id != "it" %}<li><a href="{{ path_for_language }}&hl=it">{{ lang.italian|safe }} - {{ lang_native.it['italian']  }}</a></li>{% endif %}
                                 {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
+                                {% if lang.id != "id" %}<li><a href="{{ path_for_language }}&hl=id">{{ lang.indonesian|safe }} - {{ lang_native.id['indonesian']  }}</a></li>{% endif %}
                             </ul>
                         </li>
                         {% if user_id %}
