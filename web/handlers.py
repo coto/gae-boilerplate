@@ -591,6 +591,15 @@ class EditEmailHandler(BaseHandler):
                 
                 # if the user change his/her email address
                 if new_email != user.email:
+                    
+                    # check whether the new email has been used by another user
+                    aUser = models.User.get_by_email(new_email)
+                    if aUser is not None:
+                        message = "Sorry, the email %s has been used." % new_email
+                        self.add_message(message, "error")
+                        return self.redirect_to("edit-email")
+                    
+                    # send email
                     subject = config.app_name + " Email Changed Notification"
                     user_token = models.User.create_auth_token(self.user_id)
                     confirmation_url = self.uri_for("email-changed-check", 
