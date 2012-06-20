@@ -8,7 +8,6 @@ from webapp2_extras.routes import RedirectRoute
 from web import handlers
 
 _routes = [
-    RedirectRoute('/bootstrap/', handlers.BootstrapHandler, name='bootstrap', strict_slash=True),
     RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
     RedirectRoute('/settings/email', handlers.EditEmailHandler, name='edit-email', strict_slash=True),
     RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),

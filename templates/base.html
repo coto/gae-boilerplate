@@ -96,7 +96,6 @@
                 {% endblock %}
                 <div class="subnav">
                     <ul class="nav nav-pills">
-                        <li{% if path == uri_for("bootstrap") %} class="active"{% endif %}><a href="{{ uri_for("bootstrap") }}">Bootstrap</a></li>
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{{ lang.menu_contact|safe }}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{{ lang.menu_secure|safe }}</a></li>
                         {% if not user_id %}
