@@ -7,11 +7,11 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{% block title %}Google App Engine Boilerplate{% endblock %}</title>
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="keywords" content="" />
-    <meta name="generator" content="{{ boilerplate_version }}" />
+    <meta name="generator" content="{{ app_name }} {{ app_version }}" />
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,7 +51,7 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon-white"></span>
                 </button>
-                <a class="brand" href="/">Boilerplate</a>
+                <a class="brand" href="/">{{ app_name }}</a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
                         <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
@@ -91,7 +91,7 @@
             {% block header %}
             <header class="subhead" id="overview">
                 {% block header_title_lead %}
-                <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
+                <h1>{% block header_title %}{{ app_name }}{% endblock %}</h1>
                 <p class="lead">{{ lang.text_description|safe }}</p>
                 {% endblock %}
                 <div class="subnav">
