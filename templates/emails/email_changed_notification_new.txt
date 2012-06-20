@@ -1,6 +1,6 @@
 Hello, {{first_name}}
 
-Recently you've changed the email address associated with your {{ app_name }} account (@{{username}}). To confirm {{new_email}} as your new e-mail contact, click on this link:
+You've changed the email address associated with your {{ app_name }} account (@{{username}}). To confirm {{new_email}} as your new e-mail contact, click on this link:
 
 {{confirmation_url}}
 
