@@ -26,7 +26,7 @@ New to Google App Engine? Learn about it by watching {this video}[http://www.you
 - Reset Password
 - Update User Profile
 - Automatic detection of user language
-_ Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
+- Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
 - Visit's Log
 - Notifications and Confirmation for users when he changes his email or password
 - Contact Form (getting information for logged user)
