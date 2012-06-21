@@ -77,9 +77,53 @@
                                 <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
                             </ul>
                         </li>
-                        {% elif path != "/" %}
+                        {% elif path != "/" and path != "/login/" %}
                         <li class="divider-vertical"></li>
-                        <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ lang.menu_login|safe }} <b class="caret"></b></a>
+                            <div class="dropdown-menu well">
+                                <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="auth-at-dropdown">
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <label class="control-label" for="username">{{ lang.login_username|safe }}:</label>
+                                            <div class="controls">
+                                                <input class="input-xlarge focused required" id="username" name="username" type="text" value="">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="password">{{ lang.login_password|safe }}:</label>
+                                            <div class="controls">
+                                                <input class="input-xlarge focused required" id="password" name="password" type="password" value="">
+                                            </div>
+                                        </div>
+                                        <div class="control-group row-fluid">
+                                            <label class="checkbox span7">
+                                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                                                {{ lang.login_remember|safe }}
+                                            </label>
+                                            <div class="span5">
+                                                <button type="submit" class="btn btn-primary btn-small btn-login">{{ lang.menu_login|safe }}</button>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a>
+                                        </div>
+                                        <div id="trird_party_login" class="form-actions">
+                                            <h4>Or Sign in using:</h4>
+                                            <ul class="unstyled">
+                                                <li><a href="#" id="sign-in-with-google"><img src="/img/icon_google.png" alt="Google" title="Google"></a></li>
+                                                <li><a href="#" id="sign-in-with-facebook"><img src="/img/icon_facebook.png" alt="Facebook" title="Facebook"></a></li>
+                                                <li><a href="#" id="sign-in-with-linkedin"><img src="/img/icon_linkedin.gif" alt="LinkedIn" title="LinkedIn"></a></li>
+                                                <li><a href="#" id="sign-in-with-myopenid"><img src="/img/icon_myopenid.png" alt="MyOpenid" title="MyOpenid"></a></li>
+                                                <li><a href="#" id="sign-in-with-twitter"><img src="/img/icon_twitter.png" alt="Twitter" title="Twitter"></a></li>
+                                                <li><a href="#" id="sign-in-with-yahoo"><img src="/img/icon_yahoo.png" alt="Yahoo!" title="Yahoo!"></a></li>
+                                                <li><a href="#" id="sign-in-with-googleapps"><img src="/img/icon_google_apps.png" alt="Google Apps" title="Google Apps"></a></li>
+                                            </ul>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </li>
                         {% endif %}
                     </ul>
                 </div><!-- /.nav-collapse -->
