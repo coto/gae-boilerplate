@@ -61,3 +61,7 @@ http://appengine.beecoss.com
 * {Modernizr 2.5.3}[http://modernizr.com]
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+
+== Acknowledgements
+Google App Engine is a collaborative project which has kept alive thanks to the help of
+these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
