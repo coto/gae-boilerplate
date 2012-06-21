@@ -1,0 +1,10 @@
+Hello, {{first_name}}
+
+You've changed the email address associated with your {{ app_name }} account (@{{username}}). To confirm {{new_email}} as your new e-mail contact, click on this link:
+
+{{confirmation_url}}
+
+Once confirmed, all {{ app_name }} email will be sent to this address.
+
+Sincerely,
+{{ app_name }} Team

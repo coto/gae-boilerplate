@@ -1,5 +1,4 @@
 from webapp2_extras.appengine.auth.models import User
-from google.appengine.ext.ndb import model
 from google.appengine.ext import ndb
 
 class User(User):
@@ -10,21 +9,21 @@ class User(User):
     """
 
     #: Creation date.
-    created = model.DateTimeProperty(auto_now_add=True)
+    created = ndb.DateTimeProperty(auto_now_add=True)
     #: Modification date.
-    updated = model.DateTimeProperty(auto_now=True)
+    updated = ndb.DateTimeProperty(auto_now=True)
     #: User defined unique name, also used as key_name.
-    username = model.StringProperty(required=True)
+    username = ndb.StringProperty(required=True)
     #: User Name
-    name = model.StringProperty()
+    name = ndb.StringProperty()
     #: User Last Name
-    last_name = model.StringProperty()
+    last_name = ndb.StringProperty()
     #: User email
-    email = model.StringProperty(required=True)
+    email = ndb.StringProperty(required=True)
     #: Password, only set for own authentication.
-    password = model.StringProperty(required=True)
+    password = ndb.StringProperty(required=True)
     #: User Country
-    country = model.StringProperty()
+    country = ndb.StringProperty()
     
     @classmethod
     def get_by_email(cls, email):
@@ -39,6 +38,7 @@ class User(User):
         return cls.query(cls.email == email).get()
 
 class VisitLog(ndb.Model):
+    user = ndb.KeyProperty(kind=User)
     uastring = ndb.StringProperty()
     ip = ndb.StringProperty()
     timestamp = ndb.StringProperty()

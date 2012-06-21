@@ -1,15 +1,15 @@
 # English (United States) translations for PROJECT.
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# peta15, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-20 23:01-0400\n"
-"PO-Revision-Date: 2012-06-20 23:01-0400\n"
+"POT-Creation-Date: 2012-06-21 01:50-0400\n"
+"PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -17,17 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
-
-#: /templates/base.html:10
-#: /templates/base.html:98
-#: /templates/boilerplate_home.html:10
-#: /templates/boilerplate_home.html:25
-msgid "Google App Engine Boilerplate"
-msgstr ""
-
-#: /templates/base.html:59
-msgid "Boilerplate"
-msgstr ""
 
 #: /templates/base.html:62
 msgid "Source Code"
@@ -53,76 +42,66 @@ msgstr ""
 msgid "Chinese"
 msgstr ""
 
-#: /templates/base.html:79
-#: /templates/boilerplate_edit_profile.html:4
-#: /templates/boilerplate_edit_profile.html:22
+#: /templates/base.html:72
+msgid "Indonesian"
+msgstr ""
+
+#: /templates/base.html:80 /templates/boilerplate_edit_profile.html:4
+#: /templates/boilerplate_edit_profile.html:27
 msgid "Edit Profile"
 msgstr ""
 
-#: /templates/base.html:81
-#: /templates/boilerplate_secure_zone.html:35
+#: /templates/base.html:82 /templates/boilerplate_secure_zone.html:35
 msgid "Logout"
 msgstr ""
 
-#: /templates/base.html:86
-#: /templates/boilerplate_home.html:37
-#: /templates/boilerplate_home.html:58
-#: /templates/boilerplate_login.html:4
+#: /templates/base.html:87 /templates/boilerplate_home.html:37
+#: /templates/boilerplate_home.html:58 /templates/boilerplate_login.html:4
 #: /templates/boilerplate_login.html:21
 msgid "Login"
 msgstr ""
 
-#: /templates/base.html:100
-#: /templates/boilerplate_home.html:13
+#: /templates/base.html:101 /templates/boilerplate_home.html:13
 #: /templates/boilerplate_home.html:28
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr ""
 
-#: /templates/base.html:102
-#: /templates/boilerplate_home.html:15
+#: /templates/base.html:103 /templates/boilerplate_home.html:15
 #: /templates/boilerplate_home.html:30
 msgid "Learn why this Boilerplate Rocks"
 msgstr ""
 
-#: /templates/base.html:102
-#: /templates/boilerplate_home.html:15
+#: /templates/base.html:103 /templates/boilerplate_home.html:15
 #: /templates/boilerplate_home.html:30
 msgid "or just"
 msgstr ""
 
-#: /templates/base.html:103
-#: /templates/boilerplate_home.html:16
+#: /templates/base.html:104 /templates/boilerplate_home.html:16
 #: /templates/boilerplate_home.html:31
 msgid "download the Source Code"
 msgstr ""
 
-#: /templates/base.html:104
-#: /templates/boilerplate_home.html:17
+#: /templates/base.html:105 /templates/boilerplate_home.html:17
 #: /templates/boilerplate_home.html:32
 msgid "to help you to create your application."
 msgstr ""
 
-#: /templates/base.html:110
-#: /templates/boilerplate_contact.html:4
-#: /web/handlers.py:285
+#: /templates/base.html:110 /templates/boilerplate_contact.html:4
+#: /web/handlers.py:299
 msgid "Contact"
 msgstr ""
 
-#: /templates/base.html:111
-#: /templates/boilerplate_secure_zone.html:4
+#: /templates/base.html:111 /templates/boilerplate_secure_zone.html:4
 msgid "Secure Page"
 msgstr ""
 
-#: /templates/base.html:113
-#: /templates/boilerplate_home.html:63
-#: /templates/boilerplate_home.html:88
-#: /templates/boilerplate_register.html:4
+#: /templates/base.html:113 /templates/boilerplate_home.html:63
+#: /templates/boilerplate_home.html:88 /templates/boilerplate_register.html:4
 #: /templates/boilerplate_register.html:21
 msgid "Register user"
 msgstr ""
 
-#: /templates/base.html:114
-#: /templates/boilerplate_home.html:53
+#: /templates/base.html:114 /templates/boilerplate_home.html:53
 #: /templates/boilerplate_password_reset.html:4
 msgid "Forgot your password?"
 msgstr ""
@@ -133,9 +112,7 @@ msgstr ""
 
 #: /templates/boilerplate_contact.html:10
 #: /templates/boilerplate_edit_profile.html:12
-#: /templates/boilerplate_register.html:12
-#: /web/forms.py:37
-#: /web/forms.py:38
+#: /templates/boilerplate_register.html:12 /web/forms.py:37 /web/forms.py:38
 #: /web/forms.py:54
 msgid "Name"
 msgstr ""
@@ -147,9 +124,7 @@ msgstr ""
 #: /templates/boilerplate_edit_profile.html:11
 #: /templates/boilerplate_edit_profile.html:12
 #: /templates/boilerplate_edit_profile.html:13
-#: /templates/boilerplate_edit_profile.html:14
-#: /templates/boilerplate_login.html:10
-#: /templates/boilerplate_login.html:11
+#: /templates/boilerplate_login.html:10 /templates/boilerplate_login.html:11
 #: /templates/boilerplate_password_reset.html:19
 #: /templates/boilerplate_password_reset_complete.html:11
 #: /templates/boilerplate_register.html:11
@@ -161,16 +136,13 @@ msgid "Enter your"
 msgstr ""
 
 #: /templates/boilerplate_contact.html:11
-#: /templates/boilerplate_edit_profile.html:14
-#: /templates/boilerplate_home.html:73
-#: /templates/boilerplate_register.html:14
-#: /web/forms.py:35
-#: /web/forms.py:53
+#: /templates/boilerplate_edit_profile.html:16
+#: /templates/boilerplate_home.html:73 /templates/boilerplate_register.html:14
+#: /web/forms.py:35 /web/forms.py:53
 msgid "Email"
 msgstr ""
 
-#: /templates/boilerplate_contact.html:12
-#: /web/forms.py:55
+#: /templates/boilerplate_contact.html:12 /web/forms.py:55
 msgid "Message"
 msgstr ""
 
@@ -180,7 +152,7 @@ msgstr ""
 
 #: /templates/boilerplate_edit_password.html:4
 #: /templates/boilerplate_edit_password.html:17
-#: /templates/boilerplate_edit_profile.html:18
+#: /templates/boilerplate_edit_profile.html:23
 msgid "Change your password"
 msgstr ""
 
@@ -199,11 +171,8 @@ msgid "Confirm password"
 msgstr ""
 
 #: /templates/boilerplate_edit_profile.html:11
-#: /templates/boilerplate_home.html:68
-#: /templates/boilerplate_register.html:11
-#: /web/forms.py:36
-#: /web/forms.py:50
-#: /web/handlers.py:431
+#: /templates/boilerplate_home.html:68 /templates/boilerplate_register.html:11
+#: /web/forms.py:36 /web/forms.py:50 /web/handlers.py:443
 msgid "Username"
 msgstr ""
 
@@ -212,30 +181,32 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: /templates/boilerplate_edit_profile.html:15
-#: /templates/boilerplate_register.html:19
-#: /web/forms.py:39
+#: /templates/boilerplate_edit_profile.html:14
+#: /templates/boilerplate_register.html:19 /web/forms.py:39
 msgid "Country"
 msgstr ""
 
-#: /templates/boilerplate_home.html:42
-#: /templates/boilerplate_login.html:10
+#: /templates/boilerplate_edit_profile.html:18
+msgid "Change your email"
+msgstr ""
+
+#: /templates/boilerplate_home.html:10 /templates/boilerplate_home.html:25
+msgid "Google App Engine Boilerplate"
+msgstr ""
+
+#: /templates/boilerplate_home.html:42 /templates/boilerplate_login.html:10
 #: /templates/boilerplate_password_reset.html:17
 #: /templates/boilerplate_password_reset.html:19
 msgid "Username or Email"
 msgstr ""
 
-#: /templates/boilerplate_home.html:47
-#: /templates/boilerplate_home.html:78
-#: /templates/boilerplate_login.html:11
-#: /templates/boilerplate_register.html:15
-#: /web/forms.py:26
-#: /web/forms.py:29
+#: /templates/boilerplate_home.html:47 /templates/boilerplate_home.html:78
+#: /templates/boilerplate_login.html:11 /templates/boilerplate_register.html:15
+#: /web/forms.py:26 /web/forms.py:29
 msgid "Password"
 msgstr ""
 
-#: /templates/boilerplate_home.html:52
-#: /templates/boilerplate_login.html:16
+#: /templates/boilerplate_home.html:52 /templates/boilerplate_login.html:16
 msgid "Remember me?"
 msgstr ""
 
@@ -246,8 +217,7 @@ msgid "Reset password"
 msgstr ""
 
 #: /templates/boilerplate_password_reset_complete.html:13
-#: /templates/boilerplate_register.html:17
-#: /web/forms.py:32
+#: /templates/boilerplate_register.html:17 /web/forms.py:32
 msgid "Confirm Password"
 msgstr ""
 
@@ -263,8 +233,7 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
-#: /web/forms.py:35
-#: /web/forms.py:53
+#: /web/forms.py:35 /web/forms.py:53
 msgid "Invalid email address."
 msgstr ""
 
@@ -272,16 +241,15 @@ msgstr ""
 msgid "Username invalid.  Use only letters and numbers."
 msgstr ""
 
-#: /web/handlers.py:89
+#: /web/handlers.py:77
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
-#: /web/handlers.py:96
-#: /web/handlers.py:100
+#: /web/handlers.py:84 /web/handlers.py:88
 msgid "If the e-mail address you entered"
 msgstr ""
 
-#: /web/handlers.py:111
+#: /web/handlers.py:99
 msgid ""
 "is associated with an account in our records, you will receive an e-mail "
 "from us with instructions for resetting your password. <br>If you don't "
@@ -289,94 +257,91 @@ msgid ""
 "href='/contact'>contact us</a> for further assistance."
 msgstr ""
 
-#: /web/handlers.py:117
+#: /web/handlers.py:105
 msgid ""
 "Your email / username was not found. Please try another or <a "
 "href=\"/register\">create an account</a>."
 msgstr ""
 
-#: /web/handlers.py:134
+#: /web/handlers.py:121
 msgid "Password reminder"
 msgstr ""
 
-#: /web/handlers.py:135
+#: /web/handlers.py:122
 msgid "Please click below to create a new password:"
 msgstr ""
 
-#: /web/handlers.py:153
+#: /web/handlers.py:140
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
 "enter your details again below to get a new one."
 msgstr ""
 
-#: /web/handlers.py:173
-#: /web/handlers.py:493
+#: /web/handlers.py:160 /web/handlers.py:523
 msgid "Password changed successfully"
 msgstr ""
 
-#: /web/handlers.py:177
+#: /web/handlers.py:164
 msgid "Please correct the form errors."
 msgstr ""
 
-#: /web/handlers.py:241
+#: /web/handlers.py:256
 msgid "Login invalid, Try again"
 msgstr ""
 
-#: /web/handlers.py:296
+#: /web/handlers.py:310
 msgid "Message sent successfully."
 msgstr ""
 
-#: /web/handlers.py:301
+#: /web/handlers.py:315
 msgid "Error sending the message. Please try again later."
 msgstr ""
 
-#: /web/handlers.py:353
+#: /web/handlers.py:368
 msgid "Sorry, This user"
 msgstr ""
 
-#: /web/handlers.py:354
+#: /web/handlers.py:369
 msgid " is already registered."
 msgstr ""
 
-#: /web/handlers.py:361
+#: /web/handlers.py:376
 msgid "Welcome"
 msgstr ""
 
-#: /web/handlers.py:361
+#: /web/handlers.py:376
 msgid "you are now loged in."
 msgstr ""
 
-#: /web/handlers.py:366
+#: /web/handlers.py:380
 msgid "Unexpected error creating user"
 msgstr ""
 
-#: /web/handlers.py:425
-#: /web/handlers.py:429
+#: /web/handlers.py:437 /web/handlers.py:441
 msgid " Your new username is"
 msgstr ""
 
-#: /web/handlers.py:431
+#: /web/handlers.py:443
 msgid " is already taken. It is not changed."
 msgstr ""
 
-#: /web/handlers.py:448
-#: /web/handlers.py:502
+#: /web/handlers.py:460 /web/handlers.py:532
 msgid "Sorry you are not logged in!"
 msgstr ""
 
-#: /web/handlers.py:498
+#: /web/handlers.py:528
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
-#: /web/handlers.py:519
+#: /web/handlers.py:662
 msgid "You’ve signed out successfully."
 msgstr ""
 
-#: /web/handlers.py:527
+#: /web/handlers.py:670
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
 
-#: /web/handlers.py:554
+#: /web/handlers.py:697
 msgid "Secure zone error:"
 msgstr ""
 

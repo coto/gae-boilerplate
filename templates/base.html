@@ -7,11 +7,11 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{% block title %}{% trans %}Google App Engine Boilerplate{% endtrans %}{% endblock %}</title>
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="keywords" content="" />
-    <meta name="generator" content="{{ boilerplate_version }}" />
+    <meta name="generator" content="Google App Engine Boilerplate 2.0 RC2" />
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,7 +56,7 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon-white"></span>
                 </button>
-                <a class="brand" href="/">{% trans %}Boilerplate{% endtrans %}</a>
+                <a class="brand" href="/">{{ app_name }}</a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
                         <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {% trans %}Source Code{% endtrans %}</a></li>
@@ -69,6 +69,7 @@
                                 {% if locale != "en_US" %}<li><a href="{{ path_for_language }}&hl=en_US">{% trans %}English{% endtrans %} (US) - English</a></li>{% endif %}
                                 {% if locale != "it_IT" %}<li><a href="{{ path_for_language }}&hl=it_IT">{% trans %}Italian{% endtrans %} (IT) - Italiano</a></li>{% endif %}
                                 {% if locale != "zh_CN" %}<li><a href="{{ path_for_language }}&hl=zh_CN">{% trans %}Chinese{% endtrans %} (CN) - 简体中文</a></li>{% endif %}
+                                {% if locale != "id_ID" %}<li><a href="{{ path_for_language }}&hl=zh_CN">{% trans %}Indonesian{% endtrans %} (ID) - Bahasa Indonesia</a></li>{% endif %}
                             </ul>
                         </li>
                         {% if user_id %}
@@ -95,7 +96,7 @@
             {% block header %}
             <header class="subhead" id="overview">
                 {% block header_title_lead %}
-                <h1>{% block header_title %}{% trans %}Google App Engine Boilerplate{% endtrans %}{% endblock %}</h1>
+                <h1>{% block header_title %}{{ app_name }}{% endblock %}</h1>
                 <p class="lead">
 		            {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
 		            <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">
@@ -106,7 +107,6 @@
                 {% endblock %}
                 <div class="subnav">
                     <ul class="nav nav-pills">
-                        <li{% if path == uri_for("bootstrap") %} class="active"{% endif %}><a href="{{ uri_for("bootstrap") }}">Bootstrap</a></li>
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}

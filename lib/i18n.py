@@ -11,12 +11,13 @@ from webapp2_extras import i18n
 # Available locales should be in descending priority order.  ie the first entry is default and if 
 # there are for example en_US followed by en_GB then en_US will take priority 
 # if the language detected is english byt territory could not be detected
-AVAILABLE_LOCALES = ['en_US', 'es_ES', 'it_IT', 'zh_CN']
+AVAILABLE_LOCALES = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID']
 LANGUAGES = {
              'en_US': 'English',
              'es_ES': 'Spanish',
              'it_IT': 'Italian',
-             'zh_CN': 'Chinese'
+             'zh_CN': 'Chinese',
+             'id_ID': 'Indonesian'
              }
 
 def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?'):
@@ -138,5 +139,3 @@ def get_language(locale):
 
 def get_territory_code(locale):
     return locale.split('_')[1]
-
-

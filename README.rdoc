@@ -25,7 +25,10 @@ New to Google App Engine? Learn about it by watching {this video}[http://www.you
 - Authentication (Login, Logout, Register User)
 - Reset Password
 - Update User Profile
-- Automatic detection of user language (support for English, Spanish, Italian and Chinese)
+- Automatic detection of user language
+- Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
+- Visit's Log
+- Notifications and Confirmation for users when he changes his email or password
 - Contact Form (getting information for logged user)
 - Responsive Design (synchronized with Twitter-Bootstrap project)
 - Mobile identification
