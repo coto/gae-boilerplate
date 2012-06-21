@@ -6,24 +6,37 @@ from wtforms.form import Form
 from wtforms import fields
 from wtforms import validators
 from lib import utils
+from webapp2_extras.i18n import lazy_gettext as _
+from webapp2_extras.i18n import ngettext, gettext
 
 FIELD_MAXLENGTH = 50 # intended to stop maliciously long input
 
-class CurrentPasswordMixin(Form):
-    current_password = fields.TextField('Password', [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+class FormTranslations(object):
+    def gettext(self, string):
+        return gettext(string)
+
+    def ngettext(self, singular, plural, n):
+        return ngettext(singular, plural, n)
+
+class BaseForm(Form):
+    def _get_translations(self):
+        return FormTranslations()
+
+class CurrentPasswordMixin(BaseForm):
+    current_password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
     
-class PasswordMixin(Form):
-    password = fields.TextField('Password', [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+class PasswordMixin(BaseForm):
+    password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
 
-class ConfirmPasswordMixin(Form):
-    c_password = fields.TextField('Confirm Password', [validators.EqualTo('password', 'Passwords must match.'), validators.Length(max=FIELD_MAXLENGTH)])
+class ConfirmPasswordMixin(BaseForm):
+    c_password = fields.TextField(_('Confirm Password'), [validators.EqualTo('password', _('Passwords must match.')), validators.Length(max=FIELD_MAXLENGTH)])
 
-class UserMixin(Form):
-    email = fields.TextField('Email', [validators.Required(), validators.Length(min=8, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message='Invalid email address.')])
-    username = fields.TextField('Username', [validators.Required(), validators.Length(max=FIELD_MAXLENGTH), validators.regexp(utils.ALPHANUMERIC_REGEXP, message='Username invalid.  Use only letters and numbers.')])
-    name = fields.TextField('Name', [validators.Length(max=FIELD_MAXLENGTH)])
-    last_name = fields.TextField('Name', [validators.Length(max=FIELD_MAXLENGTH)])
-    country = fields.SelectField('Country', choices=utils.COUNTRIES)
+class UserMixin(BaseForm):
+    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=8, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+    username = fields.TextField(_('Username'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH), validators.regexp(utils.ALPHANUMERIC_REGEXP, message=_('Username invalid.  Use only letters and numbers.'))])
+    name = fields.TextField(_('Name'), [validators.Length(max=FIELD_MAXLENGTH)])
+    last_name = fields.TextField(_('Name'), [validators.Length(max=FIELD_MAXLENGTH)])
+    country = fields.SelectField(_('Country'), choices=utils.COUNTRIES)
 
 
 class PasswordResetCompleteForm(PasswordMixin, ConfirmPasswordMixin):
@@ -34,12 +47,12 @@ class PasswordResetCompleteMobileForm(PasswordMixin):
     pass
 
 class LoginForm(PasswordMixin):
-    username = fields.TextField('Username', [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+    username = fields.TextField(_('Username'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
 
-class ContactForm(Form):
-    email = fields.TextField('Email', [validators.Required(), validators.Length(min=8, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message='Invalid email address.')])
-    name = fields.TextField('Name', [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
-    message = fields.TextAreaField('Message', [validators.Required(), validators.Length(max=65536)])
+class ContactForm(BaseForm):
+    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=8, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+    name = fields.TextField(_('Name'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+    message = fields.TextAreaField(_('Message'), [validators.Required(), validators.Length(max=65536)])
     
 class RegisterForm(PasswordMixin, ConfirmPasswordMixin, UserMixin):
     pass
