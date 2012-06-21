@@ -67,5 +67,5 @@ Google App Engine Boilerplate is a collaborative project which is bringing to yo
 these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
 
 Special thanks to:
- * {Peta15}[https://github.com/peta15]
- * {Pmanacas}[https://github.com/pmanacas]
+* {Peta15}[https://github.com/peta15]
+* {Pmanacas}[https://github.com/pmanacas]
