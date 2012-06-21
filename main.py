@@ -21,6 +21,8 @@ from webapp2_extras import jinja2
 import config
 import routes
 import os
+import sys
+import traceback
 
 def handle_error(request, response, exception):
     c = { 'exception': str(exception) }
@@ -38,6 +40,7 @@ def handle_error(request, response, exception):
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
 
 app.error_handlers[404] = handle_error
-app.error_handlers[500] = handle_error
+if not app.debug:
+    app.error_handlers[500] = handle_error
 routes.add_routes(app)
 
