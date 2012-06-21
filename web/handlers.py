@@ -595,7 +595,7 @@ class EditEmailHandler(BaseHandler):
                     # check whether the new email has been used by another user
                     aUser = models.User.get_by_email(new_email)
                     if aUser is not None:
-                        message = "Sorry, the email %s has been used." % new_email
+                        message = "The email %s is already registered. Want to <a href='/login/'>login</a> or <a href='/password-reset/'>recover your password</a>?" % new_email
                         self.add_message(message, "error")
                         return self.redirect_to("edit-email")
                     
