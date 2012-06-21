@@ -63,5 +63,5 @@ http://appengine.beecoss.com
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
 == Acknowledgements
-Google App Engine is a collaborative project which has kept alive thanks to the help of
+Google App Engine Boilerplate is a collaborative project which has kept alive thanks to the help of
 these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
