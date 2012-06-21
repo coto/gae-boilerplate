@@ -45,11 +45,13 @@ http://appengine.beecoss.com
 * Python 2.7
 * {NDB 1.0.1}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
 * {Jinja2 2.6}[http://jinja.pocoo.org/docs/] (A fully featured template engine for Python).
-* {WTForms-1.0.1}[http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript)
+* {WTForms-1.0.1}[http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 * {webapp2 2.5.1}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
+* {Babel-0.9.6}[http://babel.edgewall.org/] and {gaepytz-2011h}[http://code.google.com/p/gae-pytz/] (Industy standard internationalization renders the site in multiple languages).
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
+  * webapp2_extras.i18n
 * Code written following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 
 
