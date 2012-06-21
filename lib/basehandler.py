@@ -39,6 +39,14 @@ class BaseHandler(webapp2.RequestHandler):
         are reachable for all requests
     """
 
+    def __init__(self, request, response):
+        """ Override the initialiser in order to set the language.
+        """
+        self.initialize(request, response)
+        self.locale = i18n.set_locale(self)
+        self.language = i18n.get_language(self.locale)
+        self.territory_code = i18n.get_territory_code(self.locale)
+
     def dispatch(self):
         """
             Get a session store for this request.
@@ -110,9 +118,10 @@ class BaseHandler(webapp2.RequestHandler):
     def path_for_language(self):
         """
         Get an path + query_string without language parameter (hl=something)
-        Useful to put it in the template to concatenate with '&hl=NEW_LANGUAGE'
+        Useful to put it in the template to concatenate with '&hl=NEW_LOCALE'
+        Example: .../?hl=en_US
         """
-        path_lang = re.sub(r'(^hl=(\w{2})\&*)|(\&hl=(\w{2})\&*?)', '', str(self.request.query_string))
+        path_lang = re.sub(r'(^hl=(\w{5})\&*)|(\&hl=(\w{5})\&*?)', '', str(self.request.query_string))
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
 
@@ -152,13 +161,14 @@ class BaseHandler(webapp2.RequestHandler):
             'path': self.request.path,
             'query_string': self.request.query_string,
             'path_for_language': self.path_for_language,
-            'lang': i18n.set_lang_cookie_and_return_dict(self),
-            'lang_native': i18n.languages,
             'is_mobile': self.is_mobile,
+            'locale': self.locale,
+            'language': self.language,
+            'territory_code': self.territory_code
             })
         kwargs.update(self.auth_config)
         if self.messages:
             kwargs['messages'] = self.messages
-
+        
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
