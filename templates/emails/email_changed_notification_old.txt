@@ -1,0 +1,9 @@
+Hello, {{ first_name }}
+
+Recently you've changed the email address associated with your {{ app_name }} account (@{{username}}).
+To confirm your new e-mail contact, please follow the link in the confirmation message sent to that address.
+
+If you do not request this change and believe that your {{ app_name }} account has been compromised, contact {{ app_name }} support by clicking this link: {{support_url}}
+
+Sincerely,
+{{ app_name }} Team

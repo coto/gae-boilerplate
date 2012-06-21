@@ -2,8 +2,21 @@ import os
 import re
 import hashlib
 import Cookie
+import config
 from datetime import datetime
 from datetime import timedelta
+from google.appengine.api import mail
+from google.appengine.api import app_identity
+
+
+def send_email(to, subject, body, sender=''):
+    if sender != '' or not is_email_valid(sender):
+        if is_email_valid(config.contact_sender):
+            sender = config.contact_sender
+        else:
+            app_id = app_identity.get_application_id()
+            sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+    mail.send_mail(sender, to, subject, body)
 
 
 def encrypt(plaintext, salt="", sha="512"):
@@ -17,6 +30,30 @@ def encrypt(plaintext, salt="", sha="512"):
         phrase = hashlib.sha512()
     phrase.update("%s@%s" % (plaintext, salt))
     return phrase.hexdigest()
+
+
+def encode(plainText):
+    num = 0
+    key = "0123456789abcdefghijklmnopqrstuvwxyz"
+    key += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for c in plainText: num = (num << 8) + ord(c)
+    encodedMsg = ""
+    while num > 0:
+        encodedMsg = key[num % len(key)] + encodedMsg
+        num /= len(key)
+    return encodedMsg
+
+
+def decode(encodedMsg):
+    num = 0
+    key = "0123456789abcdefghijklmnopqrstuvwxyz"
+    key += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for c in encodedMsg: num = num * len(key) + key.index(c)
+    text = ""
+    while num > 0:
+        text = chr(num % 256) + text
+        num /= 256
+    return text
 
 
 def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
@@ -141,6 +178,7 @@ def set_device_cookie_and_return_bool(cls, force=""):
     # Set Cookie for Two weeks with 'device_cookie' value
     write_cookie(cls, "dvc", str(device_cookie), "/", 1209600)
     return device_cookie == "mobile"
+
 
 COUNTRIES = [
     ("None", "Country..."),

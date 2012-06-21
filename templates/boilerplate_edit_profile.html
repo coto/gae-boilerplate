@@ -11,8 +11,13 @@
             {{ macros.input(form, "username", _("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
             {{ macros.input(form, "name", _("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
             {{ macros.input(form, "last_name", _("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
-            {{ macros.input(form, "email", _("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
             {{ macros.input(form, "country", _("Country")) }}
+            <div class="control-group">
+                <label class="control-label">{% trans %}Email{% endtrans %}:</label>
+                <div class="controls">
+                    {{ email }} (<a href="{{ uri_for('edit-email') }}">{% trans %}Change your email{% endtrans %}</a>)
+                </div>
+            </div>
             <div class="control-group">
                 <div class="controls">
                     <a href="{{ uri_for("edit-password") }}">{% trans %}Change your password{% endtrans %}</a>
