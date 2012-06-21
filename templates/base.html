@@ -3,11 +3,11 @@
 <!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
 <!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ lang.id }}"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
-    <title>{% block title %}Google App Engine Boilerplate{% endblock %}</title>
+    <title>{% block title %}{% trans %}Google App Engine Boilerplate{% endtrans %}{% endblock %}</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="keywords" content="" />
@@ -42,7 +42,12 @@
 <body>
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
            chromium.org/developers/how-tos/chrome-frame-getting-started -->
-    <!--[if lt IE 8]>{{ lang.text_oldbrowser|safe }}<![endif]-->
+    <!--[if lt IE 8]>
+    	<p class=chromeframe>Your browser is <em>ancient!</em> 
+    	<a href="http://browsehappy.com/">Upgrade to a different browser</a> 
+    	or <a href="http://www.google.com/chromeframe/?redirect=true">
+    	install Google Chrome Frame</a> to experience this site.</p>
+    <![endif]-->
 
     <div id="page">
         {% block navbar %}
@@ -51,19 +56,19 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon-white"></span>
                 </button>
-                <a class="brand" href="/">Boilerplate</a>
+                <a class="brand" href="/">{% trans %}Boilerplate{% endtrans %}</a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
-                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
+                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {% trans %}Source Code{% endtrans %}</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
+                                {% trans %}Language{% endtrans %} : {{ _(language) }} ({{ territory_code }}) <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                {% if lang.id != "es" %}<li><a href="{{ path_for_language }}&hl=es">{{ lang.spanish|safe }} - {{ lang_native.es['spanish']  }}</a></li>{% endif %}
-                                {% if lang.id != "en" %}<li><a href="{{ path_for_language }}&hl=en">{{ lang.english|safe }} - {{ lang_native.en['english']  }}</a></li>{% endif %}
-                                {% if lang.id != "it" %}<li><a href="{{ path_for_language }}&hl=it">{{ lang.italian|safe }} - {{ lang_native.it['italian']  }}</a></li>{% endif %}
-                                {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
+                                {% if locale != "es_ES" %}<li><a href="{{ path_for_language }}&hl=es_ES">{% trans %}Spanish{% endtrans %} (ES) - Español</a></li>{% endif %}
+                                {% if locale != "en_US" %}<li><a href="{{ path_for_language }}&hl=en_US">{% trans %}English{% endtrans %} (US) - English</a></li>{% endif %}
+                                {% if locale != "it_IT" %}<li><a href="{{ path_for_language }}&hl=it_IT">{% trans %}Italian{% endtrans %} (IT) - Italiano</a></li>{% endif %}
+                                {% if locale != "zh_CN" %}<li><a href="{{ path_for_language }}&hl=zh_CN">{% trans %}Chinese{% endtrans %} (CN) - 简体中文</a></li>{% endif %}
                             </ul>
                         </li>
                         {% if user_id %}
@@ -71,14 +76,14 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ uri_for("edit-profile") }}">{{ lang.menu_edit_profile|safe }}</a></li>
+                                <li><a href="{{ uri_for("edit-profile") }}">{% trans %}Edit Profile{% endtrans %}</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
+                                <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
                             </ul>
                         </li>
                         {% elif path != "/" %}
                         <li class="divider-vertical"></li>
-                        <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
+                        <li><a href="/login">{% trans %}Login{% endtrans %}</a></li>
                         {% endif %}
                     </ul>
                 </div><!-- /.nav-collapse -->
@@ -90,17 +95,23 @@
             {% block header %}
             <header class="subhead" id="overview">
                 {% block header_title_lead %}
-                <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
-                <p class="lead">{{ lang.text_description|safe }}</p>
+                <h1>{% block header_title %}{% trans %}Google App Engine Boilerplate{% endtrans %}{% endblock %}</h1>
+                <p class="lead">
+		            {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
+		            <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.rdoc" target="_blank">
+		            {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
+		            <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
+		            {% trans %}to help you to create your application.{% endtrans %}
+				</p>
                 {% endblock %}
                 <div class="subnav">
                     <ul class="nav nav-pills">
                         <li{% if path == uri_for("bootstrap") %} class="active"{% endif %}><a href="{{ uri_for("bootstrap") }}">Bootstrap</a></li>
-                        <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{{ lang.menu_contact|safe }}</a></li>
-                        <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{{ lang.menu_secure|safe }}</a></li>
+                        <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
+                        <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}
-                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{{ lang.menu_register|safe }}</a></li>
-                        <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a></li>
+                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Register user{% endtrans %}</a></li>
+                        <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -119,7 +130,7 @@
 
             {% block footer %}
             <footer>
-                Google App Engine Boilerplate is released under the <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">LGPL</a>
+                {% trans %}Google App Engine Boilerplate is released under the{% endtrans %} <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">LGPL</a>
             </footer>
             {% endblock %}
         </div><!-- /content -->
