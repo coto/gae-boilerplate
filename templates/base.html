@@ -3,7 +3,7 @@
 <!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
 <!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale.split('_')[0] }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
@@ -82,9 +82,53 @@
                                 <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
                             </ul>
                         </li>
-                        {% elif path != "/" %}
+                        {% elif path != "/" and path != "/login/" %}
                         <li class="divider-vertical"></li>
-                        <li><a href="/login">{% trans %}Login{% endtrans %}</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Login{% endtrans %} <b class="caret"></b></a>
+                            <div class="dropdown-menu well">
+                                <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="auth-at-dropdown">
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <label class="control-label" for="username">{% trans %}Username or Email{% endtrans %}:</label>
+                                            <div class="controls">
+                                                <input class="input-xlarge focused required" id="username" name="username" type="text" value="">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="password">{% trans %}Password{% endtrans %}:</label>
+                                            <div class="controls">
+                                                <input class="input-xlarge focused required" id="password" name="password" type="password" value="">
+                                            </div>
+                                        </div>
+                                        <div class="control-group row-fluid">
+                                            <label class="checkbox span7">
+                                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                                                {% trans %}Remember me?{% endtrans %}
+                                            </label>
+                                            <div class="span5">
+                                                <button type="submit" class="btn btn-primary btn-small btn-login">{% trans %}Login{% endtrans %}</button>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                                        </div>
+                                        <div id="trird_party_login" class="form-actions">
+                                            <h4>Or Sign in using:</h4>
+                                            <ul class="unstyled">
+                                                <li><a href="#" id="sign-in-with-google"><img src="/img/icon_google.png" alt="Google" title="Google"></a></li>
+                                                <li><a href="#" id="sign-in-with-facebook"><img src="/img/icon_facebook.png" alt="Facebook" title="Facebook"></a></li>
+                                                <li><a href="#" id="sign-in-with-linkedin"><img src="/img/icon_linkedin.gif" alt="LinkedIn" title="LinkedIn"></a></li>
+                                                <li><a href="#" id="sign-in-with-myopenid"><img src="/img/icon_myopenid.png" alt="MyOpenid" title="MyOpenid"></a></li>
+                                                <li><a href="#" id="sign-in-with-twitter"><img src="/img/icon_twitter.png" alt="Twitter" title="Twitter"></a></li>
+                                                <li><a href="#" id="sign-in-with-yahoo"><img src="/img/icon_yahoo.png" alt="Yahoo!" title="Yahoo!"></a></li>
+                                                <li><a href="#" id="sign-in-with-googleapps"><img src="/img/icon_google_apps.png" alt="Google Apps" title="Google Apps"></a></li>
+                                            </ul>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </li>
                         {% endif %}
                     </ul>
                 </div><!-- /.nav-collapse -->
