@@ -32,13 +32,15 @@
             submitHandler: function(form) {
                     form.submit();
             },
+            /*
+            TODO: Front-end validation
             rules: {
                 password: 'required',
                 c_password: {
                     required: true,
                     equalTo: '#password'
                 }
-            },
+            },*/
             errorPlacement: function(error, element) {
                 element.parent().parent().addClass("error");
                 error.addClass("help-inline").appendTo( element.parent() );

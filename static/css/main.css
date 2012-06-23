@@ -1,4 +1,4 @@
-/**################  Begin of Styles only for Google App Engine Boilerplate ################**/
+/**   Styles only for Google App Engine Boilerplate  **/
 .home_bp {
     background: transparent url(../img/logo.png) top center no-repeat;
     padding-top: 20em;
@@ -10,9 +10,79 @@
 .home_bp p, .hero-unit.home_bp p {
     font-size: 1.2em;
 }
-/**##################  End of Styles only for Google App Engine Boilerplate ################**/
 
 /* Rewrite Twitter Bootstrap */
+
+.auth-at-dropdown,
+.auth-at-home,
+.auth-at-loginpage {
+
+}
+.auth-at-dropdown .control-group,
+.auth-at-home .control-group {
+    margin-bottom: 0;
+}
+.auth-at-dropdown input,
+.auth-at-home input {
+    width: 96%;
+}
+    .auth-at-dropdown input[type=checkbox],
+    .auth-at-home input[type=checkbox] {
+        width: auto;
+    }
+
+.auth-at-dropdown .btn-login,
+.auth-at-home .btn-login {
+    margin: 0;
+}
+
+.auth-at-dropdown {
+    width: 230px;
+}
+form.auth-at-dropdown {
+    margin: 0;
+}
+.auth-at-dropdown a {
+    padding: 0;
+    color: #0088cc;
+    text-decoration: none;
+}
+    .auth-at-dropdown a:hover {
+        color: #005580;
+        text-decoration: underline;
+    }
+.auth-at-loginpage fieldset {
+    width: 25%;
+    min-width: 270px;
+    margin: 0 auto;
+}
+    .auth-at-loginpage .btn-login {
+        margin-right: 1em;
+    }
+    .auth-at-loginpage .remember {
+        display: inline;
+    }
+
+#trird_party_login {
+    padding: 0;
+    background: transparent;
+}
+    @media (max-width: 979px) {
+        .nav-collapse .dropdown-menu #trird_party_login a {
+            padding: 0;
+        }
+    }
+    #trird_party_login h4 {
+        padding-top: 0.5em;
+    }
+    #trird_party_login ul {
+        margin-top: 0.5em;
+    }
+    #trird_party_login ul li {
+        float: left;
+        margin: 0.5em 0.4em 0 0;
+    }
+
 .well .form-actions {
     margin-bottom: 0;
     padding-bottom: 0;

@@ -33,29 +33,42 @@
                 </p>
             </div>
         </div>
-        <div class="span4">
-            <h3>{% trans %}Login{% endtrans %}</h3>
-            <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="">
+        <div class="span4 auth-at-home">
+            <form id="form_login_user" action="{{ uri_for("login") }}" method="post">
                 <fieldset class="well">
                     <div class="control-group">
-                        <div class="controls">
-                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
-                        </div>
+                        <label class="controls">
+                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}" autofocus="autofocus">
+                        </label>
                     </div>
                     <div class="control-group">
-                        <div class="controls">
-                            <input class="focused required" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
-                        </div>
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
-                                {% trans %}Remember me?{% endtrans %}
-                                <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                        <div class="controls row-fluid">
+                            <label class="span8">
+                                <input class="focused required" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                            </label>
+                            <label class="span4">
+                                <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
                             </label>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">{% trans %}Login{% endtrans %}</button>
+                    <div>
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                            {% trans %}Remember me?{% endtrans %} <span class="separator"></span>
+                            <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                        </label>
+                    </div>
+                    <div id="trird_party_login" class="form-actions">
+                        <h4>Or Sign in using:</h4>
+                        <ul class="unstyled">
+                            <li><a href="#" id="sign-in-with-google"><img src="/img/icon_google.png" alt="Google" title="Google"></a></li>
+                            <li><a href="#" id="sign-in-with-facebook"><img src="/img/icon_facebook.png" alt="Facebook" title="Facebook"></a></li>
+                            <li><a href="#" id="sign-in-with-linkedin"><img src="/img/icon_linkedin.gif" alt="LinkedIn" title="LinkedIn"></a></li>
+                            <li><a href="#" id="sign-in-with-myopenid"><img src="/img/icon_myopenid.png" alt="MyOpenid" title="MyOpenid"></a></li>
+                            <li><a href="#" id="sign-in-with-twitter"><img src="/img/icon_twitter.png" alt="Twitter" title="Twitter"></a></li>
+                            <li><a href="#" id="sign-in-with-yahoo"><img src="/img/icon_yahoo.png" alt="Yahoo!" title="Yahoo!"></a></li>
+                            <li><a href="#" id="sign-in-with-googleapps"><img src="/img/icon_google_apps.png" alt="Google Apps" title="Google Apps"></a></li>
+                        </ul>
                     </div>
                 </fieldset>
             </form>
@@ -63,30 +76,29 @@
             <h3>{% trans %}Register user{% endtrans %}</h3>
             <form id="form_register" action="{{ uri_for("register") }}" method="post">
                 <fieldset class="well">
-                <div class="control-group">
-                    <div class="controls">
-                        <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
+                        </label>
                     </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <input class="focused required email" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required email" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
+                        </label>
                     </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <input class="focused required" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                        </label>
                     </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                        <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
+                        </label>
                     </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">{% trans %}Register user{% endtrans %}</button>
-                </div>
+                    <div class="control-group">
+                        <button type="submit" class="btn btn-primary">{% trans %}Register user{% endtrans %}</button>
+                    </div>
                 </fieldset>
             </form>
         </div>

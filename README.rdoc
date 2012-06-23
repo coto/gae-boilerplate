@@ -63,3 +63,11 @@ http://appengine.beecoss.com
 * {Modernizr 2.5.3}[http://modernizr.com]
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+
+== Acknowledgements
+Google App Engine Boilerplate is a collaborative project which is bringing to you thanks to the help of
+these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
+
+Special thanks to:
+* {Peta15}[https://github.com/peta15]
+* {Pmanacas}[https://github.com/pmanacas]

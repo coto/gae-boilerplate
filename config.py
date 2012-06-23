@@ -20,6 +20,10 @@ contact_recipient = "PUT_RECIPIENT_EMAIL_HERE"
 
 salt = "_PUT_SALT_HERE_TO_SHA512_PASSWORDS_"
 
+# get your own consumer key and consumer secret by registering at https://dev.twitter.com/apps
+twitter_consumer_key = 'PUT_YOUR_TWITTER_CONSUMER_KEY_HERE'
+twitter_consumer_secret = 'PUT_YOUR_TWITTER_CONSUMER_SECRET_HERE'
+
 # get your own recaptcha keys by registering at www.google.com/recaptcha
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
