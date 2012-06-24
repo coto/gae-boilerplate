@@ -98,11 +98,11 @@ class PasswordResetHandler(BaseHandler):
                 })
             _message = _message + _("is associated with an account in our records, you will receive " \
                        "an e-mail from us with instructions for resetting your password. " \
-                       "<br>If you don't receive this e-mail, please check your junk mail folder or " \
-                       "<a href='/contact'>contact us</a> for further assistance.")
+                       "<br>If you don't receive this e-mail, please check your junk mail folder or ") + \
+                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
-        _message = _('Your email / username was not found. Please try another or <a href="/register">create an account</a>.')
+        _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
 
@@ -365,8 +365,8 @@ class RegisterHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + '{0:>s}'.format(username) + \
-                      _(' is already registered.')
+            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " + \
+                      _('is already registered.')
             self.add_message(message, 'error')
             return self.redirect_to('register')
         else:
@@ -440,14 +440,14 @@ class EditProfileHandler(BaseHandler):
                     if user_info.username == new_user_info.username:
                         message+= _('Your new username is ') + username + '.'
                     else:
-                        message+= _('Username') + ": " + username + _(' is already taken. It is not changed.')
+                        message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
                 user_info.unique_properties = ['username','email']
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
 
-                message+= _(' Your profile has been updated!')
+                message+= " " + _('Your profile has been updated!')
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
 
