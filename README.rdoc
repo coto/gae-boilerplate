@@ -70,11 +70,12 @@ This boilerplate comes bundled with babel, pytz, and automatic language detectio
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
 If you know english and another language, <b>please help us translate</b> by skipping to step 5 below (provide translations). It requires no special tools except the ability to 
 download the boilerplate and commit it back to github.  Once committed you may ask us to perform step 6 for you (compile the translations).
+
 Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:
 1. Text to be translated should be enclosed in _("text to translate") in *.py files.  In html templates translated text is indicated by:
-   1. {% trans %}text to translate{% endtrans %}
-   1. {{..._("text to translate")...}}
-   1. {%..._("text to translate")...%}
+   1. <tt>{% trans %}text to translate{% endtrans %}</tt>
+   1. <tt>{{..._("text to translate")...}}</tt>
+   1. <tt>{%..._("text to translate")...%}</tt>
    Translations can be added to other types of files too.  See {babel.cfg}[https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg]
    and {babel.cfg documentation}[http://babel.edgewall.org/wiki/Documentation/0.9/messages.html]
 1. Obtain pybabel to perform the steps below.  You will need to install and compile {babel}[http://babel.edgewall.org/wiki/Download].
@@ -90,14 +91,15 @@ Adding or updating text to be translated or adding new languages requires more w
    1. Add new languages
       Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add.
       pybabel init -l es_ES -d ./locale -i ./locale\messages.pot
-      See the comments at the top of [i18n.py]{https://github.com/coto/gae-boilerplate/blob/master/lib/i18n.py} to learn how to define locale codes.
-      Add the locale code to the AVAILABLE_LOCALES and LANGUAGES arrays in [i18n.py]{https://github.com/coto/gae-boilerplate/blob/master/lib/i18n.py}.
+      See the comments at the top of {i18n.py}[https://github.com/coto/gae-boilerplate/blob/master/lib/i18n.py] to learn how to define locale codes.
+      Add the locale code to the AVAILABLE_LOCALES and LANGUAGES arrays in {i18n.py}[https://github.com/coto/gae-boilerplate/blob/master/lib/i18n.py].
       Add the locale to the language selection dropdown code in base.html if necessary.
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
-   <tt>msgid "Change your password"
-   msgstr "Cambiar tu contraseña"</tt>
+   
+   <tt>msgid "Change your password"</tt>
+   <tt>msgstr "Cambiar tu contraseña"</tt>
 1. Compile translations
    Run: <tt>pybabel compile -f -d ./locale</tt>
 
