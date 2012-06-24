@@ -373,12 +373,12 @@ class RegisterHandler(BaseHandler):
             # User registered successfully, let's try sign in the user and redirect to a secure page.
             try:
                 self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                message = _('Welcome') + str(username) + _('you are now loged in.')
+                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
                 self.add_message(message, 'success')
                 return self.redirect_to('secure')
             except (AttributeError, KeyError), e:
                 message = _('Unexpected error creating ' \
-                          'user') + '{0:>s}.'.format(username)
+                          'user') + " " + '{0:>s}.'.format(username)
                 self.add_message(message, 'error')
                 self.abort(403)
 
@@ -434,30 +434,30 @@ class EditProfileHandler(BaseHandler):
                 if new_user_info==None:
                     user_info.username=username
                     user_info.auth_ids[0]=new_auth_id
-                    message+=_(' Your new username is') + username + '.'
+                    message+= _('Your new username is ') + username + '.'
                     
                 else:
                     if user_info.username == new_user_info.username:
-                        message+=_(' Your new username is') + username + '.'
+                        message+= _('Your new username is ') + username + '.'
                     else:
-                        message+=_('Username') + ": " + username + _(' is already taken. It is not changed.')
+                        message+= _('Username') + ": " + username + _(' is already taken. It is not changed.')
                 user_info.unique_properties = ['username','email']
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
 
-                message+=' Your profile has been updated! '
+                message+= _(' Your profile has been updated!')
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
 
             except (AttributeError, KeyError), e:
-                message='Unable to update profile!'
+                message= _('Unable to update profile!')
                 self.add_message(message,'error')
                 self.redirect_to('edit-profile')
 
         except (AttributeError,TypeError), e:
-            login_error_message=_('Sorry you are not logged in!')
+            login_error_message= _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
