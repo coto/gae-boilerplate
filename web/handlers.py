@@ -23,7 +23,7 @@ import logging
 import config
 import webapp2
 import web.forms as forms
-from webapp2_extras.i18n import lazy_gettext as _
+from webapp2_extras.i18n import gettext as _
 
 
 class HomeRequestHandler(BaseHandler):
@@ -659,7 +659,7 @@ class LogoutHandler(BaseHandler):
     """
     def get(self):
         if self.user:
-            message = _("You’ve signed out successfully.") # Info message
+            message = _("You've signed out successfully.") # Info message
             self.add_message(message, 'info')
 
         self.auth.unset_session()
