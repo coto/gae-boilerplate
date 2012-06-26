@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block header_title %}
-    {{ lang.menu_secure|safe }}
+    {% trans %}Secure Page{% endtrans %}
 {% endblock %}
 
 {% block content %}
 
-    <h3>{{ lang.text_session_info|safe }}</h3>
+    <h3>{% trans %}Session information{% endtrans %}</h3>
     <div class="tooltip-demo well">
     <ul>
         {% for us in user_session %}
@@ -16,7 +16,7 @@
     <b>Session object:</b> {{ user_session_object }}
     </div>
 
-    <h3>{{ lang.text_user_info|safe }}</h3>
+    <h3>{% trans %}User information{% endtrans %}</h3>
     <div class="tooltip-demo well">
     <ul>
         <li><b>user_id:</b> {{ user_info.key }}</li>
@@ -32,7 +32,7 @@
     </ul>
     <b>User object:</b> {{ user_info_object }}
     </div>
-    <p><a href="{{ logout_url }}" class="btn btn-primary">{{ lang.menu_logout|safe }}</a></p>
+    <p><a href="{{ logout_url }}" class="btn btn-primary">{% trans %}Logout{% endtrans %}</a></p>
 
 
 {% endblock %}

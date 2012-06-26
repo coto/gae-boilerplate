@@ -5,10 +5,14 @@ app_version = "2.0 RC2"
 webapp2_config = {}
 webapp2_config['webapp2_extras.sessions'] = {
     'secret_key': '_PUT_KEY_HERE_YOUR_SECRET_KEY_',
-    }
+}
 webapp2_config['webapp2_extras.auth'] = {
     'user_model': 'models.models.User',
     'cookie_name': 'session_name'
+}
+webapp2_config['webapp2_extras.jinja2'] = {
+    'template_path': 'templates',
+    'environment_args': {'extensions': ['jinja2.ext.i18n']},
 }
 
 contact_sender = "PUT_SENDER_EMAIL_HERE"
