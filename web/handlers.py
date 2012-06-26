@@ -23,6 +23,7 @@ import logging
 import config
 import webapp2
 import web.forms as forms
+from webapp2_extras.i18n import gettext as _
 
 
 class HomeRequestHandler(BaseHandler):
@@ -73,18 +74,18 @@ class PasswordResetHandler(BaseHandler):
             pass
         else:
             logging.warning(cResponse.error_code)
-            _message = 'Wrong image verification code. Please try again.'
+            _message = _('Wrong image verification code. Please try again.')
             self.add_message(_message, 'error')
             return self.redirect_to('password-reset')
         #check if we got an email or username
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
-            _message = "If the e-mail address you entered <strong>%s</strong> " % email_or_username
+            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
         else:
             auth_id = "own:%s" % email_or_username
             user = models.User.get_by_auth_id(auth_id)
-            _message = "If the username you entered <strong>%s</strong> " % email_or_username
+            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
 
         if user is not None:
             user_id = user.get_id()
@@ -95,13 +96,13 @@ class PasswordResetHandler(BaseHandler):
                 'token' : token,
                 'user_id' : user_id,
                 })
-            _message = _message + "is associated with an account in our records, you will receive " \
+            _message = _message + _("is associated with an account in our records, you will receive " \
                        "an e-mail from us with instructions for resetting your password. " \
-                       "<br>If you don't receive this e-mail, please check your junk mail folder or " \
-                       "<a href='/contact'>contact us</a> for further assistance."
+                       "<br>If you don't receive this e-mail, please check your junk mail folder or ") + \
+                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
-        _message = 'Your email / username was not found. Please try another or <a href="/register">create an account</a>.'
+        _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
 
@@ -116,12 +117,11 @@ class SendPasswordResetEmailHandler(BaseHandler):
         user_token = self.request.get("token")
         user_id = self.request.get("user_id")
         reset_url = self.uri_for('password-reset-check', user_id=user_id, token=user_token, _full=True)
-
         sender = config.contact_sender
-        subject = "Password reminder"
-        body = """
-            Please click below to create a new password:
-
+        subject = _("Password reminder")
+        body = _('Please click below to create a new password:') + \
+            """
+			
             %s
             """ % reset_url
 
@@ -137,7 +137,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             'form': self.form
             }
         if verify[0] is None:
-            self.add_message('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.', 'warning')
+            self.add_message(_('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
             return self.redirect_to('password-reset')
 
         else:
@@ -157,11 +157,11 @@ class PasswordResetCompleteHandler(BaseHandler):
             models.User.delete_auth_token(int(user_id), token)
             # Login User
             self.auth.get_user_by_password(user.auth_ids[0], password)
-            self.add_message('Password changed successfully', 'success')
+            self.add_message(_('Password changed successfully'), 'success')
             return self.redirect_to('secure')
 
         else:
-            self.add_message('Please correct the form errors.', 'error')
+            self.add_message(_('Please correct the form errors.'), 'error')
             return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
     @webapp2.cached_property
@@ -253,7 +253,7 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = "Login invalid, Try again"
+            message = _("Login invalid, Try again")
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
@@ -296,7 +296,7 @@ class ContactHandler(BaseHandler):
         message = self.form.message.data.strip()
 
         try:
-            subject = "Contact"
+            subject = _("Contact")
             body = """
             IP Address : %s
             Web Browser  : %s
@@ -307,12 +307,12 @@ class ContactHandler(BaseHandler):
 
             utils.send_email(config.contact_recipient, subject, body)
 
-            message = 'Message sent successfully.'
+            message = _('Message sent successfully.')
             self.add_message(message, 'success')
             return self.redirect_to('contact')
 
         except (AttributeError, KeyError), e:
-            message = 'Error sending the message. Please try again later.'
+            message = _('Error sending the message. Please try again later.')
             self.add_message(message, 'error')
             return self.redirect_to('contact')
 
@@ -365,20 +365,20 @@ class RegisterHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = 'Sorry, This user {0:>s} ' \
-                      'is already registered.'.format(username)# Error message
+            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " + \
+                      _('is already registered.')
             self.add_message(message, 'error')
             return self.redirect_to('register')
         else:
             # User registered successfully, let's try sign in the user and redirect to a secure page.
             try:
                 self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                message = 'Welcome %s you are now loged in.' % ( str(username) )
+                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
                 self.add_message(message, 'success')
                 return self.redirect_to('secure')
             except (AttributeError, KeyError), e:
-                message = 'Unexpected error creating ' \
-                          'user {0:>s}.'.format(username)
+                message = _('Unexpected error creating ' \
+                          'user') + " " + '{0:>s}.'.format(username)
                 self.add_message(message, 'error')
                 self.abort(403)
 
@@ -434,30 +434,30 @@ class EditProfileHandler(BaseHandler):
                 if new_user_info==None:
                     user_info.username=username
                     user_info.auth_ids[0]=new_auth_id
-                    message+=' Your new username is %s .' % username
+                    message+= _('Your new username is ') + username + '.'
                     
                 else:
                     if user_info.username == new_user_info.username:
-                        message+='Your new username is %s.' % username
+                        message+= _('Your new username is ') + username + '.'
                     else:
-                        message+='Username: %s is already taken. It is not changed.' % username
+                        message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
                 user_info.unique_properties = ['username','email']
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
 
-                message+=' Your profile has been updated! '
+                message+= " " + _('Your profile has been updated!')
                 self.add_message(message,'success')
                 self.redirect_to('edit-profile')
 
             except (AttributeError, KeyError), e:
-                message='Unable to update profile!'
+                message= _('Unable to update profile!')
                 self.add_message(message,'error')
                 self.redirect_to('edit-profile')
 
         except (AttributeError,TypeError), e:
-            login_error_message='Sorry you are not logged in!'
+            login_error_message= _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
@@ -520,16 +520,16 @@ class EditPasswordHandler(BaseHandler):
                 
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
-                self.add_message('Password changed successfully', 'success')
+                self.add_message(_('Password changed successfully'), 'success')
                 return self.redirect_to('secure')
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
-                message = "Your Current Password is wrong, please try again"
+                message = _("Your Current Password is wrong, please try again")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
         except (AttributeError,TypeError), e:
-            login_error_message='Sorry you are not logged in!'
+            login_error_message=_('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
@@ -659,7 +659,7 @@ class LogoutHandler(BaseHandler):
     """
     def get(self):
         if self.user:
-            message = "You’ve signed out successfully." # Info message
+            message = _("You've signed out successfully.") # Info message
             self.add_message(message, 'info')
 
         self.auth.unset_session()
@@ -667,8 +667,8 @@ class LogoutHandler(BaseHandler):
         try:
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
-            return "User is logged out, but there was an error " \
-                   "on the redirection."
+            return _("User is logged out, but there was an error " \
+                   "on the redirection.")
 
 
 class SecureRequestHandler(BaseHandler):
@@ -694,4 +694,4 @@ class SecureRequestHandler(BaseHandler):
                 }
             return self.render_template('boilerplate_secure_zone.html', **params)
         except (AttributeError, KeyError), e:
-            return "Secure zone error: %s." % e
+            return _("Secure zone error:") + " %s." % e

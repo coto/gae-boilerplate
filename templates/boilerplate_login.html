@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
 {% block header_title %}
-    {{ lang.menu_login|safe }}
+    {% trans %}Login{% endtrans %}
 {% endblock %}
 
 {% block content %}
     <form id="form_login_user" action="{{ action|safe }}" method="post" class="well form-vertical auth-at-loginpage">
         <fieldset>
-            {{ macros.input(form, "username", lang.login_username, placeholder=lang.enter_your+" "+lang.login_username, class="input-xlarge focused required") }}
-            {{ macros.input(form, "password", lang.login_password, placeholder=lang.enter_your+" "+lang.login_password, class="input-xlarge focused required", type="password") }}
+            {{ macros.input(form, "username", _("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required") }}
+            {{ macros.input(form, "password", _("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-primary btn-large btn-login">{{ lang.menu_login|safe }}</button>
+                    <button type="submit" class="btn btn-primary btn-large btn-login">{% trans %}Login{% endtrans %}</button>
                     <label class="remember">
                         <input type="checkbox" name="remember_me" id="remember_me" value="on">
-                        {{ lang.login_remember|safe }}
+                        {% trans %}Remember me?{% endtrans %}
                     </label>
                 </div>
             </div>

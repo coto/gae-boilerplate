@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header_title %}
-    {{ lang.menu_edit_email|safe }}
+    {% trans %}Change your email{% endtrans %}
 {% endblock %}
 
 {% block content %}
@@ -9,24 +9,24 @@
     <form id="form_edit_email" action="{{ action|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="new_email">{{ lang.field_email|safe }}:</label>
+                <label class="control-label" for="new_email">{% trans %}Email{% endtrans %}:</label>
                 <div class="controls">
-                    <input class="input-xlarge focused required" name="new_email" id="new_email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_current_email|safe }}" value="{{ email }}">
+                    <input class="input-xlarge focused required" name="new_email" id="new_email" type="email" placeholder="{{ _("Enter a new email address") }}" value="{{ email }}">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="password">{{ lang.field_password|safe }}:</label>
+                <label class="control-label" for="password">{% trans %}Password{% endtrans %}:</label>
                 <div class="controls">
-                    <input class="input-xlarge focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.field_password|safe }}">
+                    <input class="input-xlarge focused required" name="password" id="password" type="password" placeholder="{{ _("Enter your") }} {{ _("Password") }}">
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <a href="{{ uri_for('edit-profile') }}">{{ lang.menu_edit_profile|safe }}</a>
+                    <a href="{{ uri_for('edit-profile') }}">Edit Profile</a>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{{ lang.menu_edit_email|safe }}</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Change your email{% endtrans %}</button>
             </div>
         </fieldset>
     </form>

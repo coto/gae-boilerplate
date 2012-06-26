@@ -1,0 +1,259 @@
+# English (United States) translations for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-06-24 13:09-0400\n"
+"PO-Revision-Date: 2012-06-21 01:50-0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+msgid "Change your email"
+msgstr ""
+
+msgid "Change your password"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Confirm Password"
+msgstr ""
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Current Password"
+msgstr ""
+
+msgid "Edit Profile"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Enter a new email address"
+msgstr ""
+
+msgid "Enter your"
+msgstr ""
+
+msgid "Error sending the message. Please try again later."
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr ""
+
+msgid "Google App Engine Boilerplate"
+msgstr ""
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr ""
+
+msgid "If the e-mail address you entered"
+msgstr ""
+
+msgid "Indonesian"
+msgstr ""
+
+msgid "Invalid email address."
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login invalid, Try again"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Message sent successfully."
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "New Password"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password changed successfully"
+msgstr ""
+
+msgid "Password reminder"
+msgstr ""
+
+msgid "Passwords must match."
+msgstr ""
+
+msgid "Please click below to create a new password:"
+msgstr ""
+
+msgid "Please correct the form errors."
+msgstr ""
+
+msgid "Register user"
+msgstr ""
+
+msgid "Remember me?"
+msgstr ""
+
+msgid "Reset password"
+msgstr ""
+
+msgid "Secure Page"
+msgstr ""
+
+msgid "Secure zone error:"
+msgstr ""
+
+msgid "Send Message"
+msgstr ""
+
+msgid "Session information"
+msgstr ""
+
+msgid "Sorry you are not logged in!"
+msgstr ""
+
+msgid "Sorry, This user"
+msgstr ""
+
+msgid "Source Code"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid ""
+"There was an error. Please copy and paste the link from your email or "
+"enter your details again below to get a new one."
+msgstr ""
+
+msgid "Unable to update profile!"
+msgstr ""
+
+msgid "Unexpected error creating user"
+msgstr ""
+
+msgid "Upgrade to a different browser"
+msgstr ""
+
+msgid "User information"
+msgstr ""
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username invalid.  Use only letters and numbers."
+msgstr ""
+
+msgid "Username or Email"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Wrong image verification code. Please try again."
+msgstr ""
+
+msgid "Your Current Password is wrong, please try again"
+msgstr ""
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr ""
+
+msgid "Your email / username was not found. Please try another or "
+msgstr ""
+
+msgid "Your new username is "
+msgstr ""
+
+msgid "Your profile has been updated!"
+msgstr ""
+
+msgid "You’ve signed out successfully."
+msgstr ""
+
+msgid "contact us"
+msgstr ""
+
+msgid "create an account"
+msgstr ""
+
+msgid "download the Source Code"
+msgstr ""
+
+msgid "for further assistance."
+msgstr ""
+
+msgid "install Google Chrome Frame"
+msgstr ""
+
+msgid "is already registered."
+msgstr ""
+
+msgid "is already taken. It is not changed."
+msgstr ""
+
+msgid ""
+"is associated with an account in our records, you will receive an e-mail "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive this e-mail, please check your junk mail folder or "
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "or just"
+msgstr ""
+
+msgid "to experience this site."
+msgstr ""
+
+msgid "to help you to create your application."
+msgstr ""
+
+msgid "you are now logged in."
+msgstr ""
+
