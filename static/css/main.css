@@ -68,19 +68,39 @@ form.auth-at-dropdown {
     background: transparent;
 }
     @media (max-width: 979px) {
-        .nav-collapse .dropdown-menu #trird_party_login a {
+        .nav-collapse .dropdown-menu #form_login_user a {
             padding: 0;
         }
     }
     #trird_party_login h4 {
-        padding-top: 0.5em;
+        padding: 0.5em 0;
     }
-    #trird_party_login ul {
-        margin-top: 0.5em;
+    #trird_party_login .social-login-icons a {
+        display: inline-block;
+        margin: 0 0 0.5em 0;
+        text-indent: -9000px;
+        width: 32px;
+        height: 32px;
+        background-image: url(../img/social-login-icons.png);
+        background-repeat: no-repeat;
     }
-    #trird_party_login ul li {
-        float: left;
-        margin: 0.5em 0.4em 0 0;
+    #sign-in-with-google{
+        background-position: 0 0;
+    }
+    #sign-in-with-facebook{
+        background-position: -32px 0;
+    }
+    #sign-in-with-linkedin{
+        background-position: -64px -32px;
+    }
+    #sign-in-with-myopenid{
+        background-position: 0 -32px;
+    }
+    #sign-in-with-twitter{
+        background-position: -64px 0;
+    }
+    #sign-in-with-yahoo{
+        background-position: -32px -32px;
     }
 
 .well .form-actions {
