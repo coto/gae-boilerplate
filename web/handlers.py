@@ -26,6 +26,20 @@ import web.forms as forms
 from webapp2_extras.i18n import gettext as _
 
 
+class SendEmailHandler(BaseHandler):
+    """
+    Handler for sending Emails
+    Use with TaskQueue
+    """
+    def post(self):
+        to = self.request.get("to")
+        subject = self.request.get("subject")
+        body = self.request.get("body")
+        sender = self.request.get("sender")
+
+        utils.send_email(to, subject, body, sender)
+
+
 class HomeRequestHandler(BaseHandler):
 
     def get(self):
@@ -90,11 +104,19 @@ class PasswordResetHandler(BaseHandler):
         if user is not None:
             user_id = user.get_id()
             token = models.User.create_auth_token(user_id)
-            email_send_url = self.uri_for('send-reset-email')
-            taskqueue.add(url = email_send_url, params={
-                'recipient_email': user.email,
-                'token' : token,
-                'user_id' : user_id,
+            email_url = self.uri_for('taskqueue-send-email')
+            reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
+            subject = _("Password reminder")
+            body = _('Please click below to create a new password:') +\
+                   """
+
+                   %s
+                   """ % reset_url
+            taskqueue.add(url = email_url, params={
+                'to': user.email,
+                'subject' : subject,
+                'body' : body,
+                'sender' : config.contact_sender,
                 })
             _message = _message + _("is associated with an account in our records, you will receive " \
                        "an e-mail from us with instructions for resetting your password. " \
@@ -105,27 +127,6 @@ class PasswordResetHandler(BaseHandler):
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
-
-
-class SendPasswordResetEmailHandler(BaseHandler):
-    """
-    Hanlder for sending Emails
-    Better use with TaskQueue
-    """
-    def post(self):
-        user_address = self.request.get("recipient_email")
-        user_token = self.request.get("token")
-        user_id = self.request.get("user_id")
-        reset_url = self.uri_for('password-reset-check', user_id=user_id, token=user_token, _full=True)
-        sender = config.contact_sender
-        subject = _("Password reminder")
-        body = _('Please click below to create a new password:') + \
-            """
-			
-            %s
-            """ % reset_url
-
-        utils.send_email(user_address, subject, body, sender)
 
 
 class PasswordResetCompleteHandler(BaseHandler):
@@ -197,6 +198,75 @@ class EmailChangedCompleteHandler(BaseHandler):
             self.redirect_to('edit-profile')
 
 
+class RegisterHandler(BaseHandler):
+    """
+    Handler for Register Users
+    """
+    def get(self):
+        """
+              Returns a simple HTML form for create a new user
+        """
+        if self.user:
+            self.redirect_to('secure', id=self.user_id)
+        params = {
+            "action": self.request.url,
+            "form": self.form
+        }
+        return self.render_template('boilerplate_register.html', **params)
+
+    def post(self):
+        """
+              Get fields from POST dict
+        """
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        email = self.form.email.data.lower()
+        password = self.form.password.data.strip()
+        country = self.form.country.data
+
+        # Password to SHA512
+        password = utils.encrypt(password, config.salt)
+
+        # Passing password_raw=password so password will be hashed
+        # Returns a tuple, where first value is BOOL.
+        # If True ok, If False no new user is created
+        unique_properties = ['username', 'email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, password_raw=password,
+            username=username, name=name, last_name=last_name, email=email,
+            country=country, ip=self.request.remote_addr,
+        )
+
+        if not user[0]: #user is a tuple
+            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " +\
+                      _('is already registered.')
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        else:
+            # User registered successfully, let's try sign in the user and redirect to a secure page.
+            try:
+                self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
+                self.add_message(message, 'success')
+                return self.redirect_to('secure')
+            except (AttributeError, KeyError), e:
+                message = _('Unexpected error creating '\
+                            'user') + " " + '{0:>s}.'.format(username)
+                self.add_message(message, 'error')
+                self.abort(403)
+
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.RegisterMobileForm(self.request.POST)
+        else:
+            return forms.RegisterForm(self.request.POST)
+
+
 class LoginHandler(BaseHandler):
     """
     Handler for authentication
@@ -262,6 +332,24 @@ class LoginHandler(BaseHandler):
         return forms.LoginForm(self.request.POST)
 
 
+class LogoutHandler(BaseHandler):
+    """
+         Destroy user session and redirect to login
+    """
+    def get(self):
+        if self.user:
+            message = _("You've signed out successfully.") # Info message
+            self.add_message(message, 'info')
+
+        self.auth.unset_session()
+        # User is logged out, let's try redirecting to login page
+        try:
+            self.redirect(self.auth_config['login_url'])
+        except (AttributeError, KeyError), e:
+            return _("User is logged out, but there was an error "\
+                     "on the redirection.")
+
+
 class ContactHandler(BaseHandler):
     """
     Handler for Contact Form
@@ -319,75 +407,6 @@ class ContactHandler(BaseHandler):
     @webapp2.cached_property
     def form(self):
         return forms.ContactForm(self.request.POST)
-
-
-class RegisterHandler(BaseHandler):
-    """
-    Handler for Register Users
-    """
-    def get(self):
-        """
-              Returns a simple HTML form for create a new user
-        """
-        if self.user:
-            self.redirect_to('secure', id=self.user_id)
-        params = {
-            "action": self.request.url,
-            "form": self.form
-            }
-        return self.render_template('boilerplate_register.html', **params)
-
-    def post(self):
-        """
-              Get fields from POST dict
-        """
-        if not self.form.validate():
-            return self.get()
-        username = self.form.username.data.lower()
-        name = self.form.name.data.strip()
-        last_name = self.form.last_name.data.strip()
-        email = self.form.email.data.lower()
-        password = self.form.password.data.strip()
-        country = self.form.country.data
-
-        # Password to SHA512
-        password = utils.encrypt(password, config.salt)
-
-        # Passing password_raw=password so password will be hashed
-        # Returns a tuple, where first value is BOOL.
-        # If True ok, If False no new user is created
-        unique_properties = ['username', 'email']
-        auth_id = "own:%s" % username
-        user = self.auth.store.user_model.create_user(
-            auth_id, unique_properties, password_raw=password,
-            username=username, name=name, last_name=last_name, email=email,
-            country=country, ip=self.request.remote_addr,
-        )
-
-        if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " + \
-                      _('is already registered.')
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-        else:
-            # User registered successfully, let's try sign in the user and redirect to a secure page.
-            try:
-                self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
-                self.add_message(message, 'success')
-                return self.redirect_to('secure')
-            except (AttributeError, KeyError), e:
-                message = _('Unexpected error creating ' \
-                          'user') + " " + '{0:>s}.'.format(username)
-                self.add_message(message, 'error')
-                self.abort(403)
-
-    @webapp2.cached_property
-    def form(self):
-        if self.is_mobile:
-            return forms.RegisterMobileForm(self.request.POST)
-        else:
-            return forms.RegisterForm(self.request.POST)
 
 
 class EditProfileHandler(BaseHandler):
@@ -651,24 +670,6 @@ class EditEmailHandler(BaseHandler):
             login_error_message='Sorry you are not logged in!'
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
-
-
-class LogoutHandler(BaseHandler):
-    """
-         Destroy user session and redirect to login
-    """
-    def get(self):
-        if self.user:
-            message = _("You've signed out successfully.") # Info message
-            self.add_message(message, 'info')
-
-        self.auth.unset_session()
-        # User is logged out, let's try redirecting to login page
-        try:
-            self.redirect(self.auth_config['login_url'])
-        except (AttributeError, KeyError), e:
-            return _("User is logged out, but there was an error " \
-                   "on the redirection.")
 
 
 class SecureRequestHandler(BaseHandler):
