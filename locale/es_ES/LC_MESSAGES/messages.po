@@ -129,8 +129,8 @@ msgstr ""
 msgid "Please correct the form errors."
 msgstr ""
 
-msgid "Register user"
-msgstr "Registrar usuario"
+msgid "Sign Up"
+msgstr "Registrar"
 
 msgid "Remember me?"
 msgstr "Recordarme?"
@@ -151,10 +151,10 @@ msgid "Session information"
 msgstr "Información de Sesión"
 
 msgid "Sorry you are not logged in!"
-msgstr ""
+msgstr "Lo sentimos, no has iniciado sessión"
 
 msgid "Sorry, This user"
-msgstr ""
+msgstr "Lo sentimos, este usuario"
 
 msgid "Source Code"
 msgstr "Código fuente"
@@ -168,10 +168,10 @@ msgid ""
 msgstr ""
 
 msgid "Unable to update profile!"
-msgstr ""
+msgstr "No es posible actualizar el perfil de usuario!"
 
 msgid "Unexpected error creating user"
-msgstr ""
+msgstr "Error inesperado al crear el usuario"
 
 msgid "Upgrade to a different browser"
 msgstr "Actualiza a un nevagador más seguro"
@@ -185,14 +185,14 @@ msgstr ""
 msgid "Username"
 msgstr "Nombre de usuario"
 
-msgid "Username invalid.  Use only letters and numbers."
+msgid "Username invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "Username or Email"
 msgstr "Nombre de Usuario o Email"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido"
 
 msgid "Wrong image verification code. Please try again."
 msgstr ""
