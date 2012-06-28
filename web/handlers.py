@@ -40,233 +40,6 @@ class SendEmailHandler(BaseHandler):
         utils.send_email(to, subject, body, sender)
 
 
-class HomeRequestHandler(BaseHandler):
-
-    def get(self):
-        """
-              Returns a simple HTML form for home
-        """
-        params = {}
-        return self.render_template('boilerplate_home.html', **params)
-
-
-class PasswordResetHandler(BaseHandler):
-    """
-    Password Reset Handler with Captcha
-    """
-    reCaptcha_public_key = config.captcha_public_key
-    reCaptcha_private_key = config.captcha_private_key
-    
-    def get(self):
-        if self.user:
-            self.redirect_to('secure')
-        
-        chtml = captcha.displayhtml(
-            public_key = self.reCaptcha_public_key,
-            use_ssl = False,
-            error = None)
-        params = {
-            'action': self.request.url,
-            'captchahtml': chtml,
-        }
-        return self.render_template('boilerplate_password_reset.html', **params)
-
-    def post(self):
-        # check captcha
-        challenge = self.request.POST.get('recaptcha_challenge_field')
-        response  = self.request.POST.get('recaptcha_response_field')
-        remoteip  = self.request.remote_addr
-
-        cResponse = captcha.submit(
-            challenge,
-            response,
-            self.reCaptcha_private_key,
-            remoteip)
-
-        if cResponse.is_valid:
-            # captcha was valid... carry on..nothing to see here
-            pass
-        else:
-            logging.warning(cResponse.error_code)
-            _message = _('Wrong image verification code. Please try again.')
-            self.add_message(_message, 'error')
-            return self.redirect_to('password-reset')
-        #check if we got an email or username
-        email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
-        if utils.is_email_valid(email_or_username):
-            user = models.User.get_by_email(email_or_username)
-            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
-        else:
-            auth_id = "own:%s" % email_or_username
-            user = models.User.get_by_auth_id(auth_id)
-            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
-
-        if user is not None:
-            user_id = user.get_id()
-            token = models.User.create_auth_token(user_id)
-            email_url = self.uri_for('taskqueue-send-email')
-            reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
-            subject = _("Password reminder")
-            body = _('Please click below to create a new password:') +\
-                   """
-
-                   %s
-                   """ % reset_url
-            taskqueue.add(url = email_url, params={
-                'to': user.email,
-                'subject' : subject,
-                'body' : body,
-                'sender' : config.contact_sender,
-                })
-            _message = _message + _("is associated with an account in our records, you will receive " \
-                       "an e-mail from us with instructions for resetting your password. " \
-                       "<br>If you don't receive this e-mail, please check your junk mail folder or ") + \
-                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
-            self.add_message(_message, 'success')
-            return self.redirect_to('login')
-        _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
-        self.add_message(_message, 'error')
-        return self.redirect_to('password-reset')
-
-
-class PasswordResetCompleteHandler(BaseHandler):
-
-    def get(self, user_id, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
-        params = {
-            'action': self.request.url,
-            'form': self.form
-            }
-        if verify[0] is None:
-            self.add_message(_('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
-            return self.redirect_to('password-reset')
-
-        else:
-            return self.render_template('boilerplate_password_reset_complete.html', **params)
-
-    def post(self, user_id, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
-        user = verify[0]
-        password = self.form.password.data.strip()
-        if user and self.form.validate():
-            # Password to SHA512
-            password = utils.encrypt(password, config.salt)
-        
-            user.password = security.generate_password_hash(password, length=12)
-            user.put()
-            # Delete token
-            models.User.delete_auth_token(int(user_id), token)
-            # Login User
-            self.auth.get_user_by_password(user.auth_ids[0], password)
-            self.add_message(_('Password changed successfully'), 'success')
-            return self.redirect_to('secure')
-
-        else:
-            self.add_message(_('Please correct the form errors.'), 'error')
-            return self.redirect_to('password-reset-check', user_id=user_id, token=token)
-
-    @webapp2.cached_property
-    def form(self):
-        if self.is_mobile:
-            return forms.PasswordResetCompleteMobileForm(self.request.POST)
-        else:
-            return forms.PasswordResetCompleteForm(self.request.POST)
-
-
-class EmailChangedCompleteHandler(BaseHandler):
-    """
-        Handler for completed email change
-        Will be called when the user click confirmation link from email
-    """
-
-    def get(self, user_id, encoded_email, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
-        email = utils.decode(encoded_email)
-        if verify[0] is None:
-            self.add_message('There was an error. Please copy and paste the link from your email.', 'warning')
-            self.redirect_to('secure')
-        
-        else:
-            # save new email
-            user = verify[0]
-            user.email = email
-            user.put()
-            # delete token
-            models.User.delete_auth_token(int(user_id), token)
-            # add successful message and redirect
-            self.add_message("Your email has been successfully updated!", "success")
-            self.redirect_to('edit-profile')
-
-
-class RegisterHandler(BaseHandler):
-    """
-    Handler for Register Users
-    """
-    def get(self):
-        """
-              Returns a simple HTML form for create a new user
-        """
-        if self.user:
-            self.redirect_to('secure', id=self.user_id)
-        params = {
-            "action": self.request.url,
-            "form": self.form
-        }
-        return self.render_template('boilerplate_register.html', **params)
-
-    def post(self):
-        """
-              Get fields from POST dict
-        """
-        if not self.form.validate():
-            return self.get()
-        username = self.form.username.data.lower()
-        name = self.form.name.data.strip()
-        last_name = self.form.last_name.data.strip()
-        email = self.form.email.data.lower()
-        password = self.form.password.data.strip()
-        country = self.form.country.data
-
-        # Password to SHA512
-        password = utils.encrypt(password, config.salt)
-
-        # Passing password_raw=password so password will be hashed
-        # Returns a tuple, where first value is BOOL.
-        # If True ok, If False no new user is created
-        unique_properties = ['username', 'email']
-        auth_id = "own:%s" % username
-        user = self.auth.store.user_model.create_user(
-            auth_id, unique_properties, password_raw=password,
-            username=username, name=name, last_name=last_name, email=email,
-            country=country, ip=self.request.remote_addr,
-        )
-
-        if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " +\
-                      _('is already registered.')
-            self.add_message(message, 'error')
-            return self.redirect_to('register')
-        else:
-            # User registered successfully, let's try sign in the user and redirect to a secure page.
-            try:
-                self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
-                self.add_message(message, 'success')
-                return self.redirect_to('secure')
-            except (AttributeError, KeyError), e:
-                message = _('Unexpected error creating '\
-                            'user') + " " + '{0:>s}.'.format(username)
-                self.add_message(message, 'error')
-                self.abort(403)
-
-    @webapp2.cached_property
-    def form(self):
-        if self.is_mobile:
-            return forms.RegisterMobileForm(self.request.POST)
-        else:
-            return forms.RegisterForm(self.request.POST)
-
-
 class LoginHandler(BaseHandler):
     """
     Handler for authentication
@@ -348,6 +121,75 @@ class LogoutHandler(BaseHandler):
         except (AttributeError, KeyError), e:
             return _("User is logged out, but there was an error "\
                      "on the redirection.")
+
+
+class RegisterHandler(BaseHandler):
+    """
+    Handler for Register Users
+    """
+    def get(self):
+        """
+              Returns a simple HTML form for create a new user
+        """
+        if self.user:
+            self.redirect_to('secure', id=self.user_id)
+        params = {
+            "action": self.request.url,
+            "form": self.form
+        }
+        return self.render_template('boilerplate_register.html', **params)
+
+    def post(self):
+        """
+              Get fields from POST dict
+        """
+        if not self.form.validate():
+            return self.get()
+        username = self.form.username.data.lower()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        email = self.form.email.data.lower()
+        password = self.form.password.data.strip()
+        country = self.form.country.data
+
+        # Password to SHA512
+        password = utils.encrypt(password, config.salt)
+
+        # Passing password_raw=password so password will be hashed
+        # Returns a tuple, where first value is BOOL.
+        # If True ok, If False no new user is created
+        unique_properties = ['username', 'email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, password_raw=password,
+            username=username, name=name, last_name=last_name, email=email,
+            country=country, ip=self.request.remote_addr,
+        )
+
+        if not user[0]: #user is a tuple
+            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " +\
+                      _('is already registered.')
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        else:
+            # User registered successfully, let's try sign in the user and redirect to a secure page.
+            try:
+                self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
+                self.add_message(message, 'success')
+                return self.redirect_to('secure')
+            except (AttributeError, KeyError), e:
+                message = _('Unexpected error creating '\
+                            'user') + " " + '{0:>s}.'.format(username)
+                self.add_message(message, 'error')
+                self.abort(403)
+
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.RegisterMobileForm(self.request.POST)
+        else:
+            return forms.RegisterForm(self.request.POST)
 
 
 class ContactHandler(BaseHandler):
@@ -672,6 +514,154 @@ class EditEmailHandler(BaseHandler):
             self.redirect_to('login')
 
 
+class PasswordResetHandler(BaseHandler):
+    """
+    Password Reset Handler with Captcha
+    """
+    reCaptcha_public_key = config.captcha_public_key
+    reCaptcha_private_key = config.captcha_private_key
+
+    def get(self):
+        if self.user:
+            self.redirect_to('secure')
+
+        chtml = captcha.displayhtml(
+            public_key = self.reCaptcha_public_key,
+            use_ssl = False,
+            error = None)
+        params = {
+            'action': self.request.url,
+            'captchahtml': chtml,
+            }
+        return self.render_template('boilerplate_password_reset.html', **params)
+
+    def post(self):
+        # check captcha
+        challenge = self.request.POST.get('recaptcha_challenge_field')
+        response  = self.request.POST.get('recaptcha_response_field')
+        remoteip  = self.request.remote_addr
+
+        cResponse = captcha.submit(
+            challenge,
+            response,
+            self.reCaptcha_private_key,
+            remoteip)
+
+        if cResponse.is_valid:
+            # captcha was valid... carry on..nothing to see here
+            pass
+        else:
+            logging.warning(cResponse.error_code)
+            _message = _('Wrong image verification code. Please try again.')
+            self.add_message(_message, 'error')
+            return self.redirect_to('password-reset')
+            #check if we got an email or username
+        email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
+        if utils.is_email_valid(email_or_username):
+            user = models.User.get_by_email(email_or_username)
+            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
+        else:
+            auth_id = "own:%s" % email_or_username
+            user = models.User.get_by_auth_id(auth_id)
+            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
+
+        if user is not None:
+            user_id = user.get_id()
+            token = models.User.create_auth_token(user_id)
+            email_url = self.uri_for('taskqueue-send-email')
+            reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
+            subject = _("Password reminder")
+            body = _('Please click below to create a new password:') +\
+                   """
+
+                   %s
+                   """ % reset_url
+            taskqueue.add(url = email_url, params={
+                'to': user.email,
+                'subject' : subject,
+                'body' : body,
+                'sender' : config.contact_sender,
+                })
+            _message = _message + _("is associated with an account in our records, you will receive "\
+                                    "an e-mail from us with instructions for resetting your password. "\
+                                    "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
+                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
+            self.add_message(_message, 'success')
+            return self.redirect_to('login')
+        _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
+        self.add_message(_message, 'error')
+        return self.redirect_to('password-reset')
+
+
+class PasswordResetCompleteHandler(BaseHandler):
+
+    def get(self, user_id, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
+        params = {
+            'action': self.request.url,
+            'form': self.form
+        }
+        if verify[0] is None:
+            self.add_message(_('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
+            return self.redirect_to('password-reset')
+
+        else:
+            return self.render_template('boilerplate_password_reset_complete.html', **params)
+
+    def post(self, user_id, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
+        user = verify[0]
+        password = self.form.password.data.strip()
+        if user and self.form.validate():
+            # Password to SHA512
+            password = utils.encrypt(password, config.salt)
+
+            user.password = security.generate_password_hash(password, length=12)
+            user.put()
+            # Delete token
+            models.User.delete_auth_token(int(user_id), token)
+            # Login User
+            self.auth.get_user_by_password(user.auth_ids[0], password)
+            self.add_message(_('Password changed successfully'), 'success')
+            return self.redirect_to('secure')
+
+        else:
+            self.add_message(_('Please correct the form errors.'), 'error')
+            return self.redirect_to('password-reset-check', user_id=user_id, token=token)
+
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.PasswordResetCompleteMobileForm(self.request.POST)
+        else:
+            return forms.PasswordResetCompleteForm(self.request.POST)
+
+
+class EmailChangedCompleteHandler(BaseHandler):
+    """
+        Handler for completed email change
+        Will be called when the user click confirmation link from email
+    """
+
+    def get(self, user_id, encoded_email, token):
+        verify = models.User.get_by_auth_token(int(user_id), token)
+        email = utils.decode(encoded_email)
+        if verify[0] is None:
+            self.add_message('There was an error. Please copy and paste the link from your email.', 'warning')
+            self.redirect_to('secure')
+
+        else:
+            # save new email
+            user = verify[0]
+            user.email = email
+            user.put()
+            # delete token
+            models.User.delete_auth_token(int(user_id), token)
+            # add successful message and redirect
+            self.add_message("Your email has been successfully updated!", "success")
+            self.redirect_to('edit-profile')
+
+
 class SecureRequestHandler(BaseHandler):
     """
          Only accessible to users that are logged in
@@ -696,3 +686,15 @@ class SecureRequestHandler(BaseHandler):
             return self.render_template('boilerplate_secure_zone.html', **params)
         except (AttributeError, KeyError), e:
             return _("Secure zone error:") + " %s." % e
+
+
+class HomeRequestHandler(BaseHandler):
+
+    def get(self):
+        """
+              Returns a simple HTML form for home
+        """
+        params = {}
+        return self.render_template('boilerplate_home.html', **params)
+
+

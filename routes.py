@@ -9,13 +9,13 @@ from web import handlers
 
 _routes = [
     RedirectRoute('/taskqueue-send-email/', handlers.SendEmailHandler, name='send-reset-email', strict_slash=True),
-    RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
-    RedirectRoute('/settings/email', handlers.EditEmailHandler, name='edit-email', strict_slash=True),
-    RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
-    RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/logout/', handlers.LogoutHandler, name='logout', strict_slash=True),
     RedirectRoute('/register/', handlers.RegisterHandler, name='register', strict_slash=True),
+    RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
+    RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
+    RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),
+    RedirectRoute('/settings/email', handlers.EditEmailHandler, name='edit-email', strict_slash=True),
     RedirectRoute('/password-reset/', handlers.PasswordResetHandler, name='password-reset', strict_slash=True),
     RedirectRoute('/password-reset/<user_id>/<token>', handlers.PasswordResetCompleteHandler, name='password-reset-check', strict_slash=True),
     RedirectRoute('/change-email/<user_id>/<encoded_email>/<token>', handlers.EmailChangedCompleteHandler, name='email-changed-check', strict_slash=True),
