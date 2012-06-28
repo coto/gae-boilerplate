@@ -21,8 +21,6 @@ from webapp2_extras import jinja2
 import config
 import routes
 import os
-import sys
-import traceback
 
 def handle_error(request, response, exception):
     c = { 'exception': str(exception) }
