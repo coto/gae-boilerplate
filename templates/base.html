@@ -153,7 +153,7 @@
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}
-                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Register user{% endtrans %}</a></li>
+                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Sign Up{% endtrans %}</a></li>
                         <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a></li>
                         {% endif %}
                     </ul>

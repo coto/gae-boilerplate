@@ -125,7 +125,7 @@ class LogoutHandler(BaseHandler):
 
 class RegisterHandler(BaseHandler):
     """
-    Handler for Register Users
+    Handler for Sign Up Users
     """
     def get(self):
         """
@@ -284,17 +284,17 @@ class EditProfileHandler(BaseHandler):
         last_name = self.form.last_name.data.strip()
         country = self.form.country.data
 
-        new_auth_id='own:%s' % username
+        new_auth_id = 'own:%s' % username
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
             try:
                 #checking if new username exists
-                message=''
-                new_user_info=models.User.get_by_auth_id(new_auth_id)
+                message = ''
+                new_user_info = models.User.get_by_auth_id(new_auth_id)
                 if new_user_info==None:
-                    user_info.username=username
-                    user_info.auth_ids[0]=new_auth_id
+                    user_info.username = username
+                    user_info.auth_ids[0] = new_auth_id
                     message+= _('Your new username is ') + username + '.'
                     
                 else:
@@ -303,9 +303,9 @@ class EditProfileHandler(BaseHandler):
                     else:
                         message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
                 user_info.unique_properties = ['username','email']
-                user_info.name=name
-                user_info.last_name=last_name
-                user_info.country=country
+                user_info.name = name
+                user_info.last_name = last_name
+                user_info.country = country
                 user_info.put()
 
                 message+= " " + _('Your profile has been updated!')
@@ -313,12 +313,12 @@ class EditProfileHandler(BaseHandler):
                 self.redirect_to('edit-profile')
 
             except (AttributeError, KeyError), e:
-                message= _('Unable to update profile!')
+                message = _('Unable to update profile!')
                 self.add_message(message,'error')
                 self.redirect_to('edit-profile')
 
         except (AttributeError,TypeError), e:
-            login_error_message= _('Sorry you are not logged in!')
+            login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
@@ -358,7 +358,7 @@ class EditPasswordHandler(BaseHandler):
             # Password to SHA512
             current_password = utils.encrypt(current_password, config.salt)
             try:
-                user=models.User.get_by_auth_password(auth_id, current_password)
+                user = models.User.get_by_auth_password(auth_id, current_password)
                 # Password to SHA512
                 password = utils.encrypt(password, config.salt)
                 user.password = security.generate_password_hash(password, length=12)
@@ -390,7 +390,7 @@ class EditPasswordHandler(BaseHandler):
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
         except (AttributeError,TypeError), e:
-            login_error_message=_('Sorry you are not logged in!')
+            login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
@@ -509,7 +509,7 @@ class EditEmailHandler(BaseHandler):
                 return self.redirect_to('edit-email')
                 
         except (AttributeError,TypeError), e:
-            login_error_message='Sorry you are not logged in!'
+            login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 

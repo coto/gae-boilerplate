@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header_title %}
-        {% trans %}Register user{% endtrans %}
+        {% trans %}Sign Up{% endtrans %}
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
             {% endif %}
             {{ macros.input(form, "country", _("Country")) }}
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{% trans %}Register user{% endtrans %}</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
             </div>
         </fieldset>
     </form>
