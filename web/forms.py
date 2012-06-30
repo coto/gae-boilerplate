@@ -33,7 +33,7 @@ class PasswordMixin(BaseForm):
 
 
 class ConfirmPasswordMixin(BaseForm):
-    c_password = fields.TextField(_('Confirm Password'), [validators.EqualTo('password', _('Passwords must match.')), validators.Length(max=FIELD_MAXLENGTH)])
+    c_password = fields.TextField(_('Confirm Password'), [validators.Required(), validators.EqualTo('password', _('Passwords must match.')), validators.Length(max=FIELD_MAXLENGTH)])
 
 
 class UserMixin(BaseForm):
