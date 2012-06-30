@@ -105,6 +105,14 @@ Adding or updating text to be translated or adding new languages requires more w
 
 See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html] and {pybabel's docs}[http://babel.edgewall.org/wiki/Documentation/cmdline.html] for more details.
 
+== Security
+===SSL
+* SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)
+* SSL either requires a free google app engine *.appspot.com domain or a {custom domain and certificate}[https://developers.google.com/appengine/docs/ssl]
+* Alternatively SSL can be enabled at a controller level via webapp2 schemes.  Use the secure_scheme provided in routes.py
+* It is recommended to enable ssl site wide to help prevent {session hijacking}[http://en.wikipedia.org/wiki/Session_hijacking]
+===Passwords
+* passwords encrypted with SHA512
 
 == Acknowledgements
 Google App Engine Boilerplate is a collaborative project which is bringing to you thanks to the help of

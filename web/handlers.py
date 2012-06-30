@@ -24,6 +24,7 @@ import config
 import webapp2
 import web.forms as forms
 from webapp2_extras.i18n import gettext as _
+from webapp2_extras.appengine.auth.models import Unique
 
 
 class SendEmailHandler(BaseHandler):
@@ -64,39 +65,43 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
-
-        if utils.is_email_valid(username):
-            user = models.User.get_by_email(username)
-            auth_id = user.auth_ids[0]
-        else:
-            auth_id = "own:%s" % username
-            user = models.User.get_by_auth_id(auth_id)
-
-        password = self.form.password.data.strip()
-        remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
-
-        # Password to SHA512
-        password = utils.encrypt(password, config.salt)
-
-        # Try to login user with password
-        # Raises InvalidAuthIdError if user is not found
-        # Raises InvalidPasswordError if provided password
-        # doesn't match with specified user
+        
         try:
+            if utils.is_email_valid(username):
+                user = models.User.get_by_email(username)
+                if user:
+                    auth_id = user.auth_ids[0]
+                else:
+                    raise InvalidAuthIdError
+            else:
+                auth_id = "own:%s" % username
+                user = models.User.get_by_auth_id(auth_id)
+                
+            password = self.form.password.data.strip()
+            remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
+                
+            # Password to SHA512
+            password = utils.encrypt(password, config.salt)
+    
+            # Try to login user with password
+            # Raises InvalidAuthIdError if user is not found
+            # Raises InvalidPasswordError if provided password
+            # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
             visitLog = models.VisitLog(
-                user = user.key,
-                uastring = self.request.user_agent,
-                ip = self.request.remote_addr,
-                timestamp = utils.get_date_time()
+                user=user.key,
+                uastring=self.request.user_agent,
+                ip=self.request.remote_addr,
+                timestamp=utils.get_date_time()
             )
             visitLog.put()
             self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = _("Login invalid, Try again")
+            message = _("Login invalid, Try again") + ".&nbsp;&nbsp;&nbsp;&nbsp;" + _("Don't have an account?") + \
+                    '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
@@ -284,40 +289,49 @@ class EditProfileHandler(BaseHandler):
         last_name = self.form.last_name.data.strip()
         country = self.form.country.data
 
-        new_auth_id = 'own:%s' % username
-
         try:
             user_info = models.User.get_by_id(long(self.user_id))
+            
             try:
-                #checking if new username exists
-                message = ''
-                new_user_info = models.User.get_by_auth_id(new_auth_id)
-                if new_user_info==None:
-                    user_info.username = username
-                    user_info.auth_ids[0] = new_auth_id
-                    message+= _('Your new username is ') + username + '.'
-                    
-                else:
-                    if user_info.username == new_user_info.username:
+                message=''
+                # update username if it has changed and it isn't already taken
+                if username != user_info.username:
+                    user_info.unique_properties = ['username','email']
+                    uniques = [
+                               'User.username:%s' % username,
+                               'User.auth_id:own:%s' % username,
+                               ]
+                    # Create the unique username and auth_id.
+                    success, existing = Unique.create_multi(uniques)
+                    if success:
+                        # free old uniques
+                        Unique.delete_multi(['User.username:%s' % user_info.username, 'User.auth_id:own:%s' % user_info.username])
+                        # The unique values were created, so we can save the user.
+                        user_info.username=username
+                        user_info.auth_ids[0]='own:%s' % username
                         message+= _('Your new username is ') + username + '.'
+                        
                     else:
                         message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
-                user_info.unique_properties = ['username','email']
-                user_info.name = name
-                user_info.last_name = last_name
-                user_info.country = country
+                        # At least one of the values is not unique.
+                        # Make a list of the property names that failed.
+                        props = [name.split(':', 2)[-1] for name in uniques]
+                        raise ValueError(_('Properties %r are not unique.' % props))
+                user_info.name=name
+                user_info.last_name=last_name
+                user_info.country=country
                 user_info.put()
-
                 message+= " " + _('Your profile has been updated!')
                 self.add_message(message,'success')
-                self.redirect_to('edit-profile')
+                return self.get()
 
-            except (AttributeError, KeyError), e:
+            except (AttributeError, KeyError, ValueError), e:
                 message = _('Unable to update profile!')
+                logging.error('Unable to update profile: ' + e)
                 self.add_message(message,'error')
-                self.redirect_to('edit-profile')
+                return self.get()
 
-        except (AttributeError,TypeError), e:
+        except (AttributeError, TypeError), e:
             login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
