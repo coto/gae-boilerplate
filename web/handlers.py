@@ -289,40 +289,49 @@ class EditProfileHandler(BaseHandler):
         last_name = self.form.last_name.data.strip()
         country = self.form.country.data
 
-        new_auth_id = 'own:%s' % username
-
         try:
             user_info = models.User.get_by_id(long(self.user_id))
+            
             try:
-                #checking if new username exists
-                message = ''
-                new_user_info = models.User.get_by_auth_id(new_auth_id)
-                if new_user_info==None:
-                    user_info.username = username
-                    user_info.auth_ids[0] = new_auth_id
-                    message+= _('Your new username is ') + username + '.'
-                    
-                else:
-                    if user_info.username == new_user_info.username:
+                message=''
+                # update username if it has changed and it isn't already taken
+                if username != user_info.username:
+                    user_info.unique_properties = ['username','email']
+                    uniques = [
+                               'User.username:%s' % username,
+                               'User.auth_id:own:%s' % username,
+                               ]
+                    # Create the unique username and auth_id.
+                    success, existing = Unique.create_multi(uniques)
+                    if success:
+                        # free old uniques
+                        Unique.delete_multi(['User.username:%s' % user_info.username, 'User.auth_id:own:%s' % user_info.username])
+                        # The unique values were created, so we can save the user.
+                        user_info.username=username
+                        user_info.auth_ids[0]='own:%s' % username
                         message+= _('Your new username is ') + username + '.'
+                        
                     else:
                         message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
-                user_info.unique_properties = ['username','email']
-                user_info.name = name
-                user_info.last_name = last_name
-                user_info.country = country
+                        # At least one of the values is not unique.
+                        # Make a list of the property names that failed.
+                        props = [name.split(':', 2)[-1] for name in uniques]
+                        raise ValueError(_('Properties %r are not unique.' % props))
+                user_info.name=name
+                user_info.last_name=last_name
+                user_info.country=country
                 user_info.put()
-
                 message+= " " + _('Your profile has been updated!')
                 self.add_message(message,'success')
-                self.redirect_to('edit-profile')
+                return self.get()
 
-            except (AttributeError, KeyError), e:
+            except (AttributeError, KeyError, ValueError), e:
                 message = _('Unable to update profile!')
+                logging.error('Unable to update profile: ' + e)
                 self.add_message(message,'error')
-                self.redirect_to('edit-profile')
+                return self.get()
 
-        except (AttributeError,TypeError), e:
+        except (AttributeError, TypeError), e:
             login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
