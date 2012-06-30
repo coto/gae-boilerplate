@@ -6,6 +6,9 @@ RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 
 from webapp2_extras.routes import RedirectRoute
 from web import handlers
+import config
+
+secure_scheme = 'https'
 
 _routes = [
     RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
@@ -27,5 +30,7 @@ def get_routes():
     return _routes
 
 def add_routes(app):
+    if app.debug:
+        secure_scheme = 'http'
     for r in _routes:
         app.router.add(r)
