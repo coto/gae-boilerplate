@@ -24,6 +24,7 @@ import config
 import webapp2
 import web.forms as forms
 from webapp2_extras.i18n import gettext as _
+from webapp2_extras.appengine.auth.models import Unique
 
 
 class SendEmailHandler(BaseHandler):
@@ -64,39 +65,43 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
-
-        if utils.is_email_valid(username):
-            user = models.User.get_by_email(username)
-            auth_id = user.auth_ids[0]
-        else:
-            auth_id = "own:%s" % username
-            user = models.User.get_by_auth_id(auth_id)
-
-        password = self.form.password.data.strip()
-        remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
-
-        # Password to SHA512
-        password = utils.encrypt(password, config.salt)
-
-        # Try to login user with password
-        # Raises InvalidAuthIdError if user is not found
-        # Raises InvalidPasswordError if provided password
-        # doesn't match with specified user
+        
         try:
+            if utils.is_email_valid(username):
+                user = models.User.get_by_email(username)
+                if user:
+                    auth_id = user.auth_ids[0]
+                else:
+                    raise InvalidAuthIdError
+            else:
+                auth_id = "own:%s" % username
+                user = models.User.get_by_auth_id(auth_id)
+                
+            password = self.form.password.data.strip()
+            remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
+                
+            # Password to SHA512
+            password = utils.encrypt(password, config.salt)
+    
+            # Try to login user with password
+            # Raises InvalidAuthIdError if user is not found
+            # Raises InvalidPasswordError if provided password
+            # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
             visitLog = models.VisitLog(
-                user = user.key,
-                uastring = self.request.user_agent,
-                ip = self.request.remote_addr,
-                timestamp = utils.get_date_time()
+                user=user.key,
+                uastring=self.request.user_agent,
+                ip=self.request.remote_addr,
+                timestamp=utils.get_date_time()
             )
             visitLog.put()
             self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = _("Login invalid, Try again")
+            message = _("Login invalid, Try again") + ".&nbsp;&nbsp;&nbsp;&nbsp;" + _("Don't have an account?") + \
+                    '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
