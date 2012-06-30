@@ -129,7 +129,7 @@ msgstr ""
 msgid "Please correct the form errors."
 msgstr ""
 
-msgid "Register user"
+msgid "Sign Up"
 msgstr "创建用户"
 
 msgid "Remember me?"
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Username"
 msgstr "用户名"
 
-msgid "Username invalid.  Use only letters and numbers."
+msgid "Username invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "Username or Email"

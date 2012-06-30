@@ -21,21 +21,14 @@ from webapp2_extras import jinja2
 import config
 import routes
 import os
-import sys
-import traceback
 
 def handle_error(request, response, exception):
     c = { 'exception': str(exception) }
-    if hasattr(exception, 'status_int'):
-        template = exception.status_int
-        status = exception.status_int
-    else:
-        template = 500
-        status = 500
-    template = config.error_templates[template]
+    status_int = hasattr(exception, 'status_int') and exception.status_int or 500
+    template = config.error_templates[status_int]
     t = jinja2.get_jinja2(app=app).render_template(template, **c)
     response.write(t)
-    response.set_status(status)
+    response.set_status(status_int)
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
 
