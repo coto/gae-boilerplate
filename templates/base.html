@@ -92,13 +92,13 @@
                                         <div class="control-group">
                                             <label class="control-label" for="username">{% trans %}Username or Email{% endtrans %}:</label>
                                             <div class="controls">
-                                                <input class="input-xlarge focused required" id="username" name="username" type="text" value="">
+                                                <input class="input-xlarge focused required" id="l_username" name="l_username" type="text" value="">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="password">{% trans %}Password{% endtrans %}:</label>
                                             <div class="controls">
-                                                <input class="input-xlarge focused required" id="password" name="password" type="password" value="">
+                                                <input class="input-xlarge focused required" id="l_password" name="l_password" type="password" value="">
                                             </div>
                                         </div>
                                         <div class="control-group row-fluid">
@@ -115,15 +115,14 @@
                                         </div>
                                         <div id="trird_party_login" class="form-actions">
                                             <h4>Or Sign in using:</h4>
-                                            <ul class="unstyled">
-                                                <li><a href="#" id="sign-in-with-google"><img src="/img/icon_google.png" alt="Google" title="Google"></a></li>
-                                                <li><a href="#" id="sign-in-with-facebook"><img src="/img/icon_facebook.png" alt="Facebook" title="Facebook"></a></li>
-                                                <li><a href="#" id="sign-in-with-linkedin"><img src="/img/icon_linkedin.gif" alt="LinkedIn" title="LinkedIn"></a></li>
-                                                <li><a href="#" id="sign-in-with-myopenid"><img src="/img/icon_myopenid.png" alt="MyOpenid" title="MyOpenid"></a></li>
-                                                <li><a href="#" id="sign-in-with-twitter"><img src="/img/icon_twitter.png" alt="Twitter" title="Twitter"></a></li>
-                                                <li><a href="#" id="sign-in-with-yahoo"><img src="/img/icon_yahoo.png" alt="Yahoo!" title="Yahoo!"></a></li>
-                                                <li><a href="#" id="sign-in-with-googleapps"><img src="/img/icon_google_apps.png" alt="Google Apps" title="Google Apps"></a></li>
-                                            </ul>
+                                            <div class="social-login-icons">
+                                                <a href="#" id="sign-in-with-google" title="Google">Login Google</a>
+                                                <a href="#" id="sign-in-with-facebook" title="Facebook">Login Facebook</a>
+                                                <a href="#" id="sign-in-with-linkedin" title="LinkedIn">Login LinkedIn</a>
+                                                <a href="#" id="sign-in-with-myopenid" title="MyOpenid">Login MyOpenid</a>
+                                                <a href="#" id="sign-in-with-twitter" title="Twitter">Login Twitter</a>
+                                                <a href="#" id="sign-in-with-yahoo" title="Yahoo!">Login Yahoo!</a>
+                                            </div>
                                         </div>
                                     </fieldset>
                                 </form>
@@ -154,7 +153,7 @@
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}
-                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Register user{% endtrans %}</a></li>
+                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{% trans %}Sign Up{% endtrans %}</a></li>
                         <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a></li>
                         {% endif %}
                     </ul>
