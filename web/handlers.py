@@ -427,13 +427,11 @@ class EditEmailHandler(BaseHandler):
         """
         params = {
             "action": self.request.url,
+            "form": self.form
             }
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-
-            params.update({
-                "email" : user_info.email
-            })
+            self.form.new_email.data = user_info.email
 
         return self.render_template('boilerplate_edit_email.html', **params)
 
@@ -441,18 +439,10 @@ class EditEmailHandler(BaseHandler):
         """
               Get fields from POST dict
         """
-        new_email = self.request.POST.get('new_email').strip()
-        password = self.request.POST.get('password').strip()
-        
-        if new_email == "" or password == "":
-            message = 'Sorry, some fields are required.'
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-email')
-        
-        if not utils.is_email_valid(new_email):
-            message = 'Sorry, the email %s is not valid.' % new_email
-            self.add_message(message, 'error')
-            return self.redirect_to('edit-email')
+        if not self.form.validate():
+            return self.get()
+        new_email = self.form.new_email.data.strip()
+        password = self.form.password.data.strip()
         
         try:
             user_info = models.User.get_by_id(long(self.user_id))
@@ -526,6 +516,10 @@ class EditEmailHandler(BaseHandler):
             login_error_message = _('Sorry you are not logged in!')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.EditEmailForm(self.request.POST)
 
 
 class PasswordResetHandler(BaseHandler):
