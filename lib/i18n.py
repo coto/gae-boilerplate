@@ -4,21 +4,8 @@ from lib import utils
 from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
-
-# Locale code = <language>_<territory> (ie 'en_US')
-# Language codes defined under iso 639-1 http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-# Territory codes defined under iso 3166-1 alpha-2 http://en.wikipedia.org/wiki/ISO_3166-1
-# Available locales should be in descending priority order.  ie the first entry is default and if 
-# there are for example en_US followed by en_GB then en_US will take priority 
-# if the language detected is english byt territory could not be detected
-AVAILABLE_LOCALES = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID']
-LANGUAGES = {
-             'en_US': 'English',
-             'es_ES': 'Spanish',
-             'it_IT': 'Italian',
-             'zh_CN': 'Chinese',
-             'id_ID': 'Indonesian'
-             }
+from babel import Locale
+import config
 
 def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?'):
     """
@@ -45,7 +32,7 @@ def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,
             res[l] = int(100*float(q))
     return res
 
-def get_territory_from_ip(cls):
+def get_territory_from_ip(request):
     """
     Detect the territory code derived from IP Address location
     Returns US, CA, CL, AR, etc.
@@ -58,7 +45,7 @@ def get_territory_from_ip(cls):
     """
     territory = None
     try:
-        result = urlfetch.fetch("http://geoip.wtanaka.com/cc/"+cls.request.remote_addr)
+        result = urlfetch.fetch("http://geoip.wtanaka.com/cc/"+request.remote_addr, deadline=0.2) # tweak deadline if necessary
         if result.status_code == 200:
             fetch = result.content
             if len(str(fetch)) < 3:
@@ -68,23 +55,14 @@ def get_territory_from_ip(cls):
         else:
             logging.warning("Ups, geoip.wtanaka.com is not working. Status Code: "+ str(result.status_code) )
     except DownloadError:
-        logging.warning("Couldn't resolve http://geoip.wtanaka.com/cc/"+cls.request.remote_addr)
+        logging.warning("Couldn't resolve http://geoip.wtanaka.com/cc/"+request.remote_addr)
     return territory
 
-def get_locale_from_territory(territory):
-    """
-    Returns locale from AVAILABLE_LOCALES given a territory code
-    """
-    available_territories = [locale.split('_')[1] for locale in AVAILABLE_LOCALES]
-    for i,t in enumerate(available_territories):
-        if t == territory:
-            return AVAILABLE_LOCALES[i]
-
-def get_locale_from_accept_header(cls):
+def get_locale_from_accept_header(request):
     """
     Detect locale from request.header 'Accept-Language'
     Locale with the highest quality factor that most nearly matches our 
-    AVAILABLE_LOCALES is returned.
+    config.locales is returned.
     cls: self object
 
     Note that in the future if
@@ -93,15 +71,9 @@ def get_locale_from_accept_header(cls):
         leading to increased performance
         (see http://lists.w3.org/Archives/Public/ietf-http-wg/2012AprJun/0473.html)
     """
-    available_languages = [locale.split('_')[0] for locale in AVAILABLE_LOCALES]
-    header = cls.request.headers.get("Accept-Language", '')
+    header = request.headers.get("Accept-Language", '')
     parsed = parse_accept_language_header(header)
-    for item in sorted(parsed.iteritems()):
-        if item[0] in AVAILABLE_LOCALES:
-            return item[0]
-        for i,l in enumerate(available_languages):
-            if item[0] == l:
-                return AVAILABLE_LOCALES[i]
+    return str(Locale.negotiate(sorted(parsed.iteritems()), config.locales, sep='-'))
 
 def set_locale(cls, force=None):
     """
@@ -112,30 +84,22 @@ def set_locale(cls, force=None):
     """
     # 1. force locale if provided
     locale = force
-    if locale not in AVAILABLE_LOCALES:
+    if locale not in config.locales:
         # 2. retrieve locale from url query string
         locale = cls.request.get("hl", None)
-        if locale not in AVAILABLE_LOCALES:
+        if locale not in config.locales:
             # 3. retrieve locale from cookie
-            locale = utils.read_cookie(cls, "hl")
-            if locale not in AVAILABLE_LOCALES:
+            locale = cls.request.cookies.get('hl', None)
+            if locale not in config.locales:
                 # 4. retrieve locale from accept language header
-                locale = get_locale_from_accept_header(cls)
-                if locale not in AVAILABLE_LOCALES:
+                locale = get_locale_from_accept_header(cls.request)
+                if locale not in config.locales:
                     # 5. detect locale from IP address location
-                    locale = get_locale_from_territory(get_territory_from_ip(cls))
-                    if locale not in AVAILABLE_LOCALES:
+                    locale = str(Locale.negotiate(get_territory_from_ip(cls.request), config.locales, sep='-'))
+                    if locale not in config.locales:
                         # 6. use default locale
-                        locale = AVAILABLE_LOCALES[0]
-    # convert unicode locale to string for headers
-    locale = str(locale)
+                        i18n.get_store().default_locale
     i18n.get_i18n().set_locale(locale)
     # save locale in cookie with 26 weeks expiration (in seconds)
-    utils.write_cookie(cls, "hl", locale, "/", 15724800)
+    cls.response.set_cookie('hl', locale, max_age = 15724800)
     return locale
-
-def get_language(locale):
-    return LANGUAGES[locale]
-
-def get_territory_code(locale):
-    return locale.split('_')[1]
