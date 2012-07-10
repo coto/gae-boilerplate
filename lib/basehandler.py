@@ -3,10 +3,11 @@ import webapp2
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
-from lib import i18n
 from lib import utils
 import config
 import re
+from lib import i18n
+from babel import Locale
 
 def user_required(handler):
     """
@@ -44,8 +45,6 @@ class BaseHandler(webapp2.RequestHandler):
         """
         self.initialize(request, response)
         self.locale = i18n.set_locale(self)
-        self.language = i18n.get_language(self.locale)
-        self.territory_code = i18n.get_territory_code(self.locale)
 
     def dispatch(self):
         """
@@ -124,6 +123,20 @@ class BaseHandler(webapp2.RequestHandler):
         path_lang = re.sub(r'(^hl=(\w{5})\&*)|(\&hl=(\w{5})\&*?)', '', str(self.request.query_string))
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
+    
+    def locales(self):
+        """
+        returns a dict of locale codes to locale display names in both the current locale and the localized locale
+        example: if the current locale is es_ES then locales['en_US'] = 'Ingles (Estados Unidos) - English (United States)'
+        """
+        locales = {}
+        for l in config.locales:
+            current_locale = Locale.parse(self.locale)
+            language = current_locale.languages[l.split('_')[0]]
+            territory = current_locale.territories[l.split('_')[1]]
+            localized_locale_name = Locale.parse(l).display_name
+            locales[l] = language + " (" + territory + ") - " + localized_locale_name
+        return locales
 
     @webapp2.cached_property
     def is_mobile(self):
@@ -138,7 +151,8 @@ class BaseHandler(webapp2.RequestHandler):
         j.environment.globals.update({
             # Set global variables.
             'uri_for': webapp2.uri_for,
-            'getattr': getattr
+            'getattr': getattr,
+            'str': str
         })
         j.environment.tests.update({
             # Set tests.
@@ -163,9 +177,8 @@ class BaseHandler(webapp2.RequestHandler):
             'query_string': self.request.query_string,
             'path_for_language': self.path_for_language,
             'is_mobile': self.is_mobile,
-            'locale': self.locale,
-            'language': self.language,
-            'territory_code': self.territory_code
+            'locale': Locale.parse(self.locale), # babel locale object
+            'locales': self.locales()
             })
         kwargs.update(self.auth_config)
         if self.messages:
