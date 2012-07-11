@@ -102,7 +102,7 @@ def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
     #    now = datetime.fromtimestamp(1321925140.78)
     return now
 
-EMAIL_REGEXP = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$"
+EMAIL_REGEXP = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$"
 
 def is_email_valid(email):
     if len(email) > 7:
