@@ -107,7 +107,7 @@ class LoginHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        return forms.LoginForm(self.request.POST, prefix='l_')
+        return forms.LoginForm(self.request.POST)
 
 
 class LogoutHandler(BaseHandler):
