@@ -100,7 +100,7 @@ def set_locale(cls, force=None):
                     locale = str(Locale.negotiate(get_territory_from_ip(cls.request), config.locales))
                     if locale not in config.locales:
                         # 6. use default locale
-                        i18n.get_store().default_locale
+                        locale = i18n.get_store().default_locale
     i18n.get_i18n().set_locale(locale)
     # save locale in cookie with 26 weeks expiration (in seconds)
     cls.response.set_cookie('hl', locale, max_age = 15724800)
