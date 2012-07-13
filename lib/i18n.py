@@ -73,6 +73,8 @@ def get_locale_from_accept_header(request):
     """
     header = request.headers.get("Accept-Language", '')
     parsed = parse_accept_language_header(header)
+    if parsed is None:
+        return None
     locale_list_sorted_by_q = sorted(parsed.iterkeys(), reverse=True)
     locale = Locale.negotiate(locale_list_sorted_by_q, config.locales, sep='_')
     return str(locale)
@@ -97,7 +99,8 @@ def set_locale(cls, force=None):
                 locale = get_locale_from_accept_header(cls.request)
                 if locale not in config.locales:
                     # 5. detect locale from IP address location
-                    locale = str(Locale.negotiate(get_territory_from_ip(cls.request), config.locales))
+                    territory = get_territory_from_ip(cls.request) or 'ZZ'
+                    locale = str(Locale.negotiate(territory, config.locales))
                     if locale not in config.locales:
                         # 6. use default locale
                         locale = i18n.get_store().default_locale
