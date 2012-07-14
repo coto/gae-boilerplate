@@ -31,6 +31,32 @@ def user_required(handler):
 
     return check_login
 
+def jinja2_factory(app):
+    j = jinja2.Jinja2(app)
+    j.environment.filters.update({
+        # Set filters.
+        # ...
+    })
+    j.environment.globals.update({
+        # Set global variables.
+        'uri_for': webapp2.uri_for,
+        'getattr': getattr,
+        'str': str
+    })
+    j.environment.tests.update({
+        # Set tests.
+        # ...
+    })
+    return j
+
+def handle_error(request, response, exception):
+    c = { 'exception': str(exception) }
+    status_int = hasattr(exception, 'status_int') and exception.status_int or 500
+    template = config.error_templates[status_int]
+    t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
+    response.write(t)
+    response.set_status(status_int)
+
 
 class BaseHandler(webapp2.RequestHandler):
     """
@@ -142,27 +168,9 @@ class BaseHandler(webapp2.RequestHandler):
     def is_mobile(self):
         return utils.set_device_cookie_and_return_bool(self)
 
-    def jinja2_factory(self, app):
-        j = jinja2.Jinja2(app)
-        j.environment.filters.update({
-            # Set filters.
-            # ...
-        })
-        j.environment.globals.update({
-            # Set global variables.
-            'uri_for': webapp2.uri_for,
-            'getattr': getattr,
-            'str': str
-        })
-        j.environment.tests.update({
-            # Set tests.
-            # ...
-        })
-        return j
-
     @webapp2.cached_property
     def jinja2(self):
-        return jinja2.get_jinja2(factory=self.jinja2_factory, app=self.app)
+        return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
 
     def render_template(self, filename, **kwargs):
         kwargs.update({
