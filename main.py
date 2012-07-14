@@ -17,18 +17,11 @@ __author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
 
 import webapp2
-from webapp2_extras import jinja2 
 import config
 import routes
 import os
 
-def handle_error(request, response, exception):
-    c = { 'exception': str(exception) }
-    status_int = hasattr(exception, 'status_int') and exception.status_int or 500
-    template = config.error_templates[status_int]
-    t = jinja2.get_jinja2(app=app).render_template(template, **c)
-    response.write(t)
-    response.set_status(status_int)
+from lib.basehandler import handle_error
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
 
