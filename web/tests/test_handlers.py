@@ -15,13 +15,14 @@ class AppTest(unittest.TestCase):
         # create a WSGI application.
         app = webapp2.WSGIApplication(config=config.webapp2_config)
         routes.add_routes(app)
-        self.testapp = webtest.TestApp(app)
+        self.testapp = webtest.TestApp(app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
 
         # activate GAE stubs
         self.testbed = testbed.Testbed()
         self.testbed.activate()
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
+        self.testbed.init_urlfetch_stub()
 
         # some shortcuts
         self.cookie_name=config.webapp2_config['webapp2_extras.auth']['cookie_name']
@@ -76,6 +77,15 @@ class AppTest(unittest.TestCase):
         alert = response.pyquery('p.alert-error')
         self.assertGreater(len(alert), 0, 'no error message found in response')
         self.assertIn(text, alert.text())
+
+    def test_requestHeadersNoUserAgent(self):
+        self.testapp.get('/', status=200, headers={'Accept-Language' : 'en_US'})
+
+    def test_requestHeadersNoAcceptLanguage(self):
+        self.testapp.get('/', status=200, headers={'User-Agent' : 'Safari'})
+
+    def test_requestHeadersNone(self):
+        self.testapp.get('/', status=200)
 
 
 if __name__ == "__main__":
