@@ -1,7 +1,8 @@
-'''
+"""
 Created on June 10, 2012
 @author: peta15
-'''
+"""
+
 from wtforms.form import Form
 from wtforms import fields
 from wtforms import validators
@@ -10,6 +11,7 @@ from webapp2_extras.i18n import lazy_gettext as _
 from webapp2_extras.i18n import ngettext, gettext
 
 FIELD_MAXLENGTH = 50 # intended to stop maliciously long input
+
 
 class FormTranslations(object):
     def gettext(self, string):
