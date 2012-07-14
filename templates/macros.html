@@ -3,7 +3,7 @@
 	type, class, value, placeholder are noteable kwargs for the input element -->
 {% macro input(form, name, label, type='text') -%}
             <div class="control-group{% if getattr(form,name).errors %} error{% endif %}">
-                <label class="control-label" for="{{ name }}">{{ label|safe }}{% if getattr(form,name).flags.required %}*{% endif %}:</label>
+                <label class="control-label" for="{{ name }}">{{ label|safe }} {% if getattr(form,name).flags.required %}*{% endif %}:</label>
                 <div class="controls">
                 {{ getattr(form,name)(type=type, **kwargs)|safe }}
                 {% if getattr(form,name).errors %}
