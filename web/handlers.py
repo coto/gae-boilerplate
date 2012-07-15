@@ -240,7 +240,13 @@ class ContactHandler(BaseHandler):
             %s
             """ % (remoteip, user_agent, name, email, message)
 
-            utils.send_email(config.contact_recipient, subject, body)
+            email_url = self.uri_for('taskqueue-send-email')
+            taskqueue.add(url = email_url, params={
+                'to': config.contact_recipient,
+                'subject' : subject,
+                'body' : body,
+                'sender' : config.contact_sender,
+                })
 
             message = _('Message sent successfully.')
             self.add_message(message, 'success')
@@ -394,8 +400,14 @@ class EditPasswordHandler(BaseHandler):
                 }
                 email_body_path = "emails/password_changed.txt"
                 email_body = self.jinja2.render_template(email_body_path, **template_val)
-                utils.send_email(user.email, subject, email_body)
-                
+                email_url = self.uri_for('taskqueue-send-email')
+                taskqueue.add(url = email_url, params={
+                    'to': user.email,
+                    'subject' : subject,
+                    'body' : email_body,
+                    'sender' : config.contact_sender,
+                    })
+
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
                 self.add_message(_('Password changed successfully'), 'success')
@@ -492,8 +504,18 @@ class EditEmailHandler(BaseHandler):
                     new_body_path = "emails/email_changed_notification_new.txt"
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
                     
-                    utils.send_email(user.email, subject, old_body)
-                    utils.send_email(new_email , subject, new_body)
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': user.email,
+                        'subject' : subject,
+                        'body' : old_body,
+                        })
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': new_email,
+                        'subject' : subject,
+                        'body' : new_body,
+                        })
                     
                     logging.error(user)
                     
