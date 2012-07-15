@@ -98,7 +98,7 @@ Adding or updating text to be translated or adding new languages requires more w
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
    
    * <tt>msgid "Change your password"</tt>
-   * <tt>msgstr "Cambiar tu contrase�a"</tt>
+   * <tt>msgstr "Cambiar tu contraseña"</tt>
 1. Compile translations
    Run: <tt>pybabel compile -f -d ./locale</tt>
 
