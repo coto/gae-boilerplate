@@ -69,8 +69,7 @@ libraries:
   version: "0.15"
 
 error_handlers:
-  - file: templates/errors/default_error.html
-
+  # Only errors with error_code, don't put a default error here
   - error_code: over_quota
     file: templates/errors/over_quota.html
 

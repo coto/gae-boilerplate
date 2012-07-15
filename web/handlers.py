@@ -100,7 +100,7 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = _("Login invalid, Try again") + ".&nbsp;&nbsp;&nbsp;&nbsp;" + _("Don't have an account?") + \
+            message = _("Login invalid, Try again.") + "<br/>" + _("Don't have an account?") + \
                     '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
@@ -172,7 +172,7 @@ class RegisterHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " +\
+            message = _('Sorry, This user') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
                       _('is already registered.')
             self.add_message(message, 'error')
             return self.redirect_to('register')
@@ -240,7 +240,13 @@ class ContactHandler(BaseHandler):
             %s
             """ % (remoteip, user_agent, name, email, message)
 
-            utils.send_email(config.contact_recipient, subject, body)
+            email_url = self.uri_for('taskqueue-send-email')
+            taskqueue.add(url = email_url, params={
+                'to': config.contact_recipient,
+                'subject' : subject,
+                'body' : body,
+                'sender' : config.contact_sender,
+                })
 
             message = _('Message sent successfully.')
             self.add_message(message, 'success')
@@ -275,6 +281,9 @@ class EditProfileHandler(BaseHandler):
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
+            params.update({
+                'country': user_info.country,
+            })
 
         return self.render_template('boilerplate_edit_profile.html', **params)
 
@@ -309,14 +318,13 @@ class EditProfileHandler(BaseHandler):
                         # The unique values were created, so we can save the user.
                         user_info.username=username
                         user_info.auth_ids[0]='own:%s' % username
-                        message+= _('Your new username is ') + username + '.'
+                        message+= _('Your new username is ') + '<strong>' + username + '</strong>.'
                         
                     else:
-                        message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
+                        message+= _('Username') + " <strong>" + username + "</strong> " + _('is already taken. It is not changed.')
                         # At least one of the values is not unique.
-                        # Make a list of the property names that failed.
-                        props = [name.split(':', 2)[-1] for name in uniques]
-                        raise ValueError(_('Properties %r are not unique.' % props))
+                        self.add_message(message,'error')
+                        return self.get()
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
@@ -391,8 +399,14 @@ class EditPasswordHandler(BaseHandler):
                 }
                 email_body_path = "emails/password_changed.txt"
                 email_body = self.jinja2.render_template(email_body_path, **template_val)
-                utils.send_email(user.email, subject, email_body)
-                
+                email_url = self.uri_for('taskqueue-send-email')
+                taskqueue.add(url = email_url, params={
+                    'to': user.email,
+                    'subject' : subject,
+                    'body' : email_body,
+                    'sender' : config.contact_sender,
+                    })
+
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
                 self.add_message(_('Password changed successfully'), 'success')
@@ -460,7 +474,7 @@ class EditEmailHandler(BaseHandler):
                     # check whether the new email has been used by another user
                     aUser = models.User.get_by_email(new_email)
                     if aUser is not None:
-                        message = "The email %s is already registered. Want to <a href='/login/'>login</a> or <a href='/password-reset/'>recover your password</a>?" % new_email
+                        message = _("The email %s is already registered." % new_email)
                         self.add_message(message, "error")
                         return self.redirect_to("edit-email")
                     
@@ -489,26 +503,35 @@ class EditEmailHandler(BaseHandler):
                     new_body_path = "emails/email_changed_notification_new.txt"
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
                     
-                    utils.send_email(user.email, subject, old_body)
-                    utils.send_email(new_email , subject, new_body)
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': user.email,
+                        'subject' : subject,
+                        'body' : old_body,
+                        })
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': new_email,
+                        'subject' : subject,
+                        'body' : new_body,
+                        })
                     
                     logging.error(user)
                     
                     # display successful message
-                    msg = "Please check your new email for confirmation. "
-                    msg += "Your email will be updated after confirmation. "
+                    msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
                     return self.redirect_to('secure')
                     
                 else:
-                    self.add_message("You didn't change your email", "warning")
+                    self.add_message(_("You didn't change your email"), "warning")
                     return self.redirect_to("edit-email")
                 
                 
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
-                message = "Your password is wrong, please try again"
+                message = _("Your password is wrong, please try again")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-email')
                 
@@ -593,7 +616,7 @@ class PasswordResetHandler(BaseHandler):
             _message = _message + _("is associated with an account in our records, you will receive "\
                                     "an e-mail from us with instructions for resetting your password. "\
                                     "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
-                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
+                       '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'

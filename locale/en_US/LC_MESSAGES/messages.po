@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-24 13:09-0400\n"
+"POT-Creation-Date: 2012-07-15 07:35-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -22,9 +22,6 @@ msgid "Change your email"
 msgstr ""
 
 msgid "Change your password"
-msgstr ""
-
-msgid "Chinese"
 msgstr ""
 
 msgid "Confirm Password"
@@ -42,13 +39,13 @@ msgstr ""
 msgid "Current Password"
 msgstr ""
 
+msgid "Don't have an account?"
+msgstr ""
+
 msgid "Edit Profile"
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "English"
 msgstr ""
 
 msgid "Enter a new email address"
@@ -72,13 +69,7 @@ msgstr ""
 msgid "If the e-mail address you entered"
 msgstr ""
 
-msgid "Indonesian"
-msgstr ""
-
 msgid "Invalid email address."
-msgstr ""
-
-msgid "Italian"
 msgstr ""
 
 msgid "Language"
@@ -93,7 +84,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-msgid "Login invalid, Try again"
+msgid "Login invalid, Try again."
 msgstr ""
 
 msgid "Logout"
@@ -111,6 +102,9 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
+msgid "Or Sign in using:"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
@@ -123,13 +117,15 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+
 msgid "Please click below to create a new password:"
 msgstr ""
 
 msgid "Please correct the form errors."
-msgstr ""
-
-msgid "Sign Up"
 msgstr ""
 
 msgid "Remember me?"
@@ -150,6 +146,9 @@ msgstr ""
 msgid "Session information"
 msgstr ""
 
+msgid "Sign Up"
+msgstr ""
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -159,7 +158,8 @@ msgstr ""
 msgid "Source Code"
 msgstr ""
 
-msgid "Spanish"
+#, python-format
+msgid "The email %s is already registered."
 msgstr ""
 
 msgid ""
@@ -197,6 +197,12 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You didn't change your email"
+msgstr ""
+
+msgid "You've signed out successfully."
+msgstr ""
+
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
@@ -209,10 +215,10 @@ msgstr ""
 msgid "Your new username is "
 msgstr ""
 
-msgid "Your profile has been updated!"
+msgid "Your password is wrong, please try again"
 msgstr ""
 
-msgid "You’ve signed out successfully."
+msgid "Your profile has been updated!"
 msgstr ""
 
 msgid "contact us"
