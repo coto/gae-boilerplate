@@ -88,13 +88,13 @@
                                 <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="auth-at-dropdown">
                                     <fieldset>
                                         <div class="control-group">
-                                            <label class="control-label" for="username">{% trans %}Username or Email{% endtrans %}:</label>
+                                            <label class="control-label" for="l_username">{% trans %}Username or Email{% endtrans %}:</label>
                                             <div class="controls">
                                                 <input class="input-xlarge focused required" id="l_username" name="username" type="text" value="">
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label" for="password">{% trans %}Password{% endtrans %}:</label>
+                                            <label class="control-label" for="l_password">{% trans %}Password{% endtrans %}:</label>
                                             <div class="controls">
                                                 <input class="input-xlarge focused required" id="l_password" name="password" type="password" value="">
                                             </div>
@@ -112,7 +112,7 @@
                                             <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
                                         </div>
                                         <div id="trird_party_login" class="form-actions">
-                                            <h4>Or Sign in using:</h4>
+                                            <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                                             <div class="social-login-icons">
                                                 <a href="#" id="sign-in-with-google" title="Google">Login Google</a>
                                                 <a href="#" id="sign-in-with-facebook" title="Facebook">Login Facebook</a>
