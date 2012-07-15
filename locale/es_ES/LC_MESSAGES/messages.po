@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-24 13:09-0400\n"
+"POT-Creation-Date: 2012-07-14 23:35-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -19,19 +19,16 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 msgid "Change your email"
-msgstr "Cambiar tu email"
+msgstr "Cambiar su correo electrónico"
 
 msgid "Change your password"
-msgstr "Cambiar tu contraseña"
-
-msgid "Chinese"
-msgstr "Chino"
+msgstr "Cambiar su contraseña"
 
 msgid "Confirm Password"
 msgstr "Confirmar Contraseña"
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
-msgstr "Felicitaciones por tu página potenciada con Google App Engine Boilerplate."
+msgstr "Felicitaciones por su página potenciada con Google App Engine Boilerplate."
 
 msgid "Contact"
 msgstr "Contacto"
@@ -42,23 +39,23 @@ msgstr "País"
 msgid "Current Password"
 msgstr "Contraseña actual"
 
+msgid "Don't have an account?"
+msgstr "No tienes una cuenta?"
+
 msgid "Edit Profile"
 msgstr "Editar Perfil"
 
 msgid "Email"
 msgstr "Email"
 
-msgid "English"
-msgstr "Inglés"
-
 msgid "Enter a new email address"
-msgstr ""
+msgstr "Ingresa una nueva dirección de correo electrónico"
 
 msgid "Enter your"
 msgstr "Ingrese su"
 
 msgid "Error sending the message. Please try again later."
-msgstr ""
+msgstr "Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde"
 
 msgid "Forgot your password?"
 msgstr "Olvidó su contraseña?"
@@ -70,16 +67,10 @@ msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
 
 msgid "If the e-mail address you entered"
-msgstr ""
-
-msgid "Indonesian"
-msgstr "Indonesio"
+msgstr "Si la dirección de correo electrónico que ha introducido"
 
 msgid "Invalid email address."
-msgstr ""
-
-msgid "Italian"
-msgstr "Italiano"
+msgstr "Dirección de correo electrónico no válida"
 
 msgid "Language"
 msgstr "Idioma"
@@ -91,10 +82,10 @@ msgid "Learn why this Boilerplate Rocks"
 msgstr "Aprende porque este Boilerplate es Asombroso"
 
 msgid "Login"
-msgstr "Login"
+msgstr "Inicio de sesión"
 
 msgid "Login invalid, Try again"
-msgstr ""
+msgstr "Inicio de sesión no válido, Inténtelo de nuevo"
 
 msgid "Logout"
 msgstr "Cerrar sesión"
@@ -103,7 +94,7 @@ msgid "Message"
 msgstr "Mensaje"
 
 msgid "Message sent successfully."
-msgstr ""
+msgstr "Mensaje enviado con éxito."
 
 msgid "Name"
 msgstr "Nombre"
@@ -115,22 +106,23 @@ msgid "Password"
 msgstr "Contraseña"
 
 msgid "Password changed successfully"
-msgstr ""
+msgstr "Contraseña cambiada exitósamente"
 
 msgid "Password reminder"
-msgstr ""
+msgstr "Recuperación de contraseña"
 
 msgid "Passwords must match."
-msgstr ""
+msgstr "Las contraseñas deben coincidir."
 
 msgid "Please click below to create a new password:"
-msgstr ""
+msgstr "Por favor, haga clic a continuación para crear una nueva contraseña:"
 
 msgid "Please correct the form errors."
-msgstr ""
+msgstr "Por favor, corrija los errores del formulario."
 
-msgid "Sign Up"
-msgstr "Registrar"
+#, python-format
+msgid "Properties %r are not unique."
+msgstr "Propiedades %r no son únicas"
 
 msgid "Remember me?"
 msgstr "Recordarme?"
@@ -150,6 +142,9 @@ msgstr "Enviar Mensaje"
 msgid "Session information"
 msgstr "Información de Sesión"
 
+msgid "Sign Up"
+msgstr "Registrar"
+
 msgid "Sorry you are not logged in!"
 msgstr "Lo sentimos, no has iniciado sessión"
 
@@ -159,13 +154,12 @@ msgstr "Lo sentimos, este usuario"
 msgid "Source Code"
 msgstr "Código fuente"
 
-msgid "Spanish"
-msgstr "Español"
-
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
 "enter your details again below to get a new one."
 msgstr ""
+"Hubo un error. Por favor, copie y pegue el enlace de su correo electrónico o"
+"introduzca de nuevo sus datos a continuación para obtener uno nuevo."
 
 msgid "Unable to update profile!"
 msgstr "No es posible actualizar el perfil de usuario!"
@@ -180,13 +174,13 @@ msgid "User information"
 msgstr "Información de Usuario"
 
 msgid "User is logged out, but there was an error on the redirection."
-msgstr ""
+msgstr "El usuario está desconectado, pero hubo un error en la redirección."
 
 msgid "Username"
 msgstr "Nombre de usuario"
 
 msgid "Username invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Nombre de usuario no válido. Use sólo letras y números"
 
 msgid "Username or Email"
 msgstr "Nombre de Usuario o Email"
@@ -195,54 +189,56 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 msgid "Wrong image verification code. Please try again."
-msgstr ""
+msgstr "Código de verificación de imagen incorrecto. Por favor, inténtelo de nuevo."
+
+msgid "You've signed out successfully."
+msgstr "Se ha cerrado la sesión exitósamente."
 
 msgid "Your Current Password is wrong, please try again"
-msgstr ""
+msgstr "Su contraseña actual es incorrecta, por favor vuelve a intentarlo"
 
 msgid "Your browser is <em>ancient!</em>"
-msgstr "Tu Navegador es demasiado <em>antiguo!</em>"
+msgstr "Su Navegador es demasiado <em>antiguo!</em>"
 
 msgid "Your email / username was not found. Please try another or "
-msgstr ""
+msgstr "Su dirección de correo electrónico / nombre de usuario no se ha encontrado. Por favor, intente otra o "
 
 msgid "Your new username is "
-msgstr ""
+msgstr "Su nuevo nombre de usuario es "
 
 msgid "Your profile has been updated!"
-msgstr ""
-
-msgid "You’ve signed out successfully."
-msgstr ""
+msgstr "Su perfil ha sido actualizado!"
 
 #, fuzzy
-#| msgid "Contact"
 msgid "contact us"
-msgstr "Contacto"
+msgstr "contactanos"
 
 msgid "create an account"
-msgstr ""
+msgstr "crear una cuenta"
 
 msgid "download the Source Code"
 msgstr "descarga su código fuente"
 
 msgid "for further assistance."
-msgstr ""
+msgstr "para obtener más ayuda."
 
 msgid "install Google Chrome Frame"
 msgstr "instala Google Chrome Frame"
 
 msgid "is already registered."
-msgstr ""
+msgstr "ya está registrado."
 
 msgid "is already taken. It is not changed."
-msgstr ""
+msgstr "ya está tomada. No se ha cambiado."
 
 msgid ""
 "is associated with an account in our records, you will receive an e-mail "
 "from us with instructions for resetting your password. <br>If you don't "
 "receive this e-mail, please check your junk mail folder or "
 msgstr ""
+"está asociado a una cuenta en nuestros registros, usted recibirá un e-mail"
+"de nosotros con instrucciones para restablecer su contraseña. <br> Si no "
+"recibe este e-mail, por favor revise su carpeta de correo basura o "
 
 msgid "or"
 msgstr "o"
@@ -254,8 +250,8 @@ msgid "to experience this site."
 msgstr "para experimentar este sitio."
 
 msgid "to help you to create your application."
-msgstr "para ayudarte a crear tu aplicación."
+msgstr "para ayudar a crear su aplicación."
 
 msgid "you are now logged in."
-msgstr ""
+msgstr "ha iniciado la sesión."
 

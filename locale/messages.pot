@@ -4,9 +4,6 @@ msgstr ""
 msgid "Change your password"
 msgstr ""
 
-msgid "Chinese"
-msgstr ""
-
 msgid "Confirm Password"
 msgstr ""
 
@@ -22,13 +19,13 @@ msgstr ""
 msgid "Current Password"
 msgstr ""
 
+msgid "Don't have an account?"
+msgstr ""
+
 msgid "Edit Profile"
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "English"
 msgstr ""
 
 msgid "Enter a new email address"
@@ -52,13 +49,7 @@ msgstr ""
 msgid "If the e-mail address you entered"
 msgstr ""
 
-msgid "Indonesian"
-msgstr ""
-
 msgid "Invalid email address."
-msgstr ""
-
-msgid "Italian"
 msgstr ""
 
 msgid "Language"
@@ -109,7 +100,8 @@ msgstr ""
 msgid "Please correct the form errors."
 msgstr ""
 
-msgid "Sign Up"
+#, python-format
+msgid "Properties %r are not unique."
 msgstr ""
 
 msgid "Remember me?"
@@ -130,6 +122,9 @@ msgstr ""
 msgid "Session information"
 msgstr ""
 
+msgid "Sign Up"
+msgstr ""
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -137,9 +132,6 @@ msgid "Sorry, This user"
 msgstr ""
 
 msgid "Source Code"
-msgstr ""
-
-msgid "Spanish"
 msgstr ""
 
 msgid ""
@@ -177,6 +169,9 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You've signed out successfully."
+msgstr ""
+
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
@@ -190,9 +185,6 @@ msgid "Your new username is "
 msgstr ""
 
 msgid "Your profile has been updated!"
-msgstr ""
-
-msgid "You’ve signed out successfully."
 msgstr ""
 
 msgid "contact us"

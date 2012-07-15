@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-24 13:09-0400\n"
+"POT-Creation-Date: 2012-07-14 23:36-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it_IT <LL@li.org>\n"
@@ -23,9 +23,6 @@ msgstr "Cambia il tuo email"
 
 msgid "Change your password"
 msgstr "Cambia la tua password"
-
-msgid "Chinese"
-msgstr "Cinese"
 
 msgid "Confirm Password"
 msgstr "Conferma la Password"
@@ -44,14 +41,14 @@ msgstr "Stato"
 msgid "Current Password"
 msgstr "Password attuale"
 
+msgid "Don't have an account?"
+msgstr ""
+
 msgid "Edit Profile"
 msgstr "Modifica Profilo"
 
 msgid "Email"
 msgstr "Email"
-
-msgid "English"
-msgstr "Inglese"
 
 msgid "Enter a new email address"
 msgstr ""
@@ -74,14 +71,8 @@ msgstr ""
 msgid "If the e-mail address you entered"
 msgstr ""
 
-msgid "Indonesian"
-msgstr "Indonesiano"
-
 msgid "Invalid email address."
 msgstr ""
-
-msgid "Italian"
-msgstr "Italiano"
 
 msgid "Language"
 msgstr "Lingua"
@@ -131,8 +122,9 @@ msgstr ""
 msgid "Please correct the form errors."
 msgstr ""
 
-msgid "Sign Up"
-msgstr "Crea Utente"
+#, python-format
+msgid "Properties %r are not unique."
+msgstr ""
 
 msgid "Remember me?"
 msgstr "Resta connesso"
@@ -152,6 +144,9 @@ msgstr "Inviare il messaggio"
 msgid "Session information"
 msgstr "Info sessione"
 
+msgid "Sign Up"
+msgstr "Crea Utente"
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -160,9 +155,6 @@ msgstr ""
 
 msgid "Source Code"
 msgstr "Codice sorgente"
-
-msgid "Spanish"
-msgstr "Spagnolo"
 
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
@@ -199,6 +191,9 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You've signed out successfully."
+msgstr ""
+
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
@@ -214,11 +209,7 @@ msgstr ""
 msgid "Your profile has been updated!"
 msgstr ""
 
-msgid "You’ve signed out successfully."
-msgstr ""
-
 #, fuzzy
-#| msgid "Contact"
 msgid "contact us"
 msgstr "Contattare"
 
