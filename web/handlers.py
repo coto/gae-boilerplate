@@ -275,6 +275,9 @@ class EditProfileHandler(BaseHandler):
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
+            params.update({
+                'country': user_info.country,
+            })
 
         return self.render_template('boilerplate_edit_profile.html', **params)
 
