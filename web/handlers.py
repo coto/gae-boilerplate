@@ -100,7 +100,7 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = _("Login invalid, Try again") + ".&nbsp;&nbsp;&nbsp;&nbsp;" + _("Don't have an account?") + \
+            message = _("Login invalid, Try again.") + "<br/>" + _("Don't have an account?") + \
                     '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
