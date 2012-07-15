@@ -82,6 +82,9 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
+msgid "Or Sign in using:"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
