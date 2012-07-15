@@ -172,7 +172,7 @@ class RegisterHandler(BaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + '{0:>s}'.format(username) + " " +\
+            message = _('Sorry, This user') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
                       _('is already registered.')
             self.add_message(message, 'error')
             return self.redirect_to('register')
@@ -318,14 +318,13 @@ class EditProfileHandler(BaseHandler):
                         # The unique values were created, so we can save the user.
                         user_info.username=username
                         user_info.auth_ids[0]='own:%s' % username
-                        message+= _('Your new username is ') + username + '.'
+                        message+= _('Your new username is ') + '<strong>' + username + '</strong>.'
                         
                     else:
-                        message+= _('Username') + ": " + username + " " + _('is already taken. It is not changed.')
+                        message+= _('Username') + " <strong>" + username + "</strong> " + _('is already taken. It is not changed.')
                         # At least one of the values is not unique.
-                        # Make a list of the property names that failed.
-                        props = [name.split(':', 2)[-1] for name in uniques]
-                        raise ValueError(_('Properties %r are not unique.' % props))
+                        self.add_message(message,'error')
+                        return self.get()
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
