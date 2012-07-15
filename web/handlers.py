@@ -460,7 +460,7 @@ class EditEmailHandler(BaseHandler):
                     # check whether the new email has been used by another user
                     aUser = models.User.get_by_email(new_email)
                     if aUser is not None:
-                        message = "The email %s is already registered. Want to <a href='/login/'>login</a> or <a href='/password-reset/'>recover your password</a>?" % new_email
+                        message = _("The email %s is already registered." % new_email)
                         self.add_message(message, "error")
                         return self.redirect_to("edit-email")
                     
@@ -495,8 +495,7 @@ class EditEmailHandler(BaseHandler):
                     logging.error(user)
                     
                     # display successful message
-                    msg = "Please check your new email for confirmation. "
-                    msg += "Your email will be updated after confirmation. "
+                    msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
                     return self.redirect_to('secure')
                     
@@ -508,7 +507,7 @@ class EditEmailHandler(BaseHandler):
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
-                message = "Your password is wrong, please try again"
+                message = _("Your password is wrong, please try again")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-email')
                 

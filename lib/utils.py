@@ -181,7 +181,7 @@ def set_device_cookie_and_return_bool(cls, force=""):
 
 
 COUNTRIES = [
-    ("None", "Country..."),
+    ("None", "..."),
     ("AF", "Afghanistan"),
     ("AL", "Albania"),
     ("DZ", "Algeria"),

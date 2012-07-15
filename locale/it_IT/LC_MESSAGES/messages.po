@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 01:21-0400\n"
+"POT-Creation-Date: 2012-07-15 06:01-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it_IT <LL@li.org>\n"
@@ -119,6 +119,11 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+
 msgid "Please click below to create a new password:"
 msgstr ""
 
@@ -158,6 +163,10 @@ msgstr ""
 
 msgid "Source Code"
 msgstr "Codice sorgente"
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr ""
 
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
@@ -207,6 +216,9 @@ msgid "Your email / username was not found. Please try another or "
 msgstr ""
 
 msgid "Your new username is "
+msgstr ""
+
+msgid "Your password is wrong, please try again"
 msgstr ""
 
 msgid "Your profile has been updated!"
