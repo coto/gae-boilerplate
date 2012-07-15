@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 01:21-0400\n"
+"POT-Creation-Date: 2012-07-15 06:01-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -117,6 +117,13 @@ msgstr "Recuperación de contraseña"
 msgid "Passwords must match."
 msgstr "Las contraseñas deben coincidir."
 
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+"Por favor revise su email para confirmar. Su nuevo email será actializado "
+"después de la confirmación."
+
 msgid "Please click below to create a new password:"
 msgstr "Por favor, haga clic a continuación para crear una nueva contraseña:"
 
@@ -156,6 +163,10 @@ msgstr "Lo sentimos, este usuario"
 
 msgid "Source Code"
 msgstr "Código fuente"
+
+#, fuzzy, python-format
+msgid "The email %s is already registered."
+msgstr "El email %s ya está registrado."
 
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
@@ -201,7 +212,7 @@ msgid "You've signed out successfully."
 msgstr "Se ha cerrado la sesión exitósamente."
 
 msgid "Your Current Password is wrong, please try again"
-msgstr "Su contraseña actual es incorrecta, por favor vuelve a intentarlo"
+msgstr "Su contraseña actual es incorrecta, por favor vuelva a intentarlo"
 
 msgid "Your browser is <em>ancient!</em>"
 msgstr "Su Navegador es demasiado <em>antiguo!</em>"
@@ -214,12 +225,16 @@ msgstr ""
 msgid "Your new username is "
 msgstr "Su nuevo nombre de usuario es "
 
+#, fuzzy
+msgid "Your password is wrong, please try again"
+msgstr "Su contraseña actual es incorrecta, por favor vuelva a intentarlo"
+
 msgid "Your profile has been updated!"
 msgstr "Su perfil ha sido actualizado!"
 
 #, fuzzy
 msgid "contact us"
-msgstr "contactanos"
+msgstr "contáctenos"
 
 msgid "create an account"
 msgstr "crear una cuenta"
