@@ -593,7 +593,7 @@ class PasswordResetHandler(BaseHandler):
             _message = _message + _("is associated with an account in our records, you will receive "\
                                     "an e-mail from us with instructions for resetting your password. "\
                                     "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
-                       "<a href='" + self.uri_for('contact') + '>' + _('contact us') + '</a>' +  _("for further assistance.")
+                       '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
