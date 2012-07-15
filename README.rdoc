@@ -78,7 +78,7 @@ Adding or updating text to be translated or adding new languages requires more w
    1. <tt>{%..._("text to translate")...%}</tt>
    Translations can be added to other types of files too.  See {babel.cfg}[https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg]
    and {babel.cfg documentation}[http://babel.edgewall.org/wiki/Documentation/0.9/messages.html]
-1. Obtain pybabel to perform the steps below.  You will need to install and compile {babel}[http://babel.edgewall.org/wiki/Download].
+1. Obtain pybabel to perform the steps below.  You will need to install and compile {jinja2}[http://jinja.pocoo.org/docs/] and {babel}[http://babel.edgewall.org/wiki/Download].
    Note that you may need to first install {setuptools and easy_install}[http://pypi.python.org/pypi/setuptools].
    pybabel.exe can be run from the Scripts directory in your python installation.
    * easy_install jinja2 babel
