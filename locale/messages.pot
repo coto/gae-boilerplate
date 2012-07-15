@@ -181,6 +181,9 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You didn't change your email"
+msgstr ""
+
 msgid "You've signed out successfully."
 msgstr ""
 

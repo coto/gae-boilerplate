@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 06:01-0400\n"
+"POT-Creation-Date: 2012-07-15 06:56-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -200,6 +200,11 @@ msgstr ""
 
 msgid "Wrong image verification code. Please try again."
 msgstr ""
+
+#, fuzzy
+#| msgid "Change your email"
+msgid "You didn't change your email"
+msgstr "更改您的电子邮件"
 
 msgid "You've signed out successfully."
 msgstr ""

@@ -503,7 +503,7 @@ class EditEmailHandler(BaseHandler):
                     return self.redirect_to('secure')
                     
                 else:
-                    self.add_message("You didn't change your email", "warning")
+                    self.add_message(_("You didn't change your email"), "warning")
                     return self.redirect_to("edit-email")
                 
                 
