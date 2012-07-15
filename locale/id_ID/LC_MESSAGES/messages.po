@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-24 13:12-0400\n"
+"POT-Creation-Date: 2012-07-15 07:35-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: id_ID <LL@li.org>\n"
@@ -23,9 +23,6 @@ msgstr "Ubah email"
 
 msgid "Change your password"
 msgstr "Ubah password"
-
-msgid "Chinese"
-msgstr "Chinese"
 
 msgid "Confirm Password"
 msgstr "Ulangi password"
@@ -42,14 +39,14 @@ msgstr "Negara"
 msgid "Current Password"
 msgstr "Password saat ini"
 
+msgid "Don't have an account?"
+msgstr ""
+
 msgid "Edit Profile"
 msgstr "Edit Profil"
 
 msgid "Email"
 msgstr "Email"
-
-msgid "English"
-msgstr "Inggris"
 
 msgid "Enter a new email address"
 msgstr ""
@@ -72,14 +69,8 @@ msgstr ""
 msgid "If the e-mail address you entered"
 msgstr ""
 
-msgid "Indonesian"
-msgstr "Bahasa Indonesia"
-
 msgid "Invalid email address."
 msgstr ""
-
-msgid "Italian"
-msgstr "Italia"
 
 msgid "Language"
 msgstr "Bahasa"
@@ -93,7 +84,7 @@ msgstr "Cari tahu kenapa Boilerplate keren"
 msgid "Login"
 msgstr "Masuk"
 
-msgid "Login invalid, Try again"
+msgid "Login invalid, Try again."
 msgstr ""
 
 msgid "Logout"
@@ -111,6 +102,9 @@ msgstr "Nama"
 msgid "New Password"
 msgstr "Password baru"
 
+msgid "Or Sign in using:"
+msgstr ""
+
 msgid "Password"
 msgstr "Password"
 
@@ -123,14 +117,16 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+
 msgid "Please click below to create a new password:"
 msgstr ""
 
 msgid "Please correct the form errors."
 msgstr ""
-
-msgid "Sign Up"
-msgstr "Daftar"
 
 msgid "Remember me?"
 msgstr "Ingin diingat?"
@@ -150,6 +146,9 @@ msgstr "Kirim pesan"
 msgid "Session information"
 msgstr "Informasi sesi"
 
+msgid "Sign Up"
+msgstr "Daftar"
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -159,8 +158,9 @@ msgstr ""
 msgid "Source Code"
 msgstr "Kode sumber"
 
-msgid "Spanish"
-msgstr "Spanyol"
+#, python-format
+msgid "The email %s is already registered."
+msgstr ""
 
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
@@ -197,6 +197,13 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+#, fuzzy
+msgid "You didn't change your email"
+msgstr "Ubah email"
+
+msgid "You've signed out successfully."
+msgstr ""
+
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
@@ -209,14 +216,13 @@ msgstr ""
 msgid "Your new username is "
 msgstr ""
 
+msgid "Your password is wrong, please try again"
+msgstr ""
+
 msgid "Your profile has been updated!"
 msgstr ""
 
-msgid "You’ve signed out successfully."
-msgstr ""
-
 #, fuzzy
-#| msgid "Contact"
 msgid "contact us"
 msgstr "Kontak"
 
