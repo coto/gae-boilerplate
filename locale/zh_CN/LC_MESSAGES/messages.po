@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-24 13:09-0400\n"
+"POT-Creation-Date: 2012-07-14 23:36-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -23,9 +23,6 @@ msgstr "更改您的电子邮件"
 
 msgid "Change your password"
 msgstr "更改您的密码"
-
-msgid "Chinese"
-msgstr "简体中文"
 
 msgid "Confirm Password"
 msgstr "确认密码"
@@ -42,14 +39,14 @@ msgstr "国家"
 msgid "Current Password"
 msgstr "新密码"
 
+msgid "Don't have an account?"
+msgstr ""
+
 msgid "Edit Profile"
 msgstr "编辑个人资料"
 
 msgid "Email"
 msgstr "电子邮件"
-
-msgid "English"
-msgstr "英语"
 
 msgid "Enter a new email address"
 msgstr ""
@@ -72,14 +69,8 @@ msgstr ""
 msgid "If the e-mail address you entered"
 msgstr ""
 
-msgid "Indonesian"
-msgstr "印度尼西亚"
-
 msgid "Invalid email address."
 msgstr ""
-
-msgid "Italian"
-msgstr "意大利的"
 
 msgid "Language"
 msgstr "语言"
@@ -129,8 +120,9 @@ msgstr ""
 msgid "Please correct the form errors."
 msgstr ""
 
-msgid "Sign Up"
-msgstr "创建用户"
+#, python-format
+msgid "Properties %r are not unique."
+msgstr ""
 
 msgid "Remember me?"
 msgstr "记得我吗？"
@@ -150,6 +142,9 @@ msgstr "发送消息"
 msgid "Session information"
 msgstr "会话信息"
 
+msgid "Sign Up"
+msgstr "创建用户"
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -158,9 +153,6 @@ msgstr ""
 
 msgid "Source Code"
 msgstr "源代码"
-
-msgid "Spanish"
-msgstr "西班牙人"
 
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
@@ -197,6 +189,9 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You've signed out successfully."
+msgstr ""
+
 msgid "Your Current Password is wrong, please try again"
 msgstr ""
 
@@ -212,11 +207,7 @@ msgstr ""
 msgid "Your profile has been updated!"
 msgstr ""
 
-msgid "You’ve signed out successfully."
-msgstr ""
-
 #, fuzzy
-#| msgid "Contact"
 msgid "contact us"
 msgstr "联系"
 
