@@ -11,7 +11,7 @@ import config
 secure_scheme = 'https'
 
 _routes = [
-    RedirectRoute('/taskqueue-send-email/', handlers.SendEmailHandler, name='send-reset-email', strict_slash=True),
+    RedirectRoute('/taskqueue-send-email/', handlers.SendEmailHandler, name='taskqueue-send-email', strict_slash=True),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),
     RedirectRoute('/logout/', handlers.LogoutHandler, name='logout', strict_slash=True),
     RedirectRoute('/register/', handlers.RegisterHandler, name='register', strict_slash=True),
