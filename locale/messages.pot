@@ -64,7 +64,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-msgid "Login invalid, Try again"
+msgid "Login invalid, Try again."
 msgstr ""
 
 msgid "Logout"
