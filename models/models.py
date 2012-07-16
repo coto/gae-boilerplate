@@ -1,6 +1,7 @@
 from webapp2_extras.appengine.auth.models import User
 from google.appengine.ext import ndb
 
+
 class User(User):
     """
     Universal user model. Can be used with App Engine's default users API,
@@ -54,11 +55,13 @@ class User(User):
                 result['unused'].append(v)
         return result
 
+
 class VisitLog(ndb.Model):
     user = ndb.KeyProperty(kind=User)
     uastring = ndb.StringProperty()
     ip = ndb.StringProperty()
     timestamp = ndb.StringProperty()
+
 
 class SocialUser(ndb.Model):
     PROVIDERS_INFO = {
