@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-16 16:21-0400\n"
+"POT-Creation-Date: 2012-07-16 16:37-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it_IT <LL@li.org>\n"
@@ -153,6 +153,9 @@ msgstr ""
 
 msgid "Remember me?"
 msgstr "Resta connesso"
+
+msgid "Remove"
+msgstr ""
 
 msgid "Reset password"
 msgstr "Reset password"

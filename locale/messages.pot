@@ -132,6 +132,9 @@ msgstr ""
 msgid "Remember me?"
 msgstr ""
 
+msgid "Remove"
+msgstr ""
+
 msgid "Reset password"
 msgstr ""
 
