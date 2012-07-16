@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 22:19-0400\n"
+"POT-Creation-Date: 2012-07-16 16:21-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -17,6 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+
+msgid " disassociated!"
+msgstr ""
+
+msgid " not found for this user!"
+msgstr ""
+
+msgid ""
+"Account with association to your Twitter does not exist. You can "
+"associate it right now, if you login with existing site account or create"
+" new on Sign up page."
+msgstr ""
+
+msgid "Associate account with:"
+msgstr ""
 
 msgid "Change your email"
 msgstr "更改您的电子邮件"
@@ -55,6 +70,9 @@ msgid "Enter your"
 msgstr "输入您的"
 
 msgid "Error sending the message. Please try again later."
+msgstr ""
+
+msgid "Existing social association:"
 msgstr ""
 
 msgid "Forgot your password?"
@@ -149,6 +167,9 @@ msgstr "发送消息"
 msgid "Sign Up"
 msgstr "创建用户"
 
+msgid "Social account on "
+msgstr ""
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -165,6 +186,12 @@ msgstr ""
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
 "enter your details again below to get a new one."
+msgstr ""
+
+msgid "This Twitter account is already in use!"
+msgstr ""
+
+msgid "Twitter association added!"
 msgstr ""
 
 msgid "Unable to update profile!"

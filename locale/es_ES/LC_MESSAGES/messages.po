@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 22:19-0400\n"
+"POT-Creation-Date: 2012-07-16 16:21-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -17,6 +17,25 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+
+msgid " disassociated!"
+msgstr " disociado!"
+
+msgid " not found for this user!"
+msgstr " no encontrado para este usuario!"
+
+msgid ""
+"Account with association to your Twitter does not exist. You can "
+"associate it right now, if you login with existing site account or create"
+" new on Sign up page."
+msgstr ""
+"Cuenta con asociación a Twitter no existe. "
+"Puedes asociarla ahora, si inicias sesión or "
+" o te registras."
+
+#, fuzzy
+msgid "Associate account with:"
+msgstr "Asociar cuenta con:"
 
 msgid "Change your email"
 msgstr "Cambiar su correo electrónico"
@@ -56,6 +75,9 @@ msgstr "Ingrese su"
 
 msgid "Error sending the message. Please try again later."
 msgstr "Error al enviar el mensaje. Por favor, inténtelo de nuevo más tarde"
+
+msgid "Existing social association:"
+msgstr "Asociación a cuentas sociales existentes:"
 
 msgid "Forgot your password?"
 msgstr "Olvidó su contraseña?"
@@ -152,6 +174,9 @@ msgstr "Enviar Mensaje"
 msgid "Sign Up"
 msgstr "Registrar"
 
+msgid "Social account on "
+msgstr "Cuenta social en "
+
 msgid "Sorry you are not logged in!"
 msgstr "Lo sentimos, no has iniciado sessión"
 
@@ -172,6 +197,12 @@ msgstr ""
 "Hubo un error. Por favor, copie y pegue el enlace de su correo "
 "electrónico ointroduzca de nuevo sus datos a continuación para obtener "
 "uno nuevo."
+
+msgid "This Twitter account is already in use!"
+msgstr "Esta cuenta de Twitter ya está en uso!"
+
+msgid "Twitter association added!"
+msgstr "Asociación Twitter agregada!"
 
 msgid "Unable to update profile!"
 msgstr "No es posible actualizar el perfil de usuario!"
