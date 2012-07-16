@@ -153,10 +153,10 @@ class CompleteTwitterLoginHandler(BaseHandler):
                 )
                 social_user.put()
 
-                message ='Twitter association added!'
+                message = _('Twitter association added!')
                 self.add_message(message,'success')
             else:
-                message ='This twitter account already in use!'
+                message = _('This Twitter account is already in use!')
                 self.add_message(message,'error')
             self.redirect_to('edit-profile')
         else:
@@ -178,7 +178,7 @@ class CompleteTwitterLoginHandler(BaseHandler):
             else:
                 #Social user is not exist. Need show login and registration forms
                 twitter_helper.save_association_data(user_data)
-                message = 'Account with association to your Twitter does not exist. You can associate right now, if you login with existing site account or create new on Sign up page.'
+                message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
                 self.add_message(message,'info')
                 self.redirect_to('login')
             """params = {
@@ -199,10 +199,10 @@ class DeleteSocialProviderHandler(BaseHandler):
             social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
             if social_user:
                 social_user.key.delete()
-                message = provider_name + ' disassociate!'
+                message = provider_name + _(' disassociated!')
                 self.add_message(message,'success')
             else:
-                message ='Social account on ' + provider_name + ' not found for this user!'
+                message = _('Social account on ') + provider_name + _(' not found for this user!')
                 self.add_message(message,'error')
         self.redirect_to('edit-profile')
 

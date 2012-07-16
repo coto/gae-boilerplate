@@ -1,3 +1,18 @@
+msgid " disassociated!"
+msgstr ""
+
+msgid " not found for this user!"
+msgstr ""
+
+msgid ""
+"Account with association to your Twitter does not exist. You can "
+"associate it right now, if you login with existing site account or create"
+" new on Sign up page."
+msgstr ""
+
+msgid "Associate account with:"
+msgstr ""
+
 msgid "Change your email"
 msgstr ""
 
@@ -35,6 +50,9 @@ msgid "Enter your"
 msgstr ""
 
 msgid "Error sending the message. Please try again later."
+msgstr ""
+
+msgid "Existing social association:"
 msgstr ""
 
 msgid "Forgot your password?"
@@ -129,6 +147,9 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
+msgid "Social account on "
+msgstr ""
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
@@ -145,6 +166,12 @@ msgstr ""
 msgid ""
 "There was an error. Please copy and paste the link from your email or "
 "enter your details again below to get a new one."
+msgstr ""
+
+msgid "This Twitter account is already in use!"
+msgstr ""
+
+msgid "Twitter association added!"
 msgstr ""
 
 msgid "Unable to update profile!"
