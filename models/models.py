@@ -41,7 +41,9 @@ class User(User):
     def get_social_providers_names(self):
         social_user_objects = SocialUser.get_by_user(self.key)
         result = []
+#        import logging
         for social_user_object in social_user_objects:
+#            logging.error(social_user_object.extra_data['screen_name'])
             result.append(social_user_object.provider)
         return result
 
@@ -71,7 +73,6 @@ class SocialUser(ndb.Model):
         'myopenid': {'name': 'myopenid', 'label': 'MyOpenid'},
         'twitter': {'name': 'twitter', 'label': 'Twitter'},
         'yahoo': {'name': 'yahoo', 'label': 'Yahoo!'},
-        'googleapps': {'name': 'googleapps', 'label': 'Google Apps'}
     }
 
     user = ndb.KeyProperty(kind=User)
