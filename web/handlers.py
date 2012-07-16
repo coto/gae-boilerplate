@@ -124,6 +124,7 @@ class LoginHandler(BaseHandler):
     def form(self):
         return forms.LoginForm(self.request.POST)
 
+
 class TwitterLoginHandler(BaseHandler):
     """
     Handler for twitter authentication
@@ -134,7 +135,9 @@ class TwitterLoginHandler(BaseHandler):
         self.redirect(twitter_helper.auth_url())
 
 class CompleteTwitterLoginHandler(BaseHandler):
-
+    """
+    Save Twitter information after login
+    """
     def get(self):
         oauth_token = self.request.get('oauth_token')
         oauth_verifier = self.request.get('oauth_verifier')
@@ -142,7 +145,7 @@ class CompleteTwitterLoginHandler(BaseHandler):
         user_data = twitter_helper.auth_complete(oauth_token,
             oauth_verifier)
         if self.user:
-            #new assotiation with twitter
+            # new association with twitter
             user_info = models.User.get_by_id(long(self.user_id))
             if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
                 social_user = models.SocialUser(
@@ -160,11 +163,11 @@ class CompleteTwitterLoginHandler(BaseHandler):
                 self.add_message(message,'error')
             self.redirect_to('edit-profile')
         else:
-            #login with twitter
+            # login with twitter
             social_user = models.SocialUser.get_by_provider_and_uid('twitter',
                 str(user_data['id']))
             if social_user:
-                #Social user is exist. Need authenticate related site account
+                # Social user is exist. Need authenticate related site account
                 user = social_user.user.get()
                 self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
                 visitLog = models.VisitLog(
@@ -176,17 +179,20 @@ class CompleteTwitterLoginHandler(BaseHandler):
                 visitLog.put()
                 self.redirect_to('secure')
             else:
-                #Social user is not exist. Need show login and registration forms
+                # Social user is not exist. Need show login and registration forms
                 twitter_helper.save_association_data(user_data)
                 message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
                 self.add_message(message,'info')
                 self.redirect_to('login')
-            """params = {
-                   "action": self.request.url,
-                   "user_data": user_data
-               }
+        """params = {
+            "action": self.request.url,
+            "user_data": user_data,
+            "lang": "es_ES"
+        }
 
-               return self.render_template('boilerplate_twitter_login_complete.html', **params)"""
+        return self.render_template('boilerplate_twitter_login_complete.html', **params)
+        """
+
 
 class DeleteSocialProviderHandler(BaseHandler):
     """
@@ -205,6 +211,7 @@ class DeleteSocialProviderHandler(BaseHandler):
                 message = _('Social account on ') + provider_name + _(' not found for this user!')
                 self.add_message(message,'error')
         self.redirect_to('edit-profile')
+
 
 class LogoutHandler(BaseHandler):
     """
