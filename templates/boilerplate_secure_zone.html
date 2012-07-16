@@ -6,7 +6,21 @@
 
 {% block content %}
 
-    <h3>{% trans %}Session information{% endtrans %}</h3>
+    <div class="alert">
+        <button class="close" data-dismiss="alert">×</button>
+        <strong>Warning!</strong> This page is only a sample,
+        and you can remove it or overwrite it as you want.
+    </div>
+
+    <table>
+        <tr>
+        <td>
+            Mobile:
+            <span class="label {% if is_mobile %}label-success{% endif %}">{{ is_mobile }}</span>
+        </td>
+        </tr>
+    </table>
+    <h3>Session information</h3>
     <div class="tooltip-demo well">
     <ul>
         {% for us in user_session %}
@@ -16,7 +30,7 @@
     <b>Session object:</b> {{ user_session_object }}
     </div>
 
-    <h3>{% trans %}User information{% endtrans %}</h3>
+    <h3>User information</h3>
     <div class="tooltip-demo well">
     <ul>
         <li><b>user_id:</b> {{ user_info.key }}</li>

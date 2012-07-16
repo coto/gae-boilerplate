@@ -590,11 +590,11 @@ class PasswordResetHandler(BaseHandler):
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
-            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
+            _message = _("If the e-mail address you entered") + " (<strong>%s</strong>) " % email_or_username
         else:
             auth_id = "own:%s" % email_or_username
             user = models.User.get_by_auth_id(auth_id)
-            _message = _("If the e-mail address you entered") + " <strong>%s</strong> " % email_or_username
+            _message = _("If the username you entered") + " (<strong>%s</strong>) " % email_or_username
 
         if user is not None:
             user_id = user.get_id()
