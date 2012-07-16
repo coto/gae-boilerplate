@@ -25,6 +25,7 @@ import webapp2
 import web.forms as forms
 from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
+from lib import twitter
 
 
 class SendEmailHandler(BaseHandler):
@@ -89,6 +90,20 @@ class LoginHandler(BaseHandler):
             # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
+
+            #check twitter association in session
+            twitter_helper = twitter.TwitterAuth(self)
+            twitter_association_data = twitter_helper.get_association_data()
+            if twitter_association_data is not None:
+                if models.SocialUser.check_unique(user.key, 'twitter', str(twitter_association_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user.key,
+                        provider = 'twitter',
+                        uid = str(twitter_association_data['id']),
+                        extra_data = twitter_association_data
+                    )
+                    social_user.put()
+
             visitLog = models.VisitLog(
                 user=user.key,
                 uastring=self.request.user_agent,
@@ -109,6 +124,87 @@ class LoginHandler(BaseHandler):
     def form(self):
         return forms.LoginForm(self.request.POST)
 
+class TwitterLoginHandler(BaseHandler):
+    """
+    Handler for twitter authentication
+    """
+    def get(self):
+        callback_url = "%s/login/twitter/complete" % self.request.host_url
+        twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
+        self.redirect(twitter_helper.auth_url())
+
+class CompleteTwitterLoginHandler(BaseHandler):
+
+    def get(self):
+        oauth_token = self.request.get('oauth_token')
+        oauth_verifier = self.request.get('oauth_verifier')
+        twitter_helper = twitter.TwitterAuth(self)
+        user_data = twitter_helper.auth_complete(oauth_token,
+            oauth_verifier)
+        if self.user:
+            #new assotiation with twitter
+            user_info = models.User.get_by_id(long(self.user_id))
+            if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
+                social_user = models.SocialUser(
+                    user = user_info.key,
+                    provider = 'twitter',
+                    uid = str(user_data['id']),
+                    extra_data = user_data
+                )
+                social_user.put()
+
+                message ='Twitter association added!'
+                self.add_message(message,'success')
+            else:
+                message ='This twitter account already in use!'
+                self.add_message(message,'error')
+            self.redirect_to('edit-profile')
+        else:
+            #login with twitter
+            social_user = models.SocialUser.get_by_provider_and_uid('twitter',
+                str(user_data['id']))
+            if social_user:
+                #Social user is exist. Need authenticate related site account
+                user = social_user.user.get()
+                self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                visitLog = models.VisitLog(
+                    user = user.key,
+                    uastring = self.request.user_agent,
+                    ip = self.request.remote_addr,
+                    timestamp = utils.get_date_time()
+                )
+                visitLog.put()
+                self.redirect_to('secure')
+            else:
+                #Social user is not exist. Need show login and registration forms
+                twitter_helper.save_association_data(user_data)
+                message = 'Account with association to your Twitter does not exist. You can associate right now, if you login with existing site account or create new on Sign up page.'
+                self.add_message(message,'info')
+                self.redirect_to('login')
+            """params = {
+                   "action": self.request.url,
+                   "user_data": user_data
+               }
+
+               return self.render_template('boilerplate_twitter_login_complete.html', **params)"""
+
+class DeleteSocialProviderHandler(BaseHandler):
+    """
+    Delete Social association with an account
+    """
+    @user_required
+    def get(self, provider_name):
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
+            if social_user:
+                social_user.key.delete()
+                message = provider_name + ' disassociate!'
+                self.add_message(message,'success')
+            else:
+                message ='Social account on ' + provider_name + ' not found for this user!'
+                self.add_message(message,'error')
+        self.redirect_to('edit-profile')
 
 class LogoutHandler(BaseHandler):
     """
@@ -179,7 +275,19 @@ class RegisterHandler(BaseHandler):
         else:
             # User registered successfully, let's try sign in the user and redirect to a secure page.
             try:
-                self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
+                #check twitter association in session
+                twitter_helper = twitter.TwitterAuth(self)
+                twitter_association_data = twitter_helper.get_association_data()
+                if twitter_association_data is not None:
+                    if models.SocialUser.check_unique(user[1].key, 'twitter', str(twitter_association_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user[1].key,
+                            provider = 'twitter',
+                            uid = str(twitter_association_data['id']),
+                            extra_data = twitter_association_data
+                        )
+                        social_user.put()
                 message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
                 self.add_message(message, 'success')
                 return self.redirect_to('secure')
@@ -281,9 +389,10 @@ class EditProfileHandler(BaseHandler):
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
-            params.update({
-                'country': user_info.country,
-            })
+            providers_info = user_info.get_social_providers_info()
+            params['used_providers'] = providers_info['used']
+            params['unused_providers'] = providers_info['unused']
+            params['country'] = user_info.country
 
         return self.render_template('boilerplate_edit_profile.html', **params)
 
