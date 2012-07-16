@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 07:35-0400\n"
+"POT-Creation-Date: 2012-07-15 22:19-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -67,6 +67,9 @@ msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
 
 msgid "If the e-mail address you entered"
+msgstr ""
+
+msgid "If the username you entered"
 msgstr ""
 
 msgid "Invalid email address."
@@ -143,9 +146,6 @@ msgstr ""
 msgid "Send Message"
 msgstr "发送消息"
 
-msgid "Session information"
-msgstr "会话信息"
-
 msgid "Sign Up"
 msgstr "创建用户"
 
@@ -175,9 +175,6 @@ msgstr ""
 
 msgid "Upgrade to a different browser"
 msgstr "升级到不同的浏览器"
-
-msgid "User information"
-msgstr "用户信息"
 
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
