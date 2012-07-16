@@ -61,12 +61,12 @@
                     <div id="trird_party_login" class="form-actions">
                         <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                         <div class="social-login-icons">
-                            <a href="#" id="sign-in-with-google" title="Google">Login Google</a>
-                            <a href="#" id="sign-in-with-facebook" title="Facebook">Login Facebook</a>
-                            <a href="#" id="sign-in-with-linkedin" title="LinkedIn">Login LinkedIn</a>
-                            <a href="#" id="sign-in-with-myopenid" title="MyOpenid">Login MyOpenid</a>
-                            <a href="#" id="sign-in-with-twitter" title="Twitter">Login Twitter</a>
-                            <a href="#" id="sign-in-with-yahoo" title="Yahoo!">Login Yahoo!</a>
+                            <a href="#" class="social-btn social-btn-google" title="Google">Login Google</a>
+                            <a href="#" class="social-btn social-btn-facebook" title="Facebook">Login Facebook</a>
+                            <a href="#" class="social-btn social-btn-linkedin" title="LinkedIn">Login LinkedIn</a>
+                            <a href="#" class="social-btn social-btn-myopenid" title="MyOpenid">Login MyOpenid</a>
+                            <a href="{{ uri_for("twitter-login") }}" class="social-btn social-btn-twitter" title="Twitter">Login Twitter</a>
+                            <a href="#" class="social-btn social-btn-yahoo" title="Yahoo!">Login Yahoo!</a>
                         </div>
                     </div>
                 </fieldset>

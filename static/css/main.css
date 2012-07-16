@@ -75,7 +75,7 @@ form.auth-at-dropdown {
     #trird_party_login h4 {
         padding: 0.5em 0;
     }
-    #trird_party_login .social-login-icons a {
+    #trird_party_login .social-login-icons a.social-btn {
         display: inline-block;
         margin: 0 0 0.5em 0;
         text-indent: -9000px;
@@ -84,24 +84,32 @@ form.auth-at-dropdown {
         background-image: url(../img/social-login-icons.png);
         background-repeat: no-repeat;
     }
-    #sign-in-with-google{
+    .social-btn-google{
         background-position: 0 0;
     }
-    #sign-in-with-facebook{
+    .social-btn-facebook{
         background-position: -32px 0;
     }
-    #sign-in-with-linkedin{
+    .social-btn-linkedin{
         background-position: -64px -32px;
     }
-    #sign-in-with-myopenid{
+    .social-btn-myopenid{
         background-position: 0 -32px;
     }
-    #sign-in-with-twitter{
+    .social-btn-twitter{
         background-position: -64px 0;
     }
-    #sign-in-with-yahoo{
+    .social-btn-yahoo{
         background-position: -32px -32px;
     }
+
+/* Existing Social association block on profile page */
+
+.existing-accociation {padding: 0;background: transparent;border-top: 1px solid #E5E5E5;margin: 18px 0 0 0;clear: both;}
+.existing-accociation h4 {padding-top: 0.5em;}
+.existing-accociation div {margin-top: 0.5em;}
+.existing-accociation div div {width: 250px;}
+.existing-accociation div .btn-danger {float: right;}
 
 .well .form-actions {
     margin-bottom: 0;

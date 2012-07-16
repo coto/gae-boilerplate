@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block header_title %}
+    {{ lang.menu_login|safe }}
+{% endblock %}
+
+{% block content %}
+    <h3>User Data</h3>
+    <div style="height: 500px;overflow: auto;">
+        {% for k,v in user_data.items() %}
+            <div>{{ k }} : {{ v }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}
