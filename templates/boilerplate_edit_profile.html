@@ -29,14 +29,14 @@
             {% if used_providers %}
                 <div id="trird_party_login" class="existing-accociation">
                     <h4>{% trans %}Existing social association:{% endtrans %}</h4>
-                    <ul class="social-login-icons">
+                    <table class=" social-login-icons">
                         {% for provider in used_providers %}
-                            <li>
-                                <a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a>
-                                <a href="/social/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;Delete</a>
-                            </li>
+                            <tr>
+                                <td><a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a></td>
+                                <td><a href="/social/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+                            </tr>
                         {% endfor %}
-                    </ul>
+                    </table>
                 </div>
             {% endif %}
             {% if unused_providers %}
