@@ -18,7 +18,6 @@ def send_email(to, subject, body, sender=''):
             sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
     mail.send_mail(sender, to, subject, body)
 
-
 def encrypt(plaintext, salt="", sha="512"):
     """ Returns the encrypted hexdigest of a plaintext and salt"""
 
@@ -31,7 +30,6 @@ def encrypt(plaintext, salt="", sha="512"):
     phrase.update("%s@%s" % (plaintext, salt))
     return phrase.hexdigest()
 
-
 def encode(plainText):
     num = 0
     key = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -43,7 +41,6 @@ def encode(plainText):
         num /= len(key)
     return encodedMsg
 
-
 def decode(encodedMsg):
     num = 0
     key = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -54,7 +51,6 @@ def decode(encodedMsg):
         text = chr(num % 256) + text
         num /= 256
     return text
-
 
 def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
     """
@@ -74,7 +70,6 @@ def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
         'Set-Cookie', COOKIE_NAME+'='+COOKIE_VALUE+'; expires='+str(time_expire)+'; path='+path+'; HttpOnly')
     return
 
-
 def read_cookie(cls, name):
     """
     Use: cook.read(cls, COOKIE_NAME)
@@ -88,7 +83,6 @@ def read_cookie(cls, name):
         value  = cls.cookie[name].value
 
     return value
-
 
 def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
     """
@@ -116,7 +110,6 @@ def is_alphanumeric(field):
     if re.match(ALPHANUMERIC_REGEXP, field) is not None:
         return 1
     return 0
-
 
 def get_device(cls):
     uastring = cls.request.user_agent or 'unknown'
@@ -150,9 +143,7 @@ def get_device(cls):
         "browser": browser,
         "uastring": uastring
     }
-
     return device
-
 
 def set_device_cookie_and_return_bool(cls, force=""):
     """
@@ -179,9 +170,8 @@ def set_device_cookie_and_return_bool(cls, force=""):
     write_cookie(cls, "dvc", str(device_cookie), "/", 1209600)
     return device_cookie == "mobile"
 
-
 COUNTRIES = [
-    ("None", "..."),
+    ("", "..."),
     ("AF", "Afghanistan"),
     ("AL", "Albania"),
     ("DZ", "Algeria"),

@@ -177,7 +177,6 @@ class BaseHandler(webapp2.RequestHandler):
             'google_analytics_code' : config.google_analytics_code,
             'user_id': self.user_id,
             'app_name': config.app_name,
-            'app_version': config.app_version,
             'username': self.username,
             'email': self.email,
             'url': self.request.url,

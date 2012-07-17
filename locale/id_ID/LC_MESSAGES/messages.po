@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-15 07:35-0400\n"
+"POT-Creation-Date: 2012-07-16 16:37-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: id_ID <LL@li.org>\n"
@@ -17,6 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+
+msgid " disassociated!"
+msgstr ""
+
+msgid " not found for this user!"
+msgstr ""
+
+msgid ""
+"Account with association to your Twitter does not exist. You can "
+"associate it right now, if you login with existing site account or create"
+" new on Sign up page."
+msgstr ""
+
+msgid "Associate account with:"
+msgstr ""
 
 msgid "Change your email"
 msgstr "Ubah email"
@@ -57,6 +72,9 @@ msgstr "Masukkan"
 msgid "Error sending the message. Please try again later."
 msgstr ""
 
+msgid "Existing social association:"
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "Lupa password?"
 
@@ -67,6 +85,9 @@ msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
 
 msgid "If the e-mail address you entered"
+msgstr ""
+
+msgid "If the username you entered"
 msgstr ""
 
 msgid "Invalid email address."
@@ -131,6 +152,9 @@ msgstr ""
 msgid "Remember me?"
 msgstr "Ingin diingat?"
 
+msgid "Remove"
+msgstr ""
+
 msgid "Reset password"
 msgstr "Reset password"
 
@@ -143,11 +167,11 @@ msgstr ""
 msgid "Send Message"
 msgstr "Kirim pesan"
 
-msgid "Session information"
-msgstr "Informasi sesi"
-
 msgid "Sign Up"
 msgstr "Daftar"
+
+msgid "Social account on "
+msgstr ""
 
 msgid "Sorry you are not logged in!"
 msgstr ""
@@ -167,6 +191,12 @@ msgid ""
 "enter your details again below to get a new one."
 msgstr ""
 
+msgid "This Twitter account is already in use!"
+msgstr ""
+
+msgid "Twitter association added!"
+msgstr ""
+
 msgid "Unable to update profile!"
 msgstr ""
 
@@ -175,9 +205,6 @@ msgstr ""
 
 msgid "Upgrade to a different browser"
 msgstr "Pakailah browser baru"
-
-msgid "User information"
-msgstr "Informasi pengguna"
 
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
