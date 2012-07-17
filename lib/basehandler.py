@@ -1,4 +1,4 @@
-
+import logging
 import webapp2
 from webapp2_extras import jinja2
 from webapp2_extras import auth
@@ -54,6 +54,7 @@ def handle_error(request, response, exception):
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
+    logging.error(str(status_int) + " - " + str(exception))
     response.write(t)
     response.set_status(status_int)
 
@@ -130,7 +131,7 @@ class BaseHandler(webapp2.RequestHandler):
             user_info = models.User.get_by_id(long(self.user_id))
             return str(user_info.username)
         return  None
-    
+
     @webapp2.cached_property
     def email(self):
         import models.models as models
@@ -149,7 +150,7 @@ class BaseHandler(webapp2.RequestHandler):
         path_lang = re.sub(r'(^hl=(\w{5})\&*)|(\&hl=(\w{5})\&*?)', '', str(self.request.query_string))
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
-    
+
     def locales(self):
         """
         returns a dict of locale codes to locale display names in both the current locale and the localized locale
@@ -190,6 +191,6 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update(self.auth_config)
         if self.messages:
             kwargs['messages'] = self.messages
-        
+
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
