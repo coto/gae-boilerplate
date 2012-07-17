@@ -749,7 +749,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             'form': self.form
         }
         if verify[0] is None:
-            self.add_message(_('There was an error. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
+            self.add_message(_('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
             return self.redirect_to('password-reset')
 
         else:
@@ -794,7 +794,7 @@ class EmailChangedCompleteHandler(BaseHandler):
         verify = models.User.get_by_auth_token(int(user_id), token)
         email = utils.decode(encoded_email)
         if verify[0] is None:
-            self.add_message('There was an error. Please copy and paste the link from your email.', 'warning')
+            self.add_message('There was an error or the link is outdated. Please copy and paste the link from your email.', 'warning')
             self.redirect_to('secure')
 
         else:
