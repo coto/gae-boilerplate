@@ -71,12 +71,16 @@ http://appengine.beecoss.com
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
-== Help us translate and add new languages
-This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
+== Please help us translate and add new languages!
+In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
+msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
+   
+   * <tt>msgid "Change your password"</tt>
+   * <tt>msgstr "Cambiar tu contraseña"</tt>
 
+== Working with Internationalization (i18n)
+This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
-If you know english and another language, <b>please help us translate</b> by skipping to step 5 below (provide translations). It requires no special tools except the ability to 
-download the boilerplate and commit it back to github.  Once committed you may ask us to perform step 6 for you (compile the translations).
 
 Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:
 1. Text to be translated should be enclosed in _("text to translate") in *.py files.  In html templates translated text is indicated by:
@@ -101,7 +105,7 @@ Adding or updating text to be translated or adding new languages requires more w
       pybabel init -l es_ES -d ./locale -i ./locale\messages.pot
       Add the locale to the locales array in {config.py}[https://github.com/coto/gae-boilerplate/blob/master/config.py].  Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
-   In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
+   In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
    
    * <tt>msgid "Change your password"</tt>
