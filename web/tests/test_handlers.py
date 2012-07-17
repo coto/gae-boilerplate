@@ -31,12 +31,12 @@ class AppTest(unittest.TestCase):
         # register test account
         self.testapp.post('/register/',
                         forms.RegisterForm(username='testuser', password='123456',
-                            c_password='123456', email='testuser@example.com').data,
+                            c_password='123456', email='testuser@example.com', country='').data,
                         headers=self.headers)
         
         # is test account created?
         users = models.User.query().fetch(2)
-        self.assertEqual(1, len(users))
+        self.assertEqual(1, len(users), 'testuser could not register')
         self.user = users[0]
 
         # clear cookies
