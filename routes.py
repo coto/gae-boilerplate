@@ -6,7 +6,6 @@ RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 
 from webapp2_extras.routes import RedirectRoute
 from web import handlers
-import config
 
 secure_scheme = 'https'
 

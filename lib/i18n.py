@@ -1,6 +1,5 @@
 import re
 import logging
-from lib import utils
 from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
