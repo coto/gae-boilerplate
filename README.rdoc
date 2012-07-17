@@ -12,41 +12,48 @@ It is fully featured, actively maintained, and uses the latest technologies supp
 
 New to Google App Engine? Learn about it by watching {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or reading {this website}[https://developers.google.com/appengine/].
 
-== Just 6 easy steps
+== Get started in 6 easy steps
 1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 1. Set your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Set parameters in {config.py}[https://github.com/coto/gae-boilerplate/blob/master/config.py].  (secret key, {recaptcha code}[http://www.google.com/recaptcha/whyrecaptcha], salt etc.)
-1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
+1. Deploy it online ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading] - recommended setup: python 2.7, high replication datastore)
 
 
-== This Boilerplate has the following functions:
+== Functions and features:
 - Authentication (Login, Logout, Sign Up)
 - Reset Password
 - Update User Profile
 - Automatic detection of user language
 - Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
-- Visit's Log
-- Notifications and Confirmation for users when he changes his email or password
-- Contact Form (getting information for logged user)
-- Responsive Design (synchronized with Twitter-Bootstrap project)
+- Visitors Log
+- Notifications and Confirmation for users when they change their email or password
+- Contact Form
+- Responsive Design for viewing on PCs, tablets, and mobile phones (synchronized with Twitter-Bootstrap project)
 - Mobile identification
-
+- Unit testing
+- Client side and server side form validation
+- Error handling
 
 == Open Source
 If you want to add, fix or improve something, create an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
+Before committing fixes we recommend running the unitests by running {testrunner}[https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] 
+or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.  This will help guard against changes that accidently break other code.
+Please add or modify the {unittests}[https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
+To run unittests it may be necessary to install {webtest}[http://webtest.pythonpaste.org/en/latest/index.html#installation] and {pyquery}[http://packages.python.org/pyquery/] in your local python installation.
+
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
 
-== Try online this Boilerplate
+== See the Boilerplate online (a live demo)
 http://appengine.beecoss.com
 
 
 == Technologies used
 * Python 2.7
-* {NDB 1.0.1}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
+* {NDB 1.0.1}[http://developers.google.com/appengine/docs/python/ndb/] (A new datastore API for the Google App Engine Python runtime).
 * {Jinja2 2.6}[http://jinja.pocoo.org/docs/] (A fully featured template engine for Python).
 * {WTForms-1.0.1}[http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 * {webapp2 2.5.1}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
@@ -56,7 +63,7 @@ http://appengine.beecoss.com
   * webapp2_extras.auth
   * webapp2_extras.i18n
 * Code written following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
-
+* Unit testing with {unittest}[http://docs.python.org/library/unittest.html], {webtest}[http://webtest.pythonpaste.org/en/latest/index.html], {pyquery}[http://packages.python.org/pyquery/]
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
@@ -64,12 +71,16 @@ http://appengine.beecoss.com
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
-== Help us translate and add new languages
-This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
+== Please help us translate and add new languages!
+In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
+msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
+<tt>msgid "Change your password"</tt>
+<tt>msgstr "Cambiar tu contraseña"</tt>
+
+== Working with Internationalization (i18n)
+This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
-If you know english and another language, <b>please help us translate</b> by skipping to step 5 below (provide translations). It requires no special tools except the ability to 
-download the boilerplate and commit it back to github.  Once committed you may ask us to perform step 6 for you (compile the translations).
 
 Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:
 1. Text to be translated should be enclosed in _("text to translate") in *.py files.  In html templates translated text is indicated by:
@@ -94,7 +105,7 @@ Adding or updating text to be translated or adding new languages requires more w
       pybabel init -l es_ES -d ./locale -i ./locale\messages.pot
       Add the locale to the locales array in {config.py}[https://github.com/coto/gae-boilerplate/blob/master/config.py].  Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
-   In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
+   In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
    
    * <tt>msgid "Change your password"</tt>
