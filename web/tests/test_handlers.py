@@ -6,6 +6,8 @@ import webtest
 
 import config
 import routes
+import os
+import web
 
 import models.models as models
 from web import forms
@@ -13,7 +15,10 @@ from web import forms
 class AppTest(unittest.TestCase):
     def setUp(self):
         # create a WSGI application.
-        app = webapp2.WSGIApplication(config=config.webapp2_config)
+        w2config = config.webapp2_config
+        # use absolute path for templates
+        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(web.__file__), '..'), 'templates')
+        app = webapp2.WSGIApplication(config=w2config)
         routes.add_routes(app)
         self.testapp = webtest.TestApp(app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
 
