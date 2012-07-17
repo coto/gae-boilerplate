@@ -63,7 +63,7 @@ http://appengine.beecoss.com
   * webapp2_extras.auth
   * webapp2_extras.i18n
 * Code written following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
-* Unit testing with unittest, webtest, pyquery
+* Unit testing with {unittest}[http://docs.python.org/library/unittest.html], {webtest}[http://webtest.pythonpaste.org/en/latest/index.html], {pyquery}[http://packages.python.org/pyquery/]
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
@@ -74,9 +74,9 @@ http://appengine.beecoss.com
 == Please help us translate and add new languages!
 In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
-   
-   * <tt>msgid "Change your password"</tt>
-   * <tt>msgstr "Cambiar tu contraseña"</tt>
+
+<tt>msgid "Change your password"</tt>
+<tt>msgstr "Cambiar tu contraseña"</tt>
 
 == Working with Internationalization (i18n)
 This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
