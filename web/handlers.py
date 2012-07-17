@@ -184,14 +184,12 @@ class CompleteTwitterLoginHandler(BaseHandler):
                 message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
                 self.add_message(message,'info')
                 self.redirect_to('login')
-        """params = {
-            "action": self.request.url,
-            "user_data": user_data,
-            "lang": "es_ES"
-        }
-
-        return self.render_template('boilerplate_twitter_login_complete.html', **params)
         """
+        Debug Code
+        for k,v in user_data.items():
+            print(k +":"+  v )
+        """
+
 
 
 class DeleteSocialProviderHandler(BaseHandler):
