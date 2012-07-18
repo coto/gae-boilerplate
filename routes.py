@@ -17,6 +17,8 @@ _routes = [
     RedirectRoute('/login/twitter/complete', handlers.CompleteTwitterLoginHandler, name='twitter-login-complete', strict_slash=True),
     RedirectRoute('/social/<provider_name>/delete', handlers.DeleteSocialProviderHandler, name='delete-social-provider', strict_slash=True),
     RedirectRoute('/register/', handlers.RegisterHandler, name='register', strict_slash=True),
+    RedirectRoute('/activation/<encoded_email>/', handlers.AccountActivationHandler, name='account-activation', strict_slash=True),
+    RedirectRoute('/resend/<encoded_email>', handlers.ResendActivationEmailHandler, name='reset-account-activation', strict_slash=True),
     RedirectRoute('/contact/', handlers.ContactHandler, name='contact', strict_slash=True),
     RedirectRoute('/settings/profile', handlers.EditProfileHandler, name='edit-profile', strict_slash=True),
     RedirectRoute('/settings/password', handlers.EditPasswordHandler, name='edit-password', strict_slash=True),
