@@ -58,11 +58,22 @@ class User(User):
         return result
 
 
-class VisitLog(ndb.Model):
+class LogVisit(ndb.Model):
     user = ndb.KeyProperty(kind=User)
     uastring = ndb.StringProperty()
     ip = ndb.StringProperty()
     timestamp = ndb.StringProperty()
+
+
+class LogEmail(ndb.Model):
+    sender = ndb.StringProperty(
+        required=True)
+    to = ndb.StringProperty(
+        required=True)
+    subject = ndb.StringProperty(
+        required=True)
+    body = ndb.TextProperty()
+    when = ndb.DateTimeProperty()
 
 
 class SocialUser(ndb.Model):

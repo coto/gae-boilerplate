@@ -7,6 +7,10 @@ from datetime import datetime
 from datetime import timedelta
 from google.appengine.api import mail
 from google.appengine.api import app_identity
+from models import models
+from google.appengine.api.datastore_errors import BadValueError
+from google.appengine.runtime import apiproxy_errors
+import logging
 
 
 def send_email(to, subject, body, sender=''):
@@ -16,6 +20,19 @@ def send_email(to, subject, body, sender=''):
         else:
             app_id = app_identity.get_application_id()
             sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+
+    try:
+        logEmail = models.LogEmail(
+            sender = sender,
+            to = to,
+            subject = subject,
+            body = body,
+            when = get_date_time("datetimeProperty")
+        )
+        logEmail.put()
+    except (apiproxy_errors.OverQuotaError, BadValueError):
+        logging.error("Error saving Email Log in datastore")
+
     mail.send_mail(sender, to, subject, body)
 
 def encrypt(plaintext, salt="", sha="512"):

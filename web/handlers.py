@@ -104,13 +104,13 @@ class LoginHandler(BaseHandler):
                     )
                     social_user.put()
 
-            visitLog = models.VisitLog(
+            logVisit = models.LogVisit(
                 user=user.key,
                 uastring=self.request.user_agent,
                 ip=self.request.remote_addr,
                 timestamp=utils.get_date_time()
             )
-            visitLog.put()
+            logVisit.put()
             self.redirect_to('secure')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
@@ -170,13 +170,13 @@ class CompleteTwitterLoginHandler(BaseHandler):
                 # Social user is exist. Need authenticate related site account
                 user = social_user.user.get()
                 self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                visitLog = models.VisitLog(
+                logVisit = models.LogVisit(
                     user = user.key,
                     uastring = self.request.user_agent,
                     ip = self.request.remote_addr,
                     timestamp = utils.get_date_time()
                 )
-                visitLog.put()
+                logVisit.put()
                 self.redirect_to('secure')
             else:
                 # Social user is not exist. Need show login and registration forms
