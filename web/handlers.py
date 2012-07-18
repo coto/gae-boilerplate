@@ -70,16 +70,12 @@ class LoginHandler(BaseHandler):
         try:
             if utils.is_email_valid(username):
                 user = models.User.get_by_email(username)
-                print "Email:", user
                 if user:
                     auth_id = user.auth_ids[0]
-                    print auth_id
                 else:
                     raise InvalidAuthIdError
             else:
-                print "UserName:", username
                 auth_id = "own:%s" % username
-                print auth_id
                 user = models.User.get_by_auth_id(auth_id)
             
             password = self.form.password.data.strip()
