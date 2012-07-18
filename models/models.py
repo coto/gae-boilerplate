@@ -25,6 +25,8 @@ class User(User):
     password = ndb.StringProperty(required=True)
     #: User Country
     country = ndb.StringProperty()
+    #: Account activation
+    activated = ndb.BooleanProperty(default=True)
     
     @classmethod
     def get_by_email(cls, email):

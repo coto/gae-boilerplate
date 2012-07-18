@@ -78,6 +78,15 @@ class LoginHandler(BaseHandler):
                 auth_id = "own:%s" % username
                 user = models.User.get_by_auth_id(auth_id)
                 
+            # if user is not registered, redirect to home
+            if (user.activated == False):
+                resend_email_uri = self.uri_for('reset-account-activation', encoded_email=utils.encode(user.email))
+                message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
+                          _('has not been activated. Please check your email to activate your account') + ". " +\
+                          _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+            
             password = self.form.password.data.strip()
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
                 
@@ -191,7 +200,6 @@ class CompleteTwitterLoginHandler(BaseHandler):
         """
 
 
-
 class DeleteSocialProviderHandler(BaseHandler):
     """
     Delete Social association with an account
@@ -270,6 +278,7 @@ class RegisterHandler(BaseHandler):
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
             country=country, ip=self.request.remote_addr,
+            activated=False,
         )
 
         if not user[0]: #user is a tuple
@@ -278,8 +287,44 @@ class RegisterHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('register')
         else:
-            # User registered successfully, let's try sign in the user and redirect to a secure page.
+            # User registered successfully
+            # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
+                user_info = models.User.get_by_email(email)
+                if (user_info.activated == False):
+                    # send email
+                    subject = config.app_name + " Account Verification Email"
+                    encoded_email = utils.encode(email)
+                    confirmation_url = self.uri_for("account-activation",
+                        encoded_email = encoded_email,
+                        _full = True)
+                    
+                    # load email's template
+                    template_val = {
+                        "app_name": config.app_name,
+                        "username": username,
+                        "confirmation_url": confirmation_url,
+                        "support_url": self.uri_for("contact", _full=True)
+                    }
+                    body_path = "emails/account_activation.txt"
+                    body = self.jinja2.render_template(body_path, **template_val)
+                    
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': str(email),
+                        'subject' : subject,
+                        'body' : body,
+                        })
+                    
+                    # logging.error(user)
+
+                    message = _('Congratulations') + ", " + str(username) + "! " + _('You are now registered') +\
+                              ". " + _('Please check your email to activate your account')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+                
+                # if the user didn't register using registration form ???
+                
                 db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
                 #check twitter association in session
                 twitter_helper = twitter.TwitterAuth(self)
@@ -310,6 +355,81 @@ class RegisterHandler(BaseHandler):
             return forms.RegisterForm(self.request.POST)
 
 
+class AccountActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+    def get(self, encoded_email):
+        try:
+            email = utils.decode(encoded_email)
+            user = models.User.get_by_email(email)
+            
+            # activate the user's account
+            user.activated = True
+            user.put()
+            
+            message = _('Congratulations') + "! " + _('Your account') + " (@" + user.username + ") " +\
+                _('has just been activated') + ". " + _('Please login to your account')
+            self.add_message(message, "success")
+            self.redirect_to('secure')
+            
+        except (AttributeError, KeyError, InvalidAuthIdError), e:
+            message = _('Unexpected error activating '\
+                        'account') + " " + '{0:>s}.'.format(user.username)
+            self.add_message(message, 'error')
+            self.abort(403)
+
+
+class ResendActivationEmailHandler(BaseHandler):
+    """
+    Handler to resend activation email
+    """
+    def get(self, encoded_email):
+        try:
+            email = utils.decode(encoded_email)
+            user = models.User.get_by_email(email)
+            
+            if (user.activated == False):
+                # send email
+                subject = config.app_name + " Account Verification Email"
+                encoded_email = utils.encode(email)
+                confirmation_url = self.uri_for("account-activation",
+                    encoded_email = encoded_email,
+                    _full = True)
+                
+                # load email's template
+                template_val = {
+                    "app_name": config.app_name,
+                    "username": user.username,
+                    "confirmation_url": confirmation_url,
+                    "support_url": self.uri_for("contact", _full=True)
+                }
+                body_path = "emails/account_activation.txt"
+                body = self.jinja2.render_template(body_path, **template_val)
+                
+                email_url = self.uri_for('taskqueue-send-email')
+                taskqueue.add(url = email_url, params={
+                    'to': str(email),
+                    'subject' : subject,
+                    'body' : body,
+                    })
+                    
+                message = _('The verification email has been resent to') + " " + str(email) + ". " +\
+                    _('Please check your email to activate your account')
+                self.add_message(message, "success")
+                return self.redirect_to('home')
+            else:
+                message = _('Your account has been activated') + ". " +\
+                    _('Please login to your account')
+                self.add_message(message, "warning")
+                return self.redirect_to('home')
+                
+        except (KeyError, AttributeError), e:
+            message = _('Sorry') + ". " + _('Some error occured') + "."
+            self.add_message(message, "error")
+            return self.redirect_to('home')
+
+
 class ContactHandler(BaseHandler):
     """
     Handler for Contact Form
@@ -330,7 +450,7 @@ class ContactHandler(BaseHandler):
             }
 
         return self.render_template('boilerplate_contact.html', **params)
-
+    
     def post(self):
         """
               validate contact form
