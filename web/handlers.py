@@ -77,15 +77,6 @@ class LoginHandler(BaseHandler):
             else:
                 auth_id = "own:%s" % username
                 user = models.User.get_by_auth_id(auth_id)
-                
-            # if user account is not activated, redirect to home
-            if (user.activated == False):
-                resend_email_uri = self.uri_for('reset-account-activation', encoded_email=utils.encode(user.email))
-                message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
-                          _('has not been activated. Please check your email to activate your account') + ". " +\
-                          _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
-                self.add_message(message, 'error')
-                return self.redirect_to('home')
             
             password = self.form.password.data.strip()
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
@@ -99,6 +90,19 @@ class LoginHandler(BaseHandler):
             # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
+                
+            # if user account is not activated, logout and redirect to home
+            if (user.activated == False):
+                # logout
+                self.auth.unset_session()
+                
+                # redirect to home with error message
+                resend_email_uri = self.uri_for('reset-account-activation', encoded_email=utils.encode(user.email))
+                message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
+                          _('has not been activated. Please check your email to activate your account') + ". " +\
+                          _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
 
             #check twitter association in session
             twitter_helper = twitter.TwitterAuth(self)
