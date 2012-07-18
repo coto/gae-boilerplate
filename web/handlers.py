@@ -78,7 +78,7 @@ class LoginHandler(BaseHandler):
                 auth_id = "own:%s" % username
                 user = models.User.get_by_auth_id(auth_id)
                 
-            # if user is not registered, redirect to home
+            # if user account is not activated, redirect to home
             if (user.activated == False):
                 resend_email_uri = self.uri_for('reset-account-activation', encoded_email=utils.encode(user.email))
                 message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
