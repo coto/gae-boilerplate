@@ -33,6 +33,8 @@ def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,
 
 def get_territory_from_ip(request):
     """
+    call: get_territory_from_ip(self.request)
+
     Detect the territory code derived from IP Address location
     Returns US, CA, CL, AR, etc.
     cls: self object
