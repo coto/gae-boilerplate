@@ -1,4 +1,4 @@
-# Indonesian (Indonesia) translations for PROJECT.
+# French (France) translations for PROJECT.
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-07-19 12:53-0400\n"
-"PO-Revision-Date: 2012-06-21 01:51-0400\n"
+"PO-Revision-Date: 2012-07-19 12:53-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: id_ID <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language-Team: fr_FR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,43 +34,43 @@ msgid "Associate account with:"
 msgstr ""
 
 msgid "Change your email"
-msgstr "Ubah email"
+msgstr ""
 
 msgid "Change your password"
-msgstr "Ubah password"
+msgstr ""
 
 msgid "Confirm Password"
-msgstr "Ulangi password"
+msgstr ""
 
 msgid "Congratulations"
 msgstr ""
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
-msgstr "Selamat atas halaman yang di-support oleh Google App Engine Boilerplate."
+msgstr ""
 
 msgid "Contact"
-msgstr "Kontak"
+msgstr ""
 
 msgid "Country"
-msgstr "Negara"
+msgstr ""
 
 msgid "Current Password"
-msgstr "Password saat ini"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr ""
 
 msgid "Edit Profile"
-msgstr "Edit Profil"
+msgstr ""
 
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 msgid "Enter a new email address"
 msgstr ""
 
 msgid "Enter your"
-msgstr "Masukkan"
+msgstr ""
 
 msgid "Error sending the message. Please try again later."
 msgstr ""
@@ -79,7 +79,7 @@ msgid "Existing social association:"
 msgstr ""
 
 msgid "Forgot your password?"
-msgstr "Lupa password?"
+msgstr ""
 
 msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
@@ -94,34 +94,34 @@ msgid "Invalid email address."
 msgstr ""
 
 msgid "Language"
-msgstr "Bahasa"
+msgstr ""
 
 msgid "Last Name"
-msgstr "Name Akhir"
+msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
-msgstr "Cari tahu kenapa Boilerplate keren"
+msgstr ""
 
 msgid "Login"
-msgstr "Masuk"
+msgstr ""
 
 msgid "Login invalid, Try again."
 msgstr ""
 
 msgid "Logout"
-msgstr "Keluar"
+msgstr ""
 
 msgid "Message"
-msgstr "Pesan"
+msgstr ""
 
 msgid "Message sent successfully."
 msgstr ""
 
 msgid "Name"
-msgstr "Nama"
+msgstr ""
 
 msgid "New Password"
-msgstr "Password baru"
+msgstr ""
 
 msgid "Or Sign in using:"
 msgstr ""
@@ -130,7 +130,7 @@ msgid "Or click"
 msgstr ""
 
 msgid "Password"
-msgstr "Password"
+msgstr ""
 
 msgid "Password changed successfully"
 msgstr ""
@@ -159,25 +159,25 @@ msgid "Please login to your account"
 msgstr ""
 
 msgid "Remember me?"
-msgstr "Ingin diingat?"
+msgstr ""
 
 msgid "Remove"
 msgstr ""
 
 msgid "Reset password"
-msgstr "Reset password"
+msgstr ""
 
 msgid "Secure Page"
-msgstr "Halaman aman"
+msgstr ""
 
 msgid "Secure zone error:"
 msgstr ""
 
 msgid "Send Message"
-msgstr "Kirim pesan"
+msgstr ""
 
 msgid "Sign Up"
-msgstr "Daftar"
+msgstr ""
 
 msgid "Social account on "
 msgstr ""
@@ -198,7 +198,7 @@ msgid "Sorry, your account"
 msgstr ""
 
 msgid "Source Code"
-msgstr "Kode sumber"
+msgstr ""
 
 #, python-format
 msgid "The email %s is already registered."
@@ -228,19 +228,19 @@ msgid "Unexpected error creating user"
 msgstr ""
 
 msgid "Upgrade to a different browser"
-msgstr "Pakailah browser baru"
+msgstr ""
 
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
 
 msgid "Username"
-msgstr "Nama Pengguna"
+msgstr ""
 
 msgid "Username invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "Username or Email"
-msgstr "Nama pengguna atau email"
+msgstr ""
 
 msgid "Welcome"
 msgstr ""
@@ -251,9 +251,8 @@ msgstr ""
 msgid "You are now registered"
 msgstr ""
 
-#, fuzzy
 msgid "You didn't change your email"
-msgstr "Ubah email"
+msgstr ""
 
 msgid "You've signed out successfully."
 msgstr ""
@@ -268,7 +267,7 @@ msgid "Your account has been activated"
 msgstr ""
 
 msgid "Your browser is <em>ancient!</em>"
-msgstr "Browser kamu sudah <em>ketinggalan zaman!</em>"
+msgstr ""
 
 msgid "Your email / username was not found. Please try another or "
 msgstr ""
@@ -282,15 +281,14 @@ msgstr ""
 msgid "Your profile has been updated!"
 msgstr ""
 
-#, fuzzy
 msgid "contact us"
-msgstr "Kontak"
+msgstr ""
 
 msgid "create an account"
 msgstr ""
 
 msgid "download the Source Code"
-msgstr "unduh kode sumber"
+msgstr ""
 
 msgid "for further assistance."
 msgstr ""
@@ -302,7 +300,7 @@ msgid "has not been activated. Please check your email to activate your account"
 msgstr ""
 
 msgid "install Google Chrome Frame"
-msgstr "install Google Chrome Frame"
+msgstr ""
 
 msgid "is already registered."
 msgstr ""
@@ -317,19 +315,19 @@ msgid ""
 msgstr ""
 
 msgid "or"
-msgstr "atau"
+msgstr ""
 
 msgid "or just"
-msgstr "atau"
+msgstr ""
 
 msgid "this"
 msgstr ""
 
 msgid "to experience this site."
-msgstr "untuk menikmati situs ini."
+msgstr ""
 
 msgid "to help you to create your application."
-msgstr "saja untuk membuat aplikasi sendiri."
+msgstr ""
 
 msgid "to resend the email"
 msgstr ""
