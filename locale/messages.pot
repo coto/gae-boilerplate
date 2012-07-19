@@ -22,6 +22,9 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
+msgid "Congratulations"
+msgstr ""
+
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr ""
 
@@ -56,9 +59,6 @@ msgid "Existing social association:"
 msgstr ""
 
 msgid "Forgot your password?"
-msgstr ""
-
-msgid "Google App Engine Boilerplate"
 msgstr ""
 
 msgid "Google App Engine Boilerplate is released under the"
@@ -106,6 +106,9 @@ msgstr ""
 msgid "Or Sign in using:"
 msgstr ""
 
+msgid "Or click"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
@@ -118,6 +121,9 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
+msgid "Please check your email to activate your account"
+msgstr ""
+
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
@@ -127,6 +133,9 @@ msgid "Please click below to create a new password:"
 msgstr ""
 
 msgid "Please correct the form errors."
+msgstr ""
+
+msgid "Please login to your account"
 msgstr ""
 
 msgid "Remember me?"
@@ -153,10 +162,19 @@ msgstr ""
 msgid "Social account on "
 msgstr ""
 
+msgid "Some error occured"
+msgstr ""
+
+msgid "Sorry"
+msgstr ""
+
 msgid "Sorry you are not logged in!"
 msgstr ""
 
 msgid "Sorry, This user"
+msgstr ""
+
+msgid "Sorry, your account"
 msgstr ""
 
 msgid "Source Code"
@@ -164,6 +182,9 @@ msgstr ""
 
 #, python-format
 msgid "The email %s is already registered."
+msgstr ""
+
+msgid "The verification email has been resent to"
 msgstr ""
 
 msgid ""
@@ -178,6 +199,9 @@ msgid "Twitter association added!"
 msgstr ""
 
 msgid "Unable to update profile!"
+msgstr ""
+
+msgid "Unexpected error activating account"
 msgstr ""
 
 msgid "Unexpected error creating user"
@@ -204,6 +228,9 @@ msgstr ""
 msgid "Wrong image verification code. Please try again."
 msgstr ""
 
+msgid "You are now registered"
+msgstr ""
+
 msgid "You didn't change your email"
 msgstr ""
 
@@ -211,6 +238,12 @@ msgid "You've signed out successfully."
 msgstr ""
 
 msgid "Your Current Password is wrong, please try again"
+msgstr ""
+
+msgid "Your account"
+msgstr ""
+
+msgid "Your account has been activated"
 msgstr ""
 
 msgid "Your browser is <em>ancient!</em>"
@@ -240,6 +273,12 @@ msgstr ""
 msgid "for further assistance."
 msgstr ""
 
+msgid "has just been activated"
+msgstr ""
+
+msgid "has not been activated. Please check your email to activate your account"
+msgstr ""
+
 msgid "install Google Chrome Frame"
 msgstr ""
 
@@ -261,10 +300,16 @@ msgstr ""
 msgid "or just"
 msgstr ""
 
+msgid "this"
+msgstr ""
+
 msgid "to experience this site."
 msgstr ""
 
 msgid "to help you to create your application."
+msgstr ""
+
+msgid "to resend the email"
 msgstr ""
 
 msgid "you are now logged in."
