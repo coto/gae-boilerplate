@@ -127,6 +127,10 @@ class BaseHandler(webapp2.RequestHandler):
         }
 
     @webapp2.cached_property
+    def language(self):
+        return str(Locale.parse(self.locale).language)
+
+    @webapp2.cached_property
     def user(self):
         return self.auth.get_user_by_session()
 
