@@ -7,7 +7,6 @@
 	and a decorator for protecting certain handlers.
 
     Routes are setup in routes.py and added in main.py
-
 """
 
 import models.models as models
@@ -33,6 +32,7 @@ class SendEmailHandler(BaseHandler):
     Handler for sending Emails
     Use with TaskQueue
     """
+
     def post(self):
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -46,10 +46,10 @@ class LoginHandler(BaseHandler):
     """
     Handler for authentication
     """
+
     def get(self):
-        """
-              Returns a simple HTML form for login
-        """
+        """ Returns a simple HTML form for login """
+
         if self.user:
             self.redirect_to('home', id=self.user_id)
         params = {
@@ -60,9 +60,10 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         """
-              username: Get the username from POST dict
-              password: Get the password from POST dict
+        username: Get the username from POST dict
+        password: Get the password from POST dict
         """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -142,6 +143,7 @@ class SocialLoginHandler(BaseHandler):
     """
     Handler for Social authentication
     """
+
     def get(self, provider_name):
         callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
         if provider_name == "twitter":
@@ -157,6 +159,7 @@ class CallbackSocialLoginHandler(BaseHandler):
     """
     Callback (Save Information) for Social Authentication
     """
+
     def get(self, provider_name):
         if provider_name == "twitter":
             oauth_token = self.request.get('oauth_token')
@@ -215,6 +218,7 @@ class DeleteSocialProviderHandler(BaseHandler):
     """
     Delete Social association with an account
     """
+
     @user_required
     def get(self, provider_name):
         if self.user:
@@ -232,8 +236,9 @@ class DeleteSocialProviderHandler(BaseHandler):
 
 class LogoutHandler(BaseHandler):
     """
-         Destroy user session and redirect to login
+    Destroy user session and redirect to login
     """
+
     def get(self):
         if self.user:
             message = _("You've signed out successfully.") # Info message
@@ -252,10 +257,10 @@ class RegisterHandler(BaseHandler):
     """
     Handler for Sign Up Users
     """
+
     def get(self):
-        """
-              Returns a simple HTML form for create a new user
-        """
+        """ Returns a simple HTML form for create a new user """
+
         if self.user:
             self.redirect_to('home', id=self.user_id)
         params = {
@@ -265,9 +270,8 @@ class RegisterHandler(BaseHandler):
         return self.render_template('boilerplate_register.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -327,17 +331,14 @@ class RegisterHandler(BaseHandler):
                         'body' : body,
                         })
                     
-                    # logging.error(user)
-
                     message = _('Congratulations') + ", " + str(username) + "! " + _('You are now registered') +\
                               ". " + _('Please check your email to activate your account')
                     self.add_message(message, 'success')
                     return self.redirect_to('home')
                 
-                # if the user didn't register using registration form ???
-                
+                # If the user didn't register using registration form ???
                 db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                #check twitter association in session
+                # Check twitter association in session
                 twitter_helper = twitter.TwitterAuth(self)
                 twitter_association_data = twitter_helper.get_association_data()
                 if twitter_association_data is not None:
@@ -370,6 +371,7 @@ class AccountActivationHandler(BaseHandler):
     """
     Handler for account activation
     """
+
     def get(self, encoded_email):
         try:
             email = utils.decode(encoded_email)
@@ -395,6 +397,7 @@ class ResendActivationEmailHandler(BaseHandler):
     """
     Handler to resend activation email
     """
+
     def get(self, encoded_email):
         try:
             email = utils.decode(encoded_email)
@@ -445,10 +448,10 @@ class ContactHandler(BaseHandler):
     """
     Handler for Contact Form
     """
+
     def get(self):
-        """
-              Returns a simple HTML for contact form
-        """
+        """ Returns a simple HTML for contact form """
+
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             if user_info.name or user_info.last_name:
@@ -463,9 +466,8 @@ class ContactHandler(BaseHandler):
         return self.render_template('boilerplate_contact.html', **params)
     
     def post(self):
-        """
-              validate contact form
-        """
+        """ validate contact form """
+
         if not self.form.validate():
             return self.get()
         remoteip  = self.request.remote_addr
@@ -510,11 +512,11 @@ class EditProfileHandler(BaseHandler):
     """
     Handler for Edit User Profile
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for edit profile
-        """
+        """ Returns a simple HTML form for edit profile """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -533,9 +535,8 @@ class EditProfileHandler(BaseHandler):
         return self.render_template('boilerplate_edit_profile.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -598,11 +599,11 @@ class EditPasswordHandler(BaseHandler):
     """
     Handler for Edit User Password
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for editing password
-        """
+        """ Returns a simple HTML form for editing password """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -610,9 +611,8 @@ class EditPasswordHandler(BaseHandler):
         return self.render_template('boilerplate_edit_password.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         current_password = self.form.current_password.data.strip()
@@ -679,11 +679,11 @@ class EditEmailHandler(BaseHandler):
     """
     Handler for Edit User's Email
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for edit email
-        """
+        """ Returns a simple HTML form for edit email """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -695,9 +695,8 @@ class EditEmailHandler(BaseHandler):
         return self.render_template('boilerplate_edit_email.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         new_email = self.form.new_email.data.strip()
@@ -794,6 +793,7 @@ class PasswordResetHandler(BaseHandler):
     """
     Password Reset Handler with Captcha
     """
+
     reCaptcha_public_key = config.captcha_public_key
     reCaptcha_private_key = config.captcha_private_key
 
@@ -867,6 +867,9 @@ class PasswordResetHandler(BaseHandler):
 
 
 class PasswordResetCompleteHandler(BaseHandler):
+    """
+    Handler to process the link of reset password that received the user
+    """
 
     def get(self, user_id, token):
         verify = models.User.get_by_auth_token(int(user_id), token)
@@ -913,8 +916,8 @@ class PasswordResetCompleteHandler(BaseHandler):
 
 class EmailChangedCompleteHandler(BaseHandler):
     """
-        Handler for completed email change
-        Will be called when the user click confirmation link from email
+    Handler for completed email change
+    Will be called when the user click confirmation link from email
     """
 
     def get(self, user_id, encoded_email, token):
@@ -938,8 +941,9 @@ class EmailChangedCompleteHandler(BaseHandler):
 
 class SecureRequestHandler(BaseHandler):
     """
-         Only accessible to users that are logged in
+    Only accessible to users that are logged in
     """
+
     @user_required
     def get(self, **kwargs):
         user_session = self.user
@@ -963,11 +967,12 @@ class SecureRequestHandler(BaseHandler):
 
 
 class HomeRequestHandler(BaseHandler):
+    """
+    Handler to show the home page
+    """
 
     def get(self):
-        """
-              Returns a simple HTML form for home
-        """
+        """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('boilerplate_home.html', **params)
 
