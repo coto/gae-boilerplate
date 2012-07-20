@@ -97,7 +97,7 @@ class LoginHandler(BaseHandler):
                 self.auth.unset_session()
                 
                 # redirect to home with error message
-                resend_email_uri = self.uri_for('reset-account-activation', encoded_email=utils.encode(user.email))
+                resend_email_uri = self.uri_for('resend-account-activation', encoded_email=utils.encode(user.email))
                 message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
                           _('has not been activated. Please check your email to activate your account') + ". " +\
                           _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
@@ -138,70 +138,77 @@ class LoginHandler(BaseHandler):
         return forms.LoginForm(self.request.POST)
 
 
-class TwitterLoginHandler(BaseHandler):
+class SocialLoginHandler(BaseHandler):
     """
-    Handler for twitter authentication
+    Handler for Social authentication
     """
-    def get(self):
-        callback_url = "%s/login/twitter/complete" % self.request.host_url
-        twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
-        self.redirect(twitter_helper.auth_url())
-
-class CompleteTwitterLoginHandler(BaseHandler):
-    """
-    Save Twitter information after login
-    """
-    def get(self):
-        oauth_token = self.request.get('oauth_token')
-        oauth_verifier = self.request.get('oauth_verifier')
-        twitter_helper = twitter.TwitterAuth(self)
-        user_data = twitter_helper.auth_complete(oauth_token,
-            oauth_verifier)
-        if self.user:
-            # new association with twitter
-            user_info = models.User.get_by_id(long(self.user_id))
-            if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
-                social_user = models.SocialUser(
-                    user = user_info.key,
-                    provider = 'twitter',
-                    uid = str(user_data['id']),
-                    extra_data = user_data
-                )
-                social_user.put()
-
-                message = _('Twitter association added!')
-                self.add_message(message,'success')
-            else:
-                message = _('This Twitter account is already in use!')
-                self.add_message(message,'error')
-            self.redirect_to('edit-profile')
+    def get(self, provider_name):
+        callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
+        if provider_name == "twitter":
+            twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
+            self.redirect(twitter_helper.auth_url())
         else:
-            # login with twitter
-            social_user = models.SocialUser.get_by_provider_and_uid('twitter',
-                str(user_data['id']))
-            if social_user:
-                # Social user is exist. Need authenticate related site account
-                user = social_user.user.get()
-                self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                logVisit = models.LogVisit(
-                    user = user.key,
-                    uastring = self.request.user_agent,
-                    ip = self.request.remote_addr,
-                    timestamp = utils.get_date_time()
-                )
-                logVisit.put()
-                self.redirect_to('secure')
+            message = '%s authentication is not implemented yet. ' % str(provider_name).capitalize()
+            self.add_message(message,'warning')
+            self.redirect_to('edit-profile')
+
+
+class CallbackSocialLoginHandler(BaseHandler):
+    """
+    Callback (Save Information) for Social Authentication
+    """
+    def get(self, provider_name):
+        if provider_name == "twitter":
+            oauth_token = self.request.get('oauth_token')
+            oauth_verifier = self.request.get('oauth_verifier')
+            twitter_helper = twitter.TwitterAuth(self)
+            user_data = twitter_helper.auth_complete(oauth_token,
+                oauth_verifier)
+            if self.user:
+                # new association with twitter
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = 'twitter',
+                        uid = str(user_data['id']),
+                        extra_data = user_data
+                    )
+                    social_user.put()
+
+                    message = _('Twitter association added!')
+                    self.add_message(message,'success')
+                else:
+                    message = _('This Twitter account is already in use!')
+                    self.add_message(message,'error')
+                self.redirect_to('edit-profile')
             else:
-                # Social user is not exist. Need show login and registration forms
-                twitter_helper.save_association_data(user_data)
-                message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
-                self.add_message(message,'info')
-                self.redirect_to('login')
-        """
-        Debug Code
-        for k,v in user_data.items():
-            print(k +":"+  v )
-        """
+                # login with twitter
+                social_user = models.SocialUser.get_by_provider_and_uid('twitter',
+                    str(user_data['id']))
+                if social_user:
+                    # Social user is exist. Need authenticate related site account
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('secure')
+                else:
+                    # Social user is not exist. Need show login and registration forms
+                    twitter_helper.save_association_data(user_data)
+                    message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
+                    self.add_message(message,'info')
+                    self.redirect_to('login')
+            # Debug Callback information provided
+#            for k,v in user_data.items():
+#                print(k +":"+  v )
+        else:
+            self.redirect_to('login')
 
 
 class DeleteSocialProviderHandler(BaseHandler):
