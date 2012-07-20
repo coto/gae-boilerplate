@@ -57,7 +57,10 @@ def jinja2_factory(app):
     return j
 
 def handle_error(request, response, exception):
-    c = { 'exception': str(exception) }
+    c = {
+        'exception': str(exception),
+        'url': request.url,
+        }
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
