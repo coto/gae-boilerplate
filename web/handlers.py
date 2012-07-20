@@ -51,7 +51,7 @@ class LoginHandler(BaseHandler):
               Returns a simple HTML form for login
         """
         if self.user:
-            self.redirect_to('secure', id=self.user_id)
+            self.redirect_to('home', id=self.user_id)
         params = {
             "action": self.request.url,
             "form": self.form
@@ -124,7 +124,7 @@ class LoginHandler(BaseHandler):
                 timestamp=utils.get_date_time()
             )
             logVisit.put()
-            self.redirect_to('secure')
+            self.redirect_to('home')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
@@ -197,7 +197,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                         timestamp = utils.get_date_time()
                     )
                     logVisit.put()
-                    self.redirect_to('secure')
+                    self.redirect_to('home')
                 else:
                     # Social user does not exists. Need show login and registration forms
                     twitter_helper.save_association_data(user_data)
@@ -257,7 +257,7 @@ class RegisterHandler(BaseHandler):
               Returns a simple HTML form for create a new user
         """
         if self.user:
-            self.redirect_to('secure', id=self.user_id)
+            self.redirect_to('home', id=self.user_id)
         params = {
             "action": self.request.url,
             "form": self.form
@@ -351,7 +351,7 @@ class RegisterHandler(BaseHandler):
                         social_user.put()
                 message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
                 self.add_message(message, 'success')
-                return self.redirect_to('secure')
+                return self.redirect_to('home')
             except (AttributeError, KeyError), e:
                 message = _('Unexpected error creating '\
                             'user') + " " + '{0:>s}.'.format(username)
@@ -382,7 +382,7 @@ class AccountActivationHandler(BaseHandler):
             message = _('Congratulations') + "! " + _('Your account') + " (@" + user.username + ") " +\
                 _('has just been activated') + ". " + _('Please login to your account')
             self.add_message(message, "success")
-            self.redirect_to('secure')
+            self.redirect_to('login')
             
         except (AttributeError, KeyError, InvalidAuthIdError), e:
             message = _('Unexpected error activating '\
@@ -655,7 +655,7 @@ class EditPasswordHandler(BaseHandler):
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
                 self.add_message(_('Password changed successfully'), 'success')
-                return self.redirect_to('secure')
+                return self.redirect_to('edit-profile')
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
@@ -766,7 +766,7 @@ class EditEmailHandler(BaseHandler):
                     # display successful message
                     msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
-                    return self.redirect_to('secure')
+                    return self.redirect_to('edit-profile')
                     
                 else:
                     self.add_message(_("You didn't change your email"), "warning")
@@ -875,7 +875,8 @@ class PasswordResetCompleteHandler(BaseHandler):
             'form': self.form
         }
         if verify[0] is None:
-            self.add_message(_('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
+            message = _('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.')
+            self.add_message(message, 'warning')
             return self.redirect_to('password-reset')
 
         else:
@@ -896,7 +897,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             # Login User
             self.auth.get_user_by_password(user.auth_ids[0], password)
             self.add_message(_('Password changed successfully'), 'success')
-            return self.redirect_to('secure')
+            return self.redirect_to('home')
 
         else:
             self.add_message(_('Please correct the form errors.'), 'error')
@@ -921,7 +922,7 @@ class EmailChangedCompleteHandler(BaseHandler):
         email = utils.decode(encoded_email)
         if verify[0] is None:
             self.add_message('There was an error or the link is outdated. Please copy and paste the link from your email.', 'warning')
-            self.redirect_to('secure')
+            self.redirect_to('home')
 
         else:
             # save new email
