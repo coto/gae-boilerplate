@@ -1,4 +1,4 @@
-
+import logging
 import webapp2
 from webapp2_extras import jinja2
 from webapp2_extras import auth
@@ -8,6 +8,7 @@ import config
 import re
 from lib import i18n
 from babel import Locale
+import models.models as models
 
 def user_required(handler):
     """
@@ -20,14 +21,20 @@ def user_required(handler):
         """
             If handler has no login_url specified invoke a 403 error
         """
-        auth = self.auth.get_user_by_session()
-        if not auth:
-            try:
-                self.redirect(self.auth_config['login_url'], abort=True)
-            except (AttributeError, KeyError), e:
-                self.abort(403)
-        else:
-            return handler(self, *args, **kwargs)
+        try:
+            auth = self.auth.get_user_by_session()
+            if not auth:
+                try:
+                    self.redirect(self.auth_config['login_url'], abort=True)
+                except (AttributeError, KeyError), e:
+                    self.abort(403)
+            else:
+                return handler(self, *args, **kwargs)
+        except AttributeError, e:
+            # avoid AttributeError when the session was delete from the server
+            logging.error(e)
+            self.auth.unset_session()
+            self.redirect_to('home')
 
     return check_login
 
@@ -50,10 +57,14 @@ def jinja2_factory(app):
     return j
 
 def handle_error(request, response, exception):
-    c = { 'exception': str(exception) }
+    c = {
+        'exception': str(exception),
+        'url': request.url,
+        }
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
+    logging.error(str(status_int) + " - " + str(exception))
     response.write(t)
     response.set_status(status_int)
 
@@ -116,6 +127,10 @@ class BaseHandler(webapp2.RequestHandler):
         }
 
     @webapp2.cached_property
+    def language(self):
+        return str(Locale.parse(self.locale).language)
+
+    @webapp2.cached_property
     def user(self):
         return self.auth.get_user_by_session()
 
@@ -124,32 +139,49 @@ class BaseHandler(webapp2.RequestHandler):
         return str(self.user['user_id']) if self.user else None
 
     @webapp2.cached_property
-    def username(self):
-        import models.models as models
+    def user_key(self):
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            return str(user_info.username)
+            return user_info.key
         return  None
-    
+
+    @webapp2.cached_property
+    def username(self):
+        if self.user:
+            try:
+                user_info = models.User.get_by_id(long(self.user_id))
+                return str(user_info.username)
+            except AttributeError, e:
+                # avoid AttributeError when the session was delete from the server
+                logging.error(e)
+                self.auth.unset_session()
+                self.redirect_to('home')
+        return  None
+
     @webapp2.cached_property
     def email(self):
-        import models.models as models
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
-            return user_info.email
+            try:
+                user_info = models.User.get_by_id(long(self.user_id))
+                return user_info.email
+            except AttributeError, e:
+                # avoid AttributeError when the session was delete from the server
+                logging.error(e)
+                self.auth.unset_session()
+                self.redirect_to('home')
         return  None
 
     @webapp2.cached_property
     def path_for_language(self):
         """
-        Get an path + query_string without language parameter (hl=something)
-        Useful to put it in the template to concatenate with '&hl=NEW_LOCALE'
+        Get the current path + query_string without language parameter (hl=something)
+        Useful to put it on a template to concatenate with '&hl=NEW_LOCALE'
         Example: .../?hl=en_US
         """
         path_lang = re.sub(r'(^hl=(\w{5})\&*)|(\&hl=(\w{5})\&*?)', '', str(self.request.query_string))
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
-    
+
     def locales(self):
         """
         returns a dict of locale codes to locale display names in both the current locale and the localized locale
@@ -175,8 +207,8 @@ class BaseHandler(webapp2.RequestHandler):
     def render_template(self, filename, **kwargs):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
-            'user_id': self.user_id,
             'app_name': config.app_name,
+            'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
             'url': self.request.url,
@@ -190,6 +222,6 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update(self.auth_config)
         if self.messages:
             kwargs['messages'] = self.messages
-        
+
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))

@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="keywords" content="" />
-    <meta name="generator" content="Google App Engine Boilerplate 2.0b5" />
+    <meta name="generator" content="Google App Engine Boilerplate 2.1" />
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,7 +37,7 @@
     </script>
     <!-- All JavaScript at the bottom, except this Modernizr build.
        Modernizr enables HTML5 elements & feature detects for optimal performance. -->
-    <script src="/js/libs/modernizr-2.5.3.min.js"></script>
+    <script src="/js/libs/modernizr-2.6.1.min.js"></script>
 </head>
 <body>
     <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
@@ -114,12 +114,12 @@
                                         <div id="trird_party_login" class="form-actions">
                                             <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                                             <div class="social-login-icons">
-                                                <a href="#" class="social-btn social-btn-google" title="Google">Login Google</a>
-                                                <a href="#" class="social-btn social-btn-facebook" title="Facebook">Login Facebook</a>
-                                                <a href="#" class="social-btn social-btn-linkedin" title="LinkedIn">Login LinkedIn</a>
-                                                <a href="#" class="social-btn social-btn-myopenid" title="MyOpenid">Login MyOpenid</a>
-                                                <a href="{{ uri_for("twitter-login") }}" class="social-btn social-btn-twitter" title="Twitter">Login Twitter</a>
-                                                <a href="#" class="social-btn social-btn-yahoo" title="Yahoo!">Login Yahoo!</a>
+                                                <a href="{{ uri_for("social-login", provider_name="google") }}" class="social-btn social-btn-google" title="Google">Login Google</a>
+                                                <a href="{{ uri_for("social-login", provider_name="facebook") }}" class="social-btn social-btn-facebook" title="Facebook">Login Facebook</a>
+                                                <a href="{{ uri_for("social-login", provider_name="linkedin") }}" class="social-btn social-btn-linkedin" title="LinkedIn">Login LinkedIn</a>
+                                                <a href="{{ uri_for("social-login", provider_name="myopenid") }}" class="social-btn social-btn-myopenid" title="MyOpenid">Login MyOpenid</a>
+                                                <a href="{{ uri_for("social-login", provider_name="twitter") }}" class="social-btn social-btn-twitter" title="Twitter">Login Twitter</a>
+                                                <a href="{{ uri_for("social-login", provider_name="yahoo") }}" class="social-btn social-btn-yahoo" title="Yahoo!">Login Yahoo!</a>
                                             </div>
                                         </div>
                                     </fieldset>

@@ -1,5 +1,6 @@
 import unittest
 import webapp2
+import os
 
 from google.appengine.ext import testbed
 import webtest
@@ -21,6 +22,8 @@ class AppTest(unittest.TestCase):
         app = webapp2.WSGIApplication(config=w2config)
         routes.add_routes(app)
         self.testapp = webtest.TestApp(app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
+        # HTTP_HOST in extra_environ is not enough for taskqueue stub and it warns
+        os.environ['HTTP_HOST'] = 'localhost'
 
         # activate GAE stubs
         self.testbed = testbed.Testbed()
@@ -28,6 +31,7 @@ class AppTest(unittest.TestCase):
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
         self.testbed.init_urlfetch_stub()
+        self.testbed.init_taskqueue_stub()
 
         # some shortcuts
         self.cookie_name=config.webapp2_config['webapp2_extras.auth']['cookie_name']

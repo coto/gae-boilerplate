@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-16 21:54-0400\n"
+"POT-Creation-Date: 2012-07-19 12:53-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -45,6 +45,9 @@ msgstr "Cambiar su contraseña"
 msgid "Confirm Password"
 msgstr "Confirmar Contraseña"
 
+msgid "Congratulations"
+msgstr "Felicitaciones"
+
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr "Felicitaciones por su página potenciada con Google App Engine Boilerplate."
 
@@ -80,9 +83,6 @@ msgstr "Asociación a cuentas sociales existentes:"
 
 msgid "Forgot your password?"
 msgstr "Olvidó su contraseña?"
-
-msgid "Google App Engine Boilerplate"
-msgstr ""
 
 msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
@@ -130,6 +130,9 @@ msgstr "Nueva Contraseña"
 msgid "Or Sign in using:"
 msgstr "O Inicia sesión usando:"
 
+msgid "Or click"
+msgstr "o presione"
+
 msgid "Password"
 msgstr "Contraseña"
 
@@ -141,6 +144,9 @@ msgstr "Recuperación de contraseña"
 
 msgid "Passwords must match."
 msgstr "Las contraseñas deben coincidir."
+
+msgid "Please check your email to activate your account"
+msgstr "Por favor revise su email para activar su cuenta"
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -154,6 +160,9 @@ msgstr "Por favor, haga clic a continuación para crear una nueva contraseña:"
 
 msgid "Please correct the form errors."
 msgstr "Por favor, corrija los errores del formulario."
+
+msgid "Please login to your account"
+msgstr "Por favor inicie sesión en su cuenta"
 
 msgid "Remember me?"
 msgstr "Recordarme?"
@@ -179,11 +188,20 @@ msgstr "Registrar"
 msgid "Social account on "
 msgstr "Cuenta social en "
 
+msgid "Some error occured"
+msgstr "Algún error ocurrió"
+
+msgid "Sorry"
+msgstr "Lo sentimos"
+
 msgid "Sorry you are not logged in!"
 msgstr "Lo sentimos, no has iniciado sessión"
 
 msgid "Sorry, This user"
 msgstr "Lo sentimos, este usuario"
+
+msgid "Sorry, your account"
+msgstr "Lo sentimos, su cuenta"
 
 msgid "Source Code"
 msgstr "Código fuente"
@@ -191,6 +209,9 @@ msgstr "Código fuente"
 #, fuzzy, python-format
 msgid "The email %s is already registered."
 msgstr "El email %s ya está registrado."
+
+msgid "The verification email has been resent to"
+msgstr "El email de verificación ha sido reenviado a"
 
 #, fuzzy
 msgid ""
@@ -209,6 +230,10 @@ msgstr "Asociación Twitter agregada!"
 
 msgid "Unable to update profile!"
 msgstr "No es posible actualizar el perfil de usuario!"
+
+#, fuzzy
+msgid "Unexpected error activating account"
+msgstr "Error inesperado al activar cuenta"
 
 msgid "Unexpected error creating user"
 msgstr "Error inesperado al crear el usuario"
@@ -237,6 +262,10 @@ msgstr ""
 "nuevo."
 
 #, fuzzy
+msgid "You are now registered"
+msgstr "Te has registrado"
+
+#, fuzzy
 msgid "You didn't change your email"
 msgstr "No cambió su correo electrónico"
 
@@ -245,6 +274,14 @@ msgstr "Se ha cerrado la sesión exitósamente."
 
 msgid "Your Current Password is wrong, please try again"
 msgstr "Su contraseña actual es incorrecta, por favor vuelva a intentarlo"
+
+#, fuzzy
+msgid "Your account"
+msgstr "Su cuenta"
+
+#, fuzzy
+msgid "Your account has been activated"
+msgstr "Su perfil ha sido actualizado!"
 
 msgid "Your browser is <em>ancient!</em>"
 msgstr "Su Navegador es demasiado <em>antiguo!</em>"
@@ -277,6 +314,12 @@ msgstr "descarga su código fuente"
 msgid "for further assistance."
 msgstr "para obtener más ayuda."
 
+msgid "has just been activated"
+msgstr "ha sido activada"
+
+msgid "has not been activated. Please check your email to activate your account"
+msgstr "no ha sido activada. Por favor revise su email para activar su cuenta"
+
 msgid "install Google Chrome Frame"
 msgstr "instala Google Chrome Frame"
 
@@ -301,11 +344,17 @@ msgstr "o"
 msgid "or just"
 msgstr "o sólo"
 
+msgid "this"
+msgstr "aquí"
+
 msgid "to experience this site."
 msgstr "para experimentar este sitio."
 
 msgid "to help you to create your application."
 msgstr "para ayudar a crear su aplicación."
+
+msgid "to resend the email"
+msgstr "para reeenviar el email"
 
 msgid "you are now logged in."
 msgstr "ha iniciado la sesión."

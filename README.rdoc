@@ -67,7 +67,7 @@ http://appengine.beecoss.com
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
-* {Modernizr 2.5.3}[http://modernizr.com]
+* {Modernizr 2.6.1}[http://modernizr.com]
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 

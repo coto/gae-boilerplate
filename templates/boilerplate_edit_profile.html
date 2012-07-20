@@ -33,7 +33,7 @@
                         {% for provider in used_providers %}
                             <tr>
                                 <td><a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a></td>
-                                <td><a href="/social/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+                                <td><a href="/social_login/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -44,7 +44,7 @@
                     <h4>{% trans %}Associate account with:{% endtrans %}</h4>
                     <div class="social-login-icons">
                         {% for provider in unused_providers %}
-                            <a href="/login/{{ provider.name }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>
+                            <a href="/social_login/{{ provider.name }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>
                         {% endfor %}
                     </div>
                 </div>
