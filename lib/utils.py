@@ -12,8 +12,9 @@ from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
 import logging
 
-
 def send_email(to, subject, body, sender=''):
+    """ Main function to send emails """
+
     if sender != '' or not is_email_valid(sender):
         if is_email_valid(config.contact_sender):
             sender = config.contact_sender
@@ -88,9 +89,7 @@ def write_cookie(cls, COOKIE_NAME, COOKIE_VALUE, path, expires=7200):
     return
 
 def read_cookie(cls, name):
-    """
-    Use: cook.read(cls, COOKIE_NAME)
-    """
+    """ Use: cook.read(cls, COOKIE_NAME) """
 
     string_cookie = os.environ.get('HTTP_COOKIE', '')
     cls.cookie = Cookie.SimpleCookie()
@@ -102,9 +101,7 @@ def read_cookie(cls, name):
     return value
 
 def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
-    """
-    Get date and time in UTC for Chile with a specific format
-    """
+    """ Get date and time in UTC for Chile with a specific format """
 
     local_datetime = datetime.now()
     now = local_datetime - timedelta(hours=UTC_OFFSET)
@@ -167,6 +164,7 @@ def set_device_cookie_and_return_bool(cls, force=""):
     set a cookie for device (dvc) returning a dict and set cookie
     Cookie value has to be "mobile" or "desktop" string
     """
+
     if force != "":
         # force cookie to param
         device_cookie = force
