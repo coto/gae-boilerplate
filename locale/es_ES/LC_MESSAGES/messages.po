@@ -131,7 +131,7 @@ msgid "Or Sign in using:"
 msgstr "O Inicia sesión usando:"
 
 msgid "Or click"
-msgstr "o Click"
+msgstr "o presione"
 
 msgid "Password"
 msgstr "Contraseña"
@@ -263,7 +263,7 @@ msgstr ""
 
 #, fuzzy
 msgid "You are now registered"
-msgstr "Ha iniciado la sesión."
+msgstr "Te has registrado"
 
 #, fuzzy
 msgid "You didn't change your email"
@@ -345,7 +345,7 @@ msgid "or just"
 msgstr "o sólo"
 
 msgid "this"
-msgstr "este"
+msgstr "aquí"
 
 msgid "to experience this site."
 msgstr "para experimentar este sitio."
