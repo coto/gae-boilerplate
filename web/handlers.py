@@ -7,7 +7,6 @@
 	and a decorator for protecting certain handlers.
 
     Routes are setup in routes.py and added in main.py
-
 """
 
 import models.models as models
@@ -33,6 +32,7 @@ class SendEmailHandler(BaseHandler):
     Handler for sending Emails
     Use with TaskQueue
     """
+
     def post(self):
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -46,12 +46,12 @@ class LoginHandler(BaseHandler):
     """
     Handler for authentication
     """
+
     def get(self):
-        """
-              Returns a simple HTML form for login
-        """
+        """ Returns a simple HTML form for login """
+
         if self.user:
-            self.redirect_to('secure', id=self.user_id)
+            self.redirect_to('home', id=self.user_id)
         params = {
             "action": self.request.url,
             "form": self.form
@@ -60,9 +60,10 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         """
-              username: Get the username from POST dict
-              password: Get the password from POST dict
+        username: Get the username from POST dict
+        password: Get the password from POST dict
         """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -77,7 +78,7 @@ class LoginHandler(BaseHandler):
             else:
                 auth_id = "own:%s" % username
                 user = models.User.get_by_auth_id(auth_id)
-                
+            
             password = self.form.password.data.strip()
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
                 
@@ -90,6 +91,19 @@ class LoginHandler(BaseHandler):
             # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
+                
+            # if user account is not activated, logout and redirect to home
+            if (user.activated == False):
+                # logout
+                self.auth.unset_session()
+                
+                # redirect to home with error message
+                resend_email_uri = self.uri_for('resend-account-activation', encoded_email=utils.encode(user.email))
+                message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
+                          _('has not been activated. Please check your email to activate your account') + ". " +\
+                          _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
 
             #check twitter association in session
             twitter_helper = twitter.TwitterAuth(self)
@@ -104,14 +118,14 @@ class LoginHandler(BaseHandler):
                     )
                     social_user.put()
 
-            visitLog = models.VisitLog(
+            logVisit = models.LogVisit(
                 user=user.key,
                 uastring=self.request.user_agent,
                 ip=self.request.remote_addr,
                 timestamp=utils.get_date_time()
             )
-            visitLog.put()
-            self.redirect_to('secure')
+            logVisit.put()
+            self.redirect_to('home')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
@@ -125,79 +139,86 @@ class LoginHandler(BaseHandler):
         return forms.LoginForm(self.request.POST)
 
 
-class TwitterLoginHandler(BaseHandler):
+class SocialLoginHandler(BaseHandler):
     """
-    Handler for twitter authentication
+    Handler for Social authentication
     """
-    def get(self):
-        callback_url = "%s/login/twitter/complete" % self.request.host_url
-        twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
-        self.redirect(twitter_helper.auth_url())
 
-class CompleteTwitterLoginHandler(BaseHandler):
-    """
-    Save Twitter information after login
-    """
-    def get(self):
-        oauth_token = self.request.get('oauth_token')
-        oauth_verifier = self.request.get('oauth_verifier')
-        twitter_helper = twitter.TwitterAuth(self)
-        user_data = twitter_helper.auth_complete(oauth_token,
-            oauth_verifier)
-        if self.user:
-            # new association with twitter
-            user_info = models.User.get_by_id(long(self.user_id))
-            if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
-                social_user = models.SocialUser(
-                    user = user_info.key,
-                    provider = 'twitter',
-                    uid = str(user_data['id']),
-                    extra_data = user_data
-                )
-                social_user.put()
-
-                message = _('Twitter association added!')
-                self.add_message(message,'success')
-            else:
-                message = _('This Twitter account is already in use!')
-                self.add_message(message,'error')
-            self.redirect_to('edit-profile')
+    def get(self, provider_name):
+        callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
+        if provider_name == "twitter":
+            twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
+            self.redirect(twitter_helper.auth_url())
         else:
-            # login with twitter
-            social_user = models.SocialUser.get_by_provider_and_uid('twitter',
-                str(user_data['id']))
-            if social_user:
-                # Social user is exist. Need authenticate related site account
-                user = social_user.user.get()
-                self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                visitLog = models.VisitLog(
-                    user = user.key,
-                    uastring = self.request.user_agent,
-                    ip = self.request.remote_addr,
-                    timestamp = utils.get_date_time()
-                )
-                visitLog.put()
-                self.redirect_to('secure')
-            else:
-                # Social user is not exist. Need show login and registration forms
-                twitter_helper.save_association_data(user_data)
-                message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
-                self.add_message(message,'info')
-                self.redirect_to('login')
-        """params = {
-            "action": self.request.url,
-            "user_data": user_data,
-            "lang": "es_ES"
-        }
+            message = '%s authentication is not implemented yet. ' % str(provider_name).capitalize()
+            self.add_message(message,'warning')
+            self.redirect_to('edit-profile')
 
-        return self.render_template('boilerplate_twitter_login_complete.html', **params)
-        """
+
+class CallbackSocialLoginHandler(BaseHandler):
+    """
+    Callback (Save Information) for Social Authentication
+    """
+
+    def get(self, provider_name):
+        if provider_name == "twitter":
+            oauth_token = self.request.get('oauth_token')
+            oauth_verifier = self.request.get('oauth_verifier')
+            twitter_helper = twitter.TwitterAuth(self)
+            user_data = twitter_helper.auth_complete(oauth_token,
+                oauth_verifier)
+            if self.user:
+                # new association with twitter
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = 'twitter',
+                        uid = str(user_data['id']),
+                        extra_data = user_data
+                    )
+                    social_user.put()
+
+                    message = _('Twitter association added!')
+                    self.add_message(message,'success')
+                else:
+                    message = _('This Twitter account is already in use!')
+                    self.add_message(message,'error')
+                self.redirect_to('edit-profile')
+            else:
+                # login with twitter
+                social_user = models.SocialUser.get_by_provider_and_uid('twitter',
+                    str(user_data['id']))
+                if social_user:
+                    # Social user exists. Need authenticate related site account
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('home')
+                else:
+                    # Social user does not exists. Need show login and registration forms
+                    twitter_helper.save_association_data(user_data)
+                    message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
+                    self.add_message(message,'info')
+                    self.redirect_to('login')
+            # Debug Callback information provided
+#            for k,v in user_data.items():
+#                print(k +":"+  v )
+        else:
+            self.redirect_to('login')
 
 
 class DeleteSocialProviderHandler(BaseHandler):
     """
     Delete Social association with an account
     """
+
     @user_required
     def get(self, provider_name):
         if self.user:
@@ -215,8 +236,9 @@ class DeleteSocialProviderHandler(BaseHandler):
 
 class LogoutHandler(BaseHandler):
     """
-         Destroy user session and redirect to login
+    Destroy user session and redirect to login
     """
+
     def get(self):
         if self.user:
             message = _("You've signed out successfully.") # Info message
@@ -235,12 +257,12 @@ class RegisterHandler(BaseHandler):
     """
     Handler for Sign Up Users
     """
+
     def get(self):
-        """
-              Returns a simple HTML form for create a new user
-        """
+        """ Returns a simple HTML form for create a new user """
+
         if self.user:
-            self.redirect_to('secure', id=self.user_id)
+            self.redirect_to('home', id=self.user_id)
         params = {
             "action": self.request.url,
             "form": self.form
@@ -248,9 +270,8 @@ class RegisterHandler(BaseHandler):
         return self.render_template('boilerplate_register.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -272,6 +293,7 @@ class RegisterHandler(BaseHandler):
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
             country=country, ip=self.request.remote_addr,
+            activated=False,
         )
 
         if not user[0]: #user is a tuple
@@ -280,10 +302,43 @@ class RegisterHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('register')
         else:
-            # User registered successfully, let's try sign in the user and redirect to a secure page.
+            # User registered successfully
+            # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
+                user_info = models.User.get_by_email(email)
+                if (user_info.activated == False):
+                    # send email
+                    subject = config.app_name + " Account Verification Email"
+                    encoded_email = utils.encode(email)
+                    confirmation_url = self.uri_for("account-activation",
+                        encoded_email = encoded_email,
+                        _full = True)
+                    
+                    # load email's template
+                    template_val = {
+                        "app_name": config.app_name,
+                        "username": username,
+                        "confirmation_url": confirmation_url,
+                        "support_url": self.uri_for("contact", _full=True)
+                    }
+                    body_path = "emails/account_activation.txt"
+                    body = self.jinja2.render_template(body_path, **template_val)
+                    
+                    email_url = self.uri_for('taskqueue-send-email')
+                    taskqueue.add(url = email_url, params={
+                        'to': str(email),
+                        'subject' : subject,
+                        'body' : body,
+                        })
+                    
+                    message = _('Congratulations') + ", " + str(username) + "! " + _('You are now registered') +\
+                              ". " + _('Please check your email to activate your account')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+                
+                # If the user didn't register using registration form ???
                 db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                #check twitter association in session
+                # Check twitter association in session
                 twitter_helper = twitter.TwitterAuth(self)
                 twitter_association_data = twitter_helper.get_association_data()
                 if twitter_association_data is not None:
@@ -297,7 +352,7 @@ class RegisterHandler(BaseHandler):
                         social_user.put()
                 message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
                 self.add_message(message, 'success')
-                return self.redirect_to('secure')
+                return self.redirect_to('home')
             except (AttributeError, KeyError), e:
                 message = _('Unexpected error creating '\
                             'user') + " " + '{0:>s}.'.format(username)
@@ -312,14 +367,91 @@ class RegisterHandler(BaseHandler):
             return forms.RegisterForm(self.request.POST)
 
 
+class AccountActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+
+    def get(self, encoded_email):
+        try:
+            email = utils.decode(encoded_email)
+            user = models.User.get_by_email(email)
+            
+            # activate the user's account
+            user.activated = True
+            user.put()
+            
+            message = _('Congratulations') + "! " + _('Your account') + " (@" + user.username + ") " +\
+                _('has just been activated') + ". " + _('Please login to your account')
+            self.add_message(message, "success")
+            self.redirect_to('login')
+            
+        except (AttributeError, KeyError, InvalidAuthIdError), e:
+            message = _('Unexpected error activating '\
+                        'account') + " " + '{0:>s}.'.format(user.username)
+            self.add_message(message, 'error')
+            self.abort(403)
+
+
+class ResendActivationEmailHandler(BaseHandler):
+    """
+    Handler to resend activation email
+    """
+
+    def get(self, encoded_email):
+        try:
+            email = utils.decode(encoded_email)
+            user = models.User.get_by_email(email)
+            
+            if (user.activated == False):
+                # send email
+                subject = config.app_name + " Account Verification Email"
+                encoded_email = utils.encode(email)
+                confirmation_url = self.uri_for("account-activation",
+                    encoded_email = encoded_email,
+                    _full = True)
+                
+                # load email's template
+                template_val = {
+                    "app_name": config.app_name,
+                    "username": user.username,
+                    "confirmation_url": confirmation_url,
+                    "support_url": self.uri_for("contact", _full=True)
+                }
+                body_path = "emails/account_activation.txt"
+                body = self.jinja2.render_template(body_path, **template_val)
+                
+                email_url = self.uri_for('taskqueue-send-email')
+                taskqueue.add(url = email_url, params={
+                    'to': str(email),
+                    'subject' : subject,
+                    'body' : body,
+                    })
+                    
+                message = _('The verification email has been resent to') + " " + str(email) + ". " +\
+                    _('Please check your email to activate your account')
+                self.add_message(message, "success")
+                return self.redirect_to('home')
+            else:
+                message = _('Your account has been activated') + ". " +\
+                    _('Please login to your account')
+                self.add_message(message, "warning")
+                return self.redirect_to('home')
+                
+        except (KeyError, AttributeError), e:
+            message = _('Sorry') + ". " + _('Some error occured') + "."
+            self.add_message(message, "error")
+            return self.redirect_to('home')
+
+
 class ContactHandler(BaseHandler):
     """
     Handler for Contact Form
     """
+
     def get(self):
-        """
-              Returns a simple HTML for contact form
-        """
+        """ Returns a simple HTML for contact form """
+
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             if user_info.name or user_info.last_name:
@@ -328,31 +460,37 @@ class ContactHandler(BaseHandler):
                 self.form.email.data = user_info.email
         params = {
             "action": self.request.url,
-            "form": self.form
+            "form": self.form,
+            "exception" : self.request.get('exception'),
             }
 
         return self.render_template('boilerplate_contact.html', **params)
-
+    
     def post(self):
-        """
-              validate contact form
-        """
+        """ validate contact form """
+
         if not self.form.validate():
             return self.get()
         remoteip  = self.request.remote_addr
         user_agent  = self.request.user_agent
+        exception = self.request.POST.get('exception')
         name = self.form.name.data.strip()
         email = self.form.email.data.lower()
         message = self.form.message.data.strip()
 
         try:
             subject = _("Contact")
-            body = """
-            IP Address : %s
-            Web Browser  : %s
+            body = ""
+            # exceptions for error pages that redirect to contact
+            if exception != "":
+                body = "* Exception error: %s" % exception
+            body = body + """
+            * IP Address: %s
+            * Web Browser: %s
 
-            Sender : %s <%s>
-            %s
+            * Sender name: %s
+            * Sender email: %s
+            * Message: %s
             """ % (remoteip, user_agent, name, email, message)
 
             email_url = self.uri_for('taskqueue-send-email')
@@ -381,11 +519,11 @@ class EditProfileHandler(BaseHandler):
     """
     Handler for Edit User Profile
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for edit profile
-        """
+        """ Returns a simple HTML form for edit profile """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -404,9 +542,8 @@ class EditProfileHandler(BaseHandler):
         return self.render_template('boilerplate_edit_profile.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
@@ -469,11 +606,11 @@ class EditPasswordHandler(BaseHandler):
     """
     Handler for Edit User Password
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for editing password
-        """
+        """ Returns a simple HTML form for editing password """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -481,9 +618,8 @@ class EditPasswordHandler(BaseHandler):
         return self.render_template('boilerplate_edit_password.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         current_password = self.form.current_password.data.strip()
@@ -526,7 +662,7 @@ class EditPasswordHandler(BaseHandler):
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
                 self.add_message(_('Password changed successfully'), 'success')
-                return self.redirect_to('secure')
+                return self.redirect_to('edit-profile')
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
@@ -550,11 +686,11 @@ class EditEmailHandler(BaseHandler):
     """
     Handler for Edit User's Email
     """
+
     @user_required
     def get(self):
-        """
-              Returns a simple HTML form for edit email
-        """
+        """ Returns a simple HTML form for edit email """
+
         params = {
             "action": self.request.url,
             "form": self.form
@@ -566,9 +702,8 @@ class EditEmailHandler(BaseHandler):
         return self.render_template('boilerplate_edit_email.html', **params)
 
     def post(self):
-        """
-              Get fields from POST dict
-        """
+        """ Get fields from POST dict """
+
         if not self.form.validate():
             return self.get()
         new_email = self.form.new_email.data.strip()
@@ -637,7 +772,7 @@ class EditEmailHandler(BaseHandler):
                     # display successful message
                     msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
-                    return self.redirect_to('secure')
+                    return self.redirect_to('edit-profile')
                     
                 else:
                     self.add_message(_("You didn't change your email"), "warning")
@@ -665,13 +800,11 @@ class PasswordResetHandler(BaseHandler):
     """
     Password Reset Handler with Captcha
     """
+
     reCaptcha_public_key = config.captcha_public_key
     reCaptcha_private_key = config.captcha_private_key
 
     def get(self):
-        if self.user:
-            self.redirect_to('secure')
-
         chtml = captcha.displayhtml(
             public_key = self.reCaptcha_public_key,
             use_ssl = False,
@@ -734,13 +867,16 @@ class PasswordResetHandler(BaseHandler):
                                     "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
                        '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
-            return self.redirect_to('login')
+            return self.redirect_to('edit-profile')
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
 
 
 class PasswordResetCompleteHandler(BaseHandler):
+    """
+    Handler to process the link of reset password that received the user
+    """
 
     def get(self, user_id, token):
         verify = models.User.get_by_auth_token(int(user_id), token)
@@ -749,7 +885,8 @@ class PasswordResetCompleteHandler(BaseHandler):
             'form': self.form
         }
         if verify[0] is None:
-            self.add_message(_('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.'), 'warning')
+            message = _('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.')
+            self.add_message(message, 'warning')
             return self.redirect_to('password-reset')
 
         else:
@@ -770,7 +907,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             # Login User
             self.auth.get_user_by_password(user.auth_ids[0], password)
             self.add_message(_('Password changed successfully'), 'success')
-            return self.redirect_to('secure')
+            return self.redirect_to('home')
 
         else:
             self.add_message(_('Please correct the form errors.'), 'error')
@@ -786,8 +923,8 @@ class PasswordResetCompleteHandler(BaseHandler):
 
 class EmailChangedCompleteHandler(BaseHandler):
     """
-        Handler for completed email change
-        Will be called when the user click confirmation link from email
+    Handler for completed email change
+    Will be called when the user click confirmation link from email
     """
 
     def get(self, user_id, encoded_email, token):
@@ -795,7 +932,7 @@ class EmailChangedCompleteHandler(BaseHandler):
         email = utils.decode(encoded_email)
         if verify[0] is None:
             self.add_message('There was an error or the link is outdated. Please copy and paste the link from your email.', 'warning')
-            self.redirect_to('secure')
+            self.redirect_to('home')
 
         else:
             # save new email
@@ -811,8 +948,9 @@ class EmailChangedCompleteHandler(BaseHandler):
 
 class SecureRequestHandler(BaseHandler):
     """
-         Only accessible to users that are logged in
+    Only accessible to users that are logged in
     """
+
     @user_required
     def get(self, **kwargs):
         user_session = self.user
@@ -836,11 +974,12 @@ class SecureRequestHandler(BaseHandler):
 
 
 class HomeRequestHandler(BaseHandler):
+    """
+    Handler to show the home page
+    """
 
     def get(self):
-        """
-              Returns a simple HTML form for home
-        """
+        """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('boilerplate_home.html', **params)
 

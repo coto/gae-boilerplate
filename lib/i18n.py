@@ -1,6 +1,5 @@
 import re
 import logging
-from lib import utils
 from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
@@ -34,6 +33,8 @@ def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,
 
 def get_territory_from_ip(request):
     """
+    call: get_territory_from_ip(self.request)
+
     Detect the territory code derived from IP Address location
     Returns US, CA, CL, AR, etc.
     cls: self object
