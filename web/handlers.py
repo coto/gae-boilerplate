@@ -187,7 +187,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                 social_user = models.SocialUser.get_by_provider_and_uid('twitter',
                     str(user_data['id']))
                 if social_user:
-                    # Social user is exist. Need authenticate related site account
+                    # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
                     logVisit = models.LogVisit(
@@ -199,7 +199,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     logVisit.put()
                     self.redirect_to('secure')
                 else:
-                    # Social user is not exist. Need show login and registration forms
+                    # Social user does not exists. Need show login and registration forms
                     twitter_helper.save_association_data(user_data)
                     message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
                     self.add_message(message,'info')
@@ -798,9 +798,6 @@ class PasswordResetHandler(BaseHandler):
     reCaptcha_private_key = config.captcha_private_key
 
     def get(self):
-        if self.user:
-            self.redirect_to('secure')
-
         chtml = captcha.displayhtml(
             public_key = self.reCaptcha_public_key,
             use_ssl = False,
@@ -863,7 +860,7 @@ class PasswordResetHandler(BaseHandler):
                                     "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
                        '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
-            return self.redirect_to('login')
+            return self.redirect_to('edit-profile')
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
