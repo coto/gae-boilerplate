@@ -21,14 +21,20 @@ def user_required(handler):
         """
             If handler has no login_url specified invoke a 403 error
         """
-        auth = self.auth.get_user_by_session()
-        if not auth:
-            try:
-                self.redirect(self.auth_config['login_url'], abort=True)
-            except (AttributeError, KeyError), e:
-                self.abort(403)
-        else:
-            return handler(self, *args, **kwargs)
+        try:
+            auth = self.auth.get_user_by_session()
+            if not auth:
+                try:
+                    self.redirect(self.auth_config['login_url'], abort=True)
+                except (AttributeError, KeyError), e:
+                    self.abort(403)
+            else:
+                return handler(self, *args, **kwargs)
+        except AttributeError, e:
+            # avoid AttributeError when the session was delete from the server
+            logging.error(e)
+            self.auth.unset_session()
+            self.redirect_to('home')
 
     return check_login
 
@@ -135,15 +141,27 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def username(self):
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
-            return str(user_info.username)
+            try:
+                user_info = models.User.get_by_id(long(self.user_id))
+                return str(user_info.username)
+            except AttributeError, e:
+                # avoid AttributeError when the session was delete from the server
+                logging.error(e)
+                self.auth.unset_session()
+                self.redirect_to('home')
         return  None
 
     @webapp2.cached_property
     def email(self):
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
-            return user_info.email
+            try:
+                user_info = models.User.get_by_id(long(self.user_id))
+                return user_info.email
+            except AttributeError, e:
+                # avoid AttributeError when the session was delete from the server
+                logging.error(e)
+                self.auth.unset_session()
+                self.redirect_to('home')
         return  None
 
     @webapp2.cached_property
