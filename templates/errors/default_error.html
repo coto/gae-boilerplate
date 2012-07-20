@@ -52,11 +52,7 @@
         <div>
             <strong>One more thing:</strong><br />
             If you want to help us fix this issue, we are here to help.
-            {% if exception != "" %}
-                Please contact us and <a href="/contact/?subject={{ exception }}">let us know what went wrong</a>.
-            {% else %}
-                Please contact us and <a href="/contact/">let us know what went wrong</a>.
-            {% endif %}
+            Please contact us and <a href="/contact/?exception={{ exception }}-{{ url }}">let us know what went wrong</a>.
         </div>
     </div>
 </div>

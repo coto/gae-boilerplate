@@ -460,7 +460,8 @@ class ContactHandler(BaseHandler):
                 self.form.email.data = user_info.email
         params = {
             "action": self.request.url,
-            "form": self.form
+            "form": self.form,
+            "exception" : self.request.get('exception'),
             }
 
         return self.render_template('boilerplate_contact.html', **params)
@@ -472,18 +473,24 @@ class ContactHandler(BaseHandler):
             return self.get()
         remoteip  = self.request.remote_addr
         user_agent  = self.request.user_agent
+        exception = self.request.POST.get('exception')
         name = self.form.name.data.strip()
         email = self.form.email.data.lower()
         message = self.form.message.data.strip()
 
         try:
             subject = _("Contact")
-            body = """
-            IP Address : %s
-            Web Browser  : %s
+            body = ""
+            # exceptions for error pages that redirect to contact
+            if exception != "":
+                body = "* Exception error: %s" % exception
+            body = body + """
+            * IP Address: %s
+            * Web Browser: %s
 
-            Sender : %s <%s>
-            %s
+            * Sender name: %s
+            * Sender email: %s
+            * Message: %s
             """ % (remoteip, user_agent, name, email, message)
 
             email_url = self.uri_for('taskqueue-send-email')
