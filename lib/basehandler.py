@@ -8,6 +8,7 @@ import config
 import re
 from lib import i18n
 from babel import Locale
+import models.models as models
 
 def user_required(handler):
     """
@@ -125,8 +126,14 @@ class BaseHandler(webapp2.RequestHandler):
         return str(self.user['user_id']) if self.user else None
 
     @webapp2.cached_property
+    def user_key(self):
+        if self.user:
+            user_info = models.User.get_by_id(long(self.user_id))
+            return user_info.key
+        return  None
+
+    @webapp2.cached_property
     def username(self):
-        import models.models as models
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             return str(user_info.username)
@@ -134,7 +141,6 @@ class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
     def email(self):
-        import models.models as models
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             return user_info.email
@@ -176,8 +182,8 @@ class BaseHandler(webapp2.RequestHandler):
     def render_template(self, filename, **kwargs):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
-            'user_id': self.user_id,
             'app_name': config.app_name,
+            'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
             'url': self.request.url,
