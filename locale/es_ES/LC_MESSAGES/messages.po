@@ -277,7 +277,7 @@ msgstr "Su contraseña actual es incorrecta, por favor vuelva a intentarlo"
 
 #, fuzzy
 msgid "Your account"
-msgstr "Su Cuenta"
+msgstr "Su cuenta"
 
 #, fuzzy
 msgid "Your account has been activated"
