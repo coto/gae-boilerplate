@@ -127,7 +127,7 @@ See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html]
 * passwords encrypted with SHA512
 
 == Acknowledgements
-Google App Engine Boilerplate is a collaborative project created by {coto}[https://github.com/peta15] which is bringing to you thanks to the help of
+Google App Engine Boilerplate is a collaborative project created by {coto}[https://github.com/coto] which is bringing to you thanks to the help of
 these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
 
 Primary contributors:
