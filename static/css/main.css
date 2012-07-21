@@ -12,7 +12,10 @@
 }
 
 /* Rewrite Twitter Bootstrap */
-
+.well {
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
+    background-color: #efefef;
+}
 .auth-at-dropdown,
 .auth-at-home,
 .auth-at-loginpage {
