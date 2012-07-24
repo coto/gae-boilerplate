@@ -170,7 +170,24 @@ class BaseHandler(webapp2.RequestHandler):
                 self.auth.unset_session()
                 self.redirect_to('home')
         return  None
-
+    
+    @webapp2.cached_property
+    def provider_uris(self):
+        from google.appengine.api import users
+        provider_info = models.SocialUser.PROVIDERS_INFO
+        login_urls = {}
+        for provider in provider_info:
+            provider_uri = provider_info[provider]['uri']
+            if provider_uri:
+                login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=self.uri_for('social-login-complete', provider_name=provider))
+            else:
+                login_urls[provider] = self.uri_for("social-login", provider_name=provider)
+        return login_urls
+    
+    @webapp2.cached_property
+    def provider_info(self):
+        return models.SocialUser.PROVIDERS_INFO
+    
     @webapp2.cached_property
     def path_for_language(self):
         """
@@ -182,6 +199,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         return self.request.path + "?" if path_lang == "" else str(self.request.path) + "?" + path_lang
 
+    @property
     def locales(self):
         """
         returns a dict of locale codes to locale display names in both the current locale and the localized locale
@@ -217,7 +235,10 @@ class BaseHandler(webapp2.RequestHandler):
             'path_for_language': self.path_for_language,
             'is_mobile': self.is_mobile,
             'locale': Locale.parse(self.locale), # babel locale object
-            'locales': self.locales()
+            'locales': self.locales,
+            'provider_uris': self.provider_uris,
+            'provider_info': self.provider_info,
+            'enable_federated_login': config.enable_federated_login
             })
         kwargs.update(self.auth_config)
         if self.messages:
