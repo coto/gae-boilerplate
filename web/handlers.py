@@ -210,7 +210,109 @@ class CallbackSocialLoginHandler(BaseHandler):
             # Debug Callback information provided
 #            for k,v in user_data.items():
 #                print(k +":"+  v )
+        # google, myopenid, yahoo OpenID Providers
+        elif provider_name in models.SocialUser.open_id_providers():
+            provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+            # get info passed from OpenId Provider
+            from google.appengine.api import users
+            current_user = users.get_current_user()
+            if current_user:
+                if current_user.federated_identity():
+                    uid = current_user.federated_identity()
+                else:
+                    uid = current_user.user_id()
+                email = current_user.email()
+            else:
+                message = _('No user authentication information received from %s.  Please ensure you are logging in from an authorized OpenID Provider (OP).' % provider_display_name)
+                self.add_message(message,'error')
+                return self.redirect_to('login')
+            if self.user:
+                # add social account to user
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, provider_name, uid):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = provider_name,
+                        uid = uid
+                    )
+                    social_user.put()
+
+                    message = provider_display_name + _(' association added!')
+                    self.add_message(message,'success')
+                else:
+                    message = _('This %s account is already in use!' % provider_display_name)
+                    self.add_message(message,'error')
+                self.redirect_to('edit-profile')
+            else:
+                # login with OpenId Provider
+                social_user = models.SocialUser.get_by_provider_and_uid(provider_name, uid)
+                if social_user:
+                    # Social user found. Authenticate the user
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('home')
+                else:
+                    # Social user does not exist yet so create it with the federated identity provided (uid)
+                    # and create prerequisite user and log the user account in
+                    if models.SocialUser.check_unique_uid(provider_name, uid):
+                        # create user
+                        # Returns a tuple, where first value is BOOL.
+                        # If True ok, If False no new user is created
+                        # Assume provider has already verified email address
+                        # if email is provided so set activated to True
+                        auth_id = "%s:%s" % (provider_name, uid)
+                        if email:
+                            unique_properties = ['email']
+                            user_info = self.auth.store.user_model.create_user(
+                                auth_id, unique_properties, email=email,
+                                activated=True
+                            )
+                        else:
+                            user_info = self.auth.store.user_model.create_user(
+                                auth_id, activated=True
+                            )
+                        if not user_info[0]: #user is a tuple
+                            message = _('This %s account is already in use!' % provider_display_name)
+                            self.add_message(message, 'error')
+                            return self.redirect_to('register')
+
+                        user = user_info[1]
+                        
+                        # create social user and associate with user
+                        social_user = models.SocialUser(
+                            user = user.key,
+                            provider = provider_name,
+                            uid = uid
+                        )
+                        social_user.put()
+                        # authenticate user
+                        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                        logVisit = models.LogVisit(
+                            user = user.key,
+                            uastring = self.request.user_agent,
+                            ip = self.request.remote_addr,
+                            timestamp = utils.get_date_time()
+                        )
+                        logVisit.put()
+                        self.redirect_to('home')
+
+                        message = provider_display_name + _(' association added!')
+                        self.add_message(message,'success')
+                        self.redirect_to('home')
+                    else:
+                        message = _('This %s account is already in use!' % provider_display_name)
+                        self.add_message(message,'error')
+                    self.redirect_to('login')
         else:
+            message = '%s authentication is not implemented yet. ' % str(provider_name).capitalize()
+            self.add_message(message,'warning')
             self.redirect_to('login')
 
 
@@ -241,7 +343,8 @@ class LogoutHandler(BaseHandler):
 
     def get(self):
         if self.user:
-            message = _("You've signed out successfully.") # Info message
+            message = _("You've signed out successfully.  Warning: Please clear all cookies and logout \
+             of OpenId providers too if you logged in on a public computer.") # Info message
             self.add_message(message, 'info')
 
         self.auth.unset_session()
@@ -292,8 +395,7 @@ class RegisterHandler(BaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            country=country, ip=self.request.remote_addr,
-            activated=False,
+            country=country, activated=False
         )
 
         if not user[0]: #user is a tuple

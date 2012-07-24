@@ -5,7 +5,7 @@ from google.appengine.ext import ndb
 class User(User):
     """
     Universal user model. Can be used with App Engine's default users API,
-    own auth or third party authentication methods (OpenId, OAuth etc).
+    own auth or third party authentication methods (OpenID, OAuth etc).
     based on https://gist.github.com/kylefinley
     """
 
@@ -14,18 +14,21 @@ class User(User):
     #: Modification date.
     updated = ndb.DateTimeProperty(auto_now=True)
     #: User defined unique name, also used as key_name.
-    username = ndb.StringProperty(required=True)
+    # Not used by OpenID
+    username = ndb.StringProperty()
     #: User Name
     name = ndb.StringProperty()
     #: User Last Name
     last_name = ndb.StringProperty()
     #: User email
-    email = ndb.StringProperty(required=True)
-    #: Password, only set for own authentication.
-    password = ndb.StringProperty(required=True)
+    email = ndb.StringProperty()
+    #: Hashed password. Only set for own authentication.
+    # Not required because third party authentication
+    # doesn't use password.
+    password = ndb.StringProperty()
     #: User Country
     country = ndb.StringProperty()
-    #: Account activation
+    #: Account activation verifies email
     activated = ndb.BooleanProperty(default=True)
     
     @classmethod
@@ -80,12 +83,12 @@ class LogEmail(ndb.Model):
 
 class SocialUser(ndb.Model):
     PROVIDERS_INFO = {
-        'google': {'name': 'google', 'label': 'Google'},
-        'facebook': {'name': 'facebook', 'label': 'Facebook'},
-        'linkedin': {'name': 'linkedin', 'label': 'LinkedIn'},
-        'myopenid': {'name': 'myopenid', 'label': 'MyOpenid'},
-        'twitter': {'name': 'twitter', 'label': 'Twitter'},
-        'yahoo': {'name': 'yahoo', 'label': 'Yahoo!'},
+        'google': {'name': 'google', 'label': 'Google', 'uri': 'gmail.com'},
+        'facebook': {'name': 'facebook', 'label': 'Facebook', 'uri': ''},
+        'linkedin': {'name': 'linkedin', 'label': 'LinkedIn', 'uri': ''},
+        'myopenid': {'name': 'myopenid', 'label': 'MyOpenid', 'uri': 'myopenid.com'},
+        'twitter': {'name': 'twitter', 'label': 'Twitter', 'uri': ''},
+        'yahoo': {'name': 'yahoo', 'label': 'Yahoo!', 'uri': 'yahoo.com'},
     }
 
     user = ndb.KeyProperty(kind=User)
@@ -106,13 +109,30 @@ class SocialUser(ndb.Model):
         return cls.query(cls.provider == provider, cls.uid == uid).get()
 
     @classmethod
-    def check_unique(cls, user, provider, uid):
+    def check_unique_uid(cls, provider, uid):
         # pair (provider, uid) should be unique
         test_unique_provider = cls.get_by_provider_and_uid(provider, uid)
         if test_unique_provider is not None:
             return False
-            # pair (user, provider) should be unique
+        else:
+            return True
+    
+    @classmethod
+    def check_unique_user(cls, provider, user):
+        # pair (user, provider) should be unique
         test_unique_user = cls.get_by_user_and_provider(user, provider)
         if test_unique_user is not None:
             return False
-        return True
+        else:
+            return True
+
+    @classmethod
+    def check_unique(cls, user, provider, uid):
+        # pair (provider, uid) should be unique
+        return cls.check_unique_uid(provider, uid)
+        # pair (user, provider) should be unique
+        return cls.check_unique_user(provider, user)
+    
+    @staticmethod
+    def open_id_providers():
+        return [k for k,v in SocialUser.PROVIDERS_INFO.items() if v['uri']]
