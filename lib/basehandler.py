@@ -237,7 +237,8 @@ class BaseHandler(webapp2.RequestHandler):
             'locale': Locale.parse(self.locale), # babel locale object
             'locales': self.locales,
             'provider_uris': self.provider_uris,
-            'provider_info': self.provider_info
+            'provider_info': self.provider_info,
+            'enable_federated_login': config.enable_federated_login
             })
         kwargs.update(self.auth_config)
         if self.messages:

@@ -14,10 +14,15 @@
 {%- endmacro %}
 
 <!-- renders federated login (openId and Oauth) login buttons -->
-{% macro federated_login(provider_info, provider_uris) -%}
-<div class="social-login-icons">
-    {% for p in provider_info %}
-        <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p.label }}">Login {{ p.label }}</a>
-    {% endfor %}
+{% macro federated_login(provider_info, provider_uris, enable_federated_login) -%}
+{% if enable_federated_login %}
+<div id="trird_party_login" class="form-actions">
+    <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
+	<div class="social-login-icons">
+	    {% for p in provider_info %}
+	    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p.label }}">Login {{ p.label }}</a>
+	    {% endfor %}
+	</div>
 </div>
+{% endif %}
 {%- endmacro %}

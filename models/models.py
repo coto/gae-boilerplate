@@ -82,7 +82,7 @@ class LogEmail(ndb.Model):
 
 
 class SocialUser(ndb.Model):
-    PROVIDERS_INFO = {
+    PROVIDERS_INFO = { # uri is for OpenID only (not OAuth)
         'google': {'name': 'google', 'label': 'Google', 'uri': 'gmail.com'},
         'facebook': {'name': 'facebook', 'label': 'Facebook', 'uri': ''},
         'linkedin': {'name': 'linkedin', 'label': 'LinkedIn', 'uri': ''},

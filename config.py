@@ -41,3 +41,7 @@ error_templates = {
     404: 'errors/default_error.html',
     500: 'errors/default_error.html',
 }
+
+# Enable Federated login (OpenID and OAuth)
+# Google App Engine Settings must be set to Authentication Options: Federated Login
+enable_federated_login = True
