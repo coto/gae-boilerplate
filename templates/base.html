@@ -113,14 +113,7 @@
                                         </div>
                                         <div id="trird_party_login" class="form-actions">
                                             <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
-                                            <div class="social-login-icons">
-                                                <a href="{{ uri_for("social-login", provider_name="google") }}" class="social-btn social-btn-google" title="Google">Login Google</a>
-                                                <a href="{{ uri_for("social-login", provider_name="facebook") }}" class="social-btn social-btn-facebook" title="Facebook">Login Facebook</a>
-                                                <a href="{{ uri_for("social-login", provider_name="linkedin") }}" class="social-btn social-btn-linkedin" title="LinkedIn">Login LinkedIn</a>
-                                                <a href="{{ uri_for("social-login", provider_name="myopenid") }}" class="social-btn social-btn-myopenid" title="MyOpenid">Login MyOpenid</a>
-                                                <a href="{{ uri_for("social-login", provider_name="twitter") }}" class="social-btn social-btn-twitter" title="Twitter">Login Twitter</a>
-                                                <a href="{{ uri_for("social-login", provider_name="yahoo") }}" class="social-btn social-btn-yahoo" title="Yahoo!">Login Yahoo!</a>
-                                            </div>
+                                            {{ macros.federated_login(provider_info, provider_uris) }}
                                         </div>
                                     </fieldset>
                                 </form>

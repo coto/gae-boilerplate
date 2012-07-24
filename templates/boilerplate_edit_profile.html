@@ -44,7 +44,7 @@
                     <h4>{% trans %}Associate account with:{% endtrans %}</h4>
                     <div class="social-login-icons">
                         {% for provider in unused_providers %}
-                            <a href="/social_login/{{ provider.name }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>
+                            <a href="{{ provider_uris[provider.name] }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>
                         {% endfor %}
                     </div>
                 </div>

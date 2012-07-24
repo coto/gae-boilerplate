@@ -12,3 +12,12 @@
                 </div>
             </div>
 {%- endmacro %}
+
+<!-- renders federated login (openId and Oauth) login buttons -->
+{% macro federated_login(provider_info, provider_uris) -%}
+<div class="social-login-icons">
+    {% for p in provider_info %}
+        <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p.label }}">Login {{ p.label }}</a>
+    {% endfor %}
+</div>
+{%- endmacro %}
