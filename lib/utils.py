@@ -11,6 +11,7 @@ from models import models
 from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
 import logging
+import unicodedata
 
 def send_email(to, subject, body, sender=''):
     """ Main function to send emails """
@@ -184,6 +185,22 @@ def set_device_cookie_and_return_bool(cls, force=""):
     # Set Cookie for Two weeks with 'device_cookie' value
     write_cookie(cls, "dvc", str(device_cookie), "/", 1209600)
     return device_cookie == "mobile"
+
+def slugify(value):
+    """
+    Normalizes string, converts to lowercase, removes non-ascii characters,
+    and converts spaces to hyphens.  For use in urls and filenames
+
+    From Django's "django/template/defaultfilters.py".
+    """
+    _slugify_strip_re = re.compile(r'[^\w\s-]')
+    _slugify_hyphenate_re = re.compile(r'[-\s]+')
+
+    if not isinstance(value, unicode):
+        value = unicode(value)
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+    value = unicode(_slugify_strip_re.sub('', value).strip().lower())
+    return _slugify_hyphenate_re.sub('-', value)
 
 COUNTRIES = [
     ("", ""),
