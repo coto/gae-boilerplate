@@ -43,7 +43,7 @@ If you want to add, fix or improve something, create an {issue}[https://github.c
 Before committing fixes we recommend running the unitests by running {testrunner}[https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] 
 or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.  This will help guard against changes that accidently break other code.
 Please add or modify the {unittests}[https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
-To run unittests it may be necessary to install {webtest}[http://webtest.pythonpaste.org/en/latest/index.html#installation] and {pyquery}[http://packages.python.org/pyquery/] in your local python installation.
+To run unittests it may be necessary to install {webtest}[http://webtest.pythonpaste.org/en/latest/index.html#installation], {mock}[http://www.voidspace.org.uk/python/mock/] and {pyquery}[http://packages.python.org/pyquery/] in your local python installation.
 
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
