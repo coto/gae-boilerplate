@@ -1,3 +1,16 @@
+'''
+Run the tests using testrunner.py script in the project root directory.
+
+Usage: testrunner.py SDK_PATH TEST_PATH
+Run unit tests for App Engine apps.
+
+SDK_PATH    Path to the SDK installation
+TEST_PATH   Path to package containing test modules
+
+Options:
+  -h, --help  show this help message and exit
+
+'''
 import unittest
 import webapp2
 import os
