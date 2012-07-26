@@ -290,7 +290,6 @@ class AppTest(unittest.TestCase):
                 pass
         elif response.status_int == 302:
             response = response.follow(status=200, headers=self.headers)
-            print response.headers
         else:
             self.fail("unexpected form response: {}".format(response.status))
 
