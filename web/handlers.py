@@ -978,7 +978,7 @@ class PasswordResetHandler(BaseHandler):
                                     "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
                        '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
-            return self.redirect_to('edit-profile')
+            return self.redirect_to('login')
         _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
         self.add_message(_message, 'error')
         return self.redirect_to('password-reset')
