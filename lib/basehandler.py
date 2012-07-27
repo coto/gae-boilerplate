@@ -241,6 +241,12 @@ class BaseHandler(webapp2.RequestHandler):
             'enable_federated_login': config.enable_federated_login
             })
         kwargs.update(self.auth_config)
+
+        if hasattr(self, 'forms'):
+            kwargs.update(self.forms)
+        elif hasattr(self, 'form'):
+            kwargs['form'] = self.form
+            
         if self.messages:
             kwargs['messages'] = self.messages
 

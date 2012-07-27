@@ -87,6 +87,7 @@
                             <div class="dropdown-menu well">
                                 <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="auth-at-dropdown">
                                     <fieldset>
+ 							 			{{ form.csrf_token }}
                                         <div class="control-group">
                                             <label class="control-label" for="l_username">{% trans %}Username or Email{% endtrans %}:</label>
                                             <div class="controls">
