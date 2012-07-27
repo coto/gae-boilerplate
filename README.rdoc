@@ -14,17 +14,19 @@ It is fully featured, actively maintained, and uses the latest technologies supp
 
 New to Google App Engine? Learn about it by watching {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or reading {this website}[https://developers.google.com/appengine/].
 
-== Get started in 6 easy steps
+== Get started in just a few easy steps
 1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 1. Set your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Set parameters in {config.py}[https://github.com/coto/gae-boilerplate/blob/master/config.py].  (secret key, {recaptcha code}[http://www.google.com/recaptcha/whyrecaptcha], salt etc.)
+1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading] - recommended setup: python 2.7, high replication datastore)
 
 
 == Functions and features:
 - Authentication (Login, Logout, Sign Up)
+- Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 - Reset Password
 - Update User Profile
 - Automatic detection of user language
@@ -40,14 +42,14 @@ New to Google App Engine? Learn about it by watching {this video}[http://www.you
 
 == Open Source
 If you want to add, fix or improve something, create an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
-Before committing fixes we recommend running the unitests by running {testrunner}[https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] 
-or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.  This will help guard against changes that accidently break other code.
-Please add or modify the {unittests}[https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
-To run unittests it may be necessary to install {webtest}[http://webtest.pythonpaste.org/en/latest/index.html#installation], {mock}[http://www.voidspace.org.uk/python/mock/] and {pyquery}[http://packages.python.org/pyquery/] in your local python installation.
-
-
+Before committing fixes we recommend running the unitests.  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
+== Testing
+=== Unit testing
+- Unit tests can be run via {testrunner}[https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
+- Please add or modify the {unittests}[https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
+- To run unittests it may be necessary to install {webtest}[http://webtest.pythonpaste.org/en/latest/index.html#installation], {mock}[http://www.voidspace.org.uk/python/mock/], and {pyquery}[http://packages.python.org/pyquery/] in your local python installation.
 
 == See the Boilerplate online (a live demo)
 http://appengine.beecoss.com
@@ -66,6 +68,8 @@ http://appengine.beecoss.com
   * webapp2_extras.i18n
 * Code written following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
 * Unit testing with {unittest}[http://docs.python.org/library/unittest.html], {webtest}[http://webtest.pythonpaste.org/en/latest/index.html], {pyquery}[http://packages.python.org/pyquery/]
+* OpenID library provided by Google App Engine
+* OAuth2 for federated login providers that do not support OpenID
 
 == Front-end Technologies
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
