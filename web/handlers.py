@@ -27,6 +27,35 @@ from webapp2_extras.appengine.auth.models import Unique
 from lib import twitter
 
 
+class LoginBaseHandler(BaseHandler):
+    """
+    Base class for handlers with login form.
+    """
+    @webapp2.cached_property
+    def form(self):
+        return forms.LoginForm(self)
+
+
+class RegisterBaseHandler(BaseHandler):
+    """
+    Base class for handlers with registration and login forms.
+    """
+    @webapp2.cached_property
+    def form(self):
+        if self.is_mobile:
+            return forms.RegisterMobileForm(self)
+        else:
+            return forms.RegisterForm(self)
+
+    @webapp2.cached_property
+    def form_login(self):
+        return forms.LoginForm(self)
+
+    @webapp2.cached_property
+    def forms(self):
+        return {'form_login' : self.form_login,
+                'form' : self.form}
+
 class SendEmailHandler(BaseHandler):
     """
     Handler for sending Emails
@@ -42,7 +71,7 @@ class SendEmailHandler(BaseHandler):
         utils.send_email(to, subject, body, sender)
 
 
-class LoginHandler(BaseHandler):
+class LoginHandler(LoginBaseHandler):
     """
     Handler for authentication
     """
@@ -52,10 +81,7 @@ class LoginHandler(BaseHandler):
 
         if self.user:
             self.redirect_to('home', id=self.user_id)
-        params = {
-            "action": self.request.url,
-            "form": self.form
-        }
+        params = {}
         return self.render_template('boilerplate_login.html', **params)
 
     def post(self):
@@ -133,10 +159,6 @@ class LoginHandler(BaseHandler):
                     '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
-
-    @webapp2.cached_property
-    def form(self):
-        return forms.LoginForm(self.request.POST)
 
 
 class SocialLoginHandler(BaseHandler):
@@ -365,7 +387,7 @@ class LogoutHandler(BaseHandler):
                      "on the redirection.")
 
 
-class RegisterHandler(BaseHandler):
+class RegisterHandler(RegisterBaseHandler):
     """
     Handler for Sign Up Users
     """
@@ -375,10 +397,7 @@ class RegisterHandler(BaseHandler):
 
         if self.user:
             self.redirect_to('home', id=self.user_id)
-        params = {
-            "action": self.request.url,
-            "form": self.form
-        }
+        params = {}
         return self.render_template('boilerplate_register.html', **params)
 
     def post(self):
@@ -470,14 +489,6 @@ class RegisterHandler(BaseHandler):
                 self.add_message(message, 'error')
                 self.abort(403)
 
-    @webapp2.cached_property
-    def form(self):
-        if self.is_mobile:
-            return forms.RegisterMobileForm(self.request.POST)
-        else:
-            return forms.RegisterForm(self.request.POST)
-
-
 class AccountActivationHandler(BaseHandler):
     """
     Handler for account activation
@@ -555,7 +566,7 @@ class ResendActivationEmailHandler(BaseHandler):
             return self.redirect_to('home')
 
 
-class ContactHandler(BaseHandler):
+class ContactHandler(LoginBaseHandler):
     """
     Handler for Contact Form
     """
@@ -570,9 +581,7 @@ class ContactHandler(BaseHandler):
             if user_info.email:
                 self.form.email.data = user_info.email
         params = {
-            "action": self.request.url,
-            "form": self.form,
-            "exception" : self.request.get('exception'),
+            "exception" : self.request.get('exception')
             }
 
         return self.render_template('boilerplate_contact.html', **params)
@@ -623,7 +632,7 @@ class ContactHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        return forms.ContactForm(self.request.POST)
+        return forms.ContactForm(self)
 
 
 class EditProfileHandler(BaseHandler):
@@ -635,10 +644,7 @@ class EditProfileHandler(BaseHandler):
     def get(self):
         """ Returns a simple HTML form for edit profile """
 
-        params = {
-            "action": self.request.url,
-            "form": self.form
-            }
+        params = {}
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             self.form.username.data = user_info.username
@@ -710,7 +716,7 @@ class EditProfileHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        return forms.EditProfileForm(self.request.POST)
+        return forms.EditProfileForm(self)
 
 
 class EditPasswordHandler(BaseHandler):
@@ -722,10 +728,7 @@ class EditPasswordHandler(BaseHandler):
     def get(self):
         """ Returns a simple HTML form for editing password """
 
-        params = {
-            "action": self.request.url,
-            "form": self.form
-            }
+        params = {}
         return self.render_template('boilerplate_edit_password.html', **params)
 
     def post(self):
@@ -788,9 +791,9 @@ class EditPasswordHandler(BaseHandler):
     @webapp2.cached_property
     def form(self):
         if self.is_mobile:
-            return forms.EditPasswordMobileForm(self.request.POST)
+            return forms.EditPasswordMobileForm(self)
         else:
-            return forms.EditPasswordForm(self.request.POST)
+            return forms.EditPasswordForm(self)
 
 
 class EditEmailHandler(BaseHandler):
@@ -802,10 +805,7 @@ class EditEmailHandler(BaseHandler):
     def get(self):
         """ Returns a simple HTML form for edit email """
 
-        params = {
-            "action": self.request.url,
-            "form": self.form
-            }
+        params = {}
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             self.form.new_email.data = user_info.email
@@ -904,10 +904,10 @@ class EditEmailHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        return forms.EditEmailForm(self.request.POST)
+        return forms.EditEmailForm(self)
 
 
-class PasswordResetHandler(BaseHandler):
+class PasswordResetHandler(LoginBaseHandler):
     """
     Password Reset Handler with Captcha
     """
@@ -921,7 +921,6 @@ class PasswordResetHandler(BaseHandler):
             use_ssl = False,
             error = None)
         params = {
-            'action': self.request.url,
             'captchahtml': chtml,
             }
         return self.render_template('boilerplate_password_reset.html', **params)
@@ -984,17 +983,14 @@ class PasswordResetHandler(BaseHandler):
         return self.redirect_to('password-reset')
 
 
-class PasswordResetCompleteHandler(BaseHandler):
+class PasswordResetCompleteHandler(LoginBaseHandler):
     """
     Handler to process the link of reset password that received the user
     """
 
     def get(self, user_id, token):
         verify = models.User.get_by_auth_token(int(user_id), token)
-        params = {
-            'action': self.request.url,
-            'form': self.form
-        }
+        params = {}
         if verify[0] is None:
             message = _('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.')
             self.add_message(message, 'warning')
@@ -1027,9 +1023,9 @@ class PasswordResetCompleteHandler(BaseHandler):
     @webapp2.cached_property
     def form(self):
         if self.is_mobile:
-            return forms.PasswordResetCompleteMobileForm(self.request.POST)
+            return forms.PasswordResetCompleteMobileForm(self)
         else:
-            return forms.PasswordResetCompleteForm(self.request.POST)
+            return forms.PasswordResetCompleteForm(self)
 
 
 class EmailChangedCompleteHandler(BaseHandler):
@@ -1084,7 +1080,7 @@ class SecureRequestHandler(BaseHandler):
             return _("Secure zone error:") + " %s." % e
 
 
-class HomeRequestHandler(BaseHandler):
+class HomeRequestHandler(RegisterBaseHandler):
     """
     Handler to show the home page
     """
@@ -1093,5 +1089,3 @@ class HomeRequestHandler(BaseHandler):
         """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('boilerplate_home.html', **params)
-
-

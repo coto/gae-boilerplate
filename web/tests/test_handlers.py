@@ -79,6 +79,14 @@ class AppTest(unittest.TestCase):
         response = self.get('/')
         self.assertIn('Congratulations on your Google App Engine Boilerplate powered page.', response)
 
+    def test_csrf_protection(self):
+        self.register_activate_testuser()
+        self.post('/login/',
+                dict(username='testuser', password='password'), status=200)
+#        self.assert_error_message_in_response(response, message='asdasd')
+        # csrf protection fails silently with 200 response
+        # TODO: should csrf fail with 400?
+
     def test_login_from_homepage(self):
         self.register_activate_testuser()
         
@@ -195,6 +203,7 @@ class AppTest(unittest.TestCase):
         form['password'] = form['c_password'] = '456456'
         self.submit(form, success_message='Password changed successfully')
         
+        self.testapp.reset()
         self.login_user('testuser', '456456')
         
     def test_edit_password(self):
@@ -272,7 +281,6 @@ class AppTest(unittest.TestCase):
     def get_form(self, url, form_id, expect_fields=None):
         """Load the page and retrieve the form by id"""
         response = self.get(url)
-#        print response.pyquery('#' + form_id)
         if response.forms:
             forms_msg = "Found forms: " + ", ".join([f for f in response.forms.keys() if isinstance(f, unicode)])
         else:
@@ -281,7 +289,13 @@ class AppTest(unittest.TestCase):
                         .format(form_id, url, forms_msg))
         form = response.forms[form_id]
         if expect_fields:
-            self.assertListEqual(form.fields.keys()[:-1], expect_fields)
+            form_fields = form.fields.keys()
+            for special_field in ('csrf_token', None):
+                try:
+                    form_fields.remove(special_field)
+                except ValueError:
+                    pass
+            self.assertListEqual(form_fields, expect_fields)
         return form
 
     def submit(self, form, expect_error=False, error_message='', error_field='', success_message=''):
@@ -317,9 +331,10 @@ class AppTest(unittest.TestCase):
 
     def login_user(self, username, password):
         """Login user by username and password."""
-        self.post('/login/',
-                        dict(username=username, password=password),
-                        status=302)
+        form = self.get_form('/', 'form_login_user')
+        form['username'] = username
+        form['password'] = password
+        self.submit(form)
         self.assert_user_logged_in()
 
     def activate_user(self, user, use_activation_email=True):
@@ -350,9 +365,13 @@ class AppTest(unittest.TestCase):
         """Register new user account.
         
         Optionally activate account and login with username and password."""
-        self.post('/register/',
-                        dict(username=username, password=password,
-                            c_password=password, email=email, country=''))
+        form = self.get_form('/register/', 'form_register')
+        form['username'] = username
+        form['email'] = email
+        form['password'] = password
+        form['c_password'] = password
+        response = self.submit(form)
+
         users = models.User.query().fetch(2)
         self.assertEqual(1, len(users), "{} could not register".format(username))
         user = users[0]
