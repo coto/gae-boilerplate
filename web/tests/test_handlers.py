@@ -29,7 +29,6 @@ from lib import utils
 from lib import captcha
 from lib import i18n
 
-
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'
 
@@ -40,6 +39,7 @@ network = False
 # mock Internet calls
 if not network:
     i18n.get_territory_from_ip = Mock(return_value=None)
+
 
 class AppTest(unittest.TestCase):    
     def setUp(self):
@@ -262,7 +262,6 @@ class AppTest(unittest.TestCase):
         self.submit(form, expect_error=False)
         message = self.get_sent_messages(to=config.contact_recipient)[0]
         self.assertIn('help', message.body.payload)
-        
 
     def get(self, *args, **kwargs):
         """Wrap webtest get with nicer defaults"""
@@ -327,7 +326,6 @@ class AppTest(unittest.TestCase):
             if success_message:
                 self.assert_success_message_in_response(response, message=success_message)
         return response
-
 
     def login_user(self, username, password):
         """Login user by username and password."""
@@ -461,7 +459,6 @@ class AppTest(unittest.TestCase):
         m = re.search("http://\S+?(/{}/\S+)".format(pattern), message.body.payload, re.MULTILINE)
         self.assertIsNotNone(m, "{} link not found in mail body".format(pattern))
         return m.group(1)
-
 
 if __name__ == "__main__":
     unittest.main()

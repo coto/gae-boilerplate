@@ -489,6 +489,7 @@ class RegisterHandler(RegisterBaseHandler):
                 self.add_message(message, 'error')
                 self.abort(403)
 
+
 class AccountActivationHandler(BaseHandler):
     """
     Handler for account activation
