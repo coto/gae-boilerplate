@@ -129,6 +129,8 @@ See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html]
 * It is recommended to enable ssl site wide to help prevent {session hijacking}[http://en.wikipedia.org/wiki/Session_hijacking]
 ===Passwords
 * passwords encrypted with SHA512
+===CSRF
+* {Cross-site request forgery}[http://en.wikipedia.org/wiki/Cross-site_request_forgery] protection provided by a {wtforms extension}[http://wtforms.simplecodes.com/docs/dev/ext.html#module-wtforms.ext.csrf]
 
 == Acknowledgements
 Google App Engine Boilerplate is a collaborative project created by {coto}[https://github.com/coto] which is bringing to you thanks to the help of
