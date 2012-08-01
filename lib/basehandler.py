@@ -1,4 +1,5 @@
 import logging
+from google.appengine.api.users import NotAllowedError
 import webapp2
 from webapp2_extras import jinja2
 from webapp2_extras import auth
@@ -174,15 +175,21 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def provider_uris(self):
         from google.appengine.api import users
-        provider_info = models.SocialUser.PROVIDERS_INFO
-        login_urls = {}
-        for provider in provider_info:
-            provider_uri = provider_info[provider]['uri']
-            if provider_uri:
-                login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=self.uri_for('social-login-complete', provider_name=provider))
-            else:
-                login_urls[provider] = self.uri_for("social-login", provider_name=provider)
-        return login_urls
+        try:
+            provider_info = models.SocialUser.PROVIDERS_INFO
+            login_urls = {}
+            for provider in provider_info:
+                provider_uri = provider_info[provider]['uri']
+                if provider_uri:
+                    login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=self.uri_for('social-login-complete', provider_name=provider))
+                else:
+                    login_urls[provider] = self.uri_for("social-login", provider_name=provider)
+            return login_urls
+        except NotAllowedError:
+            self.response.write('<p class="alert alert-error"><a class="close" data-dismiss="alert">x</a> '
+                                'You must enable Federated Login Before for this application.<br> '
+                                '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
+                                'Administration -> Application Settings -> Authentication Options</p>')
     
     @webapp2.cached_property
     def provider_info(self):
