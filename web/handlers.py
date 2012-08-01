@@ -566,7 +566,7 @@ class ResendActivationEmailHandler(BaseHandler):
             return self.redirect_to('home')
 
 
-class ContactHandler(LoginBaseHandler):
+class ContactHandler(BaseHandler):
     """
     Handler for Contact Form
     """
