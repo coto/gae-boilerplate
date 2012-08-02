@@ -25,12 +25,12 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{% trans %}Edit Profile{% endtrans %}</button>
+                <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
             </div>
             {% if enable_federated_login %}
 	            {% if used_providers %}
 	                <div id="trird_party_login" class="existing-accociation">
-	                    <h4>{% trans %}Existing social association:{% endtrans %}</h4>
+	                    <h4>{% trans %}Existing social association{% endtrans %}:</h4>
 	                    <table class=" social-login-icons">
 	                        {% for provider in used_providers %}
 	                            <tr>
@@ -43,7 +43,7 @@
 	            {% endif %}
 	            {% if unused_providers %}
 	                <div id="trird_party_login" class="form-actions">
-	                    <h4>{% trans %}Associate account with:{% endtrans %}</h4>
+	                    <h4>{% trans %}Associate account with{% endtrans %}:</h4>
 	                    <div class="social-login-icons">
 	                        {% for provider in unused_providers %}
 	                            <a href="{{ provider_uris[provider.name] }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>

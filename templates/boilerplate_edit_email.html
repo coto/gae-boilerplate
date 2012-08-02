@@ -13,7 +13,7 @@
             {{ macros.input(form, "password", _("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
-                    <a href="{{ uri_for('edit-profile') }}">Edit Profile</a>
+                    <a href="{{ uri_for('edit-profile') }}">{% trans %}Edit Profile{% endtrans %}</a>
                 </div>
             </div>
             <div class="form-actions">

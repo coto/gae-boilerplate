@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-07-19 12:53-0400\n"
+"POT-Creation-Date: 2012-08-01 22:43-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: it_IT <LL@li.org>\n"
@@ -18,10 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+msgid " association added!"
+msgstr ""
+
 msgid " disassociated!"
 msgstr ""
 
 msgid " not found for this user!"
+msgstr ""
+
+#, python-format
+msgid "%s authentication is not implemented yet."
+msgstr ""
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
 msgstr ""
 
 msgid ""
@@ -30,8 +43,13 @@ msgid ""
 " new on Sign up page."
 msgstr ""
 
-msgid "Associate account with:"
+msgid "Associate account with"
 msgstr ""
+
+#, fuzzy
+#| msgid "Change your password"
+msgid "Change password"
+msgstr "Cambia la tua password"
 
 msgid "Change your email"
 msgstr "Cambia il tuo email"
@@ -77,7 +95,10 @@ msgstr "Inserire"
 msgid "Error sending the message. Please try again later."
 msgstr ""
 
-msgid "Existing social association:"
+msgid "Existing social association"
+msgstr ""
+
+msgid "Federated login is disabled."
 msgstr ""
 
 msgid "Forgot your password?"
@@ -124,6 +145,12 @@ msgstr "Nome"
 
 msgid "New Password"
 msgstr "Nuova Password"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s.  Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
 
 msgid "Or Sign in using:"
 msgstr "Oppure Accedi utilizzando:"
@@ -214,6 +241,10 @@ msgid ""
 "link from your email or enter your details again below to get a new one."
 msgstr ""
 
+#, python-format
+msgid "This %s account is already in use!"
+msgstr ""
+
 msgid "This Twitter account is already in use!"
 msgstr ""
 
@@ -229,8 +260,10 @@ msgstr ""
 msgid "Unexpected error creating user"
 msgstr ""
 
-msgid "Upgrade to a different browser"
-msgstr "Utilizza un browser diverso"
+#, fuzzy
+#| msgid "Edit Profile"
+msgid "Update Profile"
+msgstr "Modifica Profilo"
 
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
@@ -257,7 +290,10 @@ msgstr ""
 msgid "You didn't change your email"
 msgstr "Cambia il tuo email"
 
-msgid "You've signed out successfully."
+msgid ""
+"You've signed out successfully.  Warning: Please clear all cookies and "
+"logout              of OpenId providers too if you logged in on a public "
+"computer."
 msgstr ""
 
 msgid "Your Current Password is wrong, please try again"
@@ -303,9 +339,6 @@ msgstr ""
 msgid "has not been activated. Please check your email to activate your account"
 msgstr ""
 
-msgid "install Google Chrome Frame"
-msgstr "installa Google Chrome Frame"
-
 msgid "is already registered."
 msgstr ""
 
@@ -318,17 +351,11 @@ msgid ""
 "receive this e-mail, please check your junk mail folder or "
 msgstr ""
 
-msgid "or"
-msgstr "o"
-
 msgid "or just"
 msgstr "o semplicemente"
 
 msgid "this"
 msgstr ""
-
-msgid "to experience this site."
-msgstr "per provare questo sito."
 
 msgid "to help you to create your application."
 msgstr "per iniziare a creare la tua applicazione."
