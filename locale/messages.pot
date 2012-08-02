@@ -175,9 +175,6 @@ msgstr ""
 msgid "Secure Page"
 msgstr ""
 
-msgid "Secure zone error:"
-msgstr ""
-
 msgid "Send Message"
 msgstr ""
 
