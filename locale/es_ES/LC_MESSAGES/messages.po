@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-08-01 22:43-0400\n"
+"POT-Creation-Date: 2012-08-01 23:33-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -19,7 +19,6 @@ msgstr ""
 "Generated-By: Babel 0.9.6\n"
 
 #, fuzzy
-#| msgid "Twitter association added!"
 msgid " association added!"
 msgstr " asociación agregada!"
 
@@ -38,7 +37,8 @@ msgid ""
 "    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
 "    \tinstall Google Chrome Frame</a> to experience this site."
 msgstr ""
-"<a href=\"http://browsehappy.com/\">Actualiza a un navegador diferente</a>\n"
+"<a href=\"http://browsehappy.com/\">Actualiza a un navegador "
+"diferente</a>\n"
 "    \to <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
 "    \tinstala Google Chrome Frame</a> para experimentar este sitio."
 
@@ -51,12 +51,10 @@ msgstr ""
 "inicias sesión o te registras."
 
 #, fuzzy
-#| msgid "Associate account with:"
 msgid "Associate account with"
 msgstr "Asociar cuenta con"
 
 #, fuzzy
-#| msgid "Change your password"
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
@@ -103,7 +101,6 @@ msgid "Error sending the message. Please try again later."
 msgstr "Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde"
 
 #, fuzzy
-#| msgid "Existing social association:"
 msgid "Existing social association"
 msgstr "Asociación a cuentas sociales existentes"
 
@@ -161,9 +158,8 @@ msgid ""
 "No user authentication information received from %s.  Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
-"No se recibió información de autenticación de %s. Por favor asegurate "
-"de haber iniciado sesión en un proveedor OpenID autorizado."
-
+"No se recibió información de autenticación de %s. Por favor asegurate de "
+"haber iniciado sesión en un proveedor OpenID autorizado."
 
 msgid "Or Sign in using:"
 msgstr "O inicia sesión usando:"
@@ -214,9 +210,6 @@ msgstr "Reiniciar contraseña"
 msgid "Secure Page"
 msgstr "Página segura"
 
-msgid "Secure zone error:"
-msgstr ""
-
 msgid "Send Message"
 msgstr "Enviar Mensaje"
 
@@ -256,12 +249,11 @@ msgid ""
 "There was an error or the link is outdated. Please copy and paste the "
 "link from your email or enter your details again below to get a new one."
 msgstr ""
-"Hubo un error o el link es obsoleto. Por favor, copia y pega el enlace "
-"de tu correo electrónico o introduce de nuevo tus datos a continuación "
-"para obtener uno nuevo."
+"Hubo un error o el link es obsoleto. Por favor, copia y pega el enlace de"
+" tu correo electrónico o introduce de nuevo tus datos a continuación para"
+" obtener uno nuevo."
 
 #, fuzzy, python-format
-#| msgid "This Twitter account is already in use!"
 msgid "This %s account is already in use!"
 msgstr "Esta cuenta %s ya está en uso!"
 
@@ -282,7 +274,6 @@ msgid "Unexpected error creating user"
 msgstr "Error inesperado al crear el usuario"
 
 #, fuzzy
-#| msgid "Unable to update profile!"
 msgid "Update Profile"
 msgstr "Actualizar perfil de usuario"
 
@@ -318,9 +309,10 @@ msgid ""
 "You've signed out successfully.  Warning: Please clear all cookies and "
 "logout              of OpenId providers too if you logged in on a public "
 "computer."
-msgstr "Has sido desconectado. Advertencia: Por favor borra todas las cookies y "
-"cierra la sesión los proveedores OpenID también si iniciaste sesión en un "
-"computador público"
+msgstr ""
+"Has sido desconectado. Advertencia: Por favor borra todas las cookies "
+"y cierra la sesión los proveedores OpenID también si iniciaste "
+"sesión en  un computador público"
 
 msgid "Your Current Password is wrong, please try again"
 msgstr "Tu contraseña actual es incorrecta, por favor vuelve a intentarlo"
@@ -381,9 +373,9 @@ msgid ""
 "from us with instructions for resetting your password. <br>If you don't "
 "receive this e-mail, please check your junk mail folder or "
 msgstr ""
-"está asociado a una cuenta en nuestros registros, recibirás un "
-"e-mail de nosotros con instrucciones para restablecer tu contraseña. <br> "
-"Si no recibes este e-mail, por favor revisa tu carpeta de correo basura o "
+"está asociado a una cuenta en nuestros registros, recibirás un e-mail de "
+"nosotros con instrucciones para restablecer tu contraseña. <br> Si no "
+"recibes este e-mail, por favor revisa tu carpeta de correo basura o "
 
 msgid "or just"
 msgstr "o sólo"

@@ -1078,7 +1078,7 @@ class SecureRequestHandler(BaseHandler):
                 }
             return self.render_template('boilerplate_secure_zone.html', **params)
         except (AttributeError, KeyError), e:
-            return _("Secure zone error:") + " %s." % e
+            return "Secure zone error:" + " %s." % e
 
 
 class HomeRequestHandler(RegisterBaseHandler):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-08-01 22:43-0400\n"
+"POT-Creation-Date: 2012-08-01 23:33-0400\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: id_ID <LL@li.org>\n"
@@ -47,7 +47,6 @@ msgid "Associate account with"
 msgstr ""
 
 #, fuzzy
-#| msgid "Change your password"
 msgid "Change password"
 msgstr "Ubah password"
 
@@ -197,9 +196,6 @@ msgstr "Reset password"
 msgid "Secure Page"
 msgstr "Halaman aman"
 
-msgid "Secure zone error:"
-msgstr ""
-
 msgid "Send Message"
 msgstr "Kirim pesan"
 
@@ -259,7 +255,6 @@ msgid "Unexpected error creating user"
 msgstr ""
 
 #, fuzzy
-#| msgid "Edit Profile"
 msgid "Update Profile"
 msgstr "Edit Profil"
 
