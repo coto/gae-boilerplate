@@ -410,7 +410,7 @@ class RegisterHandler(RegisterBaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            country=country, activated=False
+            ip=self.request.remote_addr, country=country, activated=False
         )
 
         if not user[0]: #user is a tuple
