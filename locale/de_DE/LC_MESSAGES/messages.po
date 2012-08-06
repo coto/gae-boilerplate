@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Siegfried Hirsch <siegfried.hirsch@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid " disassociated!"
+msgstr "unverbunden!"
+
+msgid " not found for this user!"
+msgstr "nicht gefunden für diesen Benutzer!"
+
+msgid "Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page."
+msgstr "Konto mit Verbindung zu Ihrem Twitter-Konto existiert nicht. Sie können es jetzt verbinden, indem Sie sich mit Ihrem existierenden Konto anmelden oder ein neues Konto anlegen."
+
+msgid "Associate account with:"
+msgstr "Verbinde Konto mit:"
+
+msgid "Change your email"
+msgstr "Ändern Sie Ihre E-Mail"
+
+msgid "Change your password"
+msgstr "Ändern Sie Ihr Passwort"
+
+msgid "Confirm Password"
+msgstr "Bestätigen Sie das Passwort"
+
+msgid "Congratulations"
+msgstr "Herlichen Glückwunsch"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Herzlichen Glückwunsch zu Ihrer Google App Engine Boilerplate Seite."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Current Password"
+msgstr "Aktuelles Passwort"
+
+msgid "Don't have an account?"
+msgstr "Haben Sie kein Konto?"
+
+msgid "Edit Profile"
+msgstr "Bearbeite Profil"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Enter a new email address"
+msgstr "Geben Sie eine neue E-Mail-Adresse an"
+
+msgid "Enter your"
+msgstr "Eingabe"
+
+msgid "Error sending the message. Please try again later."
+msgstr "Fehler beim Senden der Nachricht. Bitte versuchen Sie es später."
+
+msgid "Existing social association:"
+msgstr "Bestehende Social-Verbindungen"
+
+msgid "Forgot your password?"
+msgstr "Passwort vergessen?"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate wird freigegeben unter der"
+
+msgid "If the e-mail address you entered"
+msgstr "Wenn die E-Mail-Adresse, die Sich eingegeben haben"
+
+msgid "If the username you entered"
+msgstr "Wenn der Benutzername, den Sie eingegeben haben"
+
+msgid "Invalid email address."
+msgstr "Ungültige E-Mail-Adresse"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Last Name"
+msgstr "Nachname"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Lernen Sie warum dieses Boilerplate rockt"
+
+msgid "Login"
+msgstr "Anmelden"
+
+msgid "Login invalid, Try again."
+msgstr "Login ungültig, bitte erneut versuchen."
+
+msgid "Logout"
+msgstr "Abmelden"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "Message sent successfully."
+msgstr "Nachricht erfolgreich versendet."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "New Password"
+msgstr "Neues Passwort"
+
+msgid "Or Sign in using:"
+msgstr "Oder Anmelden via"
+
+msgid "Or click"
+msgstr "Oder klicken Sie"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Password changed successfully"
+msgstr "Passwort erfolgreich geändert"
+
+msgid "Password reminder"
+msgstr "Passwort Gedankenstütze"
+
+msgid "Passwords must match."
+msgstr "Passwörter müssen gleich sein"
+
+msgid "Please check your email to activate your account"
+msgstr "Bitte prüfen Sie Ihren E-Mail um Ihr Konto zu aktivieren"
+
+msgid "Please check your new email for confirmation. Your email will be updated after confirmation."
+msgstr "Bitte prüfen Sie Ihre neue E-Mail auf Bestätigung. Ihre E-Mail wird nach der Bestätigung upgedatet."
+
+msgid "Please click below to create a new password:"
+msgstr "Bitte klicken Sie unten um ein neues Passwort zu erzeugen:"
+
+msgid "Please correct the form errors."
+msgstr "Bitte korrigieren Sie den Fehler im Formular."
+
+msgid "Please login to your account"
+msgstr "Bitte melden Sie sich bei Ihrem Konto an"
+
+msgid "Remember me?"
+msgstr "Eingaben speichern?"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Reset password"
+msgstr "Passwort zurücksetzen"
+
+msgid "Secure Page"
+msgstr "Sicherheits-Seite"
+
+msgid "Secure zone error:"
+msgstr "Fehler im gesicherten Bereich:"
+
+msgid "Send Message"
+msgstr "Sende Nachricht"
+
+msgid "Sign Up"
+msgstr "Anmelden"
+
+msgid "Social account on "
+msgstr "Social Konto bei"
+
+msgid "Some error occured"
+msgstr "Einige Fehler passiert"
+
+msgid "Sorry"
+msgstr "Entschuldigung"
+
+msgid "Sorry you are not logged in!"
+msgstr "Entschuldigung, Sie sind ncht angemeldet!"
+
+msgid "Sorry, This user"
+msgstr "Entschuldigung, dieser Benutzer"
+
+msgid "Sorry, your account"
+msgstr "Entschuldigung, Ihr Konto"
+
+msgid "Source Code"
+msgstr "Quellcode"
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr "Die E-Mail %s ist bereits registriert."
+
+msgid "The verification email has been resent to"
+msgstr "Die E-Mail zur Überprüfung wurde erneut versendet an"
+
+msgid "There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one."
+msgstr "Es gab einen Fehler oder der Link ist abgelaufen. Bitte kopieren Sie den Link von Ihrer E-Mail oder geben Sie Ihre Angaben erneut unten ein um einen neuen zu erhalten."
+
+msgid "This Twitter account is already in use!"
+msgstr "Dieses Twitter Konto ist bereits in Benutzung!"
+
+msgid "Twitter association added!"
+msgstr "Twitter Verbindung hinzugefügt!"
+
+msgid "Unable to update profile!"
+msgstr "Profil kann nicht upgedatet werden!"
+
+msgid "Unexpected error activating account"
+msgstr "Unerwarteter Fehler bei der Aktivierung des Kontos"
+
+msgid "Unexpected error creating user"
+msgstr "Unerwarteter Fehler beim Anlegen des Benutzers"
+
+msgid "Upgrade to a different browser"
+msgstr "Benutzen Sie einen anderen Browser"
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr "Bneutzer ist ausgeloggt, aber es gab einen Fehler bei der Umleitung."
+
+msgid "Username"
+msgstr "Benutzername"
+
+msgid "Username invalid. Use only letters and numbers."
+msgstr "Benutzername ungültig. Bitte nur Buchstaben und Zahlen nutzen."
+
+msgid "Username or Email"
+msgstr "Benutzername oder E-Mail"
+
+msgid "Welcome"
+msgstr "Willkommen"
+
+msgid "Wrong image verification code. Please try again."
+msgstr "Falscher Bildprüfungscode. Bitte erneut versuchen."
+
+msgid "You are now registered"
+msgstr "Sie sind nun registriert"
+
+msgid "You didn't change your email"
+msgstr "Sie haben Ihre E-Mail nicht geändert"
+
+msgid "You've signed out successfully."
+msgstr "Sie haben sich erfolgreich abgemeldet."
+
+msgid "Your Current Password is wrong, please try again"
+msgstr "Ihr aktuelles Passwort ist falsch, bitte erneut versuchen"
+
+msgid "Your account"
+msgstr "Ihr Konto"
+
+msgid "Your account has been activated"
+msgstr "Ihr Konto wurde aktiviert"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Ihr Browser ist <em>antik</em>"
+
+msgid "Your email / username was not found. Please try another or "
+msgstr "Ihre E-Mail / Bnuetzername wurde nicht gefunden. Bitte versuchen Sie eine andere oder"
+
+msgid "Your new username is "
+msgstr "Ihr neuer Benutzername ist"
+
+msgid "Your password is wrong, please try again"
+msgstr "Ihr Passwort ist falsch, bitte erneut versuchen"
+
+msgid "Your profile has been updated!"
+msgstr "Ihr Profil wurde upgedatet!"
+
+msgid "contact us"
+msgstr "kontaktieren Sie uns"
+
+msgid "create an account"
+msgstr "legen Sie ein Konto an"
+
+msgid "download the Source Code"
+msgstr "den Quellcode herunterladen"
+
+msgid "for further assistance."
+msgstr "für weitere Unterstützung."
+
+msgid "has just been activated"
+msgstr "wurde gerade aktiviert"
+
+msgid "has not been activated. Please check your email to activate your account"
+msgstr "wurde nicht aktiviert. Bitte prüfen Sie Ihre E-Mail um Ihr Konto zu aktivieren"
+
+msgid "install Google Chrome Frame"
+msgstr "installieren Sie Google Chrome Frame"
+
+msgid "is already registered."
+msgstr "is bereits registriert."
+
+msgid "is already taken. It is not changed."
+msgstr "ist bereits vergeben. Es ist nicht geändert."
+
+msgid "is associated with an account in our records, you will receive an e-mail from us with instructions for resetting your password. <br>If you don't receive this e-mail, please check your junk mail folder or "
+msgstr "ist mit einem gespeicherten Konto verbunden, Sie werden eine E-Mail von uns erhalten mit den Anweisungen Ihr Passwort zurückzusetzen. <br>Falls Sie keine E-Mail erhalten, prüfen Sie bitte Ihren Spamordner oder"
+
+msgid "or"
+msgstr "oder"
+
+msgid "or just"
+msgstr "oder jetzt"
+
+msgid "this"
+msgstr "dies"
+
+msgid "to experience this site."
+msgstr "um die Webseite zu erkunden"
+
+msgid "to help you to create your application."
+msgstr "um Ihnen zu helfen eine Anwendung zu erzeugen"
+
+msgid "to resend the email"
+msgstr "um die E-Mail erneut zu senden"
+
+msgid "you are now logged in."
+msgstr "Sie sind jetzt eingeloggt."
+
