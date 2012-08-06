@@ -39,6 +39,12 @@ def user_required(handler):
 
     return check_login
 
+def generate_csrf_token():
+    session = sessions.get_store().get_session()
+    if '_csrf_token' not in session:
+        session['_csrf_token'] = utils.random_string()
+    return session['_csrf_token']
+
 def jinja2_factory(app):
     j = jinja2.Jinja2(app)
     j.environment.filters.update({
@@ -47,6 +53,7 @@ def jinja2_factory(app):
     })
     j.environment.globals.update({
         # Set global variables.
+        'csrf_token' : generate_csrf_token,
         'uri_for': webapp2.uri_for,
         'getattr': getattr,
         'str': str
@@ -91,6 +98,12 @@ class BaseHandler(webapp2.RequestHandler):
         self.session_store = sessions.get_store(request=self.request)
 
         try:
+            # csrf protection
+            if self.request.method == "POST" and not self.request.path.startswith('/taskqueue'):
+                token = self.session.get('_csrf_token')
+                if not token or token != self.request.get('_csrf_token'):
+                    self.abort(403)
+
             # Dispatch the request.
             webapp2.RequestHandler.dispatch(self)
         finally:
@@ -248,14 +261,9 @@ class BaseHandler(webapp2.RequestHandler):
             'enable_federated_login': config.enable_federated_login
             })
         kwargs.update(self.auth_config)
-
-        if hasattr(self, 'forms'):
-            kwargs.update(self.forms)
-        elif hasattr(self, 'form'):
+        if hasattr(self, 'form'):
             kwargs['form'] = self.form
-            
         if self.messages:
             kwargs['messages'] = self.messages
-
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))

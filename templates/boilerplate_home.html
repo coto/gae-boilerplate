@@ -36,7 +36,7 @@
         <div class="span3 auth-at-home">
             <form id="form_login_user" action="{{ uri_for("login") }}" method="post">
                 <fieldset class="well">
-		 			{{ form_login.csrf_token }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="control-group">
                         <label class="controls">
                             <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
@@ -66,7 +66,7 @@
             <h3>{% trans %}Sign Up{% endtrans %}</h3>
             <form id="form_register" action="{{ uri_for("register") }}" method="post">
                 <fieldset class="well">
-	 			{{ form.csrf_token }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                     <div class="control-group">
                         <label class="controls">
                             <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">

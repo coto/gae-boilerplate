@@ -8,7 +8,7 @@
 
     <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
- 			{{ form.csrf_token }}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             {{ macros.input(form, "username", _("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
             {{ macros.input(form, "name", _("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
             {{ macros.input(form, "last_name", _("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
