@@ -27,15 +27,6 @@ from webapp2_extras.appengine.auth.models import Unique
 from lib import twitter
 
 
-class LoginBaseHandler(BaseHandler):
-    """
-    Base class for handlers with login form.
-    """
-    @webapp2.cached_property
-    def form(self):
-        return forms.LoginForm(self)
-
-
 class RegisterBaseHandler(BaseHandler):
     """
     Base class for handlers with registration and login forms.
@@ -47,14 +38,6 @@ class RegisterBaseHandler(BaseHandler):
         else:
             return forms.RegisterForm(self)
 
-    @webapp2.cached_property
-    def form_login(self):
-        return forms.LoginForm(self)
-
-    @webapp2.cached_property
-    def forms(self):
-        return {'form_login' : self.form_login,
-                'form' : self.form}
 
 class SendEmailHandler(BaseHandler):
     """
@@ -71,7 +54,7 @@ class SendEmailHandler(BaseHandler):
         utils.send_email(to, subject, body, sender)
 
 
-class LoginHandler(LoginBaseHandler):
+class LoginHandler(BaseHandler):
     """
     Handler for authentication
     """
@@ -159,6 +142,10 @@ class LoginHandler(LoginBaseHandler):
                     '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
             self.add_message(message, 'error')
             return self.redirect_to('login')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.LoginForm(self)
 
 
 class SocialLoginHandler(BaseHandler):
@@ -908,7 +895,7 @@ class EditEmailHandler(BaseHandler):
         return forms.EditEmailForm(self)
 
 
-class PasswordResetHandler(LoginBaseHandler):
+class PasswordResetHandler(BaseHandler):
     """
     Password Reset Handler with Captcha
     """
@@ -984,7 +971,7 @@ class PasswordResetHandler(LoginBaseHandler):
         return self.redirect_to('password-reset')
 
 
-class PasswordResetCompleteHandler(LoginBaseHandler):
+class PasswordResetCompleteHandler(BaseHandler):
     """
     Handler to process the link of reset password that received the user
     """

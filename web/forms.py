@@ -3,13 +3,12 @@ Created on June 10, 2012
 @author: peta15
 """
 
-from wtforms.ext.csrf.session import SessionSecureForm
 from wtforms import fields
+from wtforms import Form
 from wtforms import validators
 from lib import utils
 from webapp2_extras.i18n import lazy_gettext as _
 from webapp2_extras.i18n import ngettext, gettext
-import config
 
 FIELD_MAXLENGTH = 50 # intended to stop maliciously long input
 
@@ -22,13 +21,10 @@ class FormTranslations(object):
         return ngettext(singular, plural, n)
 
 
-class BaseForm(SessionSecureForm):
-    TIME_LIMIT = None
-    SECRET_KEY = config.webapp2_config['webapp2_extras.sessions']['secret_key']
+class BaseForm(Form):
     
     def __init__(self, request_handler):
-        super(BaseForm, self).__init__(request_handler.request.POST,
-                                             csrf_context=request_handler.session)
+        super(BaseForm, self).__init__(request_handler.request.POST)
     def _get_translations(self):
         return FormTranslations()
 

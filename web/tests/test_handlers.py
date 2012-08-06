@@ -82,10 +82,7 @@ class AppTest(unittest.TestCase):
     def test_csrf_protection(self):
         self.register_activate_testuser()
         self.post('/login/',
-                dict(username='testuser', password='password'), status=200)
-#        self.assert_error_message_in_response(response, message='asdasd')
-        # csrf protection fails silently with 200 response
-        # TODO: should csrf fail with 400?
+                dict(username='testuser', password='password'), status=403)
 
     def test_login_from_homepage(self):
         self.register_activate_testuser()
@@ -286,10 +283,11 @@ class AppTest(unittest.TestCase):
             forms_msg = 'No forms found.'
         self.assertIn(form_id, response.forms, "form {} not found on the page {}. {}"
                         .format(form_id, url, forms_msg))
+#        print response.pyquery('#' + form_id)
         form = response.forms[form_id]
         if expect_fields:
             form_fields = form.fields.keys()
-            for special_field in ('csrf_token', None):
+            for special_field in ('_csrf_token', None):
                 try:
                     form_fields.remove(special_field)
                 except ValueError:

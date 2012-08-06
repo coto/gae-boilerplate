@@ -12,6 +12,13 @@ from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
 import logging
 import unicodedata
+import string
+import random
+
+
+def random_string(size=6, chars=string.ascii_letters + string.digits):
+    """ Generate random string """
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def send_email(to, subject, body, sender=''):
     """ Main function to send emails """
