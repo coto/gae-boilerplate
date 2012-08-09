@@ -866,8 +866,6 @@ class EditEmailHandler(BaseHandler):
                         'body' : new_body,
                         })
                     
-                    logging.error(user)
-                    
                     # display successful message
                     msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
@@ -929,7 +927,6 @@ class PasswordResetHandler(BaseHandler):
             # captcha was valid... carry on..nothing to see here
             pass
         else:
-            logging.warning(cResponse.error_code)
             _message = _('Wrong image verification code. Please try again.')
             self.add_message(_message, 'error')
             return self.redirect_to('password-reset')
