@@ -218,8 +218,15 @@ class AppTest(unittest.TestCase):
         self.login_user('testuser', '789789')
 
     def test_register(self):
-        form = self.get_form('/register/', 'form_register',
+        self._test_register('/register/',
                     expect_fields=['username', 'name', 'last_name', 'email', 'password', 'c_password', 'country'])
+
+    def test_register_from_home_page(self):
+        self._test_register('/',
+                    expect_fields=['username', 'email', 'country', 'password', 'c_password'])
+
+    def _test_register(self, url, form_id='form_register', expect_fields=None):
+        form = self.get_form(url, form_id, expect_fields=expect_fields)
         
         # TODO: check mutliple validation errors on the form
         self.submit(form, expect_error=True, error_message='This field is required.', error_field='username')
