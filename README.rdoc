@@ -57,10 +57,10 @@ http://appengine.beecoss.com
 
 == Technologies used
 * Python 2.7
-* {NDB 1.0.1}[http://developers.google.com/appengine/docs/python/ndb/] (A new datastore API for the Google App Engine Python runtime).
+* {NDB 1.0.1}[http://developers.google.com/appengine/docs/python/ndb/] (The best datastore API for the Google App Engine Python runtime).
 * {Jinja2 2.6}[http://jinja.pocoo.org/docs/] (A fully featured template engine for Python).
 * {WTForms-1.0.1}[http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript).
-* {webapp2 2.5.1}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
+* {webapp2 2.5.1}[http://webapp-improved.appspot.com/] (A lightweight Python web framework, the most compatible with Google App Engine).
 * {Babel-0.9.6}[http://babel.edgewall.org/] and {gaepytz-2011h}[http://code.google.com/p/gae-pytz/] (Industy standard internationalization renders the site in multiple languages).
   * webapp2_extras.sessions
   * webapp2_extras.routes
@@ -82,6 +82,7 @@ In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. 
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
 <tt>msgid "Change your password"</tt>
+
 <tt>msgstr "Cambiar tu contraseña"</tt>
 
 == Working with Internationalization (i18n)
@@ -138,5 +139,8 @@ these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributo
 
 Primary contributors:
 * {Peta15}[https://github.com/peta15]
-* {Pmanacas}[https://github.com/pmanacas]
 * {sergue1}[https://github.com/sergue1]
+* {Pmanacas}[https://github.com/pmanacas]
+* {copycat91}[https://github.com/copycat91]
+* {f1shear}[https://github.com/f1shear]
+* {presveva}[https://github.com/presveva]
