@@ -13,7 +13,7 @@ import models.models as models
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from webapp2_extras import security
-from lib import utils
+from lib import utils, httpagentparser
 from lib import captcha
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
@@ -588,18 +588,22 @@ class ContactHandler(BaseHandler):
 
         try:
             subject = _("Contact")
-            body = ""
             # exceptions for error pages that redirect to contact
             if exception != "":
-                body = "* Exception error: %s" % exception
-            body = body + """
-            * IP Address: %s
-            * Web Browser: %s
+                subject = subject + " (Exception error: %s)" % exception
 
-            * Sender name: %s
-            * Sender email: %s
-            * Message: %s
-            """ % (remoteip, user_agent, name, email, message)
+            template_val = {
+                "name": name,
+                "email": email,
+                "browser": str(httpagentparser.detect(user_agent)['browser']['name']),
+                "browser_version": str(httpagentparser.detect(user_agent)['browser']['version']),
+                "operating_system": str(httpagentparser.detect(user_agent)['flavor']['name']) + " " +
+                                    str(httpagentparser.detect(user_agent)['flavor']['version']),
+                "ip": remoteip,
+                "message": message
+            }
+            body_path = "emails/contact.txt"
+            body = self.jinja2.render_template(body_path, **template_val)
 
             email_url = self.uri_for('taskqueue-send-email')
             taskqueue.add(url = email_url, params={
