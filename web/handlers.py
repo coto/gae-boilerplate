@@ -805,7 +805,7 @@ class EditEmailHandler(BaseHandler):
         params = {}
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            self.form.new_email.data = user_info.email
+            params['current_email'] = user_info.email
 
         return self.render_template('boilerplate_edit_email.html', **params)
 
