@@ -431,7 +431,7 @@ class RegisterHandler(RegisterBaseHandler):
                 user_info = models.User.get_by_email(email)
                 if (user_info.activated == False):
                     # send email
-                    subject =  _("%s Account Verification Email" % config.app_name)
+                    subject =  _("%s Account Verification" % config.app_name)
                     encoded_email = utils.encode(email)
                     confirmation_url = self.uri_for("account-activation",
                         encoded_email = encoded_email,
@@ -520,7 +520,7 @@ class ResendActivationEmailHandler(BaseHandler):
             
             if (user.activated == False):
                 # send email
-                subject = config.app_name + " Account Verification Email"
+                subject = _("%s Account Verification" % config.app_name)
                 encoded_email = utils.encode(email)
                 confirmation_url = self.uri_for("account-activation",
                     encoded_email = encoded_email,
@@ -1020,7 +1020,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             models.User.delete_auth_token(int(user_id), token)
             # Login User
             self.auth.get_user_by_password(user.auth_ids[0], password)
-            self.add_message(_('Password changed successfully'), 'success')
+            self.add_message(_('Password changed successfully.'), 'success')
             return self.redirect_to('home')
 
         else:
