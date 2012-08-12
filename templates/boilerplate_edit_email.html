@@ -9,13 +9,14 @@
     <form id="form_edit_email" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-        	{{ macros.input(form, "new_email", _("Email"), placeholder=_("Enter a new email address"), class="input-xlarge focused required email", type="email") }}
-            {{ macros.input(form, "password", _("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="control-group">
+                <label class="control-label">Current Email:</label>
                 <div class="controls">
-                    <a href="{{ uri_for('edit-profile') }}">{% trans %}Edit Profile{% endtrans %}</a>
+                    <p class="help-block">{{ current_email }}</p>
                 </div>
             </div>
+        	{{ macros.input(form, "new_email", _("New Email"), placeholder=_("Enter a new email address"), class="input-xlarge focused required email", type="email") }}
+            {{ macros.input(form, "password", _("Current Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Change your email{% endtrans %}</button>
             </div>
