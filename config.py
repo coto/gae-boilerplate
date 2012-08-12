@@ -38,6 +38,7 @@ captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
 google_analytics_code = "UA-XXXXX-X"
 
 error_templates = {
+    403: 'errors/default_error.html',
     404: 'errors/default_error.html',
     500: 'errors/default_error.html',
 }
