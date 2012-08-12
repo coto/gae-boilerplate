@@ -108,9 +108,8 @@ class LoginHandler(BaseHandler):
                 
                 # redirect to home with error message
                 resend_email_uri = self.uri_for('resend-account-activation', encoded_email=utils.encode(user.email))
-                message = _('Sorry, your account') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
-                          _('has not been activated. Please check your email to activate your account') + ". " +\
-                          _('Or click') + " <a href='"+resend_email_uri+"'>" + _('this') + "</a> " + _('to resend the email')
+                message = _('Your account has not yet been activated. Please check your email to activate it or') +\
+                          ' <a href="'+resend_email_uri+'">' + _('click here') + '</a> ' + _('to resend the email.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
@@ -138,8 +137,8 @@ class LoginHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
-            message = _("Login invalid, Try again.") + "<br/>" + _("Don't have an account?") + \
-                    '  <a href="' + self.uri_for('register') + '">' + _("Sign Up") + '</a>'
+            message = _("Your username or password is incorrect. "
+                        "Please try again (make sure your caps lock is off)")
             self.add_message(message, 'error')
             return self.redirect_to('login')
 
@@ -157,15 +156,15 @@ class SocialLoginHandler(BaseHandler):
         provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
         if not config.enable_federated_login:
             message = _('Federated login is disabled.')
-            self.add_message(message,'warning')
+            self.add_message(message, 'warning')
             return self.redirect_to('login')
         callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
         if provider_name == "twitter":
             twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
             self.redirect(twitter_helper.auth_url())
         else:
-            message = _('%s authentication is not implemented yet.') % provider_display_name
-            self.add_message(message,'warning')
+            message = _('%s authentication is not yet implemented.' % provider_display_name)
+            self.add_message(message, 'warning')
             self.redirect_to('edit-profile')
 
 
@@ -177,7 +176,7 @@ class CallbackSocialLoginHandler(BaseHandler):
     def get(self, provider_name):
         if not config.enable_federated_login:
             message = _('Federated login is disabled.')
-            self.add_message(message,'warning')
+            self.add_message(message, 'warning')
             return self.redirect_to('login')
         if provider_name == "twitter":
             oauth_token = self.request.get('oauth_token')
@@ -197,11 +196,11 @@ class CallbackSocialLoginHandler(BaseHandler):
                     )
                     social_user.put()
 
-                    message = _('Twitter association added!')
-                    self.add_message(message,'success')
+                    message = _('Twitter association added.')
+                    self.add_message(message, 'success')
                 else:
-                    message = _('This Twitter account is already in use!')
-                    self.add_message(message,'error')
+                    message = _('This Twitter account is already in use.')
+                    self.add_message(message, 'error')
                 self.redirect_to('edit-profile')
             else:
                 # login with twitter
@@ -222,8 +221,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     # Social user does not exists. Need show login and registration forms
                     twitter_helper.save_association_data(user_data)
-                    message = _('Account with association to your Twitter does not exist. You can associate it right now, if you login with existing site account or create new on Sign up page.')
-                    self.add_message(message,'info')
+                    message = _('This Twitter account is not associated with any local account. '
+                                'If you already have a %s Account, you have <a href="/login/">sign in here</a> '
+                                'or <a href="/register/">create an account</a>.' % config.app_name)
+                    self.add_message(message, 'warning')
                     self.redirect_to('login')
             # Debug Callback information provided
 #            for k,v in user_data.items():
@@ -241,8 +242,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                     uid = current_user.user_id()
                 email = current_user.email()
             else:
-                message = _('No user authentication information received from %s.  Please ensure you are logging in from an authorized OpenID Provider (OP).' % provider_display_name)
-                self.add_message(message,'error')
+                message = _('No user authentication information received from %s. '
+                            'Please ensure you are logging in from an authorized OpenID Provider (OP).'
+                            % provider_display_name)
+                self.add_message(message, 'error')
                 return self.redirect_to('login')
             if self.user:
                 # add social account to user
@@ -255,11 +258,11 @@ class CallbackSocialLoginHandler(BaseHandler):
                     )
                     social_user.put()
 
-                    message = provider_display_name + _(' association added!')
-                    self.add_message(message,'success')
+                    message = _('%s association successfully added.' % provider_display_name)
+                    self.add_message(message, 'success')
                 else:
-                    message = _('This %s account is already in use!' % provider_display_name)
-                    self.add_message(message,'error')
+                    message = _('This %s account is already in use.' % provider_display_name)
+                    self.add_message(message, 'error')
                 self.redirect_to('edit-profile')
             else:
                 # login with OpenId Provider
@@ -297,7 +300,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 auth_id, activated=True
                             )
                         if not user_info[0]: #user is a tuple
-                            message = _('This %s account is already in use!' % provider_display_name)
+                            message = _('The account %s is already in use.' % provider_display_name)
                             self.add_message(message, 'error')
                             return self.redirect_to('register')
 
@@ -321,16 +324,16 @@ class CallbackSocialLoginHandler(BaseHandler):
                         logVisit.put()
                         self.redirect_to('home')
 
-                        message = provider_display_name + _(' association added!')
-                        self.add_message(message,'success')
+                        message = _('%s association successfully added.' % provider_display_name)
+                        self.add_message(message, 'success')
                         self.redirect_to('home')
                     else:
-                        message = _('This %s account is already in use!' % provider_display_name)
-                        self.add_message(message,'error')
+                        message = _('This %s account is already in use.' % provider_display_name)
+                        self.add_message(message, 'error')
                     self.redirect_to('login')
         else:
-            message = _('%s authentication is not implemented yet.') % provider_display_name
-            self.add_message(message,'warning')
+            message = _('This authentication method is not yet implemented.')
+            self.add_message(message, 'warning')
             self.redirect_to('login')
 
 
@@ -346,11 +349,11 @@ class DeleteSocialProviderHandler(BaseHandler):
             social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
             if social_user:
                 social_user.key.delete()
-                message = provider_name + _(' disassociated!')
-                self.add_message(message,'success')
+                message = _('%s successfully disassociated.' % provider_name)
+                self.add_message(message, 'success')
             else:
-                message = _('Social account on ') + provider_name + _(' not found for this user!')
-                self.add_message(message,'error')
+                message = _('Social account on %s not found for this user.' % provider_name)
+                self.add_message(message, 'error')
         self.redirect_to('edit-profile')
 
 
@@ -361,8 +364,8 @@ class LogoutHandler(BaseHandler):
 
     def get(self):
         if self.user:
-            message = _("You've signed out successfully.  Warning: Please clear all cookies and logout \
-             of OpenId providers too if you logged in on a public computer.") # Info message
+            message = _("You've signed out successfully. Warning: Please clear all cookies and logout "
+                        "of OpenId providers too if you logged in on a public computer.")
             self.add_message(message, 'info')
 
         self.auth.unset_session()
@@ -370,8 +373,7 @@ class LogoutHandler(BaseHandler):
         try:
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
-            return _("User is logged out, but there was an error "\
-                     "on the redirection.")
+            return _("User is logged out, but there was an error on the redirection.")
 
 
 class RegisterHandler(RegisterBaseHandler):
@@ -414,8 +416,12 @@ class RegisterHandler(RegisterBaseHandler):
         )
 
         if not user[0]: #user is a tuple
-            message = _('Sorry, This user') + ' <strong>{0:>s}</strong>'.format(username) + " " +\
-                      _('is already registered.')
+            if "username" in str(user[1]):
+                message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
+            elif "email" in str(user[1]):
+                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email) )
+            else:
+                message = _('Sorry, The user is already registered.')
             self.add_message(message, 'error')
             return self.redirect_to('register')
         else:
@@ -425,7 +431,7 @@ class RegisterHandler(RegisterBaseHandler):
                 user_info = models.User.get_by_email(email)
                 if (user_info.activated == False):
                     # send email
-                    subject = config.app_name + " Account Verification Email"
+                    subject =  _("%s Account Verification Email" % config.app_name)
                     encoded_email = utils.encode(email)
                     confirmation_url = self.uri_for("account-activation",
                         encoded_email = encoded_email,
@@ -448,8 +454,8 @@ class RegisterHandler(RegisterBaseHandler):
                         'body' : body,
                         })
                     
-                    message = _('Congratulations') + ", " + str(username) + "! " + _('You are now registered') +\
-                              ". " + _('Please check your email to activate your account')
+                    message = _('You were successfully registered. '
+                                'Please check your email to activate your account.')
                     self.add_message(message, 'success')
                     return self.redirect_to('home')
                 
@@ -467,14 +473,13 @@ class RegisterHandler(RegisterBaseHandler):
                             extra_data = twitter_association_data
                         )
                         social_user.put()
-                message = _('Welcome') + " " + str(username) + ", " + _('you are now logged in.')
+                message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username) )
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
-                message = _('Unexpected error creating '\
-                            'user') + " " + '{0:>s}.'.format(username)
+                message = _('Unexpected error creating the user %s' % '{0:>s}.'.format(username) )
                 self.add_message(message, 'error')
-                self.abort(403)
+                return self.redirect_to('home')
 
 
 class AccountActivationHandler(BaseHandler):
@@ -491,16 +496,16 @@ class AccountActivationHandler(BaseHandler):
             user.activated = True
             user.put()
             
-            message = _('Congratulations') + "! " + _('Your account') + " (@" + user.username + ") " +\
-                _('has just been activated') + ". " + _('Please login to your account')
-            self.add_message(message, "success")
+            message = _('Congratulations, Your account %s has been successfully activated.'
+                        % '<strong>{0:>s}</strong>'.format(user.username) )
+            self.add_message(message, 'success')
             self.redirect_to('login')
             
-        except (AttributeError, KeyError, InvalidAuthIdError), e:
-            message = _('Unexpected error activating '\
-                        'account') + " " + '{0:>s}.'.format(user.username)
+        except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
+            logging.error(e)
+            message = _('Sorry, Some error occurred.')
             self.add_message(message, 'error')
-            self.abort(403)
+            return self.redirect_to('home')
 
 
 class ResendActivationEmailHandler(BaseHandler):
@@ -538,19 +543,18 @@ class ResendActivationEmailHandler(BaseHandler):
                     'body' : body,
                     })
                     
-                message = _('The verification email has been resent to') + " " + str(email) + ". " +\
-                    _('Please check your email to activate your account')
-                self.add_message(message, "success")
+                message = _('The verification email has been resent to %s. '
+                            'Please check your email to activate your account.' % email)
+                self.add_message(message, 'success')
                 return self.redirect_to('home')
             else:
-                message = _('Your account has been activated') + ". " +\
-                    _('Please login to your account')
-                self.add_message(message, "warning")
+                message = _('Your account has been activated. Please <a href="/login/">sign in</a> to your account.')
+                self.add_message(message, 'warning')
                 return self.redirect_to('home')
                 
         except (KeyError, AttributeError), e:
-            message = _('Sorry') + ". " + _('Some error occured') + "."
-            self.add_message(message, "error")
+            message = _('Sorry, Some error occurred.')
+            self.add_message(message, 'error')
             return self.redirect_to('home')
 
 
@@ -613,7 +617,7 @@ class ContactHandler(BaseHandler):
                 'sender' : config.contact_sender,
                 })
 
-            message = _('Message sent successfully.')
+            message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
             return self.redirect_to('contact')
 
@@ -680,30 +684,31 @@ class EditProfileHandler(BaseHandler):
                         # The unique values were created, so we can save the user.
                         user_info.username=username
                         user_info.auth_ids[0]='own:%s' % username
-                        message+= _('Your new username is ') + '<strong>' + username + '</strong>.'
+                        message+= _('Your new username is %s' % '<strong>{0:>s}</strong>'.format(username) )
                         
                     else:
-                        message+= _('Username') + " <strong>" + username + "</strong> " + _('is already taken. It is not changed.')
+                        message+= _('The username %s is already taken. Please choose another.'
+                                % '<strong>{0:>s}</strong>'.format(username) )
                         # At least one of the values is not unique.
-                        self.add_message(message,'error')
+                        self.add_message(message, 'error')
                         return self.get()
                 user_info.name=name
                 user_info.last_name=last_name
                 user_info.country=country
                 user_info.put()
-                message+= " " + _('Your profile has been updated!')
-                self.add_message(message,'success')
+                message+= " " + _('Thanks, your settings have been saved.')
+                self.add_message(message, 'success')
                 return self.get()
 
             except (AttributeError, KeyError, ValueError), e:
-                message = _('Unable to update profile!')
-                logging.error('Unable to update profile: ' + e)
-                self.add_message(message,'error')
+                message = _('Unable to update profile. Please try again later.')
+                logging.error('Error updating profile: ' + e)
+                self.add_message(message, 'error')
                 return self.get()
 
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in!')
-            self.add_message(login_error_message,'error')
+            login_error_message = _('Sorry you are not logged in.')
+            self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
     @webapp2.cached_property
@@ -767,17 +772,17 @@ class EditPasswordHandler(BaseHandler):
 
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
-                self.add_message(_('Password changed successfully'), 'success')
+                self.add_message(_('Password changed successfully.'), 'success')
                 return self.redirect_to('edit-profile')
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
-                message = _("Your Current Password is wrong, please try again")
+                message = _("Incorrect password! Please enter your current password to change your account settings.")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
         except (AttributeError,TypeError), e:
-            login_error_message = _('Sorry you are not logged in!')
-            self.add_message(login_error_message,'error')
+            login_error_message = _('Sorry you are not logged in.')
+            self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
     @webapp2.cached_property
@@ -829,11 +834,11 @@ class EditEmailHandler(BaseHandler):
                     aUser = models.User.get_by_email(new_email)
                     if aUser is not None:
                         message = _("The email %s is already registered." % new_email)
-                        self.add_message(message, "error")
+                        self.add_message(message, 'error')
                         return self.redirect_to("edit-email")
                     
                     # send email
-                    subject = config.app_name + " Email Changed Notification"
+                    subject = _("%s Email Changed Notification" % config.app_name)
                     user_token = models.User.create_auth_token(self.user_id)
                     confirmation_url = self.uri_for("email-changed-check", 
                         user_id = user_info.get_id(),
@@ -876,19 +881,19 @@ class EditEmailHandler(BaseHandler):
                     return self.redirect_to('edit-profile')
                     
                 else:
-                    self.add_message(_("You didn't change your email"), "warning")
+                    self.add_message(_("You didn't change your email."), "warning")
                     return self.redirect_to("edit-email")
                 
                 
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
-                message = _("Your password is wrong, please try again")
+                message = _("Incorrect password! Please enter your current password to change your account settings.")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-email')
                 
         except (AttributeError,TypeError), e:
-            login_error_message = _('Sorry you are not logged in!')
+            login_error_message = _('Sorry you are not logged in.')
             self.add_message(login_error_message,'error')
             self.redirect_to('login')
 
@@ -949,26 +954,38 @@ class PasswordResetHandler(BaseHandler):
             token = models.User.create_auth_token(user_id)
             email_url = self.uri_for('taskqueue-send-email')
             reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
-            subject = _("Password reminder")
-            body = _('Please click below to create a new password:') +\
-                   """
+            subject = _("%s Password Assistance" % config.app_name)
 
-                   %s
-                   """ % reset_url
+            # load email's template
+            template_val = {
+                "username": user.username,
+                "email": user.email,
+                "reset_password_url": reset_url,
+                "support_url": self.uri_for("contact", _full=True),
+                "app_name": config.app_name,
+            }
+
+            body_path = "emails/reset_password.txt"
+            body = self.jinja2.render_template(body_path, **template_val)
             taskqueue.add(url = email_url, params={
                 'to': user.email,
                 'subject' : subject,
                 'body' : body,
                 'sender' : config.contact_sender,
                 })
-            _message = _message + _("is associated with an account in our records, you will receive "\
-                                    "an e-mail from us with instructions for resetting your password. "\
-                                    "<br>If you don't receive this e-mail, please check your junk mail folder or ") +\
+            _message = _message + _("is associated with an account in our records, you will receive "
+                                    "an e-mail from us with instructions for resetting your password. "
+                                    "<br>If you don't receive instructions within a minute or two, "
+                                    "check your email's spam and junk filters, or ") +\
                        '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
-        _message = _('Your email / username was not found. Please try another or ') + '<a href="' + self.uri_for('register') + '">' + _('create an account') + '</a>'
-        self.add_message(_message, 'error')
+        _message = _message + _("is associated with an account in our records, you will receive "
+                                "an e-mail from us with instructions for resetting your password. "
+                                "<br>If you don't receive instructions within a minute or two, "
+                                "check your email's spam and junk filters, or ") +\
+                   '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
+        self.add_message(_message, 'warning')
         return self.redirect_to('password-reset')
 
 
@@ -981,7 +998,8 @@ class PasswordResetCompleteHandler(BaseHandler):
         verify = models.User.get_by_auth_token(int(user_id), token)
         params = {}
         if verify[0] is None:
-            message = _('There was an error or the link is outdated. Please copy and paste the link from your email or enter your details again below to get a new one.')
+            message = _('The URL you tried to use is either incorrect or no longer valid. '
+                        'Enter your details again below to get a new one.')
             self.add_message(message, 'warning')
             return self.redirect_to('password-reset')
 
@@ -1006,7 +1024,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             return self.redirect_to('home')
 
         else:
-            self.add_message(_('Please correct the form errors.'), 'error')
+            self.add_message(_('The two passwords must match.'), 'error')
             return self.redirect_to('password-reset-check', user_id=user_id, token=token)
 
     @webapp2.cached_property
@@ -1027,7 +1045,8 @@ class EmailChangedCompleteHandler(BaseHandler):
         verify = models.User.get_by_auth_token(int(user_id), token)
         email = utils.decode(encoded_email)
         if verify[0] is None:
-            self.add_message('There was an error or the link is outdated. Please copy and paste the link from your email.', 'warning')
+            message = _('The URL you tried to use is either incorrect or no longer valid.')
+            self.add_message(message, 'warning')
             self.redirect_to('home')
 
         else:
@@ -1038,7 +1057,8 @@ class EmailChangedCompleteHandler(BaseHandler):
             # delete token
             models.User.delete_auth_token(int(user_id), token)
             # add successful message and redirect
-            self.add_message("Your email has been successfully updated!", "success")
+            message = _('Your email has been successfully updated.')
+            self.add_message(message, 'success')
             self.redirect_to('edit-profile')
 
 

@@ -29,7 +29,7 @@ class User(User):
     #: User Country
     country = ndb.StringProperty()
     #: Account activation verifies email
-    activated = ndb.BooleanProperty(default=True)
+    activated = ndb.BooleanProperty(default=False)
     
     @classmethod
     def get_by_email(cls, email):
