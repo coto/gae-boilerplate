@@ -1,0 +1,9 @@
+Name: {{name}}
+Email: {{email}}
+
+Web Browser: {{browser}} {{browser_version}}
+Operating System: {{operating_system}}
+IP Address: {{ip}}
+
+Message:
+{{message}}
