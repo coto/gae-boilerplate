@@ -1,3 +1,5 @@
+# *-* coding: UTF-8 *-*
+
 import logging
 from google.appengine.api.users import NotAllowedError
 import webapp2
@@ -90,7 +92,6 @@ class BaseHandler(webapp2.RequestHandler):
         """
         self.initialize(request, response)
         self.locale = i18n.set_locale(self)
-        self.view = self
 
     def dispatch(self):
         """
@@ -243,20 +244,6 @@ class BaseHandler(webapp2.RequestHandler):
     def jinja2(self):
         return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
 
-    @webapp2.cached_property
-    def base_layout(self):
-        """
-        Get the current base layout template for jinja2 templating. Uses the variable base_layout set in config
-        or if there is a base_layout defined, use the base_layout.
-        """
-        return self.base_layout if hasattr(self, 'base_layout') else config.base_layout
-
-    def set_base_layout(self, layout):
-        """
-        Set the base_layout variable, thereby overwriting the default layout template name in config.py.
-        """
-        self.base_layout = layout
-
     def render_template(self, filename, **kwargs):
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
@@ -274,16 +261,12 @@ class BaseHandler(webapp2.RequestHandler):
             'provider_uris': self.provider_uris,
             'provider_info': self.provider_info,
             'enable_federated_login': config.enable_federated_login,
-            'base_layout': self.base_layout
             })
         kwargs.update(self.auth_config)
         if hasattr(self, 'form'):
             kwargs['form'] = self.form
         if self.messages:
             kwargs['messages'] = self.messages
-        # all self.view variables can be used in jinja2 templates
-        if hasattr(self, 'view'):
-            kwargs.update(self.__dict__)
 
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.response.write(self.jinja2.render_template(filename, **kwargs))
