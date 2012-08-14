@@ -78,6 +78,20 @@ def handle_error(request, response, exception):
     response.write(t)
     response.set_status(status_int)
 
+class ViewClass:
+    """
+        ViewClass to insert variables into the template.
+
+        ViewClass is used in BaseHandler to promote variables automatically that can be used
+        in jinja2 templates.
+        Use case in a BaseHandler Class:
+            self.view.var1 = "hello"
+            self.view.array = [1, 2, 3]
+            self.view.dict = dict(a="abc", b="bcd")
+        Can be accessed in the template by just using the variables liek {{var1}} or {{dict.b}}
+    """
+    pass
+
 
 class BaseHandler(webapp2.RequestHandler):
     """
@@ -92,7 +106,7 @@ class BaseHandler(webapp2.RequestHandler):
         """
         self.initialize(request, response)
         self.locale = i18n.set_locale(self)
-        self.view = self
+        self.view = ViewClass()
 
     def dispatch(self):
         """
@@ -245,6 +259,20 @@ class BaseHandler(webapp2.RequestHandler):
     def jinja2(self):
         return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
 
+    @webapp2.cached_property
+    def base_layout(self):
+        """
+        Get the current base layout template for jinja2 templating. Uses the variable base_layout set in config
+        or if there is a base_layout defined, use the base_layout.
+        """
+        return self.base_layout if hasattr(self, 'base_layout') else config.base_layout
+
+    def set_base_layout(self, layout):
+        """
+        Set the base_layout variable, thereby overwriting the default layout template name in config.py.
+        """
+        self.base_layout = layout
+
     def render_template(self, filename, **kwargs):
         language_id = self.locale.split('_')[0]
         territory_id = self.locale.split('_')[1]
@@ -253,7 +281,7 @@ class BaseHandler(webapp2.RequestHandler):
 
         # make all self.view variables available in jinja2 templates
         if hasattr(self, 'view'):
-            kwargs.update(self.__dict__)
+            kwargs.update(self.view.__dict__)
 
         # set or overwrite special vars for jinja templates
         kwargs.update({
