@@ -3,7 +3,7 @@
 <!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
 <!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale.language }}"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale_language_id }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
@@ -62,11 +62,11 @@
                         <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {% trans %}Source Code{% endtrans %}</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {% trans %}Language{% endtrans %} : {{ locale.display_name }} <b class="caret"></b>
+                                {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                             	{% for l in locales %}
-                                {% if str(locale) != l %}<li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>{% endif %}
+                                {% if str(locale_iso) != l %}<li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>{% endif %}
                                 {% endfor %}
                             </ul>
                         </li>
@@ -177,6 +177,7 @@
     <!-- scripts concatenated and minified via build script -->
     <script src="/js/plugins.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
     {% block mediaJS %}{% endblock %}
     <!-- end scripts -->
 </body>

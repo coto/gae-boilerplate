@@ -73,7 +73,8 @@ $(document).ready(function() {
         }
     }
 
-    // Detects orientationchange event, otherwise fall back to the resize event.
+    /* Detects orientationchange event */
+    // otherwise fall back to the resize event.
     // Fixing this bug: http://webdesignerwall.com/tutorials/iphone-safari-viewport-scaling-bug
     if (checker.mobile && checker.ios){
         var supportsOrientationChange = "onorientationchange" in window,

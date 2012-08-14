@@ -232,8 +232,8 @@ class BaseHandler(webapp2.RequestHandler):
             current_locale = Locale.parse(self.locale)
             language = current_locale.languages[l.split('_')[0]]
             territory = current_locale.territories[l.split('_')[1]]
-            localized_locale_name = Locale.parse(l).display_name
-            locales[l] = language + " (" + territory + ") - " + localized_locale_name
+            localized_locale_name = Locale.parse(l).display_name.capitalize()
+            locales[l] = language.capitalize() + " (" + territory.capitalize() + ") - " + localized_locale_name
         return locales
 
     @webapp2.cached_property
@@ -245,6 +245,11 @@ class BaseHandler(webapp2.RequestHandler):
         return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
 
     def render_template(self, filename, **kwargs):
+        language_id = self.locale.split('_')[0]
+        territory_id = self.locale.split('_')[1]
+        language = Locale.parse(self.locale).languages[language_id]
+        territory = Locale.parse(self.locale).territories[territory_id]
+
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
             'app_name': config.app_name,
@@ -256,7 +261,9 @@ class BaseHandler(webapp2.RequestHandler):
             'query_string': self.request.query_string,
             'path_for_language': self.path_for_language,
             'is_mobile': self.is_mobile,
-            'locale': Locale.parse(self.locale), # babel locale object
+            'locale_iso': Locale.parse(self.locale), # babel locale object
+            'locale_language': language.capitalize() + " (" + territory.capitalize() + ")", # babel locale object
+            'locale_language_id': language_id, # babel locale object
             'locales': self.locales,
             'provider_uris': self.provider_uris,
             'provider_info': self.provider_info,
