@@ -92,6 +92,7 @@ class BaseHandler(webapp2.RequestHandler):
         """
         self.initialize(request, response)
         self.locale = i18n.set_locale(self)
+        self.view = self
 
     def dispatch(self):
         """
@@ -250,6 +251,11 @@ class BaseHandler(webapp2.RequestHandler):
         language = Locale.parse(self.locale).languages[language_id]
         territory = Locale.parse(self.locale).territories[territory_id]
 
+        # make all self.view variables available in jinja2 templates
+        if hasattr(self, 'view'):
+            kwargs.update(self.__dict__)
+
+        # set or overwrite special vars for jinja templates
         kwargs.update({
             'google_analytics_code' : config.google_analytics_code,
             'app_name': config.app_name,
@@ -268,6 +274,7 @@ class BaseHandler(webapp2.RequestHandler):
             'provider_uris': self.provider_uris,
             'provider_info': self.provider_info,
             'enable_federated_login': config.enable_federated_login,
+            'base_layout': self.base_layout
             })
         kwargs.update(self.auth_config)
         if hasattr(self, 'form'):

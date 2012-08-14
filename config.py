@@ -1,4 +1,3 @@
-
 app_name = "Google App Engine Boilerplate"
 
 webapp2_config = {}
@@ -46,3 +45,6 @@ error_templates = {
 # Enable Federated login (OpenID and OAuth)
 # Google App Engine Settings must be set to Authentication Options: Federated Login
 enable_federated_login = True
+
+# jinja2 base layout templates
+base_layout = 'base.html'
