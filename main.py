@@ -16,10 +16,10 @@
 __author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
 
+import os
 import webapp2
 import config
 import routes
-import os
 
 from lib.basehandler import handle_error
 

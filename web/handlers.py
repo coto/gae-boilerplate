@@ -8,23 +8,22 @@
 
     Routes are setup in routes.py and added in main.py
 """
-
-import models.models as models
-from webapp2_extras.auth import InvalidAuthIdError
-from webapp2_extras.auth import InvalidPasswordError
-from webapp2_extras import security
-from lib import utils, httpagentparser
-from lib import captcha
-from lib.basehandler import BaseHandler
-from lib.basehandler import user_required
-from google.appengine.api import taskqueue
+# standard library imports
 import logging
-import config
+# related third party imports
 import webapp2
-import web.forms as forms
+from webapp2_extras import security
+from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
-from lib import twitter
+from google.appengine.api import taskqueue
+# local application/library specific imports
+import config
+import web.forms as forms
+import models.models as models
+from lib import utils, httpagentparser, captcha, twitter
+from lib.basehandler import BaseHandler
+from lib.basehandler import user_required
 
 
 class RegisterBaseHandler(BaseHandler):
