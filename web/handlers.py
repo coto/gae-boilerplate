@@ -62,7 +62,7 @@ class LoginHandler(BaseHandler):
         """ Returns a simple HTML form for login """
 
         if self.user:
-            self.redirect_to('home', id=self.user_id)
+            self.redirect_to('home')
         params = {}
         return self.render_template('boilerplate_login.html', **params)
 
@@ -384,7 +384,7 @@ class RegisterHandler(RegisterBaseHandler):
         """ Returns a simple HTML form for create a new user """
 
         if self.user:
-            self.redirect_to('home', id=self.user_id)
+            self.redirect_to('home')
         params = {}
         return self.render_template('boilerplate_register.html', **params)
 
