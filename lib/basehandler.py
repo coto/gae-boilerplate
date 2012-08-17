@@ -1,15 +1,17 @@
 # *-* coding: UTF-8 *-*
 
+# standard library imports
 import logging
-from google.appengine.api.users import NotAllowedError
+import re
+# related third party imports
 import webapp2
+from google.appengine.api.users import NotAllowedError
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
-from lib import utils
+# local application/library specific imports
 import config
-import re
-from lib import i18n
+from lib import utils, i18n
 from babel import Locale
 import models.models as models
 
