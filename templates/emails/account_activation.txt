@@ -1,7 +1,6 @@
 Hello {{username}},
 
-You just have registered in {{ app_name }} as @{{username}}. In order to activate your account,
-please verify your email by clicking this link:
+You just have registered in {{ app_name }} as @{{username}}. In order to activate your account, please verify your email by clicking this link:
 
 {{confirmation_url}}
 
