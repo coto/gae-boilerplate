@@ -1,6 +1,7 @@
 /*
  * Translated default messages for the jQuery validation plugin.
- * Locale: ZH-TW (Chinese (Taiwan))
+ * Locale: ZH (Chinese; 中文 (Zhōngwén), 汉语, 漢語)
+ * Region: TW (Taiwan)
  */
 jQuery.extend(jQuery.validator.messages, {
         required: "必填",
