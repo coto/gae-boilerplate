@@ -40,7 +40,7 @@ class RegisterBaseHandler(BaseHandler):
 
 class SendEmailHandler(BaseHandler):
     """
-    Handler for sending Emails
+    Core Handler for sending Emails
     Use with TaskQueue
     """
 
@@ -75,7 +75,7 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
-        
+
         try:
             if utils.is_email_valid(username):
                 user = models.User.get_by_email(username)
@@ -86,25 +86,25 @@ class LoginHandler(BaseHandler):
             else:
                 auth_id = "own:%s" % username
                 user = models.User.get_by_auth_id(auth_id)
-            
+
             password = self.form.password.data.strip()
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
-                
+
             # Password to SHA512
             password = utils.encrypt(password, config.salt)
-    
+
             # Try to login user with password
             # Raises InvalidAuthIdError if user is not found
             # Raises InvalidPasswordError if provided password
             # doesn't match with specified user
             self.auth.get_user_by_password(
                 auth_id, password, remember=remember_me)
-                
+
             # if user account is not activated, logout and redirect to home
             if (user.activated == False):
                 # logout
                 self.auth.unset_session()
-                
+
                 # redirect to home with error message
                 resend_email_uri = self.uri_for('resend-account-activation', encoded_email=utils.encode(user.email))
                 message = _('Your account has not yet been activated. Please check your email to activate it or') +\
@@ -304,7 +304,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                             return self.redirect_to('register')
 
                         user = user_info[1]
-                        
+
                         # create social user and associate with user
                         social_user = models.SocialUser(
                             user = user.key,
@@ -372,7 +372,10 @@ class LogoutHandler(BaseHandler):
         try:
             self.redirect(self.auth_config['login_url'])
         except (AttributeError, KeyError), e:
-            return _("User is logged out, but there was an error on the redirection.")
+            logging.error("Error logging out: %s" % e)
+            message = _("User is logged out, but there was an error on the redirection.")
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
 
 
 class RegisterHandler(RegisterBaseHandler):
@@ -435,7 +438,7 @@ class RegisterHandler(RegisterBaseHandler):
                     confirmation_url = self.uri_for("account-activation",
                         encoded_email = encoded_email,
                         _full = True)
-                    
+
                     # load email's template
                     template_val = {
                         "app_name": config.app_name,
@@ -445,19 +448,19 @@ class RegisterHandler(RegisterBaseHandler):
                     }
                     body_path = "emails/account_activation.txt"
                     body = self.jinja2.render_template(body_path, **template_val)
-                    
+
                     email_url = self.uri_for('taskqueue-send-email')
                     taskqueue.add(url = email_url, params={
                         'to': str(email),
                         'subject' : subject,
                         'body' : body,
                         })
-                    
+
                     message = _('You were successfully registered. '
                                 'Please check your email to activate your account.')
                     self.add_message(message, 'success')
                     return self.redirect_to('home')
-                
+
                 # If the user didn't register using registration form ???
                 db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
                 # Check twitter association in session
@@ -476,7 +479,8 @@ class RegisterHandler(RegisterBaseHandler):
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
-                message = _('Unexpected error creating the user %s' % '{0:>s}.'.format(username) )
+                logging.error('Unexpected error creating the user %s: %s' % {username, e })
+                message = _('Unexpected error creating the user %s' % username )
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
@@ -490,18 +494,18 @@ class AccountActivationHandler(BaseHandler):
         try:
             email = utils.decode(encoded_email)
             user = models.User.get_by_email(email)
-            
+
             # activate the user's account
             user.activated = True
             user.put()
-            
+
             message = _('Congratulations, Your account %s has been successfully activated.'
                         % '<strong>{0:>s}</strong>'.format(user.username) )
             self.add_message(message, 'success')
             self.redirect_to('login')
-            
+
         except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
-            logging.error(e)
+            logging.error("Error activating an account: %s" % e)
             message = _('Sorry, Some error occurred.')
             self.add_message(message, 'error')
             return self.redirect_to('home')
@@ -516,7 +520,7 @@ class ResendActivationEmailHandler(BaseHandler):
         try:
             email = utils.decode(encoded_email)
             user = models.User.get_by_email(email)
-            
+
             if (user.activated == False):
                 # send email
                 subject = _("%s Account Verification" % config.app_name)
@@ -524,7 +528,7 @@ class ResendActivationEmailHandler(BaseHandler):
                 confirmation_url = self.uri_for("account-activation",
                     encoded_email = encoded_email,
                     _full = True)
-                
+
                 # load email's template
                 template_val = {
                     "app_name": config.app_name,
@@ -534,14 +538,14 @@ class ResendActivationEmailHandler(BaseHandler):
                 }
                 body_path = "emails/account_activation.txt"
                 body = self.jinja2.render_template(body_path, **template_val)
-                
+
                 email_url = self.uri_for('taskqueue-send-email')
                 taskqueue.add(url = email_url, params={
                     'to': str(email),
                     'subject' : subject,
                     'body' : body,
                     })
-                    
+
                 message = _('The verification email has been resent to %s. '
                             'Please check your email to activate your account.' % email)
                 self.add_message(message, 'success')
@@ -550,8 +554,9 @@ class ResendActivationEmailHandler(BaseHandler):
                 message = _('Your account has been activated. Please <a href="/login/">sign in</a> to your account.')
                 self.add_message(message, 'warning')
                 return self.redirect_to('home')
-                
+
         except (KeyError, AttributeError), e:
+            logging.error("Error resending activation email: %s" % e)
             message = _('Sorry, Some error occurred.')
             self.add_message(message, 'error')
             return self.redirect_to('home')
@@ -576,7 +581,7 @@ class ContactHandler(BaseHandler):
             }
 
         return self.render_template('boilerplate_contact.html', **params)
-    
+
     def post(self):
         """ validate contact form """
 
@@ -621,6 +626,7 @@ class ContactHandler(BaseHandler):
             return self.redirect_to('contact')
 
         except (AttributeError, KeyError), e:
+            logging.error('Error sending contact form: %s' % e)
             message = _('Error sending the message. Please try again later.')
             self.add_message(message, 'error')
             return self.redirect_to('contact')
@@ -665,7 +671,7 @@ class EditProfileHandler(BaseHandler):
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
-            
+
             try:
                 message=''
                 # update username if it has changed and it isn't already taken
@@ -684,7 +690,7 @@ class EditProfileHandler(BaseHandler):
                         user_info.username=username
                         user_info.auth_ids[0]='own:%s' % username
                         message+= _('Your new username is %s' % '<strong>{0:>s}</strong>'.format(username) )
-                        
+
                     else:
                         message+= _('The username %s is already taken. Please choose another.'
                                 % '<strong>{0:>s}</strong>'.format(username) )
@@ -700,8 +706,8 @@ class EditProfileHandler(BaseHandler):
                 return self.get()
 
             except (AttributeError, KeyError, ValueError), e:
-                message = _('Unable to update profile. Please try again later.')
                 logging.error('Error updating profile: ' + e)
+                message = _('Unable to update profile. Please try again later.')
                 self.add_message(message, 'error')
                 return self.get()
 
@@ -747,7 +753,7 @@ class EditPasswordHandler(BaseHandler):
                 password = utils.encrypt(password, config.salt)
                 user.password = security.generate_password_hash(password, length=12)
                 user.put()
-                
+
                 # send email
                 subject = config.app_name + " Account Password Changed"
 
@@ -815,36 +821,36 @@ class EditEmailHandler(BaseHandler):
             return self.get()
         new_email = self.form.new_email.data.strip()
         password = self.form.password.data.strip()
-        
+
         try:
             user_info = models.User.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
             # Password to SHA512
             password = utils.encrypt(password, config.salt)
-            
+
             try:
                 # authenticate user by its password
                 user = models.User.get_by_auth_password(auth_id, password)
-                
+
                 # if the user change his/her email address
                 if new_email != user.email:
-                    
+
                     # check whether the new email has been used by another user
                     aUser = models.User.get_by_email(new_email)
                     if aUser is not None:
                         message = _("The email %s is already registered." % new_email)
                         self.add_message(message, 'error')
                         return self.redirect_to("edit-email")
-                    
+
                     # send email
                     subject = _("%s Email Changed Notification" % config.app_name)
                     user_token = models.User.create_auth_token(self.user_id)
-                    confirmation_url = self.uri_for("email-changed-check", 
+                    confirmation_url = self.uri_for("email-changed-check",
                         user_id = user_info.get_id(),
                         encoded_email = utils.encode(new_email),
                         token = user_token,
                         _full = True)
-                    
+
                     # load email's template
                     template_val = {
                         "app_name": config.app_name,
@@ -854,43 +860,42 @@ class EditEmailHandler(BaseHandler):
                         "confirmation_url": confirmation_url,
                         "support_url": self.uri_for("contact", _full=True)
                     }
-                    
+
                     old_body_path = "emails/email_changed_notification_old.txt"
                     old_body = self.jinja2.render_template(old_body_path, **template_val)
-                    
+
                     new_body_path = "emails/email_changed_notification_new.txt"
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
-                    
+
                     email_url = self.uri_for('taskqueue-send-email')
                     taskqueue.add(url = email_url, params={
                         'to': user.email,
                         'subject' : subject,
                         'body' : old_body,
                         })
-                    email_url = self.uri_for('taskqueue-send-email')
                     taskqueue.add(url = email_url, params={
                         'to': new_email,
                         'subject' : subject,
                         'body' : new_body,
                         })
-                    
+
                     # display successful message
                     msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
                     return self.redirect_to('edit-profile')
-                    
+
                 else:
                     self.add_message(_("You didn't change your email."), "warning")
                     return self.redirect_to("edit-email")
-                
-                
+
+
             except (InvalidAuthIdError, InvalidPasswordError), e:
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
                 message = _("Incorrect password! Please enter your current password to change your account settings.")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-email')
-                
+
         except (AttributeError,TypeError), e:
             login_error_message = _('Sorry you are not logged in.')
             self.add_message(login_error_message,'error')
@@ -948,6 +953,12 @@ class PasswordResetHandler(BaseHandler):
             user = models.User.get_by_auth_id(auth_id)
             _message = _("If the username you entered") + " (<strong>%s</strong>) " % email_or_username
 
+        _message = _message + _("is associated with an account in our records, you will receive "
+                                "an e-mail from us with instructions for resetting your password. "
+                                "<br>If you don't receive instructions within a minute or two, "
+                                "check your email's spam and junk filters, or ") +\
+                   '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
+
         if user is not None:
             user_id = user.get_id()
             token = models.User.create_auth_token(user_id)
@@ -972,18 +983,8 @@ class PasswordResetHandler(BaseHandler):
                 'body' : body,
                 'sender' : config.contact_sender,
                 })
-            _message = _message + _("is associated with an account in our records, you will receive "
-                                    "an e-mail from us with instructions for resetting your password. "
-                                    "<br>If you don't receive instructions within a minute or two, "
-                                    "check your email's spam and junk filters, or ") +\
-                       '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
             self.add_message(_message, 'success')
             return self.redirect_to('login')
-        _message = _message + _("is associated with an account in our records, you will receive "
-                                "an e-mail from us with instructions for resetting your password. "
-                                "<br>If you don't receive instructions within a minute or two, "
-                                "check your email's spam and junk filters, or ") +\
-                   '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
         self.add_message(_message, 'warning')
         return self.redirect_to('password-reset')
 
