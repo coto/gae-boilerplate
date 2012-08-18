@@ -227,6 +227,12 @@ body {
         margin-right: 0;
         margin-left: 0;
     }
+    .navbar .well {
+        background-image: none;
+    }
+    .well {
+        padding: 20px 2px;
+    }
     .led {
         background-color: orange;
     }
