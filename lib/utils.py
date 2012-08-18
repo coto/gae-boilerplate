@@ -8,7 +8,6 @@ import re
 import string
 import unicodedata
 from datetime import datetime, timedelta
-from htmlentitydefs import name2codepoint
 from google.appengine.api import mail, app_identity
 from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
