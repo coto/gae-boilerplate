@@ -177,7 +177,9 @@
     <!-- scripts concatenated and minified via build script -->
     <script src="/js/plugins.js"></script>
     <script src="/js/script.js"></script>
+    {% if locale_language_id != "en" %}
     <script src="/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
+    {% endif %}
     {% block mediaJS %}{% endblock %}
     <!-- end scripts -->
 </body>
