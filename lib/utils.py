@@ -1,27 +1,38 @@
-import os
-import re
-import hashlib
+
 import Cookie
-import config
-from datetime import datetime
-from datetime import timedelta
-from google.appengine.api import mail
-from google.appengine.api import app_identity
-from models import models
+import hashlib
+import logging
+import os
+import random
+import re
+import string
+import unicodedata
+from datetime import datetime, timedelta
+from htmlentitydefs import name2codepoint
+from google.appengine.api import mail, app_identity
 from google.appengine.api.datastore_errors import BadValueError
 from google.appengine.runtime import apiproxy_errors
-import logging
-import unicodedata
-import string
-import random
-
+import config
+from models import models
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
     return ''.join(random.choice(chars) for _ in range(size))
 
 def send_email(to, subject, body, sender=''):
-    """ Main function to send emails """
+    """
+        Core function to send emails
+        Don't call it directly
+        Use it calling to the Handler SendEmailHandler with taskqueue
+
+        email_url = self.uri_for('taskqueue-send-email')
+        taskqueue.add(url = email_url, params={
+            'to': [[contact_recipient]],
+            'subject' : [[subject]],
+            'body' : [[body]],
+            })
+
+    """
 
     if sender != '' or not is_email_valid(sender):
         if is_email_valid(config.contact_sender):
@@ -135,9 +146,9 @@ def is_alphanumeric(field):
 
 def get_device(cls):
     uastring = cls.request.user_agent or 'unknown'
-    is_mobile = (("Mobile" in uastring and "Safari" in uastring) or \
-	 ("Windows Phone OS" in uastring and "IEMobile" in uastring) or \
-     ("Blackberry") in uastring)
+    is_mobile = (("Mobile" in uastring and "Safari" in uastring) or\
+                 ("Windows Phone OS" in uastring and "IEMobile" in uastring) or\
+                 ("Blackberry") in uastring)
 
     if "MSIE" in uastring:
         browser = "Explorer"
