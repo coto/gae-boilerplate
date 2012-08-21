@@ -3,9 +3,10 @@ Google App Engine Boilerplate is released under the LGPL
 Copyright 2012
 
 What's LGPL?
-  LGPL is a free software license published by the Free Software Foundation (FSF).
+  LGPL (LESSER GENERAL PUBLIC LICENSE) is a free software license published by
+  the Free Software Foundation (FSF).
   It was designed as a compromise between the strong-copyleft GNU General Public
-  License or GPL and permissive licenses such as the BSD licenses and the MIT License.
+  License (GPL) and permissive licenses such as the BSD licenses and the MIT License.
 
 Why this Licence for Google App Engine Boilerplate?
   Because with this licence you can use "Google App Engine Boilerplate" regardless
