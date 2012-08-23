@@ -262,7 +262,7 @@ class BaseHandler(webapp2.RequestHandler):
         return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
 
     @webapp2.cached_property
-    def base_layout(self):
+    def get_base_layout(self):
         """
         Get the current base layout template for jinja2 templating. Uses the variable base_layout set in config
         or if there is a base_layout defined, use the base_layout.
@@ -304,7 +304,7 @@ class BaseHandler(webapp2.RequestHandler):
             'provider_uris': self.provider_uris,
             'provider_info': self.provider_info,
             'enable_federated_login': config.enable_federated_login,
-            'base_layout': self.base_layout
+            'base_layout': self.get_base_layout
             })
         kwargs.update(self.auth_config)
         if hasattr(self, 'form'):
