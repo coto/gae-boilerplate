@@ -31,7 +31,7 @@ def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,
             res[l] = int(100*float(q))
     return res
 
-def get_territory_from_ip(request):
+def get_territory_from_ip(cls):
     """
     call: get_territory_from_ip(self.request)
 
@@ -46,17 +46,22 @@ def get_territory_from_ip(request):
     """
     territory = None
     try:
-        result = urlfetch.fetch("http://geoip.wtanaka.com/cc/"+request.remote_addr, deadline=0.2) # tweak deadline if necessary
+        cook_territoy = cls.request.cookies.get('territory', None)
+        if cook_territoy is not None:
+            return cook_territoy
+
+        result = urlfetch.fetch("http://geoip.wtanaka.com/cc/%s" % cls.request.remote_addr, deadline=0.8) # tweak deadline if necessary
         if result.status_code == 200:
             fetch = result.content
             if len(str(fetch)) < 3:
                 territory = str(fetch).upper()
+                cls.response.set_cookie('territory', territory, max_age = 15724800)
             else:
-                logging.warning("Ups, geoip.wtanaka.com is not working. Look what it returns: "+ str(fetch) )
+                logging.warning("Ups, geoip.wtanaka.com is not working. Look what it returns: %s" % str(fetch) )
         else:
-            logging.warning("Ups, geoip.wtanaka.com is not working. Status Code: "+ str(result.status_code) )
+            logging.warning("Ups, geoip.wtanaka.com is not working. Status Code: %s" % str(result.status_code) )
     except DownloadError:
-        logging.warning("Couldn't resolve http://geoip.wtanaka.com/cc/"+request.remote_addr)
+        logging.warning("Couldn't resolve http://geoip.wtanaka.com/cc/%s"% cls.request.remote_addr)
     return territory
 
 def get_locale_from_accept_header(request):
@@ -100,7 +105,7 @@ def set_locale(cls, force=None):
                 locale = get_locale_from_accept_header(cls.request)
                 if locale not in config.locales:
                     # 5. detect locale from IP address location
-                    territory = get_territory_from_ip(cls.request) or 'ZZ'
+                    territory = get_territory_from_ip(cls) or 'ZZ'
                     locale = str(Locale.negotiate(territory, config.locales))
                     if locale not in config.locales:
                         # 6. use default locale
