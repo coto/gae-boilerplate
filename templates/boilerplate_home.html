@@ -128,6 +128,17 @@
                     error.addClass("help-inline").appendTo( element.parent() );
                 }
             });
+            $("#password").passStrength({
+                baseStyle: 'label',
+                shortPass: 'label-info',
+                shortPassText: {% trans %}'Short Password'{% endtrans %},
+                badPass: 'label-important',
+                badPassText: {% trans %}'Insecure Password'{% endtrans %},
+                goodPass: 'label-warning',
+                goodPassText: {% trans %}'Good Password'{% endtrans %},
+                strongPass: 'label-success',
+                strongPassText: {% trans %}'Secure Password'{% endtrans %}
+            });
         });
     </script>
 {% endblock %}
