@@ -354,12 +354,12 @@ body {
 span.password_strength{
     display: block;
     width: 271px;
-    cursor: default;
     margin: 4px 0 0;
 }
 
 .auth-at-home span.password_strength{
     display: inline-block;
     width: auto;
+    cursor: default;
     margin-bottom: 6px;
 }

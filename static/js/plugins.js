@@ -132,19 +132,19 @@ $(function() {
   $.fn.passStrength = function(options) {
 
     var defaults = {
-      shortPass: "shortPass",
+      shortPass: "label-important",
       shortPassText: "Too short",
       //optional
-      badPass: "badPass",
+      badPass: "label-important",
       badPassText: "Weak",
       //optional
-      goodPass: "goodPass",
+      goodPass: "label-warning",
       goodPassText: "Good",
       //optional
-      strongPass: "strongPass",
+      strongPass: "label-success",
       strongPassText: "Strong",
       //optional
-      baseStyle: "testresult",
+      baseStyle: "label",
       //optional
       userid: "",
       //required override
