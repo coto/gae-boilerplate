@@ -43,14 +43,40 @@ class SendEmailHandler(BaseHandler):
     Core Handler for sending Emails
     Use with TaskQueue
     """
-
     def post(self):
+
+        from google.appengine.api import mail, app_identity
+        from google.appengine.api.datastore_errors import BadValueError
+        from google.appengine.runtime import apiproxy_errors
+        import config
+        from models import models
+
         to = self.request.get("to")
         subject = self.request.get("subject")
         body = self.request.get("body")
         sender = self.request.get("sender")
 
-        utils.send_email(to, subject, body, sender)
+        if sender != '' or not utils.is_email_valid(sender):
+            if utils.is_email_valid(config.contact_sender):
+                sender = config.contact_sender
+            else:
+                app_id = app_identity.get_application_id()
+                sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
+
+        try:
+            logEmail = models.LogEmail(
+                sender = sender,
+                to = to,
+                subject = subject,
+                body = body,
+                when = utils.get_date_time("datetimeProperty")
+            )
+            logEmail.put()
+        except (apiproxy_errors.OverQuotaError, BadValueError):
+            logging.error("Error saving Email Log in datastore")
+
+        mail.send_mail(sender, to, subject, body)
+
 
 
 class LoginHandler(BaseHandler):
