@@ -117,7 +117,7 @@ class LoginHandler(BaseHandler):
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
 
             # Password to SHA512
-            password = utils.encrypt(password, config.salt)
+            password = utils.hashing(password, config.salt)
 
             # Try to login user with password
             # Raises InvalidAuthIdError if user is not found
@@ -430,7 +430,7 @@ class RegisterHandler(RegisterBaseHandler):
         country = self.form.country.data
 
         # Password to SHA512
-        password = utils.encrypt(password, config.salt)
+        password = utils.hashing(password, config.salt)
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -772,11 +772,11 @@ class EditPasswordHandler(BaseHandler):
             auth_id = "own:%s" % user_info.username
 
             # Password to SHA512
-            current_password = utils.encrypt(current_password, config.salt)
+            current_password = utils.hashing(current_password, config.salt)
             try:
                 user = models.User.get_by_auth_password(auth_id, current_password)
                 # Password to SHA512
-                password = utils.encrypt(password, config.salt)
+                password = utils.hashing(password, config.salt)
                 user.password = security.generate_password_hash(password, length=12)
                 user.put()
 
@@ -852,7 +852,7 @@ class EditEmailHandler(BaseHandler):
             user_info = models.User.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
             # Password to SHA512
-            password = utils.encrypt(password, config.salt)
+            password = utils.hashing(password, config.salt)
 
             try:
                 # authenticate user by its password
@@ -1038,7 +1038,7 @@ class PasswordResetCompleteHandler(BaseHandler):
         password = self.form.password.data.strip()
         if user and self.form.validate():
             # Password to SHA512
-            password = utils.encrypt(password, config.salt)
+            password = utils.hashing(password, config.salt)
 
             user.password = security.generate_password_hash(password, length=12)
             user.put()
