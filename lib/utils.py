@@ -1,60 +1,19 @@
 
 import Cookie
 import hashlib
-import logging
 import os
 import random
 import re
 import string
 import unicodedata
 from datetime import datetime, timedelta
-from google.appengine.api import mail, app_identity
-from google.appengine.api.datastore_errors import BadValueError
-from google.appengine.runtime import apiproxy_errors
-import config
-from models import models
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
     return ''.join(random.choice(chars) for _ in range(size))
 
-def send_email(to, subject, body, sender=''):
-    """
-        Core function to send emails
-        Don't call it directly
-        Use it calling to the Handler SendEmailHandler with taskqueue
-
-        email_url = self.uri_for('taskqueue-send-email')
-        taskqueue.add(url = email_url, params={
-            'to': [[contact_recipient]],
-            'subject' : [[subject]],
-            'body' : [[body]],
-            })
-
-    """
-
-    if sender != '' or not is_email_valid(sender):
-        if is_email_valid(config.contact_sender):
-            sender = config.contact_sender
-        else:
-            app_id = app_identity.get_application_id()
-            sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
-
-    try:
-        logEmail = models.LogEmail(
-            sender = sender,
-            to = to,
-            subject = subject,
-            body = body,
-            when = get_date_time("datetimeProperty")
-        )
-        logEmail.put()
-    except (apiproxy_errors.OverQuotaError, BadValueError):
-        logging.error("Error saving Email Log in datastore")
-
-    mail.send_mail(sender, to, subject, body)
-
 def encrypt(plaintext, salt="", sha="512"):
+    # TODO: rename to hashing
     """ Returns the encrypted hexdigest of a plaintext and salt"""
 
     if sha == "1":
@@ -144,6 +103,7 @@ def is_alphanumeric(field):
     return 0
 
 def get_device(cls):
+    # TODO: Remove this function
     uastring = cls.request.user_agent or 'unknown'
     is_mobile = (("Mobile" in uastring and "Safari" in uastring) or\
                  ("Windows Phone OS" in uastring and "IEMobile" in uastring) or\
@@ -219,6 +179,7 @@ def slugify(value):
     value = unicode(_slugify_strip_re.sub('', value).strip().lower())
     return _slugify_hyphenate_re.sub('-', value)
 
+# TODO: Use locale (Babel)
 COUNTRIES = [
     ("", ""),
     ("AF", "Afghanistan"),
