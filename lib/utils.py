@@ -12,7 +12,7 @@ def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
     return ''.join(random.choice(chars) for _ in range(size))
 
-def encrypt(plaintext, salt="", sha="512"):
+def hashing(plaintext, salt="", sha="512"):
     # TODO: rename to hashing
     """ Returns the encrypted hexdigest of a plaintext and salt"""
 
