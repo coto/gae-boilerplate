@@ -9,7 +9,7 @@ Google App Engine Boilerplate gets your project off the ground quickly using the
 Create powerful applications by using the latest technology supported on Google App Engine. 
 It will introduces new developers to App Engine and advanced developers to follow best practices.
 
-[Try it online](http://appengine.beecoss.com)
+[Try a online demo](http://appengine.beecoss.com)
 
 What's a Boilerplate?
 ---------------------
@@ -57,37 +57,35 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 
 Testing
 -------
-=== Unit testing
-- Unit tests can be run via [testrunner][https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
-- Please add or modify the [unittests][https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
-- To run unittests it may be necessary to install [webtest][http://webtest.pythonpaste.org/en/latest/index.html#installation], [mock][http://www.voidspace.org.uk/python/mock/], and [pyquery][http://packages.python.org/pyquery/] in your local python installation.
-
-== See the Boilerplate online (a live demo)
-http://appengine.beecoss.com
+**Unit testing**
++ Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
++ Please add or modify the [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests) as necessary.
++ To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
 
 
-== Technologies used
-* Python 2.7
-* [NDB 1.0.1][http://developers.google.com/appengine/docs/python/ndb/] (The best datastore API for the Google App Engine Python runtime).
-* [Jinja2 2.6][http://jinja.pocoo.org/docs/] (A fully featured template engine for Python).
-* [WTForms-1.0.1][http://wtforms.simplecodes.com/] (Forms validation framework keeping user interaction secure and flexible with or without javascript).
-* [webapp2 2.5.1][http://webapp-improved.appspot.com/] (A lightweight Python web framework, the most compatible with Google App Engine).
-* [Babel-0.9.6][http://babel.edgewall.org/] and [gaepytz-2011h][http://code.google.com/p/gae-pytz/] (Industy standard internationalization renders the site in multiple languages).
+Technologies used
+-----------------
++ Python 2.7
++ [NDB 1.0.1](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
++ [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
++ [WTForms-1.0.1](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
++ [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
++ [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
   * webapp2_extras.sessions
   * webapp2_extras.routes
   * webapp2_extras.auth
   * webapp2_extras.i18n
-* Code written following the [Google Python Style Guide][http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
-* Unit testing with [unittest][http://docs.python.org/library/unittest.html], [webtest][http://webtest.pythonpaste.org/en/latest/index.html], [pyquery][http://packages.python.org/pyquery/]
-* OpenID library provided by Google App Engine
-* OAuth2 for federated login providers that do not support OpenID
++ Code written following the [Google Python Style Guide](http://google-styleguide.googlecode.com/svn/trunk/pyguide.html)
++ Unit testing with [unittest](http://docs.python.org/library/unittest.html), [webtest](http://webtest.pythonpaste.org/en/latest/index.html), [pyquery](http://packages.python.org/pyquery/)
++ OpenID library provided by Google App Engine
++ OAuth2 for federated login providers that do not support OpenID
 
 Front-end Technologies
 ----------------------
-* [HTML5Boilerplate][http://html5boilerplate.com/]
-* [Modernizr 2.6.1][http://modernizr.com]
-* [jQuery 1.7.2][http://jquery.com]
-* [Twitter Bootstrap 2.0.4][http://twitter.github.com/bootstrap/] Template for Desktop Version.
++ [HTML5Boilerplate](http://html5boilerplate.com/)
++ [Modernizr 2.6.1](http://modernizr.com)
++ [jQuery 1.8.0](http://jquery.com)
++ [Twitter Bootstrap 2.1.0](http://twitter.github.com/bootstrap/) Template for Desktop Version.
 
 Please help us translate and add new languages!
 -----------------------------------------------
@@ -110,7 +108,7 @@ Adding or updating text to be translated or adding new languages requires more w
    1. `{%..._("text to translate")...%}`
    Translations can be added to other types of files too.  See [babel.cfg](https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg)
    and [babel.cfg documentation](http://babel.edgewall.org/wiki/Documentation/0.9/messages.html)
-1. Obtain pybabel to perform the steps below.  You will need to install and compile [jinja2][http://jinja.pocoo.org/docs/] and [babel][http://babel.edgewall.org/wiki/Download].
+1. Obtain pybabel to perform the steps below.  You will need to install and compile [jinja2](http://jinja.pocoo.org/docs/) and [babel](http://babel.edgewall.org/wiki/Download).
    Note that you may need to first install [setuptools and easy_install](http://pypi.python.org/pypi/setuptools).
    pybabel.exe can be run from the Scripts directory in your python installation.
    * easy_install jinja2 babel
@@ -124,7 +122,7 @@ Adding or updating text to be translated or adding new languages requires more w
    1. Add new languages
       Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add.
       pybabel init -l es_ES -d ./locale -i ./locale\messages.pot
-      Add the locale to the locales array in [config.py][https://github.com/coto/gae-boilerplate/blob/master/config.py].  Instructions on how to pick a locale code are provided in the comments above the array.
+      Add the locale to the locales array in [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py).  Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
