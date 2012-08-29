@@ -1,4 +1,5 @@
-= Google App Engine Boilerplate
+[Google App Engine Boilerplate](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/twitter/bootstrap.png)](http://travis-ci.org/twitter/bootstrap)
+==============================
 
 Sponsored by
 
@@ -10,17 +11,20 @@ Google App Engine Boilerplate gets your project off the ground quickly using the
 Create powerful applications by using the latest technology supported on Google App Engine. 
 It will introduces new developers to App Engine and advanced developers to follow best practices.
 
-{Try it online}[http://appengine.beecoss.com]
+[Try it online](http://appengine.beecoss.com)
 
-=== What's a Boilerplate?
+What's a Boilerplate?
+---------------------
 A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
 
-=== What makes this Boilerplate Amazing?
+What makes this Boilerplate Amazing?
+------------------------------------
 It is fully featured, actively maintained, and uses the latest technologies supported by Google App Engine.
 
 New to Google App Engine? Learn about it by watching {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or reading {this website}[https://developers.google.com/appengine/].
 
-== Get started in just a few easy steps
+Get started in just a few easy steps
+------------------------------------
 1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
 1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
@@ -30,7 +34,8 @@ New to Google App Engine? Learn about it by watching {this video}[http://www.you
 1. Deploy it online ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading] - recommended setup: python 2.7, high replication datastore)
 
 
-== Functions and features:
+Functions and features:
+-----------------------
 - Authentication (Login, Logout, Sign Up)
 - Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 - Reset Password
@@ -46,12 +51,14 @@ New to Google App Engine? Learn about it by watching {this video}[http://www.you
 - Client side and server side form validation
 - Error handling
 
-== Open Source
+Open Source
+-----------
 If you want to add, fix or improve something, create an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
 Before committing fixes we recommend running the unitests.  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
-== Testing
+Testing
+-------
 === Unit testing
 - Unit tests can be run via {testrunner}[https://github.com/coto/gae-boilerplate/blob/master/testrunner.py] or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
 - Please add or modify the {unittests}[https://github.com/coto/gae-boilerplate/tree/master/web/tests] as necessary.
@@ -77,13 +84,15 @@ http://appengine.beecoss.com
 * OpenID library provided by Google App Engine
 * OAuth2 for federated login providers that do not support OpenID
 
-== Front-end Technologies
+Front-end Technologies
+----------------------
 * {HTML5Boilerplate}[http://html5boilerplate.com/]
 * {Modernizr 2.6.1}[http://modernizr.com]
 * {jQuery 1.7.2}[http://jquery.com]
 * {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
 
-== Please help us translate and add new languages!
+Please help us translate and add new languages!
+-----------------------------------------------
 In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
@@ -91,7 +100,8 @@ msgid is the text in English.  msgstr is the translation to the language indicat
 
 <tt>msgstr "Cambiar tu contraseña"</tt>
 
-== Working with Internationalization (i18n)
+Working with Internationalization (i18n)
+----------------------------------------
 This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
 
@@ -128,7 +138,8 @@ Adding or updating text to be translated or adding new languages requires more w
 
 See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html] and {pybabel's docs}[http://babel.edgewall.org/wiki/Documentation/cmdline.html] for more details.
 
-== Security
+Security
+--------
 ===SSL
 * SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)
 * SSL either requires a free google app engine *.appspot.com domain or a {custom domain and certificate}[https://developers.google.com/appengine/docs/ssl]
@@ -139,7 +150,8 @@ See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html]
 ===CSRF
 * {Cross-site request forgery}[http://en.wikipedia.org/wiki/Cross-site_request_forgery] protection provided by a {wtforms extension}[http://wtforms.simplecodes.com/docs/dev/ext.html#module-wtforms.ext.csrf]
 
-== Acknowledgements
+Acknowledgements
+----------------
 Google App Engine Boilerplate is a collaborative project created by {coto}[https://github.com/coto] which is bringing to you thanks to the help of
 these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
 
