@@ -10,6 +10,7 @@
 """
 # standard library imports
 import logging
+import re
 # related third party imports
 import webapp2
 from webapp2_extras import security
@@ -24,6 +25,8 @@ import models.models as models
 from lib import utils, httpagentparser, captcha, twitter
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
+from lib import facebook, simplejson
+from lib.linkedin import linkedin
 
 
 class RegisterBaseHandler(BaseHandler):
@@ -124,6 +127,33 @@ class LoginHandler(BaseHandler):
                         extra_data = twitter_association_data
                     )
                     social_user.put()
+                    
+            #check facebook association            
+            fb_data = simplejson.loads(self.session['facebook'])
+
+            if fb_data is not None:
+                if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user.key,
+                        provider = 'facebook',
+                        uid = str(fb_data['id']),
+                        extra_data = fb_data
+                    )
+                    social_user.put()
+                    
+            #check linkedin association
+            li_data = simplejson.loads(self.session['linkedin'])
+            if li_data is not None:
+                if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user.key,
+                        provider = 'linkedin',
+                        uid = str(li_data['id']),
+                        extra_data = li_data
+                    )
+                    social_user.put()
+            
+            #end linkedin                    
 
             logVisit = models.LogVisit(
                 user=user.key,
@@ -161,6 +191,19 @@ class SocialLoginHandler(BaseHandler):
         if provider_name == "twitter":
             twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
             self.redirect(twitter_helper.auth_url())
+            
+
+        elif provider_name == "facebook":
+            perms = ['email', 'publish_stream']
+            self.redirect(facebook.auth_url(config._FbApiKey, callback_url, perms))
+            
+        elif provider_name == 'linkedin':
+            link = linkedin.LinkedIn(config.linkedin_api,config.linkedin_secret, callback_url)
+            if link.request_token():
+                self.session['request_token']=link._request_token
+                self.session['request_token_secret']=link._request_token_secret
+                self.redirect(link.get_authorize_url())             
+            
         else:
             message = _('%s authentication is not yet implemented.' % provider_display_name)
             self.add_message(message, 'warning')
@@ -225,6 +268,124 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 'or <a href="/register/">create an account</a>.' % config.app_name)
                     self.add_message(message, 'warning')
                     self.redirect_to('login')
+                    
+        #facebook association
+        elif provider_name == "facebook":
+            code = self.request.get('code')
+            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)          
+            token = facebook.get_access_token_from_code(code, callback_url, config._FbApiKey, config._FbSecret)
+            access_token = token['access_token']
+            fb = facebook.GraphAPI(access_token)
+            user_data = fb.get_object('me')
+            if self.user:
+                # new association with facebook
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, 'facebook', str(user_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = 'facebook',
+                        uid = str(user_data['id']),
+                        extra_data = user_data
+                    )
+                    social_user.put()
+
+                    message = _('Facebook association added!')
+                    self.add_message(message,'success')
+                else:
+                    message = _('This Facebook account is already in use!')
+                    self.add_message(message,'error')
+                self.redirect_to('edit-profile')
+            else:
+                # login with Facebook
+                social_user = models.SocialUser.get_by_provider_and_uid('facebook',
+                    str(user_data['id']))
+                if social_user:
+                    # Social user exists. Need authenticate related site account
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('home')
+                else:
+                    # Social user does not exists. Need show login and registration forms                   
+
+                    self.session['facebook']=simplejson.dumps(user_data)         
+                    login_url = '%s/login/'  % self.request.host_url
+                    signup_url = '%s/register/' %  self.request.host_url
+                    message = _('The Facebook account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
+                    self.add_message(message,'info')
+                    self.redirect_to('login')
+            
+            #end facebook
+         # association with linkedin   
+        elif provider_name == "linkedin":
+            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name) 
+            link = linkedin.LinkedIn(config.linkedin_api,config.linkedin_secret, callback_url)
+            request_token = self.session['request_token']
+            request_token_secret= self.session['request_token_secret']
+            link._request_token = request_token
+            link._request_token_secret = request_token_secret  
+            verifier = self.request.get('oauth_verifier')
+            #~ print 'test'   
+            #~ print 'request_token= %s ; request_token_secret= %s ;verifier = %s ' % (request_token, request_token_secret, verifier)          
+            link.access_token(verifier=verifier)           
+            u_data = link.get_profile()            
+            user_key = re.search(r'key=(\d+)', u_data.private_url).group(1)
+            user_data={'first_name':u_data.first_name, 'last_name':u_data.last_name ,'id':user_key}
+            self.session['linkedin'] = simplejson.dumps(user_data)
+
+            if self.user:
+                # new association with linkedin
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, 'linkedin', str(user_data['id'])):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = 'linkedin',
+                        uid = str(user_data['id']),
+                        extra_data = user_data
+                    )
+                    social_user.put()
+
+                    message = _('Linkedin association added!')
+                    self.add_message(message,'success')
+                else:
+                    message = _('This Linkedin account is already in use!')
+                    self.add_message(message,'error')
+                self.redirect_to('edit-profile')
+            else:
+                # login with Linkedin
+                social_user = models.SocialUser.get_by_provider_and_uid('linkedin',
+                    str(user_data['id']))
+                if social_user:
+                    # Social user exists. Need authenticate related site account
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('home')
+                else:
+                    # Social user does not exists. Need show login and registration forms                   
+                    self.session['linkedin'] = simplejson.dumps(user_data)       
+                    login_url = '%s/login/'  % self.request.host_url
+                    signup_url = '%s/register/' %  self.request.host_url
+                    message = _('The Linkedin account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
+                    self.add_message(message,'info')
+                    self.redirect_to('login')
+            
+            #end linkedin
+                    
+                    
+                    
             # Debug Callback information provided
 #            for k,v in user_data.items():
 #                print(k +":"+  v )
@@ -475,6 +636,32 @@ class RegisterHandler(RegisterBaseHandler):
                             extra_data = twitter_association_data
                         )
                         social_user.put()
+
+                #check facebook association
+                fb_data = simplejson.loads(self.session['facebook'])               
+
+                if fb_data is not None:
+                    if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user.key,
+                            provider = 'facebook',
+                            uid = str(fb_data['id']),
+                            extra_data = fb_data
+                        )
+                        social_user.put()
+                #check linkedin association    
+                li_data = simplejson.loads(self.session['linkedin'])
+                if li_data is not None:
+                    if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
+                        social_user = models.SocialUser(
+                            user = user.key,
+                            provider = 'linkedin',
+                            uid = str(li_data['id']),
+                            extra_data = li_data
+                        )
+                        social_user.put()
+                                                
+
                 message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username) )
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
