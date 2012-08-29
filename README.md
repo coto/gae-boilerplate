@@ -73,10 +73,10 @@ Technologies used
 + [WTForms-1.0.1](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
-  * webapp2_extras.sessions
-  * webapp2_extras.routes
-  * webapp2_extras.auth
-  * webapp2_extras.i18n
+    + webapp2_extras.sessions
+    + webapp2_extras.routes
+    + webapp2_extras.auth
+    + webapp2_extras.i18n
 + Code written following the [Google Python Style Guide](http://google-styleguide.googlecode.com/svn/trunk/pyguide.html)
 + Unit testing with [unittest](http://docs.python.org/library/unittest.html), [webtest](http://webtest.pythonpaste.org/en/latest/index.html), [pyquery](http://packages.python.org/pyquery/)
 + OpenID library provided by Google App Engine
@@ -105,12 +105,13 @@ Text to be translated needs to be indicated in code and then translated by users
 
 Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:
 
-1. Text to be translated should be enclosed in `_("text to translate") in *.py files.
+1. Text to be translated should be enclosed in `_("text to translate")` in *.py files.
    + `{{..._("text to translate")...}}`
    + `{%..._("text to translate")...%}`
 1. In html templates translated text is indicated by:
    + `{% trans %}text to translate{% endtrans %}`
-   Translations can be added to other types of files too.  See [babel.cfg](https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg)
+   
+   **NOTE:** Translations can be added to other types of files too.  See [babel.cfg](https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg)
    and [babel.cfg documentation](http://babel.edgewall.org/wiki/Documentation/0.9/messages.html)
 1. Obtain pybabel to perform the steps below.  You will need to install and compile [jinja2](http://jinja.pocoo.org/docs/) and [babel](http://babel.edgewall.org/wiki/Download).
    Note that you may need to first install [setuptools and easy_install](http://pypi.python.org/pypi/setuptools).
