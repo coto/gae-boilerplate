@@ -21,7 +21,7 @@ skip_files:
 - ^(.*/)?test$
 - ^Makefile
 - ^COPYING.LESSER
-- ^README.rdoc
+- ^README.md
 - \.gitignore
 - ^\.git/.*
 - \.*\.lint$
