@@ -1,12 +1,12 @@
-Hello {{first_name}},
+<p>Hello <strong>{{first_name}}</strong>,</p>
 
-You've changed the email address associated with your {{ app_name }} account (@{{username}}).
+<p>You've changed the email address associated with your {{ app_name }} account (@{{username}}).</p>
 
-Please follow the link to confirm {{new_email}} as your new e-mail contact:
+<p>Please follow the link to confirm {{new_email}} as your new e-mail contact:</p>
 
 {{confirmation_url}}
 
-Once confirmed, all {{ app_name }} email will be sent to this address.
+<p>Once confirmed, all {{ app_name }} email will be sent to this address.</p>
 
-Sincerely,
+<p>Sincerely,<br>
 {{ app_name }} Team

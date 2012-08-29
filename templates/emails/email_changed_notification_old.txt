@@ -1,10 +1,11 @@
-Hello {{ first_name }},
+<p>Hello <strong>{{ first_name }}</strong>,</p>
 
-Recently you've changed the email address associated with your {{ app_name }} account (@{{username}}).
-To confirm your new e-mail contact, please follow the link in the confirmation message sent to that address.
+<p>Recently you've changed the email address associated with your {{ app_name }} account (@{{username}}).
+To confirm your new e-mail contact, please follow the link in the confirmation message sent to that address.</p>
 
-If you do not request this change and believe that your {{ app_name }} account has been compromised, contact {{ app_name }} support by clicking this link:
+<p>If you do not request this change and believe that your {{ app_name }} account has been compromised,
+contact {{ app_name }} support by clicking this link:</p>
 {{support_url}}
 
-Sincerely,
+<p>Sincerely,<br>
 {{ app_name }} Team

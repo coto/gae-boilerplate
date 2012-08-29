@@ -1,9 +1,11 @@
-Name: {{name}}
-Email: {{email}}
+<p><strong>Name:</strong> {{name}}</p>
+<p><strong>Email:</strong> {{email}}</p>
 
-Web Browser: {{browser}} {{browser_version}}
-Operating System: {{operating_system}}
-IP Address: {{ip}}
+<p><strong>Web Browser:</strong> {{browser}} {{browser_version}}
+<p><strong>Operating System:</strong> {{operating_system}}
+<p><strong>IP Address:</strong> {{ip}}
 
-Message:
+<p>
+<strong>Message:</strong><br>
 {{message}}
+</p>

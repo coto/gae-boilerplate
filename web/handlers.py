@@ -75,8 +75,12 @@ class SendEmailHandler(BaseHandler):
         except (apiproxy_errors.OverQuotaError, BadValueError):
             logging.error("Error saving Email Log in datastore")
 
-        mail.send_mail(sender, to, subject, body)
-
+        message = mail.EmailMessage()
+        message.sender=sender
+        message.to=to
+        message.subject=subject
+        message.html=body
+        message.send()
 
 
 class LoginHandler(BaseHandler):

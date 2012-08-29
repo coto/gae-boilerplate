@@ -1,11 +1,16 @@
-Hello {{username}},
+<p>Hello <strong>{{username}}</strong>,</p>
 
-You just have registered in {{ app_name }} as @{{username}}. In order to activate your account, please verify your email by clicking this link:
+<p>
+You just have registered in {{ app_name }} as @{{username}}. In order to activate your account,
+please verify your email by clicking this link:
+</p>
 
 {{confirmation_url}}
 
-If you have any question, please do not hesitate to contact us at:
+<p>
+If you have any question, please do not hesitate to contact us at:</br>
 {{support_url}}
+</p>
 
-Sincerely,
+<p>Sincerely,<br>
 {{ app_name }} Team
