@@ -351,6 +351,8 @@ body {
 
 }
 
+/* password Strength */
+
 span.password_strength{
     display: block;
     width: 271px;
