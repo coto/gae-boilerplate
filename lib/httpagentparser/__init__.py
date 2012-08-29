@@ -217,14 +217,14 @@ class Windows(OS):
     look_for = 'Windows'
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
     win_versions = {
-            "NT 6.1": "7",
-            "NT 6.0": "Vista",
-            "NT 5.2": "Server 2003 / XP x64",
-            "NT 5.1": "XP",
-            "NT 5.01": "2000 SP1",
-            "NT 5.0": "2000",
-            "98; Win 9x 4.90": "Me"
-        }
+        "NT 6.1": "7",
+        "NT 6.0": "Vista",
+        "NT 5.2": "Server 2003 / XP x64",
+        "NT 5.1": "XP",
+        "NT 5.01": "2000 SP1",
+        "NT 5.0": "2000",
+        "98; Win 9x 4.90": "Me"
+    }
 
     def getVersion(self, agent):
         v = agent.split('Windows')[-1].split(';')[0].strip()
@@ -354,7 +354,7 @@ def simple_detect(agent):
 
     os = os_list and " ".join(os_list) or "Unknown OS"
     os_version = os_list and (result.get('flavor') and result['flavor'].get('version')) or (
-    result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
+        result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
     browser = 'browser' in result and result['browser'].get('name') or 'Unknown Browser'
     browser_version = 'browser' in result and result['browser'].get('version') or ""
     if browser_version:
