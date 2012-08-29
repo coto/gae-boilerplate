@@ -51,8 +51,10 @@ Functions and features:
 
 Open Source
 -----------
-If you want to add, fix or improve something, create an [issue][https://github.com/coto/gae-boilerplate/issues] or a [Pull Request][https://github.com/coto/gae-boilerplate/pull/new/master].
+If you want to add, fix or improve something, create an [issue](https://github.com/coto/gae-boilerplate/issues) or send a [Pull Request](https://github.com/coto/gae-boilerplate/pull/new/master).
+
 Before committing fixes we recommend running the unitests.  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
+
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
 Testing
@@ -102,16 +104,18 @@ This boilerplate comes bundled with babel, pytz, and automatic language detectio
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
 
 Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:
-1. Text to be translated should be enclosed in _("text to translate") in *.py files.  In html templates translated text is indicated by:
-   1. `{% trans %}text to translate{% endtrans %}`
-   1. `{{..._("text to translate")...}}`
-   1. `{%..._("text to translate")...%}`
+
+1. Text to be translated should be enclosed in `_("text to translate") in *.py files.
+   + `{{..._("text to translate")...}}`
+   + `{%..._("text to translate")...%}`
+1. In html templates translated text is indicated by:
+   + `{% trans %}text to translate{% endtrans %}`
    Translations can be added to other types of files too.  See [babel.cfg](https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg)
    and [babel.cfg documentation](http://babel.edgewall.org/wiki/Documentation/0.9/messages.html)
 1. Obtain pybabel to perform the steps below.  You will need to install and compile [jinja2](http://jinja.pocoo.org/docs/) and [babel](http://babel.edgewall.org/wiki/Download).
    Note that you may need to first install [setuptools and easy_install](http://pypi.python.org/pypi/setuptools).
    pybabel.exe can be run from the Scripts directory in your python installation.
-   * easy_install jinja2 babel
+   * `easy_install jinja2 babel`
 1. Babel then needs to find all translationed text blocks throughout code and templates.
    After installing pybabl run this command to extract messages (assuming ./ is the location of this boilerplate):
    <tt>pybabel extract -F ./locale/babel.cfg -o ./locale/messages.pot ./ --sort-output --no-location --omit-header</tt>
