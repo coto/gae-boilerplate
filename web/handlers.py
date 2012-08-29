@@ -128,8 +128,12 @@ class LoginHandler(BaseHandler):
                     )
                     social_user.put()
                     
-            #check facebook association            
-            fb_data = simplejson.loads(self.session['facebook'])
+            #check facebook association      
+            fb_data = None
+            try:      
+                fb_data = simplejson.loads(self.session['facebook'])
+            except:
+                pass
 
             if fb_data is not None:
                 if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
@@ -142,7 +146,11 @@ class LoginHandler(BaseHandler):
                     social_user.put()
                     
             #check linkedin association
-            li_data = simplejson.loads(self.session['linkedin'])
+            li_data = None
+            try:
+                li_data = simplejson.loads(self.session['linkedin'])
+            except:
+                pass
             if li_data is not None:
                 if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
                     social_user = models.SocialUser(
@@ -153,7 +161,7 @@ class LoginHandler(BaseHandler):
                     )
                     social_user.put()
             
-            #end linkedin                    
+            #end linkedin            
 
             logVisit = models.LogVisit(
                 user=user.key,
@@ -194,15 +202,17 @@ class SocialLoginHandler(BaseHandler):
             
 
         elif provider_name == "facebook":
+            self.session['linkedin'] = None
             perms = ['email', 'publish_stream']
             self.redirect(facebook.auth_url(config._FbApiKey, callback_url, perms))
             
         elif provider_name == 'linkedin':
+            self.session['facebook'] = None
             link = linkedin.LinkedIn(config.linkedin_api,config.linkedin_secret, callback_url)
             if link.request_token():
                 self.session['request_token']=link._request_token
                 self.session['request_token_secret']=link._request_token_secret
-                self.redirect(link.get_authorize_url())             
+                self.redirect(link.get_authorize_url())            
             
         else:
             message = _('%s authentication is not yet implemented.' % provider_display_name)
