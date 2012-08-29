@@ -1,9 +1,7 @@
 [Google App Engine Boilerplate](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/twitter/bootstrap.png)](http://travis-ci.org/twitter/bootstrap)
 ==============================
 
-Sponsored by
-
-<a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
+Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
   <img src="http://www.jetbrains.com/img/logos/pycharm_logo142x29.gif">
 </a>
 
@@ -15,18 +13,18 @@ It will introduces new developers to App Engine and advanced developers to follo
 
 What's a Boilerplate?
 ---------------------
-A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
+A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ([wikipedia](http://en.wikipedia.org/wiki/Boilerplate_code))
 
 What makes this Boilerplate Amazing?
 ------------------------------------
 It is fully featured, actively maintained, and uses the latest technologies supported by Google App Engine.
 
-New to Google App Engine? Learn about it by watching {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] or reading {this website}[https://developers.google.com/appengine/].
+New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) or reading [this website](https://developers.google.com/appengine/).
 
 Get started in just a few easy steps
 ------------------------------------
-1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
-1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
+1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
+1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
 1. Set your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
 1. Set parameters in {config.py}[https://github.com/coto/gae-boilerplate/blob/master/config.py].  (secret key, {recaptcha code}[http://www.google.com/recaptcha/whyrecaptcha], salt etc.)
@@ -140,15 +138,15 @@ See {webapp2's tutorial}[http://webapp-improved.appspot.com/tutorials/i18n.html]
 
 Security
 --------
-===SSL
-* SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)
-* SSL either requires a free google app engine *.appspot.com domain or a {custom domain and certificate}[https://developers.google.com/appengine/docs/ssl]
-* Alternatively SSL can be enabled at a controller level via webapp2 schemes.  Use the secure_scheme provided in routes.py
-* It is recommended to enable ssl site wide to help prevent {session hijacking}[http://en.wikipedia.org/wiki/Session_hijacking]
-===Passwords
-* passwords encrypted with SHA512
-===CSRF
-* {Cross-site request forgery}[http://en.wikipedia.org/wiki/Cross-site_request_forgery] protection provided by a {wtforms extension}[http://wtforms.simplecodes.com/docs/dev/ext.html#module-wtforms.ext.csrf]
+**SSL**
++ SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)
++ SSL either requires a free google app engine *.appspot.com domain or a {custom domain and certificate}[https://developers.google.com/appengine/docs/ssl]
++ Alternatively SSL can be enabled at a controller level via webapp2 schemes.  Use the secure_scheme provided in routes.py
++ It is recommended to enable ssl site wide to help prevent {session hijacking}[http://en.wikipedia.org/wiki/Session_hijacking]
+**Passwords**
++ passwords encrypted with SHA512
+**CSRF**
++ [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection provided by a {wtforms extension}[http://wtforms.simplecodes.com/docs/dev/ext.html#module-wtforms.ext.csrf]
 
 Acknowledgements
 ----------------
@@ -156,9 +154,9 @@ Google App Engine Boilerplate is a collaborative project created by {coto}[https
 these {amazing people}[https://github.com/coto/gae-boilerplate/graphs/contributors]
 
 Primary contributors:
-* {Peta15}[https://github.com/peta15]
-* {sergue1}[https://github.com/sergue1]
-* {Pmanacas}[https://github.com/pmanacas]
-* {copycat91}[https://github.com/copycat91]
-* {f1shear}[https://github.com/f1shear]
-* {presveva}[https://github.com/presveva]
++ [Peta15][https://github.com/peta15]
++ [sergue1][https://github.com/sergue1]
++ [Pmanacas][https://github.com/pmanacas]
++ [copycat91][https://github.com/copycat91]
++ [f1shear][https://github.com/f1shear]
++ [presveva][https://github.com/presveva]
