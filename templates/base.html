@@ -59,7 +59,7 @@
                 <a class="brand" href="/">{{ app_name }}</a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
-                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {% trans %}Source Code{% endtrans %}</a></li>
+                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox" ></span> {% trans %}Source Code{% endtrans %}</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
@@ -126,7 +126,7 @@
 
         <div id="content" class="container xled">
             {% block header %}
-            <header class="subhead" id="overview">
+            <header class="navbar" id="overview">
                 {% block header_title_lead %}
                 <h1>{% block header_title %}{{ app_name }}{% endblock %}</h1>
                 <p class="lead">
@@ -137,8 +137,8 @@
 		            {% trans %}to help you to create your application.{% endtrans %}
 				</p>
                 {% endblock %}
-                <div class="subnav">
-                    <ul class="nav nav-pills">
+                <div class="navbar-inner subnav">
+                    <ul class="nav">
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}
