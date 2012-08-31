@@ -70,7 +70,8 @@ class AppTest(unittest.TestCase):
         self.taskqueue_stub = self.testbed.get_stub(testbed.TASKQUEUE_SERVICE_NAME)
         self.testbed.init_user_stub()
         
-        self.headers = {'User-Agent' : 'Safari', 'Accept-Language' : 'en_US'}
+        self.headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
+                        'Accept-Language' : 'en_US'}
                 
     def tearDown(self):
         self.testbed.deactivate()
@@ -99,7 +100,7 @@ class AppTest(unittest.TestCase):
         form = self.get_form('/', 'form_login_user')
         form['username'] = 'testuser'
         form['password'] = 'wrongpassword'
-        self.submit(form, expect_error=True, error_message='Login invalid')
+        self.submit(form, expect_error=True, error_message='Your username or password is incorrect')
         self.assert_user_not_logged_in()
 
     def test_login_not_activated(self):
@@ -108,7 +109,7 @@ class AppTest(unittest.TestCase):
         form = self.get_form('/', 'form_login_user')
         form['username'] = 'testuser'
         form['password'] = '123456'
-        self.submit(form, expect_error=True, error_message='Please check your email to activate your account.')
+        self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
 
     def test_request_with_no_user_agent_header(self):
@@ -129,13 +130,13 @@ class AppTest(unittest.TestCase):
         self.assertEqual(form['name'].value, '')
         self.assertEqual(form['last_name'].value, '')
         self.assertEqual(form['country'].value, '')
-        self.submit(form, success_message='Your profile has been updated!')
+        self.submit(form, success_message='your settings have been saved.')
         
         form['username'] = 'testuser2'
         form['name'] = 'Test'
         form['last_name'] = 'User'
         form['country'] = 'US'
-        self.submit(form, success_message='Your profile has been updated!')
+        self.submit(form, success_message='your settings have been saved.')
         self.assertEqual(user.username, 'testuser2')
         self.assertEqual(user.name, 'Test')
         self.assertEqual(user.last_name, 'User')
@@ -158,7 +159,7 @@ class AppTest(unittest.TestCase):
         self.submit(form, expect_error=True, error_message='Invalid email address.')
         form['new_email'] = 'tu@example.com'
         form['password'] = '123'
-        self.submit(form, expect_error=True, error_message='Your password is wrong')
+        self.submit(form, expect_error=True, error_message='Incorrect password!')
         form['password'] = '123456'
         self.submit(form, success_message='Please check your new email for confirmation')
 
@@ -166,8 +167,8 @@ class AppTest(unittest.TestCase):
         message_new_address = self.get_sent_messages(to='tu@example.com')[0]
         self.assertEqual(message_old_address.sender, config.contact_sender)
         self.assertEqual(message_new_address.sender, config.contact_sender)
-        self.assertIn("Recently you've changed the email address", message_old_address.body.payload)
-        self.assertIn("You've changed the email address", message_new_address.body.payload)
+        self.assertIn("Recently you've changed the email address", message_old_address.html.payload)
+        self.assertIn("You've changed the email address", message_new_address.html.payload)
         
         self.assertEqual(user.email, 'testuser@example.com')
  
@@ -190,7 +191,7 @@ class AppTest(unittest.TestCase):
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
         self.assertEqual(message.sender, config.contact_sender)
-        self.assertIn('Please click below to create a new password', message.body.payload)
+        self.assertIn('click the link below:', message.html.payload)
 
         # click password reset link and submit new password
         url = self.get_url_from_message(message, 'password-reset')
@@ -233,14 +234,14 @@ class AppTest(unittest.TestCase):
         form['username'] = 'Reguser'
         form['email'] = 'reguser@example.com'
         form['password'] = form['c_password'] = '456456'
-        self.submit(form, success_message='You are now registered. Please check your email to activate your account')
+        self.submit(form, success_message='You were successfully registered. Please check your email to activate your account')
 
         message = self.get_sent_messages(to='reguser@example.com')[0]
         url = self.get_url_from_message(message, 'activation')
         response = self.get(url, status=302)
         response = response.follow(status=200, headers=self.headers)
         self.assert_success_message_in_response(response,
-                message='Congratulations! Your account (@reguser) has just been activated.')
+                message='Congratulations, Your account reguser has been successfully activated.')
         # activated user should not be auto-logged in yet
         self.assert_user_not_logged_in()
 
@@ -253,7 +254,7 @@ class AppTest(unittest.TestCase):
         self.submit(form)
         message = self.get_sent_messages(to=config.contact_recipient)[0]
         self.assertEqual(message.sender, config.contact_sender)
-        self.assertIn('Hi there...', message.body.payload)
+        self.assertIn('Hi there...', message.html.payload)
 
         self.register_testuser(with_login=True)
         form = self.get_form('/contact/', 'form_contact')
@@ -265,7 +266,7 @@ class AppTest(unittest.TestCase):
         form['name'].value = 'Antonioni'
         self.submit(form, expect_error=False)
         message = self.get_sent_messages(to=config.contact_recipient)[0]
-        self.assertIn('help', message.body.payload)
+        self.assertIn('help', message.html.payload)
 
     def get(self, *args, **kwargs):
         """Wrap webtest get with nicer defaults"""
@@ -461,7 +462,7 @@ class AppTest(unittest.TestCase):
         return messages
 
     def get_url_from_message(self, message, pattern):
-        m = re.search("http://\S+?(/{}/\S+)".format(pattern), message.body.payload, re.MULTILINE)
+        m = re.search("http://\S+?(/{}/\S+)".format(pattern), message.html.payload, re.MULTILINE)
         self.assertIsNotNone(m, "{} link not found in mail body".format(pattern))
         return m.group(1)
 
