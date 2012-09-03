@@ -822,6 +822,13 @@ class ContactHandler(BaseHandler):
         message = self.form.message.data.strip()
 
         try:
+            browser = str(httpagentparser.detect(user_agent)['browser']['name'])
+            browser_version  =  str(httpagentparser.detect(user_agent)['browser']['version'])
+            operating_system = str(httpagentparser.detect(user_agent)['flavor']['name']) + " " + str(httpagentparser.detect(user_agent)['flavor']['version'])
+        except Exception as e:
+            logging.error("error getting user agent info: %s" % e)
+
+        try:
             subject = _("Contact")
             # exceptions for error pages that redirect to contact
             if exception != "":
@@ -830,10 +837,9 @@ class ContactHandler(BaseHandler):
             template_val = {
                 "name": name,
                 "email": email,
-                "browser": str(httpagentparser.detect(user_agent)['browser']['name']),
-                "browser_version": str(httpagentparser.detect(user_agent)['browser']['version']),
-                "operating_system": str(httpagentparser.detect(user_agent)['flavor']['name']) + " " +
-                                    str(httpagentparser.detect(user_agent)['flavor']['version']),
+                "browser": browser,
+                "browser_version": browser_version,
+                "operating_system": operating_system,
                 "ip": remoteip,
                 "message": message
             }
