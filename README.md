@@ -139,6 +139,9 @@ Adding or updating text to be translated or adding new languages requires more w
 
 See [webapp2's tutorial](http://webapp-improved.appspot.com/tutorials/i18n.html) and [pybabel's docs](http://babel.edgewall.org/wiki/Documentation/cmdline.html) for more details.
 
+i18n can be disabled and language options hidden.  Set locales in config.py to None or empty array [] to do this.  This may be useful to provide a performance boost or simplify sites that serve a market with only one language.
+The locale directory can be safely removed to save space if not needed but the babel and pytz directories cannot be removed without breaking code (imports and trans statements) at this time.
+
 Security
 --------
 **SSL**
