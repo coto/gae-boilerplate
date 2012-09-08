@@ -90,8 +90,11 @@ def set_locale(cls, force=None):
     retrieve locale from a prioritized list of sources and then set locale and save it
     cls: self object
     force: a locale to force set (ie 'en_US')
-    return: locale
+    return: locale as string or None if i18n should be disabled
     """
+    # disable i18n if config.locales array is empty or None
+    if not config.locales:
+        return None
     # 1. force locale if provided
     locale = force
     if locale not in config.locales:
