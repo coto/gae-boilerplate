@@ -60,6 +60,7 @@
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
                         <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox" ></span> {% trans %}Source Code{% endtrans %}</a></li>
+                        {% if locale_iso %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
@@ -70,6 +71,7 @@
                                 {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
                         {% if user_id %}
                         <li class="divider-vertical"></li>
                         <li class="dropdown">
