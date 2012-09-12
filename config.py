@@ -13,11 +13,16 @@ webapp2_config['webapp2_extras.jinja2'] = {
     'environment_args': {'extensions': ['jinja2.ext.i18n']},
 }
 
+# the default language code for the application.
+# should match whatever language the site uses when i18n is disabled
+app_lang = 'en'
+
 # Locale code = <language>_<territory> (ie 'en_US')
 # to pick locale codes see http://cldr.unicode.org/index/cldr-spec/picking-the-right-language-code
 # also see http://www.sil.org/iso639-3/codes.asp
 # Language codes defined under iso 639-1 http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 # Territory codes defined under iso 3166-1 alpha-2 http://en.wikipedia.org/wiki/ISO_3166-1
+# disable i18n if locales array is empty or None
 locales = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE']
 
 contact_sender = "PUT_SENDER_EMAIL_HERE"
