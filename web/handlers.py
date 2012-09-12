@@ -822,9 +822,21 @@ class ContactHandler(BaseHandler):
         message = self.form.message.data.strip()
 
         try:
-            browser = str(httpagentparser.detect(user_agent)['browser']['name'])
-            browser_version  =  str(httpagentparser.detect(user_agent)['browser']['version'])
-            operating_system = str(httpagentparser.detect(user_agent)['flavor']['name']) + " " + str(httpagentparser.detect(user_agent)['flavor']['version'])
+            # parsing user_agent and getting which os key to use
+            # windows uses 'os' while other os use 'flavor'
+            ua = httpagentparser.detect(user_agent)
+            os = ua.has_key('flavor') and 'flavor' or 'os'
+            
+            template_val = {
+                "name": name,
+                "email": email,
+                "browser": str(ua['browser']['name']),
+                "browser_version": str(ua['browser']['version']),
+                "operating_system": str(ua[os]['name']) + " " +
+                                    str(ua[os]['version']),
+                "ip": remoteip,
+                "message": message
+            }
         except Exception as e:
             logging.error("error getting user agent info: %s" % e)
 
