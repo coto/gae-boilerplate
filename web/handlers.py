@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-	A real simple app for using webapp2 with auth and session.
+    A real simple app for using webapp2 with auth and session.
 
-	It just covers the basics. Creating a user, login, logout
-	and a decorator for protecting certain handlers.
+    It just covers the basics. Creating a user, login, logout
+    and a decorator for protecting certain handlers.
 
     Routes are setup in routes.py and added in main.py
 """
@@ -846,15 +846,6 @@ class ContactHandler(BaseHandler):
             if exception != "":
                 subject = subject + " (Exception error: %s)" % exception
 
-            template_val = {
-                "name": name,
-                "email": email,
-                "browser": browser,
-                "browser_version": browser_version,
-                "operating_system": operating_system,
-                "ip": remoteip,
-                "message": message
-            }
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
 
