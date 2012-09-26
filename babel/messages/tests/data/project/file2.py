@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file2.py for tests
+# file2.py for test
 
 from gettext import ngettext
 

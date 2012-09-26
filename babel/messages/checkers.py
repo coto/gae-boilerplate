@@ -36,7 +36,7 @@ def num_plurals(catalog, message):
                                    "message")
         return
 
-    # skip further tests if no catalog is provided.
+    # skip further test if no catalog is provided.
     elif catalog is None:
         return
 
