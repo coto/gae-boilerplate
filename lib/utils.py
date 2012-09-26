@@ -1,12 +1,16 @@
 
-import Cookie
-import hashlib
 import os
-import random
 import re
+import random
+import hashlib
 import string
 import unicodedata
 from datetime import datetime, timedelta
+import Cookie
+
+from Crypto.Cipher import AES
+
+import config
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
@@ -15,6 +19,7 @@ def random_string(size=6, chars=string.ascii_letters + string.digits):
 def hashing(plaintext, salt="", sha="512"):
     """ Returns the encrypted hexdigest of a plaintext and salt"""
 
+    # Hashing
     if sha == "1":
         phrase = hashlib.sha1()
     elif sha == "256":
@@ -22,7 +27,24 @@ def hashing(plaintext, salt="", sha="512"):
     else:
         phrase = hashlib.sha512()
     phrase.update("%s@%s" % (plaintext, salt))
-    return phrase.hexdigest()
+    phrase_digest = phrase.hexdigest()
+
+    # Encryption
+    mode = AES.MODE_CBC
+
+    # We can not generate random initialization vector because is difficult to retrieve them later without knowing
+    # a priori the hash to match. We take 16 bytes from the hexdigest to make the vectors different for each hashed
+    # plaintext.
+    iv = phrase_digest[:16]
+    encryptor = AES.new(config.aes_key, mode,iv)
+    ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
+    return ''.join(ciphertext)
+
+def chunks(list, size):
+    """ Yield successive sized chunks from list.
+    """
+    for i in xrange(0, len(list), size):
+        yield list[i:i+size]
 
 def encode(plainText):
     num = 0
