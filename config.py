@@ -28,6 +28,8 @@ locales = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE']
 contact_sender = "PUT_SENDER_EMAIL_HERE"
 contact_recipient = "PUT_RECIPIENT_EMAIL_HERE"
 
+# Password AES Encryption Parameters
+aes_key = "12_24_32_BYTES_KEY_FOR_PASSWORDS"
 salt = "_PUT_SALT_HERE_TO_SHA512_PASSWORDS_"
 
 # get your own consumer key and consumer secret by registering at https://dev.twitter.com/apps
