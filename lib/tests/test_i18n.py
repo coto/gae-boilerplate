@@ -12,18 +12,10 @@ Options:
 
 '''
 import unittest
-import webapp2
-import os
-import re
-import webtest
 from google.appengine.ext import testbed
-from google.appengine.ext import ndb
-from webapp2_extras import auth
-from mock import Mock
-from mock import patch
+from boilerplate import config
 
 from lib import i18n
-import config
 
 class I18nTest(unittest.TestCase):    
     def setUp(self):

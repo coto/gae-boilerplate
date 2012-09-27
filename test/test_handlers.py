@@ -21,10 +21,9 @@ from webapp2_extras import auth
 from mock import Mock
 from mock import patch
 
-import config
+from boilerplate import config, models
 import routes
-import web
-import models.models as models
+import boilerplate
 from lib import utils
 from lib import captcha
 from lib import i18n
@@ -44,7 +43,7 @@ if not network:
 class AppTest(unittest.TestCase):    
     def setUp(self):
         
-        # fix configuration if this is still a raw boilerplate code - required by tests with mails
+        # fix configuration if this is still a raw boilerplate code - required by test with mails
         if not utils.is_email_valid(config.contact_sender):
             config.contact_sender = "noreply-testapp@example.com"
         if not utils.is_email_valid(config.contact_recipient):
@@ -53,7 +52,7 @@ class AppTest(unittest.TestCase):
         # create a WSGI application.
         w2config = config.webapp2_config
         # use absolute path for templates
-        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(web.__file__), '..'), 'templates')
+        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), '..'), 'templates')
         self.app = webapp2.WSGIApplication(config=w2config)
         routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
