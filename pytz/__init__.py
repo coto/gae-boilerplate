@@ -238,7 +238,7 @@ def _UTC():
 
     These examples belong in the UTC class above, but it is obscured; or in
     the README.txt, but we are not depending on Python 2.4 so integrating
-    the README.txt examples with the unit tests is not trivial.
+    the README.txt examples with the unit test is not trivial.
 
     >>> import datetime, pickle
     >>> dt = datetime.datetime(2005, 3, 1, 14, 13, 21, tzinfo=utc)

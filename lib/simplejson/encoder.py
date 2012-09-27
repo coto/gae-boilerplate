@@ -113,7 +113,7 @@ class JSONEncoder(object):
         Otherwise, it will be a ValueError to encode such floats.
 
         If sort_keys is True, then the output of dictionaries will be
-        sorted by key; this is useful for regression tests to ensure
+        sorted by key; this is useful for regression test to ensure
         that JSON serializations can be compared on a day-to-day basis.
 
         If indent is a non-negative integer, then JSON array
@@ -219,7 +219,7 @@ class JSONEncoder(object):
 
         def floatstr(o, allow_nan=self.allow_nan, _repr=FLOAT_REPR, _inf=INFINITY, _neginf=-INFINITY):
             # Check for specials.  Note that this type of test is processor- and/or
-            # platform-specific, so do tests which don't depend on the internals.
+            # platform-specific, so do test which don't depend on the internals.
 
             if o != o:
                 text = 'NaN'

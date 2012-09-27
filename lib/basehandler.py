@@ -10,10 +10,9 @@ from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
 # local application/library specific imports
-import config
+from boilerplate import config, models
 from lib import utils, i18n
 from babel import Locale
-import models.models as models
 
 def user_required(handler):
     """
@@ -63,7 +62,7 @@ def jinja2_factory(app):
         'str': str
     })
     j.environment.tests.update({
-        # Set tests.
+        # Set test.
         # ...
     })
     return j

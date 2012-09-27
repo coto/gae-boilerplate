@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# file1.py for tests
+# file1.py for test
 
 from gettext import gettext as _
 def foo():
