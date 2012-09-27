@@ -1,4 +1,4 @@
-[Google App Engine Boilerplate](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/twitter/bootstrap.png)](http://travis-ci.org/twitter/bootstrap)
+[Google App Engine Boilerplate](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
 ==============================
 
 Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
@@ -155,7 +155,7 @@ Security
 + passwords encrypted with SHA512
 
 **CSRF**
-+ [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection provided by a [wtforms extension](http://wtforms.simplecodes.com/docs/dev/ext.html#module-wtforms.ext.csrf)
++ [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection
 
 Acknowledgements
 ----------------
