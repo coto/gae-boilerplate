@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from boilerplate import config
 
 __author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
 
 import os
 import webapp2
-import config
-import routes
+from boilerplate import routes
 
 from lib.basehandler import handle_error
 

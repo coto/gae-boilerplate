@@ -1,8 +1,8 @@
+from boilerplate import config
 from lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
                    SignatureMethod_HMAC_SHA1
-from urllib2 import Request, urlopen
+from urllib2 import  urlopen
 from lib import simplejson
-import config
 
 # Twitter configuration
 TWITTER_SERVER = 'api.twitter.com'
