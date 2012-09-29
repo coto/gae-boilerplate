@@ -2,6 +2,7 @@
 import optparse
 import sys
 import unittest
+import os
 
 USAGE = """%prog SDK_PATH TEST_PATH
 Run unit test for App Engine apps.
@@ -11,6 +12,7 @@ TEST_PATH   Path to package containing test modules"""
 
 
 def main(sdk_path, test_path):
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'libs'))
     sys.path.insert(0, sdk_path)
     import dev_appserver
     dev_appserver.fix_sys_path()

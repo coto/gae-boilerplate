@@ -503,5 +503,30 @@ class AppTest(unittest.TestCase):
         self.assertIsNotNone(m, "{} link not found in mail body".format(pattern))
         return m.group(1)
 
+
+class ModelTest(unittest.TestCase):    
+    def setUp(self):
+        
+        # activate GAE stubs
+        self.testbed = testbed.Testbed()
+        self.testbed.activate()
+        self.testbed.init_datastore_v3_stub()
+        self.testbed.init_memcache_stub()
+                
+    def tearDown(self):
+        self.testbed.deactivate()
+
+    def test_user_token(self):
+        user = models.User(name="tester", email="tester@example.com")
+        user.put()
+        user2 = models.User(name="tester2", email="tester2@example.com")
+        user2.put()
+        
+        token = models.User.create_signup_token(user.get_id())
+        self.assertTrue(models.User.validate_signup_token(user.get_id(), token))
+        self.assertFalse(models.User.validate_resend_token(user.get_id(), token))
+        self.assertFalse(models.User.validate_signup_token(user2.get_id(), token))
+
+
 if __name__ == "__main__":
     unittest.main()
