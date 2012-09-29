@@ -22,7 +22,7 @@ from mock import Mock
 from mock import patch
 
 from boilerplate import config, models
-import routes
+from boilerplate import routes
 import boilerplate
 from lib import utils
 from lib import captcha
@@ -52,7 +52,7 @@ class AppTest(unittest.TestCase):
         # create a WSGI application.
         w2config = config.webapp2_config
         # use absolute path for templates
-        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), '..'), 'templates')
+        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
         self.app = webapp2.WSGIApplication(config=w2config)
         routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
@@ -110,6 +110,35 @@ class AppTest(unittest.TestCase):
         form['password'] = '123456'
         self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
+
+    def test_resend_activation_mail(self):
+        self.register_testuser()
+
+        # login with valid credentials
+        form = self.get_form('/', 'form_login_user')
+        form['username'] = 'testuser'
+        form['password'] = '123456'
+        # account is not activated
+        response = self.submit(form, expect_error=True, error_message='Please check your email to activate it')
+        self.assert_user_not_logged_in()
+        # "lose" activation mail
+        self.get_sent_messages(to='testuser@example.com')[0]
+
+        # resend the activation mail
+        response2 = response.click(description='click here').follow(status=200, headers=self.headers)
+        self.assert_success_message_in_response(response2,
+                "The verification email has been resent to testuser@example.com.")
+        
+        # click again should fail
+        response = response.click(description='click here').follow(status=200, headers=self.headers)
+        self.assert_error_message_in_response(response, 'The link is invalid.')
+             
+        message = self.get_sent_messages(to='testuser@example.com')[0]
+        url = self.get_url_from_message(message, 'activation')
+        response = self.get(url, status=302).follow(status=200, headers=self.headers)
+        self.assert_success_message_in_response(response,
+                message='Congratulations, Your account testuser has been successfully activated.')
+
 
     def test_request_with_no_user_agent_header(self):
         self.get('/', headers={'Accept-Language' : 'en_US'})
@@ -237,10 +266,19 @@ class AppTest(unittest.TestCase):
 
         message = self.get_sent_messages(to='reguser@example.com')[0]
         url = self.get_url_from_message(message, 'activation')
-        response = self.get(url, status=302)
-        response = response.follow(status=200, headers=self.headers)
+
+        # try to activate account with invalid token
+        response = self.get(url+'qwe', status=302).follow(status=200, headers=self.headers)
+        self.assert_error_message_in_response(response, 'The link is invalid.')
+
+        response = self.get(url, status=302).follow(status=200, headers=self.headers)
         self.assert_success_message_in_response(response,
                 message='Congratulations, Your account reguser has been successfully activated.')
+        
+        # activation token has already been used
+        response = self.get(url, status=302).follow(status=200, headers=self.headers)
+        self.assert_error_message_in_response(response, 'The link is invalid.')
+
         # activated user should not be auto-logged in yet
         self.assert_user_not_logged_in()
 
@@ -373,7 +411,7 @@ class AppTest(unittest.TestCase):
         form['email'] = email
         form['password'] = password
         form['c_password'] = password
-        response = self.submit(form)
+        self.submit(form)
 
         users = models.User.query().fetch(2)
         self.assertEqual(1, len(users), "{} could not register".format(username))
@@ -464,6 +502,31 @@ class AppTest(unittest.TestCase):
         m = re.search("http://\S+?(/{}/\S+)".format(pattern), message.html.payload, re.MULTILINE)
         self.assertIsNotNone(m, "{} link not found in mail body".format(pattern))
         return m.group(1)
+
+
+class ModelTest(unittest.TestCase):    
+    def setUp(self):
+        
+        # activate GAE stubs
+        self.testbed = testbed.Testbed()
+        self.testbed.activate()
+        self.testbed.init_datastore_v3_stub()
+        self.testbed.init_memcache_stub()
+                
+    def tearDown(self):
+        self.testbed.deactivate()
+
+    def test_user_token(self):
+        user = models.User(name="tester", email="tester@example.com")
+        user.put()
+        user2 = models.User(name="tester2", email="tester2@example.com")
+        user2.put()
+        
+        token = models.User.create_signup_token(user.get_id())
+        self.assertTrue(models.User.validate_signup_token(user.get_id(), token))
+        self.assertFalse(models.User.validate_resend_token(user.get_id(), token))
+        self.assertFalse(models.User.validate_signup_token(user2.get_id(), token))
+
 
 if __name__ == "__main__":
     unittest.main()
