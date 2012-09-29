@@ -43,6 +43,19 @@ class User(User):
         """
         return cls.query(cls.email == email).get()
 
+    @classmethod
+    def create_resend_token(cls, user_id):
+        entity = cls.token_model.create(user_id, 'resend-activation-mail')
+        return entity.token
+
+    @classmethod
+    def validate_resend_token(cls, user_id, token):
+        return cls.validate_token(user_id, 'resend-activation-mail', token)
+
+    @classmethod
+    def delete_resend_token(cls, user_id, token):
+        cls.token_model.get_key(user_id, 'resend-activation-mail', token).delete()
+
     def get_social_providers_names(self):
         social_user_objects = SocialUser.get_by_user(self.key)
         result = []

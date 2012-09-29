@@ -136,7 +136,8 @@ class LoginHandler(BaseHandler):
                 self.auth.unset_session()
 
                 # redirect to home with error message
-                resend_email_uri = self.uri_for('resend-account-activation', encoded_email=utils.encode(user.email))
+                resend_email_uri = self.uri_for('resend-account-activation', user_id=user.get_id(),
+                                                token=models.User.create_resend_token(user.get_id()))
                 message = _('Your account has not yet been activated. Please check your email to activate it or') +\
                           ' <a href="'+resend_email_uri+'">' + _('click here') + '</a> ' + _('to resend the email.')
                 self.add_message(message, 'error')
@@ -632,9 +633,9 @@ class RegisterHandler(RegisterBaseHandler):
                 if (user_info.activated == False):
                     # send email
                     subject =  _("%s Account Verification" % config.app_name)
-                    encoded_email = utils.encode(email)
                     confirmation_url = self.uri_for("account-activation",
-                        encoded_email = encoded_email,
+                        user_id=user_info.get_id(),
+                        token = models.User.create_signup_token(user_info.get_id()),
                         _full = True)
 
                     # load email's template
@@ -703,7 +704,7 @@ class RegisterHandler(RegisterBaseHandler):
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
-                logging.error('Unexpected error creating the user %s: %s' % {username, e })
+                logging.error('Unexpected error creating the user %s: %s' % (username, e ))
                 message = _('Unexpected error creating the user %s' % username )
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
@@ -714,14 +715,19 @@ class AccountActivationHandler(BaseHandler):
     Handler for account activation
     """
 
-    def get(self, encoded_email):
+    def get(self, user_id, token):
         try:
-            email = utils.decode(encoded_email)
-            user = models.User.get_by_email(email)
+            if not models.User.validate_signup_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
 
+            user = models.User.get_by_id(long(user_id))
             # activate the user's account
             user.activated = True
             user.put()
+
+            models.User.delete_signup_token(user_id, token)
 
             message = _('Congratulations, Your account %s has been successfully activated.'
                         % '<strong>{0:>s}</strong>'.format(user.username) )
@@ -740,17 +746,22 @@ class ResendActivationEmailHandler(BaseHandler):
     Handler to resend activation email
     """
 
-    def get(self, encoded_email):
+    def get(self, user_id, token):
         try:
-            email = utils.decode(encoded_email)
-            user = models.User.get_by_email(email)
+            if not models.User.validate_resend_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+            user = models.User.get_by_id(long(user_id))
+            email = user.email
 
             if (user.activated == False):
                 # send email
                 subject = _("%s Account Verification" % config.app_name)
-                encoded_email = utils.encode(email)
                 confirmation_url = self.uri_for("account-activation",
-                    encoded_email = encoded_email,
+                    user_id = user.get_id(),
+                    token = models.User.create_signup_token(user.get_id()),
                     _full = True)
 
                 # load email's template
@@ -769,6 +780,8 @@ class ResendActivationEmailHandler(BaseHandler):
                     'subject' : subject,
                     'body' : body,
                     })
+
+                models.User.delete_resend_token(user_id, token)
 
                 message = _('The verification email has been resent to %s. '
                             'Please check your email to activate your account.' % email)
