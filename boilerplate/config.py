@@ -5,11 +5,11 @@ webapp2_config['webapp2_extras.sessions'] = {
     'secret_key': '_PUT_KEY_HERE_YOUR_SECRET_KEY_',
 }
 webapp2_config['webapp2_extras.auth'] = {
-    'user_model': 'models.models.User',
+    'user_model': 'boilerplate.models.User',
     'cookie_name': 'session_name'
 }
 webapp2_config['webapp2_extras.jinja2'] = {
-    'template_path': 'templates',
+    'template_path': 'boilerplate/templates',
     'environment_args': {'extensions': ['jinja2.ext.i18n']},
 }
 
@@ -28,6 +28,8 @@ locales = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE']
 contact_sender = "PUT_SENDER_EMAIL_HERE"
 contact_recipient = "PUT_RECIPIENT_EMAIL_HERE"
 
+# Password AES Encryption Parameters
+aes_key = "12_24_32_BYTES_KEY_FOR_PASSWORDS"
 salt = "_PUT_SALT_HERE_TO_SHA512_PASSWORDS_"
 
 # get your own consumer key and consumer secret by registering at https://dev.twitter.com/apps

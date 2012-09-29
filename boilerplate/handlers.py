@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-	A real simple app for using webapp2 with auth and session.
+    A real simple app for using webapp2 with auth and session.
 
-	It just covers the basics. Creating a user, login, logout
-	and a decorator for protecting certain handlers.
+    It just covers the basics. Creating a user, login, logout
+    and a decorator for protecting certain handlers.
 
     Routes are setup in routes.py and added in main.py
 """
@@ -19,9 +19,8 @@ from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
 from google.appengine.api import taskqueue
 # local application/library specific imports
-import config
-import web.forms as forms
-import models.models as models
+from boilerplate import config, models
+import forms as forms
 from lib import utils, httpagentparser, captcha, twitter
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
@@ -51,8 +50,6 @@ class SendEmailHandler(BaseHandler):
         from google.appengine.api import mail, app_identity
         from google.appengine.api.datastore_errors import BadValueError
         from google.appengine.runtime import apiproxy_errors
-        import config
-        from models import models
 
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -238,7 +235,7 @@ class SocialLoginHandler(BaseHandler):
             
         elif provider_name == 'linkedin':
             self.session['facebook'] = None
-            link = linkedin.LinkedIn(config.linkedin_api,config.linkedin_secret, callback_url)
+            link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
             if link.request_token():
                 self.session['request_token']=link._request_token
                 self.session['request_token_secret']=link._request_token_secret
@@ -365,7 +362,7 @@ class CallbackSocialLoginHandler(BaseHandler):
          # association with linkedin   
         elif provider_name == "linkedin":
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name) 
-            link = linkedin.LinkedIn(config.linkedin_api,config.linkedin_secret, callback_url)
+            link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
             request_token = self.session['request_token']
             request_token_secret= self.session['request_token_secret']
             link._request_token = request_token
@@ -846,15 +843,6 @@ class ContactHandler(BaseHandler):
             if exception != "":
                 subject = subject + " (Exception error: %s)" % exception
 
-            template_val = {
-                "name": name,
-                "email": email,
-                "browser": browser,
-                "browser_version": browser_version,
-                "operating_system": operating_system,
-                "ip": remoteip,
-                "message": message
-            }
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
 

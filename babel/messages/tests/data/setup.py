@@ -4,7 +4,7 @@
 # =============================================================================
 # $Id: setup.py 114 2007-06-14 21:17:14Z palgarvio $
 # =============================================================================
-# $URL: http://svn.edgewall.org/repos/babel/tags/0.9.6/babel/messages/tests/data/setup.py $
+# $URL: http://svn.edgewall.org/repos/babel/tags/0.9.6/babel/messages/test/data/setup.py $
 # $LastChangedDate: 2007-06-14 23:17:14 +0200 (do, 14 jun 2007) $
 # $Rev: 114 $
 # $LastChangedBy: palgarvio $
