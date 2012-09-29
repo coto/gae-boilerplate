@@ -67,6 +67,8 @@ libraries:
   version: "2.5.1"
 - name: markupsafe
   version: "0.15"
+- name: pycrypto
+  version: "2.6"
 
 error_handlers:
   # Only errors with error_code, don't put a default error here

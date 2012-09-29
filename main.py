@@ -12,14 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from boilerplate import config
 
 __author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
 
-import os
+import os, sys
+# Third party libraries path must be fixed before importing webapp2
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'libs'))
+
 import webapp2
 from boilerplate import routes
+from boilerplate import config
 
 from lib.basehandler import handle_error
 
