@@ -86,8 +86,8 @@ Front-end Technologies
 ----------------------
 + [HTML5Boilerplate](http://html5boilerplate.com/)
 + [Modernizr 2.6.1](http://modernizr.com)
-+ [jQuery 1.8.0](http://jquery.com)
-+ [Twitter Bootstrap 2.1.0](http://twitter.github.com/bootstrap/) Template for Desktop Version.
++ [jQuery 1.8.2](http://jquery.com)
++ [Twitter Bootstrap 2.1.1](http://twitter.github.com/bootstrap/) Template for Desktop Version.
 
 Please help us translate and add new languages!
 -----------------------------------------------
