@@ -11,21 +11,24 @@
 # standard library imports
 import logging
 import re
+
 # related third party imports
 import webapp2
+import httpagentparser
 from webapp2_extras import security
 from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
 from google.appengine.api import taskqueue
+from linkedin import linkedin
+
 # local application/library specific imports
-from boilerplate import config, models
+import config, models
 import forms as forms
-from lib import utils, httpagentparser, captcha, twitter
+from lib import utils, captcha, twitter
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
-from lib import facebook, simplejson
-from lib.linkedin import linkedin
+from lib import facebook
 
 
 class RegisterBaseHandler(BaseHandler):
@@ -159,7 +162,7 @@ class LoginHandler(BaseHandler):
             #check facebook association      
             fb_data = None
             try:      
-                fb_data = simplejson.loads(self.session['facebook'])
+                fb_data = json.loads(self.session['facebook'])
             except:
                 pass
 
@@ -176,7 +179,7 @@ class LoginHandler(BaseHandler):
             #check linkedin association
             li_data = None
             try:
-                li_data = simplejson.loads(self.session['linkedin'])
+                li_data = json.loads(self.session['linkedin'])
             except:
                 pass
             if li_data is not None:
@@ -352,7 +355,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     # Social user does not exists. Need show login and registration forms                   
 
-                    self.session['facebook']=simplejson.dumps(user_data)         
+                    self.session['facebook']=json.dumps(user_data)
                     login_url = '%s/login/'  % self.request.host_url
                     signup_url = '%s/register/' %  self.request.host_url
                     message = _('The Facebook account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
@@ -375,7 +378,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             u_data = link.get_profile()            
             user_key = re.search(r'key=(\d+)', u_data.private_url).group(1)
             user_data={'first_name':u_data.first_name, 'last_name':u_data.last_name ,'id':user_key}
-            self.session['linkedin'] = simplejson.dumps(user_data)
+            self.session['linkedin'] = json.dumps(user_data)
 
             if self.user:
                 # new association with linkedin
@@ -413,7 +416,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     self.redirect_to('home')
                 else:
                     # Social user does not exists. Need show login and registration forms                   
-                    self.session['linkedin'] = simplejson.dumps(user_data)       
+                    self.session['linkedin'] = json.dumps(user_data)
                     login_url = '%s/login/'  % self.request.host_url
                     signup_url = '%s/register/' %  self.request.host_url
                     message = _('The Linkedin account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
@@ -676,7 +679,7 @@ class RegisterHandler(RegisterBaseHandler):
                         social_user.put()
 
                 #check facebook association
-                fb_data = simplejson.loads(self.session['facebook'])               
+                fb_data = json.loads(self.session['facebook'])
 
                 if fb_data is not None:
                     if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
@@ -688,7 +691,7 @@ class RegisterHandler(RegisterBaseHandler):
                         )
                         social_user.put()
                 #check linkedin association    
-                li_data = simplejson.loads(self.session['linkedin'])
+                li_data = json.loads(self.session['linkedin'])
                 if li_data is not None:
                     if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
                         social_user = models.SocialUser(
