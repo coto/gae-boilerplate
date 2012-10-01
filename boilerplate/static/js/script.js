@@ -47,12 +47,12 @@ $(document).ready(function() {
         , $nav = $('.subnav')
         , $brand = $('.brand')
         , navTop = $('.subnav').length && $('.subnav').offset().top - 40
-        , isFixed = 0
+        , isFixed = 0;
 
     processScroll();
 
     $nav.on('click', function () {
-        if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
+        if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47); }, 10);
     });
 
     $win.on('scroll', processScroll);
@@ -108,7 +108,6 @@ $(document).ready(function() {
         else {
             $this.find("span").removeClass("icon-chevron-down").addClass("icon-chevron-up");
         }
-
     })
 });
 
