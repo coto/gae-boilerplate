@@ -11,7 +11,7 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 # local application/library specific imports
 from boilerplate import config, models
-from lib import utils, i18n
+from boilerplate.lib import utils, i18n
 from babel import Locale
 
 def user_required(handler):

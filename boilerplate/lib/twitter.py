@@ -1,8 +1,8 @@
 from boilerplate import config
-from lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
+from boilerplate.lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
                    SignatureMethod_HMAC_SHA1
 from urllib2 import  urlopen
-from lib import simplejson
+import json
 
 # Twitter configuration
 TWITTER_SERVER = 'api.twitter.com'
@@ -54,12 +54,12 @@ class TwitterAuth(object):
     
     def save_association_data(self, user_data):
         name = self.AUTH_BACKEND_NAME + 'association_data'
-        self.request.session[name] = simplejson.dumps(user_data)
+        self.request.session[name] = json.dumps(user_data)
         
     def get_association_data(self):
         name = self.AUTH_BACKEND_NAME + 'association_data'
         if name in self.request.session:
-            association_data = simplejson.loads(self.request.session[name])
+            association_data = json.loads(self.request.session[name])
             del self.request.session[name]
         else:
             association_data = None
@@ -103,7 +103,7 @@ class TwitterAuth(object):
         request = self.oauth_request(access_token, TWITTER_CHECK_AUTH)
         json = self.fetch_response(request)
         try:
-            return simplejson.loads(json)
+            return json.loads(json)
         except ValueError:
             return None
     
