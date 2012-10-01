@@ -18,13 +18,13 @@ __website__ = 'www.beecoss.com'
 
 import os, sys
 # Third party libraries path must be fixed before importing webapp2
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'libs'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'boilerplate/external'))
 
 import webapp2
+
 from boilerplate import routes
 from boilerplate import config
-
-from lib.basehandler import handle_error
+from boilerplate.lib.basehandler import handle_error
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.webapp2_config)
 
