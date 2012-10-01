@@ -21,12 +21,12 @@ from webapp2_extras import auth
 from mock import Mock
 from mock import patch
 
+import boilerplate
 from boilerplate import config, models
 from boilerplate import routes
-import boilerplate
-from lib import utils
-from lib import captcha
-from lib import i18n
+from boilerplate.lib import utils
+from boilerplate.lib import captcha
+from boilerplate.lib import i18n
 
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'
@@ -212,9 +212,9 @@ class AppTest(unittest.TestCase):
         form = self.get_form('/password-reset/', 'form_reset_password',
                              expect_fields=['email_or_username', 'recaptcha_challenge_field', 'recaptcha_response_field'])        
         form['email_or_username'] = 'testuser'        
-        with patch('lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
+        with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
-        with patch('lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
+        with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
             self.submit(form, success_message="you will receive an e-mail from us with instructions for resetting your password.")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
