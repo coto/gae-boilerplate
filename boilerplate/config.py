@@ -41,8 +41,8 @@ twitter_consumer_secret = 'PUT_YOUR_TWITTER_CONSUMER_SECRET_HERE'
 # get your own consumer key and consumer secret by registering at https://developers.facebook.com/apps
 #Very Important: set the site_url= your domain in the application settings in the facebook app settings page
 # callback url must be: http://[YOUR DOMAIN]/login/facebook/complete
-_FbApiKey = '102931713195015'
-_FbSecret = '65b249e0a1290f0b1e49cba6c7599245'
+_FbApiKey = '364331990301887'
+_FbSecret = 'f5d35380801571a7640379bad834b4ab'
 
 #Linkedin Login
 #Get you own api key and secret from https://www.linkedin.com/secure/developer
