@@ -13,9 +13,9 @@ Options:
 '''
 import unittest
 from google.appengine.ext import testbed
-from boilerplate import config
 
-from lib import i18n
+from boilerplate import config
+from boilerplate.lib import i18n
 
 class I18nTest(unittest.TestCase):    
     def setUp(self):
