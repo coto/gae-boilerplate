@@ -16,7 +16,7 @@
 <!-- renders federated login (openId and Oauth) login buttons -->
 {% macro federated_login(provider_info, provider_uris, enable_federated_login) -%}
 {% if enable_federated_login %}
-            <div id="trird_party_login" class="form-actions">
+            <div id="third_party_login" class="form-actions">
                 <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                 <div class="social-login-icons">
                     {% for p in provider_info if provider_uris[p] %}

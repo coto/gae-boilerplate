@@ -19,10 +19,10 @@
     {% if is_mobile %}
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     {% endif %}
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/html5-boilerplate.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.min.css">
     {% block mediaCSS %}{% endblock %}
     <script type="text/javascript">
         var _gaq = _gaq || [];
@@ -54,7 +54,7 @@
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-chevron-down icon-white"></span>
+                    <span class="icon-chevron-down icon"></span>
                 </button>
                 <a class="brand" href="/">{{ app_name }}</a>
                 <div class="nav-collapse">
@@ -139,8 +139,8 @@
 		            {% trans %}to help you to create your application.{% endtrans %}
 				</p>
                 {% endblock %}
-                <div class="navbar-inner subnav">
-                    <ul class="nav">
+                <div class="subnav">
+                    <ul>
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
                         <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{% trans %}Secure Page{% endtrans %}</a></li>
                         {% if not user_id %}
