@@ -22,7 +22,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'boilerplate/external
 
 import webapp2
 
-from boilerplate import routes
+import routes
+from boilerplate import routes as boilerplate_routes
 from boilerplate import config
 from boilerplate.lib.basehandler import handle_error
 
@@ -33,4 +34,6 @@ app.error_handlers[404] = handle_error
 if not app.debug:
     app.error_handlers[500] = handle_error
 routes.add_routes(app)
+boilerplate_routes.add_routes(app)
+
 
