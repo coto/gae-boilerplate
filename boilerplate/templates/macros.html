@@ -1,4 +1,25 @@
-<!-- creates a form input field of the type specified.  
+<!-- Renders a form field with errors, required flags, and common styling.  
+	html element fields such as class, style, or type can be passed as kwargs.
+	Usage: macros.field(form.username, class="input-xlarge", type="email") -->
+{% macro field(field, label='') -%}
+            <div class="control-group{% if field.errors %} error{% endif %}">
+            	{% if field.flags.required %}
+            		{% set text = label or field.label.text %}
+                	{{ field.label(text=text + " *", class="control-label") }}
+                {% else %}
+                	{{ field.label(text=text + " ", class="control-label") }}
+                {% endif %}
+                <div class="controls">
+                {{ field(**kwargs) }}
+                {% if field.errors %}
+                    {% for error in field.errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
+                {% endif %}
+                </div>
+            </div>
+{%- endmacro %}
+
+<!-- DEPRECATED (will be replaced by the above field macro) --
+	creates a form input field of the type specified.  
 	Note that in addition to the listed parameters, any set of kwargs can be passed and will appear as attributes on the html input element
 	type, class, value, placeholder are noteable kwargs for the input element -->
 {% macro input(form, name, label, type='text') -%}
