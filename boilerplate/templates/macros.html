@@ -3,8 +3,8 @@
 	Usage: macros.field(form.username, class="input-xlarge", type="email") -->
 {% macro field(field, label='') -%}
             <div class="control-group{% if field.errors %} error{% endif %}">
+            	{% set text = label or field.label.text %}
             	{% if field.flags.required %}
-            		{% set text = label or field.label.text %}
                 	{{ field.label(text=text + " *", class="control-label") }}
                 {% else %}
                 	{{ field.label(text=text + " ", class="control-label") }}
