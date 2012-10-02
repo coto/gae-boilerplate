@@ -9,15 +9,15 @@
     <form id="form_register" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            {{ macros.input(form, "username", _("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
-            {{ macros.input(form, "name", _("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
-            {{ macros.input(form, "last_name", _("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
-            {{ macros.input(form, "email", _("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
-            {{ macros.input(form, "password", _("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+            {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
+            {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
+            {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
+            {{ macros.field(form.email, label=_("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
+            {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             {% if not is_mobile %}
-            {{ macros.input(form, "c_password", _("Confirm Password"), placeholder=_("Confirm Password"), class="input-xlarge focused required", type="password") }}
+            {{ macros.field(form.c_password, label=_("Confirm Password"), placeholder=_("Confirm Password"), class="input-xlarge focused required", type="password") }}
             {% endif %}
-            {{ macros.input(form, "country", _("Country")) }}
+            {{ macros.field(form.country, label=_("Country")) }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
             </div>
