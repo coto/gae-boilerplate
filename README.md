@@ -17,13 +17,13 @@ A Boilerplate is used to describe sections of code that can be reused over and o
 
 What makes this Boilerplate Amazing?
 ------------------------------------
-It is fully featured, actively maintained, and uses the latest technologies supported by Google App Engine.
+It is fully featured, actively maintained, and uses the latest and most supported technologies of Google App Engine.
 
 New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) or reading [this website](https://developers.google.com/appengine/).
 
 Get started in just a few easy steps
 ------------------------------------
-1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
+1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.7.2).
 1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
@@ -38,15 +38,15 @@ Functions and features:
 + Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 + Reset Password
 + Update User Profile
++ Contact Form
++ Client side and server side form validation
 + Automatic detection of user language
 + Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
 + Visitors Log
 + Notifications and Confirmation for users when they change their email or password
-+ Contact Form
 + Responsive Design for viewing on PCs, tablets, and mobile phones (synchronized with Twitter-Bootstrap project)
 + Mobile identification
 + Unit testing
-+ Client side and server side form validation
 + Error handling
 
 Open Source
@@ -68,7 +68,7 @@ Testing
 Technologies used
 -----------------
 + Python 2.7
-+ [NDB 1.0.1](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
++ [NDB 1.0.5](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
 + [WTForms-1.0.1](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
@@ -152,7 +152,7 @@ Security
 + It is recommended to enable ssl site wide to help prevent [session hijacking](http://en.wikipedia.org/wiki/Session_hijacking)
 
 **Passwords**
-+ passwords encrypted with SHA512
++ passwords encrypted with SHA512 and PyCrypto
 
 **CSRF**
 + [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection
@@ -160,12 +160,16 @@ Security
 Acknowledgements
 ----------------
 Google App Engine Boilerplate is a collaborative project created by [coto](https://github.com/coto) which is bringing to you thanks to the help of
-these [amazing people](https://github.com/coto/gae-boilerplate/graphs/contributors)
+these [amazing people](https://github.com/coto/gae-boilerplate/graphs/contributors?type=a)
 
-**Primary contributors:**
+**Top 10: Primary contributors:**
++ [Tmeryu](https://github.com/tmeryu)
 + [Peta15](https://github.com/peta15)
-+ [sergue1](https://github.com/sergue1)
++ [Sergue1](https://github.com/sergue1)
++ [Sabirmostofa](https://github.com/sabirmostofa)
 + [Pmanacas](https://github.com/pmanacas)
 + [copycat91](https://github.com/copycat91)
++ [Mooose](https://github.com/mooose)
 + [f1shear](https://github.com/f1shear)
 + [presveva](https://github.com/presveva)
++ [Sorced-Jim](https://github.com/sorced-Jim)
