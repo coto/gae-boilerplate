@@ -8,8 +8,8 @@
     <form id="form_login_user" action="{{ url|safe }}" method="post" class="well form-vertical auth-at-loginpage">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            {{ macros.input(form, "username", _("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required") }}
-            {{ macros.input(form, "password", _("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+            {{ macros.field(form.username, label=_("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required") }}
+            {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary btn-large btn-login">{% trans %}Login{% endtrans %}</button>
