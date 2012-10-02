@@ -222,15 +222,16 @@ class SocialLoginHandler(BaseHandler):
 
     def get(self, provider_name):
         provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+
         if not config.enable_federated_login:
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
         callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
+
         if provider_name == "twitter":
             twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
             self.redirect(twitter_helper.auth_url())
-            
 
         elif provider_name == "facebook":
             self.session['linkedin'] = None
@@ -424,7 +425,6 @@ class CallbackSocialLoginHandler(BaseHandler):
                     self.redirect_to('login')
             
             #end linkedin
-                    
                     
                     
             # Debug Callback information provided
@@ -1309,33 +1309,6 @@ class EmailChangedCompleteHandler(BaseHandler):
             message = _('Your email has been successfully updated.')
             self.add_message(message, 'success')
             self.redirect_to('edit-profile')
-
-
-class SecureRequestHandler(BaseHandler):
-    """
-    Only accessible to users that are logged in
-    """
-
-    @user_required
-    def get(self, **kwargs):
-        user_session = self.user
-        user_session_object = self.auth.store.get_session(self.request)
-
-        user_info = models.User.get_by_id(long( self.user_id ))
-        user_info_object = self.auth.store.user_model.get_by_auth_token(
-            user_session['user_id'], user_session['token'])
-
-        try:
-            params = {
-                "user_session" : user_session,
-                "user_session_object" : user_session_object,
-                "user_info" : user_info,
-                "user_info_object" : user_info_object,
-                "userinfo_logout-url" : self.auth_config['logout_url'],
-                }
-            return self.render_template('boilerplate_secure_zone.html', **params)
-        except (AttributeError, KeyError), e:
-            return "Secure zone error:" + " %s." % e
 
 
 class HomeRequestHandler(RegisterBaseHandler):

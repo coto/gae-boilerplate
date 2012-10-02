@@ -9,7 +9,7 @@ webapp2_config['webapp2_extras.auth'] = {
     'cookie_name': 'session_name'
 }
 webapp2_config['webapp2_extras.jinja2'] = {
-    'template_path': 'boilerplate/templates',
+    'template_path': ['templates','boilerplate/templates'],
     'environment_args': {'extensions': ['jinja2.ext.i18n']},
 }
 
