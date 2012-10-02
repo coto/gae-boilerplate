@@ -222,15 +222,16 @@ class SocialLoginHandler(BaseHandler):
 
     def get(self, provider_name):
         provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+
         if not config.enable_federated_login:
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
         callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
+
         if provider_name == "twitter":
             twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
             self.redirect(twitter_helper.auth_url())
-            
 
         elif provider_name == "facebook":
             self.session['linkedin'] = None
@@ -424,7 +425,6 @@ class CallbackSocialLoginHandler(BaseHandler):
                     self.redirect_to('login')
             
             #end linkedin
-                    
                     
                     
             # Debug Callback information provided

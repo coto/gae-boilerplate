@@ -12,6 +12,8 @@ import httpagentparser
 from boilerplate import models
 from boilerplate.lib.basehandler import BaseHandler
 from boilerplate.lib.basehandler import user_required
+
+
 class SecureRequestHandler(BaseHandler):
     """
     Only accessible to users that are logged in
