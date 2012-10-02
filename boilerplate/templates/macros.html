@@ -18,22 +18,6 @@
             </div>
 {%- endmacro %}
 
-<!-- DEPRECATED (will be replaced by the above field macro) --
-	creates a form input field of the type specified.  
-	Note that in addition to the listed parameters, any set of kwargs can be passed and will appear as attributes on the html input element
-	type, class, value, placeholder are noteable kwargs for the input element -->
-{% macro input(form, name, label, type='text') -%}
-        <div class="control-group{% if getattr(form,name).errors %} error{% endif %}">
-                <label class="control-label" for="{{ name }}">{{ label|safe }} {% if getattr(form,name).flags.required %}*{% endif %}:</label>
-                <div class="controls">
-                {{ getattr(form,name)(type=type, **kwargs)|safe }}
-                {% if getattr(form,name).errors %}
-                    {% for error in getattr(form,name).errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
-                {% endif %}
-                </div>
-            </div>
-{%- endmacro %}
-
 <!-- renders federated login (openId and Oauth) login buttons -->
 {% macro federated_login(provider_info, provider_uris, enable_federated_login) -%}
 {% if enable_federated_login %}
