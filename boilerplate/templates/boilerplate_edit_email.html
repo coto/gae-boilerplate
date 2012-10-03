@@ -15,8 +15,8 @@
                     <p class="help-block">{{ current_email }}</p>
                 </div>
             </div>
-        	{{ macros.input(form, "new_email", _("New Email"), placeholder=_("Enter a new email address"), class="input-xlarge focused required email", type="email") }}
-            {{ macros.input(form, "password", _("Current Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+            {{ macros.field(form.new_email, label=_("New Email"), placeholder=_("Enter a new email address"), class="input-xlarge focused required email", type="email") }}
+            {{ macros.field(form.password, label=_("Current Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Change your email{% endtrans %}</button>
             </div>
