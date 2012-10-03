@@ -638,7 +638,7 @@ class RegisterHandler(RegisterBaseHandler):
                     subject =  _("%s Account Verification" % config.app_name)
                     confirmation_url = self.uri_for("account-activation",
                         user_id=user_info.get_id(),
-                        token = models.User.create_signup_token(user_info.get_id()),
+                        token = models.User.create_auth_token(user_info.get_id()),
                         _full = True)
 
                     # load email's template
@@ -720,7 +720,7 @@ class AccountActivationHandler(BaseHandler):
 
     def get(self, user_id, token):
         try:
-            if not models.User.validate_signup_token(user_id, token):
+            if not models.User.validate_auth_token(user_id, token):
                 message = _('The link is invalid.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
@@ -730,12 +730,16 @@ class AccountActivationHandler(BaseHandler):
             user.activated = True
             user.put()
 
-            models.User.delete_signup_token(user_id, token)
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
 
             message = _('Congratulations, Your account %s has been successfully activated.'
                         % '<strong>{0:>s}</strong>'.format(user.username) )
             self.add_message(message, 'success')
-            self.redirect_to('login')
+            self.redirect_to('home')
 
         except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
             logging.error("Error activating an account: %s" % e)
@@ -764,7 +768,7 @@ class ResendActivationEmailHandler(BaseHandler):
                 subject = _("%s Account Verification" % config.app_name)
                 confirmation_url = self.uri_for("account-activation",
                     user_id = user.get_id(),
-                    token = models.User.create_signup_token(user.get_id()),
+                    token = models.User.create_auth_token(user.get_id()),
                     _full = True)
 
                 # load email's template
