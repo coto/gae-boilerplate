@@ -93,7 +93,7 @@ def handle_error(request, response, exception):
                 'to': dev[1],
                 'subject' : subject,
                 'body' : email_body,
-                'sender' : dev[0],
+                'sender' : config.contact_sender,
                 })
 
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
