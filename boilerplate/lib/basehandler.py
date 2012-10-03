@@ -74,7 +74,7 @@ def handle_error(request, response, exception):
         'url': request.url,
         }
 
-    if config.send_mail_Developer is not False:
+    if config.send_mail_developer is not False:
         #send email
         subject = config.app_name + " error."
         email_body_path = "emails/error.txt"
