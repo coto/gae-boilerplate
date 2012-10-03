@@ -34,3 +34,5 @@ pip-log.txt
 .project
 .settings*
 
+# Config Files
+boilerplate/config.py
