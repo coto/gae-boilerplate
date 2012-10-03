@@ -63,16 +63,16 @@ Testing
 + Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
 + Please add or modify the [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests) as necessary.
 + To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
-
++ Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
 
 Technologies used
 -----------------
 + Python 2.7
 + [NDB 1.0.5](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
-+ [WTForms-1.0.1](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
-+ [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
++ [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
++ [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
     + webapp2_extras.sessions
     + webapp2_extras.routes
     + webapp2_extras.auth
