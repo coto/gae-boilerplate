@@ -12,7 +12,7 @@
                 <div class="controls">
                 {{ field(**kwargs) }}
                 {% if field.errors %}
-                    {% for error in field.errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
+                    {% for error in field.errors %}<label for="{{ field.id }}" class="error help-inline">{{ error }}</label>{% endfor %}
                 {% endif %}
                 </div>
             </div>
