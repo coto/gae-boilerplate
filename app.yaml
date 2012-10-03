@@ -1,0 +1,82 @@
+application: pruebamaildevelopers2
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+# In production, uncomment line below.
+default_expiration: "30d"
+
+skip_files:
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?test$
+- ^(.*/)?test$
+- ^Makefile
+- ^COPYING.LESSER
+- ^README.md
+- \.gitignore
+- ^\.git/.*
+- \.*\.lint$
+
+builtins:
+- appstats: on #/_ah/stats/
+- remote_api: on #/_ah/remote_api/
+
+handlers:
+- url: /favicon\.ico
+  mime_type: image/vnd.microsoft.icon
+  static_files: boilerplate/static/favicon.ico
+  upload: boilerplate/static/favicon.ico
+
+- url: /apple-touch-icon\.png
+  static_files: boilerplate/static/apple-touch-icon.png
+  upload: boilerplate/static/apple-touch-icon.png
+
+- url: /apple-touch-icon-precomposed\.png
+  static_files: boilerplate/static/apple-touch-icon-precomposed.png
+  upload: boilerplate/static/apple-touch-icon-precomposed.png
+
+- url: /(robots\.txt|humans\.txt|crossdomain\.xml)
+  static_files: boilerplate/static/\1
+  upload: boilerplate/static/(robots\.txt|humans\.txt|crossdomain\.xml)
+
+- url: /img/(.*\.(gif|png|jpg))
+  static_files: boilerplate/static/img/\1
+  upload: boilerplate/static/img/(.*\.(gif|png|jpg))
+
+- url: /css
+  mime_type: text/css
+  static_dir: boilerplate/static/css
+
+- url: /js
+  mime_type: text/javascript
+  static_dir: boilerplate/static/js
+
+- url: /.*
+  script: main.app
+#  secure: always
+
+libraries:
+- name: jinja2
+  version: "2.6"
+- name: webapp2
+  version: "2.5.1"
+- name: markupsafe
+  version: "0.15"
+- name: pycrypto
+  version: "2.6"
+
+error_handlers:
+  # Only errors with error_code, don't put a default error here
+  - error_code: over_quota
+    file: boilerplate/templates/errors/over_quota.html
+
+  - error_code: dos_api_denial
+    file: boilerplate/templates/errors/dos_api_denial.html
+
+  - error_code: timeout
+    file: boilerplate/templates/errors/timeout.html

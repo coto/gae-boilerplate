@@ -67,3 +67,7 @@ enable_federated_login = True
 
 # jinja2 base layout templates
 base_layout = 'base.html'
+
+
+#Send mail developers
+send_mail_Developer = True

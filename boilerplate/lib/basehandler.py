@@ -9,6 +9,7 @@ from google.appengine.api.users import NotAllowedError
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from google.appengine.api import taskqueue
 # local application/library specific imports
 from boilerplate import config, models
 from boilerplate.lib import utils, i18n
@@ -72,6 +73,29 @@ def handle_error(request, response, exception):
         'exception': str(exception),
         'url': request.url,
         }
+
+    if config.send_mail_Developer is not False:
+        #send email
+        subject = config.app_name + " error."
+        email_body_path = "emails/error.txt"
+        message = 'Se detecto un error ' + c['exception'] + ' Desde la url ' + c['url']
+
+        template_val = {
+            "app_name"  : config.app_name,
+            "message"   : message,
+            }
+
+        email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
+        email_url = webapp2.uri_for('taskqueue-send-email')
+
+        for dev in config.DEVELOPERS:
+            taskqueue.add(url = email_url, params={
+                'to': dev[1],
+                'subject' : subject,
+                'body' : email_body,
+                'sender' : dev[0],
+                })
+
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
