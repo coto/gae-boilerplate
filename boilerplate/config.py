@@ -3,7 +3,7 @@ app_name = "Google App Engine Boilerplate"
 webapp2_config = {}
 webapp2_config['webapp2_extras.sessions'] = {
     'secret_key': '_PUT_KEY_HERE_YOUR_SECRET_KEY_',
-}
+    }
 webapp2_config['webapp2_extras.auth'] = {
     'user_model': 'boilerplate.models.User',
     'cookie_name': 'session_name'
@@ -11,7 +11,7 @@ webapp2_config['webapp2_extras.auth'] = {
 webapp2_config['webapp2_extras.jinja2'] = {
     'template_path': ['templates','boilerplate/templates'],
     'environment_args': {'extensions': ['jinja2.ext.i18n']},
-}
+    }
 
 # the default language code for the application.
 # should match whatever language the site uses when i18n is disabled
@@ -59,7 +59,7 @@ error_templates = {
     403: 'errors/default_error.html',
     404: 'errors/default_error.html',
     500: 'errors/default_error.html',
-}
+    }
 
 # Enable Federated login (OpenID and OAuth)
 # Google App Engine Settings must be set to Authentication Options: Federated Login
@@ -67,3 +67,12 @@ enable_federated_login = True
 
 # jinja2 base layout templates
 base_layout = 'base.html'
+
+#Send mail developers
+send_mail_developer = True
+
+#Developers
+DEVELOPERS = (
+    ('Marcelo Leiva', 'chelitoleiva@gmail.com'),
+    ('Mauko Quiroga', 'maukoquiroga@gmail.com'),
+    )
