@@ -79,22 +79,26 @@ def handle_error(request, response, exception):
         subject = config.app_name + " error."
         email_body_path = "emails/error.txt"
         message = 'Se detecto un error ' + c['exception'] + ' Desde la url ' + c['url']
+        logging.error('ERROR EXCEPTION %s' % c['exception'])
 
-        template_val = {
-            "app_name"  : config.app_name,
-            "message"   : message,
-            }
+        if c['exception'] != 'Error saving Email Log in datastore':
+            template_val = {
+                "app_name"  : config.app_name,
+                "message"   : message,
+                }
 
-        email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
-        email_url = webapp2.uri_for('taskqueue-send-email')
+            email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
+            email_url = webapp2.uri_for('taskqueue-send-email')
 
-        for dev in config.DEVELOPERS:
-            taskqueue.add(url = email_url, params={
-                'to': dev[1],
-                'subject' : subject,
-                'body' : email_body,
-                'sender' : config.contact_sender,
-                })
+            for dev in config.DEVELOPERS:
+                taskqueue.add(url = email_url, params={
+                    'to': dev[1],
+                    'subject' : subject,
+                    'body' : email_body,
+                    'sender' : config.contact_sender,
+                    })
+        else:
+            logging.error('Error')
 
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
