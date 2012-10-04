@@ -79,7 +79,6 @@ def handle_error(request, response, exception):
         subject = config.app_name + " error."
         email_body_path = "emails/error.txt"
         message = 'Se detecto un error ' + c['exception'] + ' Desde la url ' + c['url']
-        logging.error('ERROR EXCEPTION %s' % c['exception'])
 
         if c['exception'] != 'Error saving Email Log in datastore':
             template_val = {
@@ -97,8 +96,6 @@ def handle_error(request, response, exception):
                     'body' : email_body,
                     'sender' : config.contact_sender,
                     })
-        else:
-            logging.error('Error')
 
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
