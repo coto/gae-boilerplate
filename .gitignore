@@ -34,8 +34,4 @@ pip-log.txt
 .project
 .settings*
 
-# Config Files
-app.yml
-boilerplate/config.py
-
 
