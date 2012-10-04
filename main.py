@@ -31,9 +31,10 @@ app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('
 
 app.error_handlers[403] = handle_error
 app.error_handlers[404] = handle_error
+
 if not app.debug:
     app.error_handlers[500] = handle_error
+    config.send_mail_developer = False
+
 routes.add_routes(app)
 boilerplate_routes.add_routes(app)
-
-
