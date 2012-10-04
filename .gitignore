@@ -34,11 +34,4 @@ pip-log.txt
 .project
 .settings*
 
-<<<<<<< HEAD
-# Config Files
-app.yml
-boilerplate/config.py
 
-
-=======
->>>>>>> parent of 3ea3276... config.py should not be in source versioning but in a dist file instead

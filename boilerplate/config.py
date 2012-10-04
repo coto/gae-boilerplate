@@ -73,6 +73,5 @@ send_mail_developer = True
 
 #Developers
 DEVELOPERS = (
-    ('Marcelo Leiva', 'chelitoleiva@gmail.com'),
-    ('Mauko Quiroga', 'maukoquiroga@gmail.com'),
+        ('Your Name', 'your_email@domain.com'),
     )
