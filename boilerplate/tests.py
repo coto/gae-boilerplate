@@ -41,9 +41,9 @@ if not network:
     i18n.get_territory_from_ip = Mock(return_value=None)
 
 
-class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):    
+class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
-        
+
         # fix configuration if this is still a raw boilerplate code - required by test with mails
         if not utils.is_email_valid(config.contact_sender):
             config.contact_sender = "noreply-testapp@example.com"
@@ -69,13 +69,13 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.mail_stub = self.testbed.get_stub(testbed.MAIL_SERVICE_NAME)
         self.taskqueue_stub = self.testbed.get_stub(testbed.TASKQUEUE_SERVICE_NAME)
         self.testbed.init_user_stub()
-        
+
         self.headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language' : 'en_US'}
-                
+
     def tearDown(self):
         self.testbed.deactivate()
-        
+
     def test_homepage(self):
         response = self.get('/')
         self.assertIn('Congratulations on your Google App Engine Boilerplate powered page.', response)
@@ -87,7 +87,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_login_from_homepage(self):
         self.register_activate_testuser()
-        
+
         form = self.get_form('/', 'form_login_user')
         form['username'] = 'testuser'
         form['password'] = '123456'
@@ -96,7 +96,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_login_invalid_password(self):
         self.register_activate_testuser()
- 
+
         form = self.get_form('/', 'form_login_user')
         form['username'] = 'testuser'
         form['password'] = 'wrongpassword'
@@ -129,11 +129,11 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         response2 = response.click(description='click here').follow(status=200, headers=self.headers)
         self.assert_success_message_in_response(response2,
                 "The verification email has been resent to testuser@example.com.")
-        
+
         # click again should fail
         response = response.click(description='click here').follow(status=200, headers=self.headers)
         self.assert_error_message_in_response(response, 'The link is invalid.')
-             
+
         message = self.get_sent_messages(to='testuser@example.com')[0]
         url = self.get_url_from_message(message, 'activation')
         response = self.get(url, status=302).follow(status=200, headers=self.headers)
@@ -149,10 +149,10 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_request_with_no_headers(self):
         self.get('/', headers=None)
-    
+
     def test_edit_profile(self):
         self.get('/settings/profile', status=302) # not for anonymous
-        user = self.register_testuser(with_login=True)
+        user = self.register_activate_login_testuser()
 
         form = self.get_form('/settings/profile', 'form_edit_profile')
         self.assertEqual(form['username'].value, 'testuser')
@@ -160,7 +160,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assertEqual(form['last_name'].value, '')
         self.assertEqual(form['country'].value, '')
         self.submit(form, success_message='your settings have been saved.')
-        
+
         form['username'] = 'testuser2'
         form['name'] = 'Test'
         form['last_name'] = 'User'
@@ -170,18 +170,18 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assertEqual(user.name, 'Test')
         self.assertEqual(user.last_name, 'User')
         self.assertEqual(user.country, 'US')
-        
+
         self.testapp.reset()
         self.login_user('testuser2', '123456')
-        
+
     def test_logout(self):
-        self.register_testuser(with_login=True)
+        self.register_activate_login_testuser()
         self.get('/logout/', status=302)
         self.assert_user_not_logged_in()
 
     def test_edit_email(self):
-        user = self.register_testuser(with_login=True)
-        
+        user = self.register_activate_login_testuser()
+
         form = self.get_form('/settings/email', 'form_edit_email', expect_fields=['new_email', 'password'])
         form['new_email'] = 'invalid_email-example.com'
         form['password'] = '123456'
@@ -198,9 +198,9 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assertEqual(message_new_address.sender, config.contact_sender)
         self.assertIn("Recently you've changed the email address", message_old_address.html.payload)
         self.assertIn("You've changed the email address", message_new_address.html.payload)
-        
+
         self.assertEqual(user.email, 'testuser@example.com')
- 
+
         # click confirmation link
         url = self.get_url_from_message(message_new_address, 'change-email')
         self.get(url, status=302)
@@ -209,10 +209,10 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_password_reset(self):
         self.register_activate_testuser()
- 
+
         form = self.get_form('/password-reset/', 'form_reset_password',
-                             expect_fields=['email_or_username', 'recaptcha_challenge_field', 'recaptcha_response_field'])        
-        form['email_or_username'] = 'testuser'        
+                             expect_fields=['email_or_username', 'recaptcha_challenge_field', 'recaptcha_response_field'])
+        form['email_or_username'] = 'testuser'
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
@@ -229,12 +229,12 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assert_user_not_logged_in()
         form['password'] = form['c_password'] = '456456'
         self.submit(form, success_message='Password changed successfully')
-        
+
         self.testapp.reset()
         self.login_user('testuser', '456456')
-        
+
     def test_edit_password(self):
-        self.register_testuser(with_login=True)
+        self.register_activate_login_testuser()
         form = self.get_form('/settings/password', 'form_edit_password',
                              expect_fields=['current_password', 'password', 'c_password'])
         form['current_password'] = '123456'
@@ -243,7 +243,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.submit(form, expect_error=True, error_message='Passwords must match.')
         form['c_password'] = '789789'
         self.submit(form)
-        
+
         self.testapp.reset()
         self.login_user('testuser', '789789')
 
@@ -257,7 +257,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def _test_register(self, url, form_id='form_register', expect_fields=None):
         form = self.get_form(url, form_id, expect_fields=expect_fields)
-        
+
         # TODO: check mutliple validation errors on the form
         self.submit(form, expect_error=True, error_message='This field is required.', error_field='username')
         form['username'] = 'Reguser'
@@ -275,13 +275,13 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         response = self.get(url, status=302).follow(status=200, headers=self.headers)
         self.assert_success_message_in_response(response,
                 message='Congratulations, Your account reguser has been successfully activated.')
-        
+
         # activation token has already been used
         response = self.get(url, status=302).follow(status=200, headers=self.headers)
         self.assert_error_message_in_response(response, 'The link is invalid.')
 
-        # activated user should not be auto-logged in yet
-        self.assert_user_not_logged_in()
+        # activated user should be auto-logged in
+        self.assert_user_logged_in()
 
     def test_contact(self):
         form = self.get_form('/contact/', 'form_contact',
@@ -294,7 +294,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assertEqual(message.sender, config.contact_sender)
         self.assertIn('Hi there...', message.html.payload)
 
-        self.register_testuser(with_login=True)
+        self.register_activate_login_testuser()
         form = self.get_form('/contact/', 'form_contact')
         self.assertEqual(form['name'].value, '')
         self.assertEqual(form['email'].value, 'testuser@example.com')
@@ -307,15 +307,15 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assertIn('help', message.html.payload)
 
 
-class ModelTest(unittest.TestCase):    
+class ModelTest(unittest.TestCase):
     def setUp(self):
-        
+
         # activate GAE stubs
         self.testbed = testbed.Testbed()
         self.testbed.activate()
         self.testbed.init_datastore_v3_stub()
         self.testbed.init_memcache_stub()
-                
+
     def tearDown(self):
         self.testbed.deactivate()
 
@@ -324,7 +324,7 @@ class ModelTest(unittest.TestCase):
         user.put()
         user2 = models.User(name="tester2", email="tester2@example.com")
         user2.put()
-        
+
         token = models.User.create_signup_token(user.get_id())
         self.assertTrue(models.User.validate_signup_token(user.get_id(), token))
         self.assertFalse(models.User.validate_resend_token(user.get_id(), token))
