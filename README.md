@@ -131,9 +131,8 @@ Adding or updating text to be translated or adding new languages requires more w
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
-   
-   * `msgid "Change your password"`
-   * `msgstr "Cambiar tu contraseña"`
+   + `msgid "Change your password"`
+   + `msgstr "Cambiar tu contraseña"`
 1. Compile translations
    Run: <tt>pybabel compile -f -d ./locale</tt>
 
