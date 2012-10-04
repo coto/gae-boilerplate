@@ -279,8 +279,8 @@ class AppTest(unittest.TestCase):
         response = self.get(url, status=302).follow(status=200, headers=self.headers)
         self.assert_error_message_in_response(response, 'The link is invalid.')
 
-        # activated user should not be auto-logged in yet
-        self.assert_user_not_logged_in()
+        # activated user should be auto-logged in
+        self.assert_user_logged_in()
 
     def test_contact(self):
         form = self.get_form('/contact/', 'form_contact',
