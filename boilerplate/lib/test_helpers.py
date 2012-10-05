@@ -97,21 +97,27 @@ class HandlerHelpers():
         else:
             user.activated = True
             user.put()
-        # activated user should not be auto-logged in yet
+        # activated user should be auto-logged in
         self.assertTrue(user.activated)
-        self.assert_user_not_logged_in()
+        self.assert_user_logged_in()
+
+    def register_activate_login_testuser(self):
+        user = self.register_testuser()
+        self.activate_user(user)
+        return user
 
     def register_activate_testuser(self):
         user = self.register_testuser()
         self.activate_user(user)
+        self.testapp.reset()
         return user
 
     def register_testuser(self, **kwargs):
         return self.register_user('testuser', '123456', 'testuser@example.com', **kwargs)
 
-    def register_user(self, username, password, email, with_login=False):
+    def register_user(self, username, password, email):
         """Register new user account.
-        
+
         Optionally activate account and login with username and password."""
         form = self.get_form('/register/', 'form_register')
         form['username'] = username
@@ -123,13 +129,7 @@ class HandlerHelpers():
         users = models.User.query().fetch(2)
         self.assertEqual(1, len(users), "{} could not register".format(username))
         user = users[0]
-        
-        if with_login:
-            self.activate_user(user)
-            self.login_user(username, password)
-        else:
-            # clear cookies
-            self.testapp.reset()
+
         return user
 
     def get_user_data_from_session(self):
@@ -139,7 +139,7 @@ class HandlerHelpers():
         request.app = self.app
         a = auth.Auth(request=request)
         return a.get_user_by_session()
-       
+
     def assert_user_logged_in(self):
         """Check if user is logged in."""
         self.assertIn(cookie_name, self.testapp.cookies,
@@ -154,7 +154,7 @@ class HandlerHelpers():
 
     def assert_error_message_in_response(self, response, message=''):
         """Check if response contains one or more error messages.
-        
+
         Assume error messages rendered as <p class="alert-error"> elements.
         """
         alert = response.pyquery('p.alert-error')
@@ -164,7 +164,7 @@ class HandlerHelpers():
 
     def assert_success_message_in_response(self, response, message=''):
         """Check if response contains one or more success messages.
-        
+
         Assume success messages rendered as <p class="alert-success"> elements.
         """
         alert = response.pyquery('p.alert-success')
