@@ -67,3 +67,11 @@ enable_federated_login = True
 
 # jinja2 base layout templates
 base_layout = 'base.html'
+
+# send error emails to developers
+send_mail_developer = True
+
+# fellas' list
+DEVELOPERS = (
+    ('Santa Klauss', 'snowypal@northpole.com'),
+)
