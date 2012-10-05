@@ -41,13 +41,13 @@ twitter_consumer_secret = 'PUT_YOUR_TWITTER_CONSUMER_SECRET_HERE'
 # get your own consumer key and consumer secret by registering at https://developers.facebook.com/apps
 #Very Important: set the site_url= your domain in the application settings in the facebook app settings page
 # callback url must be: http://[YOUR DOMAIN]/login/facebook/complete
-_FbApiKey = '364331990301887'
-_FbSecret = 'f5d35380801571a7640379bad834b4ab'
+_FbApiKey = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
+_FbSecret = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
 
 #Linkedin Login
 #Get you own api key and secret from https://www.linkedin.com/secure/developer
-linkedin_api = 'ueNRJIsyU3Q_EXer9MTOT3fpH-rQCGZWBBhVCeV3gyDzgNSB9Ov04DM3j6WEpSHf'
-linkedin_secret = 'NYgmelU0_7PKf0LXYNq8ujtrp0F9UWBKaxd1hQOoBwiwVecHyZB9uTihZ-y7g4Me'
+linkedin_api = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
+linkedin_secret = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 
 # get your own recaptcha keys by registering at www.google.com/recaptcha
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
