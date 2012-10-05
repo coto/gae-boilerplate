@@ -9,6 +9,7 @@ from google.appengine.api.users import NotAllowedError
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from google.appengine.api import taskqueue
 # local application/library specific imports
 from boilerplate import config, models
 from boilerplate.lib import utils, i18n
@@ -72,6 +73,30 @@ def handle_error(request, response, exception):
         'exception': str(exception),
         'url': request.url,
         }
+
+    if config.send_mail_developer is not False:
+        # send email
+        subject         = config.app_name + " error."
+        email_body_path = "emails/error.txt"
+        message         = 'This error was looking for you: ' + c['exception'] + ' from ' + c['url']
+
+        if c['exception'] is not 'Error saving Email Log in datastore':
+            template_val = {
+                "app_name"  : config.app_name,
+                "message"   : message,
+                }
+
+            email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
+            email_url = webapp2.uri_for('taskqueue-send-email')
+
+            for dev in config.DEVELOPERS:
+                taskqueue.add(url = email_url, params={
+                    'to':       dev[1],
+                    'subject' : subject,
+                    'body' :    email_body,
+                    'sender' :  config.contact_sender,
+                    })
+
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = config.error_templates[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
@@ -202,7 +227,7 @@ class BaseHandler(webapp2.RequestHandler):
                 self.auth.unset_session()
                 self.redirect_to('home')
         return  None
-    
+
     @webapp2.cached_property
     def provider_uris(self):
         from google.appengine.api import users
@@ -221,11 +246,11 @@ class BaseHandler(webapp2.RequestHandler):
                                 'You must enable Federated Login Before for this application.<br> '
                                 '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
                                 'Administration -> Application Settings -> Authentication Options</p>')
-    
+
     @webapp2.cached_property
     def provider_info(self):
         return models.SocialUser.PROVIDERS_INFO
-    
+
     @webapp2.cached_property
     def path_for_language(self):
         """
@@ -282,7 +307,7 @@ class BaseHandler(webapp2.RequestHandler):
         language = ''
         territory = ''
         language_id = config.app_lang
-        
+
         if self.locale and len(locales) > 1:
             locale_iso = Locale.parse(self.locale)
             language_id = locale_iso.language
