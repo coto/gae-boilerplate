@@ -1,12 +1,12 @@
 {% import "macros.html" as macros %}
-<!doctype html>
-<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
-<!--[if IE 7]><html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]><html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ locale_language_id }}"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="{{ locale_language_id }}"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ locale_language_id }}"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale_language_id }}"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>{% block title %}{{ app_name }}{% endblock %}</title>
     <meta name="description" content="">
     <meta name="author" content="">
@@ -19,7 +19,6 @@
     {% if is_mobile %}
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     {% endif %}
-    <link rel="stylesheet" href="/css/html5-boilerplate.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/css/main.min.css">
@@ -126,7 +125,7 @@
         </div><!-- /navbar -->
         {% endblock %}
 
-        <div id="content" class="container xled">
+        <div id="content" class="container led">
             {% block header %}
             <header class="navbar" id="overview">
                 {% block header_title_lead %}
