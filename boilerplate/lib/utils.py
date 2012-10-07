@@ -44,8 +44,6 @@ def hashing(plaintext, salt="", sha="512"):
         logging.error("CRYPTO is not running")
         return phrase_digest
 
-
-
 def chunks(list, size):
     """ Yield successive sized chunks from list.
     """
