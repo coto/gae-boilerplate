@@ -325,10 +325,6 @@ footer{
             padding: 20px 2px;
         }
     }
-    
-    button.btn-login{
-        margin-left: 0px;
-    }
 
     .led {
         background-color: orange;
@@ -424,5 +420,16 @@ footer{
         width: 1170px;
         margin: 0 auto;
         padding: 0 1px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .auth-at-home {
+        .row-fluid .span8 {
+            width: 100%;
+        }
+        button.btn-login {
+            margin-left: 0;
+        }
     }
 }
