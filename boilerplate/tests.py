@@ -14,10 +14,8 @@ Options:
 import unittest
 import webapp2
 import os
-import re
 import webtest
 from google.appengine.ext import testbed
-from webapp2_extras import auth
 from mock import Mock
 from mock import patch
 
@@ -112,6 +110,62 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
 
+    def test_login_twitter_no_association(self):
+        response = self._test_login_twitter()
+        self.assert_warning_message_in_response(response,
+                        "This Twitter account is not associated with any local account.")
+        self.assert_user_not_logged_in()
+ 
+    def test_login_twitter(self):
+        user = self.register_activate_testuser()
+        models.SocialUser(user=user.key, provider='twitter', uid='7588892').put()
+        
+        self._test_login_twitter()
+
+        self.assert_user_logged_in()
+ 
+    def _test_login_twitter(self):
+        oauth_token = 'NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0'
+        oauth_token_secret = 'veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI'
+        oauth_callback_confirmed = 'true'
+        oauth_verifier = 'uw7NjWHT6OJ1MpJOXsHfNxoAhPKpgI8BlYDhxEjIBY'
+        user_id = '7588892'
+        access_token = '{}-kagSNqWge8gB1WwE3plnFsJHAZVfxWD7Vb57p0b4'.format(user_id)
+        oauth_token_secret2 = 'PbKfYqSryyeKDWz4ebtY3o5ogNLG11WJuZBc9fQrQo'
+        screen_name = 'testuser'
+
+        class Response:
+            def __init__(self, content):
+                self.content = content
+            def readlines(self):
+                return self.content.split('\n')
+            def read(self):
+                return self.content
+
+        urlopen = Mock(side_effect=[Response('oauth_token={}&oauth_token_secret={}&oauth_callback_confirmed=true'.
+                                           format(oauth_token, oauth_token_secret, oauth_callback_confirmed)),
+                                  Response('oauth_token={}&oauth_token_secret={}&user_id={}&screen_name={}'.
+                                           format(access_token, oauth_token_secret2, user_id, screen_name)),
+                                  Response('{"id":%s}' % user_id)])
+        with patch('urllib2.urlopen', urlopen):
+            response = self.get('/social_login/twitter', status=302)
+            self.assertTrue(response.headers['Location'].startswith('http://api.twitter.com/oauth/authenticate?'))
+
+            self.assertEquals(urlopen.call_count, 1)
+            self.assertTrue(urlopen.call_args_list[0][0][0].
+                            startswith('https://api.twitter.com/oauth/request_token?'))
+
+            response = self.get('/social_login/twitter/complete?oauth_token={}&oauth_verifier={}'.
+                                format(oauth_token, oauth_verifier), status=302)
+            self.assertEquals(urlopen.call_count, 3)
+            self.assertTrue(urlopen.call_args_list[1][0][0].
+                            startswith('https://api.twitter.com/oauth/access_token?'))
+            self.assertTrue(urlopen.call_args_list[2][0][0].
+                            startswith('https://twitter.com/account/verify_credentials.json?'))
+ 
+            response = response.follow(status=200, headers=self.headers)
+            return response
+ 
     def test_resend_activation_mail(self):
         self.register_testuser()
 
