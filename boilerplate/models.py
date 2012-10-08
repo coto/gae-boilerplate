@@ -141,10 +141,8 @@ class SocialUser(ndb.Model):
 
     @classmethod
     def check_unique(cls, user, provider, uid):
-        # pair (provider, uid) should be unique
-        return cls.check_unique_uid(provider, uid)
-        # pair (user, provider) should be unique
-        return cls.check_unique_user(provider, user)
+        # pair (provider, uid) should be unique and pair (user, provider) should be unique
+        return cls.check_unique_uid(provider, uid) and cls.check_unique_user(provider, user)
     
     @staticmethod
     def open_id_providers():
