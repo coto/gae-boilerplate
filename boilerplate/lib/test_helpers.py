@@ -172,6 +172,16 @@ class HandlerHelpers():
         if message:
             self.assertIn(message, alert.text())
 
+    def assert_warning_message_in_response(self, response, message=''):
+        """Check if response contains one or more warning messages.
+
+        Assume warning messages rendered as <p class="alert-warning"> elements.
+        """
+        alert = response.pyquery('p.alert-warning')
+        self.assertGreater(len(alert), 0, 'no warning message found in response')
+        if message:
+            self.assertIn(message, alert.text())
+
     def assert_no_error_message_in_response(self, response):
         """Check that response has no error messages."""
         el = response.pyquery('p.alert-error')
