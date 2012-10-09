@@ -66,7 +66,7 @@ error_templates = {
 enable_federated_login = True
 
 # jinja2 base layout templates
-base_layout = 'base.html'
+base_layout = 'boilerplate_base.html'
 
 # send error emails to developers
 send_mail_developer = True
