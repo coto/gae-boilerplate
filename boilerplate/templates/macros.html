@@ -25,7 +25,7 @@
                 <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                 <div class="social-login-icons">
                     {% for p in provider_info if provider_uris[p] %}
-                    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p.label }}">Login {{ p.label }}</a>
+                    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p }}">{{ p }}</a>
                     {% endfor %}
                 </div>
             </div>
