@@ -1,7 +1,7 @@
 from boilerplate import config
 from boilerplate.lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
                    SignatureMethod_HMAC_SHA1
-from urllib2 import  urlopen
+import urllib2
 import json
 
 # Twitter configuration
@@ -90,7 +90,7 @@ class TwitterAuth(object):
     
     def fetch_response(self, request):
         """Executes request and fetchs service response"""
-        response = urlopen(request.to_url())
+        response = urllib2.urlopen(request.to_url())
         return '\n'.join(response.readlines())
     
     def access_token(self, token, oauth_verifier):
@@ -101,9 +101,9 @@ class TwitterAuth(object):
     def user_data(self, access_token):
         """Return user data provided"""
         request = self.oauth_request(access_token, TWITTER_CHECK_AUTH)
-        json = self.fetch_response(request)
+        data = self.fetch_response(request)
         try:
-            return json.loads(json)
+            return json.loads(data)
         except ValueError:
             return None
     
