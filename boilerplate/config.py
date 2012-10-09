@@ -49,7 +49,7 @@ _FbSecret = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
 linkedin_api = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 linkedin_secret = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 
-# get your own recaptcha keys by registering at www.google.com/recaptcha
+# get your own recaptcha keys by registering at http://www.google.com/recaptcha/
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
 
