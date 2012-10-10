@@ -845,6 +845,9 @@ class ContactHandler(BaseHandler):
 
             if 'version' in ua[os]:
                 operating_system_full_name += ' '+str(ua[os]['version'])
+
+            if 'dist' in ua:
+                operating_system_full_name += ' '+str(ua['dist'])
             
             template_val = {
                 "name": name,
