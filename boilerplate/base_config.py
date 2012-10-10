@@ -41,18 +41,20 @@ twitter_consumer_secret = 'PUT_YOUR_TWITTER_CONSUMER_SECRET_HERE'
 # get your own consumer key and consumer secret by registering at https://developers.facebook.com/apps
 #Very Important: set the site_url= your domain in the application settings in the facebook app settings page
 # callback url must be: http://[YOUR DOMAIN]/login/facebook/complete
-facebook_app_key = '364331990301887'
-facebook_app_secret = 'f5d35380801571a7640379bad834b4ab'
+facebook_app_key = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
+facebook_app_secret = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
 
 #Linkedin Login
 #Get you own api key and secret from https://www.linkedin.com/secure/developer
-linkedin_api = 'ueNRJIsyU3Q_EXer9MTOT3fpH-rQCGZWBBhVCeV3gyDzgNSB9Ov04DM3j6WEpSHf'
-linkedin_secret = 'NYgmelU0_7PKf0LXYNq8ujtrp0F9UWBKaxd1hQOoBwiwVecHyZB9uTihZ-y7g4Me'
+linkedin_api = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
+linkedin_secret = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 
-# get your own recaptcha keys by registering at www.google.com/recaptcha
+# get your own recaptcha keys by registering at http://www.google.com/recaptcha/
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
 
+# Leave blank "google_analytics_domain" if you only want Analytics code
+google_analytics_domain = "YOUR_PRIMARY_DOMAIN (e.g. google.com)"
 google_analytics_code = "UA-XXXXX-X"
 
 error_templates = {
@@ -66,4 +68,12 @@ error_templates = {
 enable_federated_login = True
 
 # jinja2 base layout templates
-base_layout = 'base.html'
+base_layout = 'boilerplate_base.html'
+
+# send error emails to developers
+send_mail_developer = True
+
+# fellas' list
+DEVELOPERS = (
+    ('Santa Klauss', 'snowypal@northpole.com'),
+)

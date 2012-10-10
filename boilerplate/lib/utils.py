@@ -7,8 +7,6 @@ import unicodedata
 from datetime import datetime, timedelta
 import Cookie
 
-from Crypto.Cipher import AES
-
 import config
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
@@ -29,15 +27,21 @@ def hashing(plaintext, salt="", sha="512"):
     phrase_digest = phrase.hexdigest()
 
     # Encryption
-    mode = AES.MODE_CBC
+    import logging
+    try:
+        from Crypto.Cipher import AES
+        mode = AES.MODE_CBC
 
-    # We can not generate random initialization vector because is difficult to retrieve them later without knowing
-    # a priori the hash to match. We take 16 bytes from the hexdigest to make the vectors different for each hashed
-    # plaintext.
-    iv = phrase_digest[:16]
-    encryptor = AES.new(config.aes_key, mode,iv)
-    ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
-    return ''.join(ciphertext)
+        # We can not generate random initialization vector because is difficult to retrieve them later without knowing
+        # a priori the hash to match. We take 16 bytes from the hexdigest to make the vectors different for each hashed
+        # plaintext.
+        iv = phrase_digest[:16]
+        encryptor = AES.new(config.aes_key, mode,iv)
+        ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
+        return ''.join(ciphertext)
+    except ImportError, e:
+        logging.error("CRYPTO is not running")
+        return phrase_digest
 
 def chunks(list, size):
     """ Yield successive sized chunks from list.

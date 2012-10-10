@@ -1,0 +1,6 @@
+<p><strong>App Name:</strong> {{app_name}}</p>
+
+<p>
+<strong>Message:</strong><br>
+{{message}}
+</p>

@@ -11,6 +11,7 @@
 # standard library imports
 import logging
 import re
+import json
 
 # related third party imports
 import webapp2
@@ -159,10 +160,10 @@ class LoginHandler(BaseHandler):
                         extra_data = twitter_association_data
                     )
                     social_user.put()
-                    
-            #check facebook association      
+
+            #check facebook association
             fb_data = None
-            try:      
+            try:
                 fb_data = json.loads(self.session['facebook'])
             except:
                 pass
@@ -176,7 +177,7 @@ class LoginHandler(BaseHandler):
                         extra_data = fb_data
                     )
                     social_user.put()
-                    
+
             #check linkedin association
             li_data = None
             try:
@@ -192,8 +193,8 @@ class LoginHandler(BaseHandler):
                         extra_data = li_data
                     )
                     social_user.put()
-            
-            #end linkedin            
+
+            #end linkedin
 
             logVisit = models.LogVisit(
                 user=user.key,
@@ -223,29 +224,30 @@ class SocialLoginHandler(BaseHandler):
 
     def get(self, provider_name):
         provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+
         if not config.enable_federated_login:
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
         callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
+
         if provider_name == "twitter":
             twitter_helper = twitter.TwitterAuth(self, redirect_uri=callback_url)
             self.redirect(twitter_helper.auth_url())
-            
 
         elif provider_name == "facebook":
             self.session['linkedin'] = None
             perms = ['email', 'publish_stream']
             self.redirect(facebook.auth_url(config.facebook_app_key, callback_url, perms))
-            
+
         elif provider_name == 'linkedin':
             self.session['facebook'] = None
             link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
             if link.request_token():
                 self.session['request_token']=link._request_token
                 self.session['request_token_secret']=link._request_token_secret
-                self.redirect(link.get_authorize_url())            
-            
+                self.redirect(link.get_authorize_url())
+
         else:
             message = _('%s authentication is not yet implemented.' % provider_display_name)
             self.add_message(message, 'warning')
@@ -310,12 +312,12 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 'or <a href="/register/">create an account</a>.' % config.app_name)
                     self.add_message(message, 'warning')
                     self.redirect_to('login')
-                    
+
         #facebook association
         elif provider_name == "facebook":
             code = self.request.get('code')
-            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)          
             token = facebook.get_access_token_from_code(code, callback_url, config.facebook_app_key, config.facebook_app_secret)
+            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
@@ -354,7 +356,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     logVisit.put()
                     self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms                   
+                    # Social user does not exists. Need show login and registration forms
 
                     self.session['facebook']=json.dumps(user_data)
                     login_url = '%s/login/'  % self.request.host_url
@@ -362,21 +364,21 @@ class CallbackSocialLoginHandler(BaseHandler):
                     message = _('The Facebook account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
                     self.add_message(message,'info')
                     self.redirect_to('login')
-            
+
             #end facebook
-         # association with linkedin   
+         # association with linkedin
         elif provider_name == "linkedin":
-            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name) 
+            callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
             link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
             request_token = self.session['request_token']
             request_token_secret= self.session['request_token_secret']
             link._request_token = request_token
-            link._request_token_secret = request_token_secret  
+            link._request_token_secret = request_token_secret
             verifier = self.request.get('oauth_verifier')
-            #~ print 'test'   
-            #~ print 'request_token= %s ; request_token_secret= %s ;verifier = %s ' % (request_token, request_token_secret, verifier)          
-            link.access_token(verifier=verifier)           
-            u_data = link.get_profile()            
+            #~ print 'test'
+            #~ print 'request_token= %s ; request_token_secret= %s ;verifier = %s ' % (request_token, request_token_secret, verifier)
+            link.access_token(verifier=verifier)
+            u_data = link.get_profile()
             user_key = re.search(r'key=(\d+)', u_data.private_url).group(1)
             user_data={'first_name':u_data.first_name, 'last_name':u_data.last_name ,'id':user_key}
             self.session['linkedin'] = json.dumps(user_data)
@@ -416,18 +418,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     logVisit.put()
                     self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms                   
+                    # Social user does not exists. Need show login and registration forms
                     self.session['linkedin'] = json.dumps(user_data)
                     login_url = '%s/login/'  % self.request.host_url
                     signup_url = '%s/register/' %  self.request.host_url
                     message = _('The Linkedin account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
                     self.add_message(message,'info')
                     self.redirect_to('login')
-            
+
             #end linkedin
-                    
-                    
-                    
+
+
             # Debug Callback information provided
 #            for k,v in user_data.items():
 #                print(k +":"+  v )
@@ -639,7 +640,7 @@ class RegisterHandler(RegisterBaseHandler):
                     subject =  _("%s Account Verification" % config.app_name)
                     confirmation_url = self.uri_for("account-activation",
                         user_id=user_info.get_id(),
-                        token = models.User.create_signup_token(user_info.get_id()),
+                        token = models.User.create_auth_token(user_info.get_id()),
                         _full = True)
 
                     # load email's template
@@ -691,7 +692,7 @@ class RegisterHandler(RegisterBaseHandler):
                             extra_data = fb_data
                         )
                         social_user.put()
-                #check linkedin association    
+                #check linkedin association
                 li_data = json.loads(self.session['linkedin'])
                 if li_data is not None:
                     if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
@@ -702,7 +703,7 @@ class RegisterHandler(RegisterBaseHandler):
                             extra_data = li_data
                         )
                         social_user.put()
-                                                
+
 
                 message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username) )
                 self.add_message(message, 'success')
@@ -721,7 +722,7 @@ class AccountActivationHandler(BaseHandler):
 
     def get(self, user_id, token):
         try:
-            if not models.User.validate_signup_token(user_id, token):
+            if not models.User.validate_auth_token(user_id, token):
                 message = _('The link is invalid.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
@@ -731,12 +732,16 @@ class AccountActivationHandler(BaseHandler):
             user.activated = True
             user.put()
 
-            models.User.delete_signup_token(user_id, token)
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
 
             message = _('Congratulations, Your account %s has been successfully activated.'
                         % '<strong>{0:>s}</strong>'.format(user.username) )
             self.add_message(message, 'success')
-            self.redirect_to('login')
+            self.redirect_to('home')
 
         except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
             logging.error("Error activating an account: %s" % e)
@@ -765,7 +770,7 @@ class ResendActivationEmailHandler(BaseHandler):
                 subject = _("%s Account Verification" % config.app_name)
                 confirmation_url = self.uri_for("account-activation",
                     user_id = user.get_id(),
-                    token = models.User.create_signup_token(user.get_id()),
+                    token = models.User.create_auth_token(user.get_id()),
                     _full = True)
 
                 # load email's template
@@ -841,6 +846,7 @@ class ContactHandler(BaseHandler):
             logging.info(user_agent)
             ua = httpagentparser.detect(user_agent)
             os = ua.has_key('flavor') and 'flavor' or 'os'
+
             operating_system_full_name = str(ua[os]['name'])
 
             if 'version' in ua[os]:
@@ -848,7 +854,7 @@ class ContactHandler(BaseHandler):
 
             if 'dist' in ua:
                 operating_system_full_name += ' '+str(ua['dist'])
-            
+
             template_val = {
                 "name": name,
                 "email": email,
@@ -1176,6 +1182,12 @@ class PasswordResetHandler(BaseHandler):
             public_key = self.reCaptcha_public_key,
             use_ssl = False,
             error = None)
+        if self.reCaptcha_public_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
+           self.reCaptcha_private_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
+            chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to <a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
+                    'for API keys</a> in order to use reCAPTCHA.</div>' \
+                    '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
+                    '<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />'
         params = {
             'captchahtml': chtml,
             }
