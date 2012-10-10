@@ -1176,7 +1176,9 @@ class PasswordResetHandler(BaseHandler):
         if self.reCaptcha_public_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
            self.reCaptcha_private_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
             chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to <a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
-                    'for API keys</a> in order to use reCAPTCHA.</div>'
+                    'for API keys</a> in order to use reCAPTCHA.</div>' \
+                    '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
+                    '<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />'
         params = {
             'captchahtml': chtml,
             }

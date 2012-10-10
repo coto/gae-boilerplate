@@ -194,7 +194,6 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.assert_success_message_in_response(response,
                 message='Congratulations, Your account testuser has been successfully activated.')
 
-
     def test_request_with_no_user_agent_header(self):
         self.get('/', headers={'Accept-Language' : 'en_US'})
 
