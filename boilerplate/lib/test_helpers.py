@@ -5,7 +5,8 @@ Common helper utilities for testing.
 import webapp2
 import re
 from webapp2_extras import auth
-from boilerplate import config, models
+from boilerplate import models
+import config
 
 # globals
 cookie_name = config.webapp2_config['webapp2_extras.auth']['cookie_name']
