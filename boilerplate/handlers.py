@@ -838,16 +838,20 @@ class ContactHandler(BaseHandler):
         try:
             # parsing user_agent and getting which os key to use
             # windows uses 'os' while other os use 'flavor'
+            logging.info(user_agent)
             ua = httpagentparser.detect(user_agent)
             os = ua.has_key('flavor') and 'flavor' or 'os'
+            operating_system_full_name = str(ua[os]['name'])
+
+            if 'version' in ua[os]:
+                operating_system_full_name += ' '+str(ua[os]['version'])
             
             template_val = {
                 "name": name,
                 "email": email,
                 "browser": str(ua['browser']['name']),
                 "browser_version": str(ua['browser']['version']),
-                "operating_system": str(ua[os]['name']) + " " +
-                                    str(ua[os]['version']),
+                "operating_system": operating_system_full_name,
                 "ip": remoteip,
                 "message": message
             }
