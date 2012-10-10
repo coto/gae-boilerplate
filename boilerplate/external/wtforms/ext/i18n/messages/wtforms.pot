@@ -2,7 +2,6 @@
 # Copyright (C) 2012 WTForms Team
 # This file is distributed under the same license as the WTForms project.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WTForms 1.0\n"

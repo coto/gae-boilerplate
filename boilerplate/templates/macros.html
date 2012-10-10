@@ -1,13 +1,18 @@
-<!-- creates a form input field of the type specified.  
-	Note that in addition to the listed parameters, any set of kwargs can be passed and will appear as attributes on the html input element
-	type, class, value, placeholder are noteable kwargs for the input element -->
-{% macro input(form, name, label, type='text') -%}
-        <div class="control-group{% if getattr(form,name).errors %} error{% endif %}">
-                <label class="control-label" for="{{ name }}">{{ label|safe }} {% if getattr(form,name).flags.required %}*{% endif %}:</label>
+<!-- Renders a form field with errors, required flags, and common styling.  
+	html element fields such as class, style, or type can be passed as kwargs.
+	Usage: macros.field(form.username, class="input-xlarge", type="email") -->
+{% macro field(field, label='') -%}
+            <div class="control-group{% if field.errors %} error{% endif %}">
+            	{% set text = label or field.label.text %}
+            	{% if field.flags.required %}
+                	{{ field.label(text=text + " *", class="control-label") }}
+                {% else %}
+                	{{ field.label(text=text + " ", class="control-label") }}
+                {% endif %}
                 <div class="controls">
-                {{ getattr(form,name)(type=type, **kwargs)|safe }}
-                {% if getattr(form,name).errors %}
-                    {% for error in getattr(form,name).errors %}<label for="{{ name }}" class="error help-inline">{{ error }}</label>{% endfor %}
+                {{ field(**kwargs) }}
+                {% if field.errors %}
+                    {% for error in field.errors %}<label for="{{ field.id }}" class="error help-inline">{{ error }}</label>{% endfor %}
                 {% endif %}
                 </div>
             </div>
@@ -16,11 +21,11 @@
 <!-- renders federated login (openId and Oauth) login buttons -->
 {% macro federated_login(provider_info, provider_uris, enable_federated_login) -%}
 {% if enable_federated_login %}
-            <div id="trird_party_login" class="form-actions">
+            <div id="third_party_login" class="form-actions">
                 <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                 <div class="social-login-icons">
                     {% for p in provider_info if provider_uris[p] %}
-                    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p.label }}">Login {{ p.label }}</a>
+                    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p }}">{{ p }}</a>
                     {% endfor %}
                 </div>
             </div>
