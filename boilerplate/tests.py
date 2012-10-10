@@ -22,11 +22,13 @@ from mock import Mock
 from mock import patch
 
 import boilerplate
-from boilerplate import config, models
+from boilerplate import models
 from boilerplate import routes
 from boilerplate.lib import utils
 from boilerplate.lib import captcha
 from boilerplate.lib import i18n
+
+import config
 
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'

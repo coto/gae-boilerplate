@@ -1,4 +1,3 @@
-
 import os
 import re
 import random
@@ -10,7 +9,7 @@ import Cookie
 
 from Crypto.Cipher import AES
 
-from boilerplate import config
+import config
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """

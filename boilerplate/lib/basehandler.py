@@ -10,8 +10,9 @@ from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
 # local application/library specific imports
-from boilerplate import config, models
+from boilerplate import models
 from boilerplate.lib import utils, i18n
+import config
 from babel import Locale
 
 def user_required(handler):
