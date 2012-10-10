@@ -1,3 +1,5 @@
+import os
+
 app_name = "Google App Engine Boilerplate"
 
 webapp2_config = {}
@@ -48,6 +50,20 @@ _FbSecret = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
 #Get you own api key and secret from https://www.linkedin.com/secure/developer
 linkedin_api = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 linkedin_secret = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
+
+# Github login
+# Create two applications on github - one for dev and one for production
+# Register apps here: https://github.com/settings/applications/new
+github_server = 'github.com'
+if os.environ['SERVER_SOFTWARE'].startswith('Dev'):
+    # change port to your local development port
+    github_redirect_uri = 'http://localhost:8104/social_login/github/complete'
+    github_client_id = 'PUT_YOUR_DEV_APP_GITHUB_CLIENT_ID_HERE'
+    github_client_secret = 'PUT_YOUR_DEV_APP_GITHUB_CLIENT_SECRET_HERE'
+else:
+    github_redirect_uri = 'http://www.example.com/social_login/github/complete'
+    github_client_id = 'PUT_YOUR_PROD_APP_GITHUB_CLIENT_ID_HERE'
+    github_client_secret = 'PUT_YOUR_PROD_APP_GITHUB_CLIENT_SECRET_HERE'
 
 # get your own recaptcha keys by registering at http://www.google.com/recaptcha/
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
