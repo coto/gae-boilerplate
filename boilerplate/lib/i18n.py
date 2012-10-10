@@ -4,7 +4,7 @@ from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
 from babel import Locale
-from boilerplate import config
+import config
 
 def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?'):
     """

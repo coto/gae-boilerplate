@@ -23,7 +23,8 @@ from google.appengine.api import taskqueue
 from linkedin import linkedin
 
 # local application/library specific imports
-import config, models
+import config
+from boilerplate import models
 import forms as forms
 from lib import utils, captcha, twitter
 from lib.basehandler import BaseHandler
@@ -235,7 +236,7 @@ class SocialLoginHandler(BaseHandler):
         elif provider_name == "facebook":
             self.session['linkedin'] = None
             perms = ['email', 'publish_stream']
-            self.redirect(facebook.auth_url(config._FbApiKey, callback_url, perms))
+            self.redirect(facebook.auth_url(config.facebook_app_key, callback_url, perms))
             
         elif provider_name == 'linkedin':
             self.session['facebook'] = None
@@ -314,7 +315,7 @@ class CallbackSocialLoginHandler(BaseHandler):
         elif provider_name == "facebook":
             code = self.request.get('code')
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)          
-            token = facebook.get_access_token_from_code(code, callback_url, config._FbApiKey, config._FbSecret)
+            token = facebook.get_access_token_from_code(code, callback_url, config.facebook_app_key, config.facebook_app_secret)
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
