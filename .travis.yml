@@ -7,5 +7,6 @@ install:
   - pip install webtest
   - pip install pyquery
   - pip install pycrypto
+  - pip install mock
 # command to run tests
 script:  python testrunner.py google_appengine .

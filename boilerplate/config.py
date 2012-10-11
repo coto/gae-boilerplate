@@ -62,6 +62,8 @@ github_client_secret = 'PUT_YOUR_PROD_APP_GITHUB_CLIENT_SECRET_HERE'
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
 
+# Leave blank "google_analytics_domain" if you only want Analytics code
+google_analytics_domain = "YOUR_PRIMARY_DOMAIN (e.g. google.com)"
 google_analytics_code = "UA-XXXXX-X"
 
 error_templates = {
