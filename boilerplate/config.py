@@ -49,6 +49,13 @@ _FbSecret = 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE'
 linkedin_api = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 linkedin_secret = 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE'
 
+# Github login
+# Register apps here: https://github.com/settings/applications/new
+github_server = 'github.com'
+github_redirect_uri = 'http://www.example.com/social_login/github/complete'
+github_client_id = 'PUT_YOUR_GITHUB_CLIENT_ID_HERE'
+github_client_secret = 'PUT_YOUR_GITHUB_CLIENT_SECRET_HERE'
+
 # get your own recaptcha keys by registering at http://www.google.com/recaptcha/
 captcha_public_key = "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE"
 captcha_private_key = "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE"
