@@ -161,7 +161,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
             self.assertTrue(urlopen.call_args_list[1][0][0].
                             startswith('https://api.twitter.com/oauth/access_token?'))
             self.assertTrue(urlopen.call_args_list[2][0][0].
-                            startswith('https://twitter.com/account/verify_credentials.json?'))
+                            startswith('https://api.twitter.com/1.1/account/verify_credentials.json?'))
  
             response = response.follow(status=200, headers=self.headers)
             return response
