@@ -140,13 +140,15 @@ class HandlerHelpers():
         a = auth.Auth(request=request)
         return a.get_user_by_session()
 
-    def assert_user_logged_in(self):
+    def assert_user_logged_in(self, user_id=None):
         """Check if user is logged in."""
         self.assertIn(cookie_name, self.testapp.cookies,
                       'user is not logged in: session cookie not found')
         user = self.get_user_data_from_session()
         if user is None:
             self.fail('user is not logged in')
+        if user_id:
+            self.assertEqual(user['user_id'], user_id, 'unexpected user is logged in')
 
     def assert_user_not_logged_in(self):
         """Check if user is not logged in."""

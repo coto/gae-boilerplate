@@ -16,6 +16,7 @@ import webapp2
 import os
 import webtest
 from google.appengine.ext import testbed
+
 from mock import Mock
 from mock import patch
 
@@ -109,6 +110,33 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form['password'] = '123456'
         self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
+        
+    def _login_openid(self, provider, uid, email=None):
+        openid_user = Mock()
+        openid_user.federated_identity.return_value = uid
+        openid_user.email.return_value = email
+        with patch('google.appengine.api.users.get_current_user', return_value=openid_user):
+            response = self.get('/social_login/{}/complete'.format(provider), status=302)
+            response = response.follow(status=200, headers=self.headers) 
+        return response
+
+    def test_login_openid_add_association(self):
+        response = self._login_openid('google', 'http://www.google.com/accounts/123')
+        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_user_logged_in()
+
+    def test_login_openid_with_email_add_association(self):
+        response = self._login_openid('google', 'http://www.google.com/accounts/123', 'testuser@example.com')
+        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_user_logged_in()
+        user = models.User.query().get()
+        self.assertEqual('testuser@example.com', user.email)
+
+    def test_login_openid(self):
+        user = self.register_activate_testuser()
+        models.SocialUser(user=user.key, provider='google', uid='http://www.google.com/accounts/123').put()
+        self._login_openid('google', uid='http://www.google.com/accounts/123')
+        self.assert_user_logged_in(user_id=user.get_id())
 
     def test_login_twitter_no_association(self):
         response = self._test_login_twitter()
@@ -119,9 +147,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def test_login_twitter(self):
         user = self.register_activate_testuser()
         models.SocialUser(user=user.key, provider='twitter', uid='7588892').put()
-        
         self._test_login_twitter()
-
         self.assert_user_logged_in()
  
     def _test_login_twitter(self):
@@ -139,8 +165,6 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
                 self.content = content
             def readlines(self):
                 return self.content.split('\n')
-            def read(self):
-                return self.content
 
         urlopen = Mock(side_effect=[Response('oauth_token={}&oauth_token_secret={}&oauth_callback_confirmed=true'.
                                            format(oauth_token, oauth_token_secret, oauth_callback_confirmed)),
