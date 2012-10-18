@@ -14,21 +14,15 @@ def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
     return ''.join(random.choice(chars) for _ in range(size))
 
-def hashing(plaintext, salt="", sha="512"):
-    """ Returns the encrypted hexdigest of a plaintext and salt"""
+def hashing(plaintext, salt=""):
+    """ Returns the hashed and encrypted hexdigest of a plaintext and salt"""
 
-    # Hashing
-    if sha == "1":
-        phrase = hashlib.sha1()
-    elif sha == "256":
-        phrase = hashlib.sha256()
-    else:
-        phrase = hashlib.sha512()
-    phrase.update("%s@%s" % (plaintext, salt))
-    phrase_digest = phrase.hexdigest()
+    # Hashing (sha512)
+    plaintext = "%s@%s" % (plaintext, salt)
+    phrase_digest = hashlib.sha512(plaintext.encode('UTF-8')).hexdigest()
 
-    # Encryption
-    import logging
+    # Encryption (PyCrypto)
+    # wow... it's so secure :)
     try:
         from Crypto.Cipher import AES
         mode = AES.MODE_CBC
@@ -41,12 +35,13 @@ def hashing(plaintext, salt="", sha="512"):
         ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
         return ''.join(ciphertext)
     except ImportError, e:
+        import logging
         logging.error("CRYPTO is not running")
         return phrase_digest
 
 def chunks(list, size):
-    """ Yield successive sized chunks from list.
-    """
+    """ Yield successive sized chunks from list. """
+
     for i in xrange(0, len(list), size):
         yield list[i:i+size]
 
@@ -103,7 +98,10 @@ def read_cookie(cls, name):
     return value
 
 def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
-    """ Get date and time in UTC for Chile with a specific format """
+    """
+    Get date and time in UTC with a specific format
+     By default it UTC = -3 (Chilean Time)
+    """
 
     local_datetime = datetime.now()
     now = local_datetime - timedelta(hours=UTC_OFFSET)
