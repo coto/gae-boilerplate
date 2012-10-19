@@ -427,10 +427,6 @@ class CallbackSocialLoginHandler(BaseHandler):
 
             #end linkedin
 
-
-            # Debug Callback information provided
-#            for k,v in user_data.items():
-#                print(k +":"+  v )
         # google, myopenid, yahoo OpenID Providers
         elif provider_name in models.SocialUser.open_id_providers():
             provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
@@ -524,7 +520,6 @@ class CallbackSocialLoginHandler(BaseHandler):
                             timestamp = utils.get_date_time()
                         )
                         logVisit.put()
-                        self.redirect_to('home')
 
                         message = _('%s association successfully added.' % provider_display_name)
                         self.add_message(message, 'success')
@@ -532,7 +527,6 @@ class CallbackSocialLoginHandler(BaseHandler):
                     else:
                         message = _('This %s account is already in use.' % provider_display_name)
                         self.add_message(message, 'error')
-                    self.redirect_to('login')
         else:
             message = _('This authentication method is not yet implemented.')
             self.add_message(message, 'warning')
