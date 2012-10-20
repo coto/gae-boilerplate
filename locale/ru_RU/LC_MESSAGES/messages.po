@@ -1,0 +1,168 @@
+# Translations template for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+#
+# Translators:
+# Alexander Mitkalev <iroota@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: Google App Engine Boilerplate\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-10-20 13:45+0400\n"
+"PO-Revision-Date: 2012-10-20 22:18+0400\n"
+"Last-Translator: iROOT <iroota@gmail.com>\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/google-"
+"app-engine-boilerplate/language/ru_RU/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
+msgstr ""
+"<a href=\\\"http://browsehappy.com/\\\">Перейдите на другой браузер</a>\\n\n"
+"    \\tили <a href=\\\"http://www.google.com/chromeframe/?redirect=true\\\">"
+"\\n\n"
+"    \\tустановите Google Chrome Frame</a> чтобы испытать этот сайт."
+
+msgid "Associate account with"
+msgstr "Связать аккаунт с"
+
+msgid "Change password"
+msgstr "Изменить пароль"
+
+msgid "Change your email"
+msgstr "Изменить E-Mail"
+
+msgid "Change your password"
+msgstr "Изменить пароль"
+
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Поздравляем Вас с установкой Google App Engine Boilerplate."
+
+msgid "Contact"
+msgstr "Обратная связь"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Current Password"
+msgstr "Текущий пароль"
+
+msgid "Edit Profile"
+msgstr "Редактировать профиль"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Enter a new email address"
+msgstr "Введите новый адрес электронной почты"
+
+msgid "Enter your"
+msgstr "Укажите"
+
+msgid "Existing social association"
+msgstr "Существующие связанные социальные сервисы"
+
+msgid "Forgot your password?"
+msgstr "Забыли пароль?"
+
+msgid "Good Password"
+msgstr "Хороший пароль"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate выпущен под"
+
+msgid "Insecure Password"
+msgstr "Небезопасный пароль"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Last Name"
+msgstr "Фамилия"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Узнайте о Boilerplate Rocks"
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "Logout"
+msgstr "Выйти"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "New Email"
+msgstr "Новый E-Mail"
+
+msgid "New Password"
+msgstr "Новый пароль"
+
+msgid "Or Sign in using:"
+msgstr "Или войти с помощью:"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Remember me?"
+msgstr "Запомнить меня?"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Reset password"
+msgstr "Сбросить пароль"
+
+msgid "Secure Page"
+msgstr "Безопасная страница"
+
+msgid "Secure Password"
+msgstr "Безопасный пароль"
+
+msgid "Send Message"
+msgstr "Отправить сообщение"
+
+msgid "Short Password"
+msgstr "Короткий пароль"
+
+msgid "Sign Up"
+msgstr "Регистрация"
+
+msgid "Source Code"
+msgstr "Исходный код"
+
+msgid "Update Profile"
+msgstr "Обновить профиль"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Username or Email"
+msgstr "Имя пользователя или E-Mail"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Ваш браузер <em>устарел!</em>"
+
+msgid "download the Source Code"
+msgstr "скачайте исходный код"
+
+msgid "or just"
+msgstr "или просто"
+
+msgid "to help you to create your application."
+msgstr "чтобы помочь вам создать свое приложение."
