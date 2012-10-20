@@ -125,8 +125,8 @@ Adding or updating text to be translated or adding new languages requires more w
       <tt>pybabel update -l es_ES -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete</tt>
       Run this command for each locale by replacing es_ES in the command.  Locale names are the directory names in ./locale.
    1. Add new languages
-      Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add.
-      pybabel init -l es_ES -d ./locale -i ./locale\messages.pot
+      Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add:
+      <tt>pybabel init -l es_ES -d ./locale -i ./locale/messages.pot</tt>
       Add the locale to the locales array in [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py).  Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
