@@ -23,7 +23,7 @@ app_lang = 'en'
 # Language codes defined under iso 639-1 http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 # Territory codes defined under iso 3166-1 alpha-2 http://en.wikipedia.org/wiki/ISO_3166-1
 # disable i18n if locales array is empty or None
-locales = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE']
+locales = ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE', 'ru_RU']
 
 contact_sender = "PUT_SENDER_EMAIL_HERE"
 contact_recipient = "PUT_RECIPIENT_EMAIL_HERE"
