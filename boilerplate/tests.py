@@ -23,6 +23,7 @@ from mock import patch
 import boilerplate
 from boilerplate import config, models
 from boilerplate import routes
+from boilerplate import routes as boilerplate_routes
 from boilerplate.lib import utils
 from boilerplate.lib import captcha
 from boilerplate.lib import i18n
@@ -55,6 +56,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
         self.app = webapp2.WSGIApplication(config=w2config)
         routes.add_routes(self.app)
+        boilerplate_routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
 
         # activate GAE stubs
@@ -293,7 +295,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
-            self.submit(form, success_message="you will receive an e-mail from us with instructions for resetting your password.")
+            self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
         self.assertEqual(message.sender, config.contact_sender)
