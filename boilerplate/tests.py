@@ -295,7 +295,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
-            self.submit(form, success_message="you will receive an e-mail from us with instructions for resetting your password.")
+            self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
         self.assertEqual(message.sender, config.contact_sender)
