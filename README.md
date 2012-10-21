@@ -27,7 +27,7 @@ Get started in just a few easy steps
 1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
-1. Set parameters in [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)
+1. Set parameters in [config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
 
@@ -127,7 +127,7 @@ Adding or updating text to be translated or adding new languages requires more w
    1. Add new languages
       Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add:
       <tt>pybabel init -l es_ES -d ./locale -i ./locale/messages.pot</tt>
-      Add the locale to the locales array in [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py).  Instructions on how to pick a locale code are provided in the comments above the array.
+      Add the locale to the locales array in [config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py).  Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
