@@ -126,7 +126,7 @@ class HandlerHelpers():
         form['c_password'] = password
         self.submit(form)
 
-        users = models.User.query().fetch(2)
+        users = models.User.query(models.User.username == username).fetch(2)
         self.assertEqual(1, len(users), "{} could not register".format(username))
         user = users[0]
 
