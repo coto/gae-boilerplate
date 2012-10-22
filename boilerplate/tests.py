@@ -50,7 +50,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
         
         # use absolute path for templates
-        self.app.config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
+        self.app.config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.dirname(boilerplate.__file__), 'templates')
 
         # activate GAE stubs
         self.testbed = testbed.Testbed()
