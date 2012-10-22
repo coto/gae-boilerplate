@@ -16,9 +16,13 @@ from google.appengine.ext import testbed
 
 from boilerplate import config
 from boilerplate.lib import i18n
+import webapp2
 
 class I18nTest(unittest.TestCase):    
     def setUp(self):
+        
+        # create a WSGI application.
+        self.app = webapp2.WSGIApplication(config=config.config)
         
         # activate GAE stubs
         self.testbed = testbed.Testbed()
@@ -35,12 +39,12 @@ class I18nTest(unittest.TestCase):
     def tearDown(self):
         self.testbed.deactivate()
         
-    def testDisableI18n(self):
-        config.locales = []
-        locale = i18n.set_locale(None)
+    def test_disable_i18n(self):
+        self.app.config['locales'] = []
+        locale = i18n.set_locale(self)
         self.assertEqual(locale, None)
-        config.locales = None 
-        locale = i18n.set_locale(None)
+        self.app.config['locales'] = None 
+        locale = i18n.set_locale(self)
         self.assertEqual(locale, None)
         
 

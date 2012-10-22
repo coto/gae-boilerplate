@@ -33,7 +33,6 @@ from boilerplate.lib import test_helpers
 os.environ['HTTP_HOST'] = 'localhost'
 
 # globals
-cookie_name = config.webapp2_config['webapp2_extras.auth']['cookie_name']
 network = False
 
 # mock Internet calls
@@ -44,20 +43,14 @@ if not network:
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
-        # fix configuration if this is still a raw boilerplate code - required by test with mails
-        if not utils.is_email_valid(config.contact_sender):
-            config.contact_sender = "noreply-testapp@example.com"
-        if not utils.is_email_valid(config.contact_recipient):
-            config.contact_recipient = "support-testapp@example.com"
-
         # create a WSGI application.
-        w2config = config.webapp2_config
-        # use absolute path for templates
-        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
-        self.app = webapp2.WSGIApplication(config=w2config)
+        self.app = webapp2.WSGIApplication(config=config.config)
         routes.add_routes(self.app)
         boilerplate_routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
+        
+        # use absolute path for templates
+        self.app.config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
 
         # activate GAE stubs
         self.testbed = testbed.Testbed()
@@ -73,6 +66,12 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
         self.headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language' : 'en_US'}
+
+        # fix configuration if this is still a raw boilerplate code - required by test with mails
+        if not utils.is_email_valid(self.app.config.get('contact_sender')):
+            self.app.config['contact_sender'] = "noreply-testapp@example.com"
+        if not utils.is_email_valid(self.app.config.get('contact_recipient')):
+            self.app.config['contact_recipient'] = "support-testapp@example.com"
 
     def tearDown(self):
         self.testbed.deactivate()
@@ -273,8 +272,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
         message_old_address = self.get_sent_messages(to='testuser@example.com', reset_mail_stub=False)[0]
         message_new_address = self.get_sent_messages(to='tu@example.com')[0]
-        self.assertEqual(message_old_address.sender, config.contact_sender)
-        self.assertEqual(message_new_address.sender, config.contact_sender)
+        self.assertEqual(message_old_address.sender, self.app.config.get('contact_sender'))
+        self.assertEqual(message_new_address.sender, self.app.config.get('contact_sender'))
         self.assertIn("Recently you've changed the email address", message_old_address.html.payload)
         self.assertIn("You've changed the email address", message_new_address.html.payload)
 
@@ -298,7 +297,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
             self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
-        self.assertEqual(message.sender, config.contact_sender)
+        self.assertEqual(message.sender, self.app.config.get('contact_sender'))
         self.assertIn('click the link below:', message.html.payload)
 
         # click password reset link and submit new password
@@ -369,8 +368,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form['email'] = 'anton@example.com'
         form['message'] = 'Hi there...'
         self.submit(form)
-        message = self.get_sent_messages(to=config.contact_recipient)[0]
-        self.assertEqual(message.sender, config.contact_sender)
+        message = self.get_sent_messages(to=self.app.config.get('contact_recipient'))[0]
+        self.assertEqual(message.sender, self.app.config.get('contact_sender'))
         self.assertIn('Hi there...', message.html.payload)
 
         self.register_activate_login_testuser()
@@ -382,7 +381,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.submit(form, expect_error=True, error_field='name')
         form['name'].value = 'Antonioni'
         self.submit(form, expect_error=False)
-        message = self.get_sent_messages(to=config.contact_recipient)[0]
+        message = self.get_sent_messages(to=self.app.config.get('contact_recipient'))[0]
         self.assertIn('help', message.html.payload)
 
 

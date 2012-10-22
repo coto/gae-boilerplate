@@ -7,8 +7,6 @@ import re
 from webapp2_extras import auth
 from boilerplate import config, models
 
-# globals
-cookie_name = config.webapp2_config['webapp2_extras.auth']['cookie_name']
 
 class HandlerHelpers():
 
@@ -144,6 +142,7 @@ class HandlerHelpers():
 
     def assert_user_logged_in(self, user_id=None):
         """Check if user is logged in."""
+        cookie_name = self.app.config.get('webapp2_extras.auth').get('cookie_name')
         self.assertIn(cookie_name, self.testapp.cookies,
                       'user is not logged in: session cookie not found')
         user = self.get_user_data_from_session()

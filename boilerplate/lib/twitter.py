@@ -1,8 +1,8 @@
-from boilerplate import config
 from boilerplate.lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
                    SignatureMethod_HMAC_SHA1
 import urllib2
 import json
+import webapp2
 
 # Twitter configuration
 TWITTER_SERVER = 'api.twitter.com'
@@ -116,4 +116,6 @@ class TwitterAuth(object):
         """Return tuple with Consumer Key and Consumer Secret for current
         service provider. Must return (key, secret), order *must* be respected.
         """
-        return config.twitter_consumer_key, config.twitter_consumer_secret
+        app = webapp2.get_app()
+        
+        return app.config.get('twitter_consumer_key'), app.config.get('twitter_consumer_secret')
