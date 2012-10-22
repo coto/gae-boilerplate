@@ -24,7 +24,7 @@ from google.appengine.api import taskqueue
 from linkedin import linkedin
 
 # local application/library specific imports
-import config, models
+import models
 import forms as forms
 from lib import utils, captcha, twitter
 from lib.basehandler import BaseHandler
@@ -61,8 +61,8 @@ class SendEmailHandler(BaseHandler):
         sender = self.request.get("sender")
 
         if sender != '' or not utils.is_email_valid(sender):
-            if utils.is_email_valid(config.contact_sender):
-                sender = config.contact_sender
+            if utils.is_email_valid(self.app.config.get('contact_sender')):
+                sender = self.app.config.get('contact_sender')
             else:
                 app_id = app_identity.get_application_id()
                 sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
@@ -125,7 +125,7 @@ class LoginHandler(BaseHandler):
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
 
             # Password to SHA512
-            password = utils.hashing(password, config.salt)
+            password = utils.hashing(password, self.app.config.get('salt'))
 
             # Try to login user with password
             # Raises InvalidAuthIdError if user is not found
@@ -224,7 +224,7 @@ class SocialLoginHandler(BaseHandler):
     def get(self, provider_name):
         provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
 
-        if not config.enable_federated_login:
+        if not self.app.config.get('enable_federated_login'):
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
@@ -237,11 +237,11 @@ class SocialLoginHandler(BaseHandler):
         elif provider_name == "facebook":
             self.session['linkedin'] = None
             perms = ['email', 'publish_stream']
-            self.redirect(facebook.auth_url(config._FbApiKey, callback_url, perms))
+            self.redirect(facebook.auth_url(self.app.config.get('fb_api_key'), callback_url, perms))
 
         elif provider_name == 'linkedin':
             self.session['facebook'] = None
-            link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
+            link = linkedin.LinkedIn(self.app.config.get('linkedin_api'), self.app.config.get('linkedin_secret'), callback_url)
             if link.request_token():
                 self.session['request_token']=link._request_token
                 self.session['request_token_secret']=link._request_token_secret
@@ -259,7 +259,7 @@ class CallbackSocialLoginHandler(BaseHandler):
     """
 
     def get(self, provider_name):
-        if not config.enable_federated_login:
+        if not self.app.config.get('enable_federated_login'):
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
@@ -308,7 +308,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     twitter_helper.save_association_data(user_data)
                     message = _('This Twitter account is not associated with any local account. '
                                 'If you already have a %s Account, you have <a href="/login/">sign in here</a> '
-                                'or <a href="/register/">create an account</a>.' % config.app_name)
+                                'or <a href="/register/">create an account</a>.' % self.app.config.get('app_name'))
                     self.add_message(message, 'warning')
                     self.redirect_to('login')
 
@@ -316,7 +316,7 @@ class CallbackSocialLoginHandler(BaseHandler):
         elif provider_name == "facebook":
             code = self.request.get('code')
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
-            token = facebook.get_access_token_from_code(code, callback_url, config._FbApiKey, config._FbSecret)
+            token = facebook.get_access_token_from_code(code, callback_url, self.app.config.get('fb_api_key'), self.app.config.get('fb_secret'))
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
@@ -368,7 +368,7 @@ class CallbackSocialLoginHandler(BaseHandler):
          # association with linkedin
         elif provider_name == "linkedin":
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
-            link = linkedin.LinkedIn(config.linkedin_api, config.linkedin_secret, callback_url)
+            link = linkedin.LinkedIn(self.app.config.get('linkedin_api'), self.app.config.get('linkedin_secret'), callback_url)
             request_token = self.session['request_token']
             request_token_secret= self.session['request_token_secret']
             link._request_token = request_token
@@ -601,7 +601,7 @@ class RegisterHandler(RegisterBaseHandler):
         country = self.form.country.data
 
         # Password to SHA512
-        password = utils.hashing(password, config.salt)
+        password = utils.hashing(password, self.app.config.get('salt'))
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
@@ -630,7 +630,7 @@ class RegisterHandler(RegisterBaseHandler):
                 user_info = models.User.get_by_email(email)
                 if (user_info.activated == False):
                     # send email
-                    subject =  _("%s Account Verification" % config.app_name)
+                    subject =  _("%s Account Verification" % self.app.config.get('app_name'))
                     confirmation_url = self.uri_for("account-activation",
                         user_id=user_info.get_id(),
                         token = models.User.create_auth_token(user_info.get_id()),
@@ -638,7 +638,7 @@ class RegisterHandler(RegisterBaseHandler):
 
                     # load email's template
                     template_val = {
-                        "app_name": config.app_name,
+                        "app_name": self.app.config.get('app_name'),
                         "username": username,
                         "confirmation_url": confirmation_url,
                         "support_url": self.uri_for("contact", _full=True)
@@ -760,7 +760,7 @@ class ResendActivationEmailHandler(BaseHandler):
 
             if (user.activated == False):
                 # send email
-                subject = _("%s Account Verification" % config.app_name)
+                subject = _("%s Account Verification" % self.app.config.get('app_name'))
                 confirmation_url = self.uri_for("account-activation",
                     user_id = user.get_id(),
                     token = models.User.create_auth_token(user.get_id()),
@@ -768,7 +768,7 @@ class ResendActivationEmailHandler(BaseHandler):
 
                 # load email's template
                 template_val = {
-                    "app_name": config.app_name,
+                    "app_name": self.app.config.get('app_name'),
                     "username": user.username,
                     "confirmation_url": confirmation_url,
                     "support_url": self.uri_for("contact", _full=True)
@@ -863,10 +863,10 @@ class ContactHandler(BaseHandler):
 
             email_url = self.uri_for('taskqueue-send-email')
             taskqueue.add(url = email_url, params={
-                'to': config.contact_recipient,
+                'to': self.app.config.get('contact_recipient'),
                 'subject' : subject,
                 'body' : body,
-                'sender' : config.contact_sender,
+                'sender' : self.app.config.get('contact_sender'),
                 })
 
             message = _('Your message was sent successfully.')
@@ -994,20 +994,20 @@ class EditPasswordHandler(BaseHandler):
             auth_id = "own:%s" % user_info.username
 
             # Password to SHA512
-            current_password = utils.hashing(current_password, config.salt)
+            current_password = utils.hashing(current_password, self.app.config.get('salt'))
             try:
                 user = models.User.get_by_auth_password(auth_id, current_password)
                 # Password to SHA512
-                password = utils.hashing(password, config.salt)
+                password = utils.hashing(password, self.app.config.get('salt'))
                 user.password = security.generate_password_hash(password, length=12)
                 user.put()
 
                 # send email
-                subject = config.app_name + " Account Password Changed"
+                subject = self.app.config.get('app_name') + " Account Password Changed"
 
                 # load email's template
                 template_val = {
-                    "app_name": config.app_name,
+                    "app_name": self.app.config.get('app_name'),
                     "first_name": user.name,
                     "username": user.username,
                     "email": user.email,
@@ -1020,7 +1020,7 @@ class EditPasswordHandler(BaseHandler):
                     'to': user.email,
                     'subject' : subject,
                     'body' : email_body,
-                    'sender' : config.contact_sender,
+                    'sender' : self.app.config.get('contact_sender'),
                     })
 
                 #Login User
@@ -1074,7 +1074,7 @@ class EditEmailHandler(BaseHandler):
             user_info = models.User.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
             # Password to SHA512
-            password = utils.hashing(password, config.salt)
+            password = utils.hashing(password, self.app.config.get('salt'))
 
             try:
                 # authenticate user by its password
@@ -1091,7 +1091,7 @@ class EditEmailHandler(BaseHandler):
                         return self.redirect_to("edit-email")
 
                     # send email
-                    subject = _("%s Email Changed Notification" % config.app_name)
+                    subject = _("%s Email Changed Notification" % self.app.config.get('app_name'))
                     user_token = models.User.create_auth_token(self.user_id)
                     confirmation_url = self.uri_for("email-changed-check",
                         user_id = user_info.get_id(),
@@ -1101,7 +1101,7 @@ class EditEmailHandler(BaseHandler):
 
                     # load email's template
                     template_val = {
-                        "app_name": config.app_name,
+                        "app_name": self.app.config.get('app_name'),
                         "first_name": user.name,
                         "username": user.username,
                         "new_email": new_email,
@@ -1159,16 +1159,15 @@ class PasswordResetHandler(BaseHandler):
     Password Reset Handler with Captcha
     """
 
-    reCaptcha_public_key = config.captcha_public_key
-    reCaptcha_private_key = config.captcha_private_key
+
 
     def get(self):
         chtml = captcha.displayhtml(
-            public_key = self.reCaptcha_public_key,
+            public_key = self.app.config.get('captcha_public_key'),
             use_ssl = False,
             error = None)
-        if self.reCaptcha_public_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
-           self.reCaptcha_private_key == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
+        if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
+           self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
             chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
                     '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
                     'for API keys</a> in order to use reCAPTCHA.</div>' \
@@ -1188,7 +1187,7 @@ class PasswordResetHandler(BaseHandler):
         cResponse = captcha.submit(
             challenge,
             response,
-            self.reCaptcha_private_key,
+            self.app.config.get('captcha_private_key'),
             remoteip)
 
         if cResponse.is_valid:
@@ -1219,7 +1218,7 @@ class PasswordResetHandler(BaseHandler):
             token = models.User.create_auth_token(user_id)
             email_url = self.uri_for('taskqueue-send-email')
             reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
-            subject = _("%s Password Assistance" % config.app_name)
+            subject = _("%s Password Assistance" % self.app.config.get('app_name'))
 
             # load email's template
             template_val = {
@@ -1227,7 +1226,7 @@ class PasswordResetHandler(BaseHandler):
                 "email": user.email,
                 "reset_password_url": reset_url,
                 "support_url": self.uri_for("contact", _full=True),
-                "app_name": config.app_name,
+                "app_name": self.app.config.get('app_name'),
             }
 
             body_path = "emails/reset_password.txt"
@@ -1236,7 +1235,7 @@ class PasswordResetHandler(BaseHandler):
                 'to': user.email,
                 'subject' : subject,
                 'body' : body,
-                'sender' : config.contact_sender,
+                'sender' : self.app.config.get('contact_sender'),
                 })
             self.add_message(_message, 'warning')
             return self.redirect_to('login')
@@ -1267,7 +1266,7 @@ class PasswordResetCompleteHandler(BaseHandler):
         password = self.form.password.data.strip()
         if user and self.form.validate():
             # Password to SHA512
-            password = utils.hashing(password, config.salt)
+            password = utils.hashing(password, self.app.config.get('salt'))
 
             user.password = security.generate_password_hash(password, length=12)
             user.put()

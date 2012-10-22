@@ -4,7 +4,6 @@ from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
 from babel import Locale
-from boilerplate import config
 
 def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?'):
     """
@@ -82,7 +81,7 @@ def get_locale_from_accept_header(request):
     if parsed is None:
         return None
     locale_list_sorted_by_q = sorted(parsed.iterkeys(), reverse=True)
-    locale = Locale.negotiate(locale_list_sorted_by_q, config.locales, sep='_')
+    locale = Locale.negotiate(locale_list_sorted_by_q, request.app.config.get('locales'), sep='_')
     return str(locale)
 
 def set_locale(cls, force=None):
@@ -92,25 +91,26 @@ def set_locale(cls, force=None):
     force: a locale to force set (ie 'en_US')
     return: locale as string or None if i18n should be disabled
     """
+    locales = cls.app.config.get('locales')
     # disable i18n if config.locales array is empty or None
-    if not config.locales:
+    if not locales:
         return None
     # 1. force locale if provided
     locale = force
-    if locale not in config.locales:
+    if locale not in locales:
         # 2. retrieve locale from url query string
         locale = cls.request.get("hl", None)
-        if locale not in config.locales:
+        if locale not in locales:
             # 3. retrieve locale from cookie
             locale = cls.request.cookies.get('hl', None)
-            if locale not in config.locales:
+            if locale not in locales:
                 # 4. retrieve locale from accept language header
                 locale = get_locale_from_accept_header(cls.request)
-                if locale not in config.locales:
+                if locale not in locales:
                     # 5. detect locale from IP address location
                     territory = get_territory_from_ip(cls) or 'ZZ'
-                    locale = str(Locale.negotiate(territory, config.locales))
-                    if locale not in config.locales:
+                    locale = str(Locale.negotiate(territory, locales))
+                    if locale not in locales:
                         # 6. use default locale
                         locale = i18n.get_store().default_locale
     i18n.get_i18n().set_locale(locale)
