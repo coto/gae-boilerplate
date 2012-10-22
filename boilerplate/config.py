@@ -1,3 +1,8 @@
+"""
+This is the boilerplate default configuration file.
+Changes and additions to settings should be done in config.py
+located in the application root rather than this config.
+"""
 config = {
 
 # webapp2 sessions
@@ -76,7 +81,7 @@ config = {
 # Google App Engine Settings must be set to Authentication Options: Federated Login
 'enable_federated_login' : True,
 
-# jinja2 base layout templates
+# jinja2 base layout template
 'base_layout' : 'boilerplate_base.html',
 
 # send error emails to developers
