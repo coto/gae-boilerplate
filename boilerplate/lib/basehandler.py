@@ -11,7 +11,7 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 from google.appengine.api import taskqueue
 # local application/library specific imports
-from boilerplate import config, models
+from boilerplate import models
 from boilerplate.lib import utils, i18n
 from babel import Locale
 
@@ -74,31 +74,31 @@ def handle_error(request, response, exception):
         'url': request.url,
         }
 
-    if config.send_mail_developer is not False:
+    if request.app.config.get('send_mail_developer') is not False:
         # send email
-        subject         = config.app_name + " error."
+        subject         = request.app.config.get('app_name') + " error."
         email_body_path = "emails/error.txt"
         message         = 'This error was looking for you: ' + c['exception'] + ' from ' + c['url']
 
         if c['exception'] is not 'Error saving Email Log in datastore':
             template_val = {
-                "app_name"  : config.app_name,
+                "app_name"  : request.app.config.get('app_name'),
                 "message"   : message,
                 }
 
             email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
             email_url = webapp2.uri_for('taskqueue-send-email')
 
-            for dev in config.DEVELOPERS:
+            for dev in request.app.config.get('developers'):
                 taskqueue.add(url = email_url, params={
                     'to':       dev[1],
                     'subject' : subject,
                     'body' :    email_body,
-                    'sender' :  config.contact_sender,
+                    'sender' :  request.app.config.get('contact_sender'),
                     })
 
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
-    template = config.error_templates[status_int]
+    template = request.app.config.get('error_templates')[status_int]
     t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
     logging.error(str(status_int) + " - " + str(exception))
     response.write(t)
@@ -268,10 +268,10 @@ class BaseHandler(webapp2.RequestHandler):
         returns a dict of locale codes to locale display names in both the current locale and the localized locale
         example: if the current locale is es_ES then locales['en_US'] = 'Ingles (Estados Unidos) - English (United States)'
         """
-        if not config.locales:
+        if not self.app.config.get('locales'):
             return None
         locales = {}
-        for l in config.locales:
+        for l in self.app.config.get('locales'):
             current_locale = Locale.parse(self.locale)
             language = current_locale.languages[l.split('_')[0]]
             territory = current_locale.territories[l.split('_')[1]]
@@ -293,7 +293,7 @@ class BaseHandler(webapp2.RequestHandler):
         Get the current base layout template for jinja2 templating. Uses the variable base_layout set in config
         or if there is a base_layout defined, use the base_layout.
         """
-        return self.base_layout if hasattr(self, 'base_layout') else config.base_layout
+        return self.base_layout if hasattr(self, 'base_layout') else self.app.config.get('base_layout')
 
     def set_base_layout(self, layout):
         """
@@ -302,11 +302,11 @@ class BaseHandler(webapp2.RequestHandler):
         self.base_layout = layout
 
     def render_template(self, filename, **kwargs):
-        locales = config.locales or []
+        locales = self.app.config.get('locales') or []
         locale_iso = None
         language = ''
         territory = ''
-        language_id = config.app_lang
+        language_id = self.app.config.get('app_lang')
 
         if self.locale and len(locales) > 1:
             locale_iso = Locale.parse(self.locale)
@@ -321,9 +321,9 @@ class BaseHandler(webapp2.RequestHandler):
 
         # set or overwrite special vars for jinja templates
         kwargs.update({
-            'google_analytics_domain' : config.google_analytics_domain,
-            'google_analytics_code' : config.google_analytics_code,
-            'app_name': config.app_name,
+            'google_analytics_domain' : self.app.config.get('google_analytics_domain'),
+            'google_analytics_code' : self.app.config.get('google_analytics_code'),
+            'app_name': self.app.config.get('app_name'),
             'user_id': self.user_id,
             'username': self.username,
             'email': self.email,
@@ -338,7 +338,7 @@ class BaseHandler(webapp2.RequestHandler):
             'locales': self.locales,
             'provider_uris': self.provider_uris,
             'provider_info': self.provider_info,
-            'enable_federated_login': config.enable_federated_login,
+            'enable_federated_login': self.app.config.get('enable_federated_login'),
             'base_layout': self.get_base_layout
             })
         kwargs.update(self.auth_config)

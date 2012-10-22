@@ -7,8 +7,7 @@ import string
 import unicodedata
 from datetime import datetime, timedelta
 import Cookie
-
-from boilerplate import config
+import webapp2
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
@@ -16,6 +15,7 @@ def random_string(size=6, chars=string.ascii_letters + string.digits):
 
 def hashing(plaintext, salt=""):
     """ Returns the hashed and encrypted hexdigest of a plaintext and salt"""
+    app = webapp2.get_app()
 
     # Hashing (sha512)
     plaintext = "%s@%s" % (plaintext, salt)
@@ -31,7 +31,7 @@ def hashing(plaintext, salt=""):
         # a priori the hash to match. We take 16 bytes from the hexdigest to make the vectors different for each hashed
         # plaintext.
         iv = phrase_digest[:16]
-        encryptor = AES.new(config.aes_key, mode,iv)
+        encryptor = AES.new(app.config.get('aes_key'), mode,iv)
         ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
         return ''.join(ciphertext)
     except ImportError, e:
