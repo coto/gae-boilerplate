@@ -24,10 +24,14 @@ import webapp2
 
 import routes
 from boilerplate import routes as boilerplate_routes
-from boilerplate import config
+from boilerplate import config as boilerplate_config
+import config
 from boilerplate.lib.basehandler import handle_error
 
-app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=config.config)
+webapp2_config = boilerplate_config.config
+webapp2_config.update(config.config)
+
+app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=webapp2_config)
 
 app.error_handlers[403] = handle_error
 app.error_handlers[404] = handle_error

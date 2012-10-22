@@ -27,10 +27,13 @@ Get started in just a few easy steps
 1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
-1. Set parameters in [config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)
+1. Set custom config parameters in [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)  To get started, copy the default settings from [boilerplate/config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py).  Note that most of the default settings will need to be changed to yield a secure and working application.  Make the changes to these settings in the root config.py.  The root config.py takes precedence over the boilerplate config.py.
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
 
+Please note that boilerplate code is located in the boilerplate module while your custom application code should be located in the web module.
+The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
+Settings, code, and templates in the root [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py), web module, and templates directory take precedence over the equivalent files in the boilerplate module.
 
 Functions and features:
 -----------------------
@@ -53,7 +56,7 @@ Open Source
 -----------
 If you want to add, fix or improve something, create an [issue](https://github.com/coto/gae-boilerplate/issues) or send a [Pull Request](https://github.com/coto/gae-boilerplate/pull/new/master).
 
-Before committing fixes we recommend running the unitests.  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
+Before committing fixes we recommend running the unitests (in the boilerplate package).  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
@@ -61,7 +64,8 @@ Testing
 -------
 **Unit testing**
 + Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
-+ Please add or modify the [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests) as necessary.
++ You may need to add /boilerplate/external to your python path.
++ Please add unittests for your application to [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests).
 + To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
 + Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
 
