@@ -84,6 +84,19 @@ config = {
 # jinja2 base layout template
 'base_layout' : 'boilerplate_base.html',
 
+# map of all templates (these can be overriden in the root config)
+'templates' : {
+               'home' : 'boilerplate_home.html',
+               'login' : 'boilerplate_login.html',
+               'register' : 'boilerplate_register.html',
+               'contact' : 'boilerplate_contact.html',
+               'edit-profile' : 'boilerplate_edit_profile.html',
+               'edit-password' : 'boilerplate_edit_password.html',
+               'edit-email' : 'boilerplate_edit_email.html',
+               'password-reset' : 'boilerplate_password_reset.html',
+               'password-reset-complete' : 'boilerplate_password_reset_complete.html',
+               },
+
 # send error emails to developers
 'send_mail_developer' : True,
 
