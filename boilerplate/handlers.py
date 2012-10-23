@@ -1237,10 +1237,8 @@ class PasswordResetHandler(BaseHandler):
                 'body' : body,
                 'sender' : self.app.config.get('contact_sender'),
                 })
-            self.add_message(_message, 'warning')
-            return self.redirect_to('login')
         self.add_message(_message, 'warning')
-        return self.redirect_to('password-reset')
+        return self.redirect_to('login')
 
 
 class PasswordResetCompleteHandler(BaseHandler):
