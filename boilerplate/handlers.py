@@ -98,7 +98,7 @@ class LoginHandler(BaseHandler):
         if self.user:
             self.redirect_to('home')
         params = {}
-        return self.render_template(self.app.config.get('templates').get('login'), **params)
+        return self.render_template('login.html', **params)
 
     def post(self):
         """
@@ -586,7 +586,7 @@ class RegisterHandler(RegisterBaseHandler):
         if self.user:
             self.redirect_to('home')
         params = {}
-        return self.render_template(self.app.config.get('templates').get('register'), **params)
+        return self.render_template('register.html', **params)
 
     def post(self):
         """ Get fields from POST dict """
@@ -819,7 +819,7 @@ class ContactHandler(BaseHandler):
             "exception" : self.request.get('exception')
             }
 
-        return self.render_template(self.app.config.get('templates').get('contact'), **params)
+        return self.render_template('contact.html', **params)
 
     def post(self):
         """ validate contact form """
@@ -905,7 +905,7 @@ class EditProfileHandler(BaseHandler):
             params['unused_providers'] = providers_info['unused']
             params['country'] = user_info.country
 
-        return self.render_template(self.app.config.get('templates').get('edit-profile'), **params)
+        return self.render_template('edit_profile.html', **params)
 
     def post(self):
         """ Get fields from POST dict """
@@ -979,7 +979,7 @@ class EditPasswordHandler(BaseHandler):
         """ Returns a simple HTML form for editing password """
 
         params = {}
-        return self.render_template(self.app.config.get('templates').get('edit-password'), **params)
+        return self.render_template('edit_password.html', **params)
 
     def post(self):
         """ Get fields from POST dict """
@@ -1060,7 +1060,7 @@ class EditEmailHandler(BaseHandler):
             user_info = models.User.get_by_id(long(self.user_id))
             params['current_email'] = user_info.email
 
-        return self.render_template(self.app.config.get('templates').get('edit-email'), **params)
+        return self.render_template('edit_email.html', **params)
 
     def post(self):
         """ Get fields from POST dict """
@@ -1176,7 +1176,7 @@ class PasswordResetHandler(BaseHandler):
         params = {
             'captchahtml': chtml,
             }
-        return self.render_template(self.app.config.get('templates').get('password-reset'), **params)
+        return self.render_template('password_reset.html', **params)
 
     def post(self):
         # check captcha
@@ -1258,7 +1258,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             return self.redirect_to('password-reset')
 
         else:
-            return self.render_template(self.app.config.get('templates').get('password-reset-complete'), **params)
+            return self.render_template('password_reset_complete.html', **params)
 
     def post(self, user_id, token):
         verify = models.User.get_by_auth_token(int(user_id), token)
@@ -1324,4 +1324,4 @@ class HomeRequestHandler(RegisterBaseHandler):
     def get(self):
         """ Returns a simple HTML form for home """
         params = {}
-        return self.render_template(self.app.config.get('templates').get('home'), **params)
+        return self.render_template('home.html', **params)
