@@ -36,6 +36,6 @@ class SecureRequestHandler(BaseHandler):
                 "user_info_object" : user_info_object,
                 "userinfo_logout-url" : self.auth_config['logout_url'],
                 }
-            return self.render_template('boilerplate_secure_zone.html', **params)
+            return self.render_template('secure_zone.html', **params)
         except (AttributeError, KeyError), e:
             return "Secure zone error:" + " %s." % e
