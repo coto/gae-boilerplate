@@ -294,7 +294,12 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
-            self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
+            response1 = self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
+            form['email_or_username'] = 'user_does_not_exists'
+            response2 = self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
+            page1 = response1.body, response1.request.url
+            page2 = response2.body.replace('user_does_not_exists', 'testuser'), response2.request.url
+            self.assertEqual(page1, page2, "for security reasons application should respond with the same page here")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
         self.assertEqual(message.sender, self.app.config.get('contact_sender'))
