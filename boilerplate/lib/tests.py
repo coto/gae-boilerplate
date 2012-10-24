@@ -13,16 +13,21 @@ Options:
 '''
 import unittest
 from google.appengine.ext import testbed
-
-from boilerplate import config
-from boilerplate.lib import i18n
 import webapp2
+
+
+import config
+from boilerplate import base_config as boilerplate_config
+from boilerplate.lib import i18n
 
 class I18nTest(unittest.TestCase):    
     def setUp(self):
-        
+
+        webapp2_config = boilerplate_config.config
+        webapp2_config.update(config.config)
+
         # create a WSGI application.
-        self.app = webapp2.WSGIApplication(config=config.config)
+        self.app = webapp2.WSGIApplication(config=webapp2_config)
         
         # activate GAE stubs
         self.testbed = testbed.Testbed()

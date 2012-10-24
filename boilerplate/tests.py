@@ -21,13 +21,16 @@ from mock import Mock
 from mock import patch
 
 import boilerplate
-from boilerplate import config, models
+from boilerplate import models
 from boilerplate import routes
 from boilerplate import routes as boilerplate_routes
+from boilerplate import base_config as boilerplate_config
 from boilerplate.lib import utils
 from boilerplate.lib import captcha
 from boilerplate.lib import i18n
 from boilerplate.lib import test_helpers
+
+import config
 
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'
@@ -43,15 +46,15 @@ if not network:
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
+        webapp2_config = boilerplate_config.config
+        webapp2_config.update(config.config)
+
         # create a WSGI application.
-        self.app = webapp2.WSGIApplication(config=config.config)
+        self.app = webapp2.WSGIApplication(config=webapp2_config)
         routes.add_routes(self.app)
         boilerplate_routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
         
-        # use absolute path for templates
-        self.app.config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.dirname(boilerplate.__file__), 'templates')
-
         # activate GAE stubs
         self.testbed = testbed.Testbed()
         self.testbed.activate()

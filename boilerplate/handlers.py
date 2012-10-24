@@ -315,6 +315,7 @@ class CallbackSocialLoginHandler(BaseHandler):
         # facebook association
         elif provider_name == "facebook":
             code = self.request.get('code')
+            token = facebook.get_access_token_from_code(code, callback_url, config.facebook_app_key, config.facebook_app_secret)
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
             token = facebook.get_access_token_from_code(code, callback_url, self.app.config.get('fb_api_key'), self.app.config.get('fb_secret'))
             access_token = token['access_token']
@@ -836,16 +837,24 @@ class ContactHandler(BaseHandler):
         try:
             # parsing user_agent and getting which os key to use
             # windows uses 'os' while other os use 'flavor'
+            logging.info(user_agent)
             ua = httpagentparser.detect(user_agent)
             os = ua.has_key('flavor') and 'flavor' or 'os'
+
+            operating_system_full_name = str(ua[os]['name'])
+
+            if 'version' in ua[os]:
+                operating_system_full_name += ' '+str(ua[os]['version'])
+
+            if 'dist' in ua:
+                operating_system_full_name += ' '+str(ua['dist'])
 
             template_val = {
                 "name": name,
                 "email": email,
                 "browser": str(ua['browser']['name']),
                 "browser_version": str(ua['browser']['version']),
-                "operating_system": str(ua[os]['name']) + " " +
-                                    str(ua[os]['version']),
+                "operating_system": operating_system_full_name,
                 "ip": remoteip,
                 "message": message
             }

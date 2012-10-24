@@ -24,7 +24,7 @@ import webapp2
 
 import routes
 from boilerplate import routes as boilerplate_routes
-from boilerplate import config as boilerplate_config
+from boilerplate import base_config as boilerplate_config
 import config
 from boilerplate.lib.basehandler import handle_error
 
