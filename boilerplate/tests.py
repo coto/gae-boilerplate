@@ -16,12 +16,15 @@ import webapp2
 import os
 import webtest
 from google.appengine.ext import testbed
+
 from mock import Mock
 from mock import patch
 
 import boilerplate
 from boilerplate import models
 from boilerplate import routes
+from boilerplate import routes as boilerplate_routes
+from boilerplate import base_config as boilerplate_config
 from boilerplate.lib import utils
 from boilerplate.lib import captcha
 from boilerplate.lib import i18n
@@ -33,7 +36,6 @@ import config
 os.environ['HTTP_HOST'] = 'localhost'
 
 # globals
-cookie_name = config.webapp2_config['webapp2_extras.auth']['cookie_name']
 network = False
 
 # mock Internet calls
@@ -44,20 +46,15 @@ if not network:
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
-        # fix configuration if this is still a raw boilerplate code - required by test with mails
-        if not utils.is_email_valid(config.contact_sender):
-            config.contact_sender = "noreply-testapp@example.com"
-        if not utils.is_email_valid(config.contact_recipient):
-            config.contact_recipient = "support-testapp@example.com"
+        webapp2_config = boilerplate_config.config
+        webapp2_config.update(config.config)
 
         # create a WSGI application.
-        w2config = config.webapp2_config
-        # use absolute path for templates
-        w2config['webapp2_extras.jinja2']['template_path'] =  os.path.join(os.path.join(os.path.dirname(boilerplate.__file__), 'templates'))
-        self.app = webapp2.WSGIApplication(config=w2config)
+        self.app = webapp2.WSGIApplication(config=webapp2_config)
         routes.add_routes(self.app)
+        boilerplate_routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
-
+        
         # activate GAE stubs
         self.testbed = testbed.Testbed()
         self.testbed.activate()
@@ -72,6 +69,12 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
         self.headers = {'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) Version/6.0 Safari/536.25',
                         'Accept-Language' : 'en_US'}
+
+        # fix configuration if this is still a raw boilerplate code - required by test with mails
+        if not utils.is_email_valid(self.app.config.get('contact_sender')):
+            self.app.config['contact_sender'] = "noreply-testapp@example.com"
+        if not utils.is_email_valid(self.app.config.get('contact_recipient')):
+            self.app.config['contact_recipient'] = "support-testapp@example.com"
 
     def tearDown(self):
         self.testbed.deactivate()
@@ -111,6 +114,33 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form['password'] = '123456'
         self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
+        
+    def _login_openid(self, provider, uid, email=None):
+        openid_user = Mock()
+        openid_user.federated_identity.return_value = uid
+        openid_user.email.return_value = email
+        with patch('google.appengine.api.users.get_current_user', return_value=openid_user):
+            response = self.get('/social_login/{}/complete'.format(provider), status=302)
+            response = response.follow(status=200, headers=self.headers) 
+        return response
+
+    def test_login_openid_add_association(self):
+        response = self._login_openid('google', 'http://www.google.com/accounts/123')
+        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_user_logged_in()
+
+    def test_login_openid_with_email_add_association(self):
+        response = self._login_openid('google', 'http://www.google.com/accounts/123', 'testuser@example.com')
+        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_user_logged_in()
+        user = models.User.query().get()
+        self.assertEqual('testuser@example.com', user.email)
+
+    def test_login_openid(self):
+        user = self.register_activate_testuser()
+        models.SocialUser(user=user.key, provider='google', uid='http://www.google.com/accounts/123').put()
+        self._login_openid('google', uid='http://www.google.com/accounts/123')
+        self.assert_user_logged_in(user_id=user.get_id())
 
     def test_login_twitter_no_association(self):
         response = self._test_login_twitter()
@@ -121,9 +151,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def test_login_twitter(self):
         user = self.register_activate_testuser()
         models.SocialUser(user=user.key, provider='twitter', uid='7588892').put()
-        
         self._test_login_twitter()
-
         self.assert_user_logged_in()
  
     def _test_login_twitter(self):
@@ -141,8 +169,6 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
                 self.content = content
             def readlines(self):
                 return self.content.split('\n')
-            def read(self):
-                return self.content
 
         urlopen = Mock(side_effect=[Response('oauth_token={}&oauth_token_secret={}&oauth_callback_confirmed=true'.
                                            format(oauth_token, oauth_token_secret, oauth_callback_confirmed)),
@@ -159,11 +185,9 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
             response = self.get('/social_login/twitter/complete?oauth_token={}&oauth_verifier={}'.
                                 format(oauth_token, oauth_verifier), status=302)
-            self.assertEquals(urlopen.call_count, 3)
+            self.assertEquals(urlopen.call_count, 2)
             self.assertTrue(urlopen.call_args_list[1][0][0].
                             startswith('https://api.twitter.com/oauth/access_token?'))
-            self.assertTrue(urlopen.call_args_list[2][0][0].
-                            startswith('https://twitter.com/account/verify_credentials.json?'))
  
             response = response.follow(status=200, headers=self.headers)
             return response
@@ -249,8 +273,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
         message_old_address = self.get_sent_messages(to='testuser@example.com', reset_mail_stub=False)[0]
         message_new_address = self.get_sent_messages(to='tu@example.com')[0]
-        self.assertEqual(message_old_address.sender, config.contact_sender)
-        self.assertEqual(message_new_address.sender, config.contact_sender)
+        self.assertEqual(message_old_address.sender, self.app.config.get('contact_sender'))
+        self.assertEqual(message_new_address.sender, self.app.config.get('contact_sender'))
         self.assertIn("Recently you've changed the email address", message_old_address.html.payload)
         self.assertIn("You've changed the email address", message_new_address.html.payload)
 
@@ -271,10 +295,15 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
         with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
-            self.submit(form, success_message="you will receive an e-mail from us with instructions for resetting your password.")
+            response1 = self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
+            form['email_or_username'] = 'user_does_not_exists'
+            response2 = self.submit(form, warning_message="you will receive an e-mail from us with instructions for resetting your password.")
+            page1 = response1.body, response1.request.url
+            page2 = response2.body.replace('user_does_not_exists', 'testuser'), response2.request.url
+            self.assertEqual(page1, page2, "for security reasons application should respond with the same page here")
 
         message = self.get_sent_messages(to='testuser@example.com')[0]
-        self.assertEqual(message.sender, config.contact_sender)
+        self.assertEqual(message.sender, self.app.config.get('contact_sender'))
         self.assertIn('click the link below:', message.html.payload)
 
         # click password reset link and submit new password
@@ -345,8 +374,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form['email'] = 'anton@example.com'
         form['message'] = 'Hi there...'
         self.submit(form)
-        message = self.get_sent_messages(to=config.contact_recipient)[0]
-        self.assertEqual(message.sender, config.contact_sender)
+        message = self.get_sent_messages(to=self.app.config.get('contact_recipient'))[0]
+        self.assertEqual(message.sender, self.app.config.get('contact_sender'))
         self.assertIn('Hi there...', message.html.payload)
 
         self.register_activate_login_testuser()
@@ -358,7 +387,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.submit(form, expect_error=True, error_field='name')
         form['name'].value = 'Antonioni'
         self.submit(form, expect_error=False)
-        message = self.get_sent_messages(to=config.contact_recipient)[0]
+        message = self.get_sent_messages(to=self.app.config.get('contact_recipient'))[0]
         self.assertIn('help', message.html.payload)
 
 
