@@ -182,11 +182,9 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
             response = self.get('/social_login/twitter/complete?oauth_token={}&oauth_verifier={}'.
                                 format(oauth_token, oauth_verifier), status=302)
-            self.assertEquals(urlopen.call_count, 3)
+            self.assertEquals(urlopen.call_count, 2)
             self.assertTrue(urlopen.call_args_list[1][0][0].
                             startswith('https://api.twitter.com/oauth/access_token?'))
-            self.assertTrue(urlopen.call_args_list[2][0][0].
-                            startswith('https://api.twitter.com/1.1/account/verify_credentials.json?'))
  
             response = response.follow(status=200, headers=self.headers)
             return response
