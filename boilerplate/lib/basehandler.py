@@ -13,6 +13,7 @@ from google.appengine.api import taskqueue
 # local application/library specific imports
 from boilerplate import models
 from boilerplate.lib import utils, i18n
+import config
 from babel import Locale
 
 def user_required(handler):
