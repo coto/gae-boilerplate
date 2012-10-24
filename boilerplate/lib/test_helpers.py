@@ -8,8 +8,6 @@ from webapp2_extras import auth
 from boilerplate import models
 import config
 
-# globals
-cookie_name = config.webapp2_config['webapp2_extras.auth']['cookie_name']
 
 class HandlerHelpers():
 
@@ -48,7 +46,7 @@ class HandlerHelpers():
             self.assertListEqual(form_fields, expect_fields)
         return form
 
-    def submit(self, form, expect_error=False, error_message='', error_field='', success_message=''):
+    def submit(self, form, expect_error=False, error_message='', error_field='', success_message='', warning_message=''):
         """Submit the form"""
         response = form.submit(headers=self.headers)
         if response.status_int == 200:
@@ -76,6 +74,8 @@ class HandlerHelpers():
             self.assert_no_error_message_in_response(response)
             if success_message:
                 self.assert_success_message_in_response(response, message=success_message)
+            if warning_message:
+                self.assert_warning_message_in_response(response, message=warning_message)
         return response
 
     def login_user(self, username, password):
@@ -127,7 +127,7 @@ class HandlerHelpers():
         form['c_password'] = password
         self.submit(form)
 
-        users = models.User.query().fetch(2)
+        users = models.User.query(models.User.username == username).fetch(2)
         self.assertEqual(1, len(users), "{} could not register".format(username))
         user = users[0]
 
@@ -141,13 +141,16 @@ class HandlerHelpers():
         a = auth.Auth(request=request)
         return a.get_user_by_session()
 
-    def assert_user_logged_in(self):
+    def assert_user_logged_in(self, user_id=None):
         """Check if user is logged in."""
+        cookie_name = self.app.config.get('webapp2_extras.auth').get('cookie_name')
         self.assertIn(cookie_name, self.testapp.cookies,
                       'user is not logged in: session cookie not found')
         user = self.get_user_data_from_session()
         if user is None:
             self.fail('user is not logged in')
+        if user_id:
+            self.assertEqual(user['user_id'], user_id, 'unexpected user is logged in')
 
     def assert_user_not_logged_in(self):
         """Check if user is not logged in."""
