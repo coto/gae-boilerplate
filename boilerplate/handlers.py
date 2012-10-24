@@ -290,7 +290,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             else:
                 # login with twitter
                 social_user = models.SocialUser.get_by_provider_and_uid('twitter',
-                    str(user_data['id']))
+                    str(user_data['user_id']))
                 if social_user:
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
