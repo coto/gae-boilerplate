@@ -33,7 +33,7 @@ def hashing(plaintext, salt=""):
         encryptor = AES.new(app.config.get('aes_key'), mode,iv)
         ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
         return ''.join(ciphertext)
-    except ImportError, e:
+    except (ImportError, NameError), e:
         import logging
         logging.error("CRYPTO is not running")
         return phrase_digest
