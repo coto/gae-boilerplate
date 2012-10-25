@@ -30,8 +30,6 @@ from boilerplate.lib import captcha
 from boilerplate.lib import i18n
 from boilerplate.lib import test_helpers
 
-import config
-
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'
 
@@ -47,7 +45,6 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
         webapp2_config = boilerplate_config.config
-        webapp2_config.update(config.config)
 
         # create a WSGI application.
         self.app = webapp2.WSGIApplication(config=webapp2_config)
