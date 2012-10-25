@@ -6,7 +6,6 @@ import webapp2
 import re
 from webapp2_extras import auth
 from boilerplate import models
-import config
 
 
 class HandlerHelpers():
