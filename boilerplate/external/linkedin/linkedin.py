@@ -779,6 +779,8 @@ class LinkedIn(object):
         return key
 
     def _calc_signature(self, url, query_dict, token_secret, method = "GET", update=True):
+        if token_secret != None:
+            token_secret = token_secret.encode('ascii')
         query_string = self._quote(self._urlencode(query_dict))
         signature_base_string = "&".join([self._quote(method), self._quote(url), query_string])
         hashed = hmac.new(self._calc_key(token_secret), signature_base_string, sha)
