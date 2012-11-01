@@ -24,6 +24,7 @@ import webapp2
 
 import routes
 from boilerplate import routes as boilerplate_routes
+from admin import routes as admin_routes
 from boilerplate import base_config as boilerplate_config
 import config
 from boilerplate.lib.basehandler import handle_error
@@ -41,5 +42,6 @@ if not app.debug:
 
 routes.add_routes(app)
 boilerplate_routes.add_routes(app)
+admin_routes.add_routes(app)
 
 

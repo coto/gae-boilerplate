@@ -51,6 +51,7 @@ Functions and features:
 + Mobile identification
 + Unit testing
 + Error handling
++ Basic user management features available under /admin/users/ for Google Application Administrators
 
 Open Source
 -----------

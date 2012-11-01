@@ -27,6 +27,10 @@ builtins:
 - remote_api: on #/_ah/remote_api/
 
 handlers:
+- url: /admin/.*
+  script: main.app
+  login: admin
+
 - url: /favicon\.ico
   mime_type: image/vnd.microsoft.icon
   static_files: static/favicon.ico
