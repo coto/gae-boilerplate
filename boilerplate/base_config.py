@@ -13,7 +13,7 @@ config = {
                          'cookie_name': 'session_name'},
 
 # jinja2 templates
-'webapp2_extras.jinja2' : {'template_path': ['templates','boilerplate/templates'],
+'webapp2_extras.jinja2' : {'template_path': ['templates','boilerplate/templates', 'admin/templates'],
                            'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
 # application name

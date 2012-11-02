@@ -1,0 +1,21 @@
+{% extends 'admin/base.html' %}
+
+{% block header_title %}
+  {% trans %}User Details{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+{% if user %}
+    <dl class="dl-horizontal">
+      <dt>E-Mail</dt>
+      <dd>{{ user.email }}</dd>
+      <dt>Created</dt>
+      <dd>{{ user.created }}</dd>
+      <dt>Updated</dt>
+      <dd>{{ user.updated }}</dd>
+    </dl>
+{% endif %}
+
+  {{ lib.render_form(form, uri_for('user-list'), btn='Update') }}
+{% endblock %}
