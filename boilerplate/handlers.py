@@ -315,7 +315,6 @@ class CallbackSocialLoginHandler(BaseHandler):
         # facebook association
         elif provider_name == "facebook":
             code = self.request.get('code')
-            token = facebook.get_access_token_from_code(code, callback_url, config.facebook_app_key, config.facebook_app_secret)
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
             token = facebook.get_access_token_from_code(code, callback_url, self.app.config.get('fb_api_key'), self.app.config.get('fb_secret'))
             access_token = token['access_token']
