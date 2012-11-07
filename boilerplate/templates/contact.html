@@ -1,0 +1,37 @@
+{% extends base_layout %}
+
+{% block title %}
+        {% trans %}Contact{% endtrans %} - {{app_name}}
+{% endblock %}
+{% block header_title %}
+        {% trans %}Contact{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <form id="form_contact" action="{{ url|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <input type="hidden" name="exception" value="{{ exception }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused required") }}
+            {{ macros.field(form.email, label=_("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
+            {{ macros.field(form.message, label=_("Message"), class="input-xlarge required", cols="40", rows="8") }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% trans %}Send Message{% endtrans %}</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript">
+    $().ready(function() {
+        $("#form_contact").validate({
+            errorPlacement: function(error, element) {
+                element.parent().parent().addClass("error");
+                error.addClass("help-inline").appendTo( element.parent() );
+            }
+        });
+    });
+</script>
+{% endblock %}
+

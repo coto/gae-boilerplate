@@ -1,0 +1,42 @@
+{% extends base_layout %}
+
+{% block header_title %}
+    {% trans %}Change your email{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+    <form id="form_edit_email" action="{{ url|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            <div class="control-group">
+                <label class="control-label">Current Email:</label>
+                <div class="controls">
+                    <p class="help-block">{{ current_email }}</p>
+                </div>
+            </div>
+            {{ macros.field(form.new_email, label=_("New Email"), placeholder=_("Enter a new email address"), class="input-xlarge focused required email", type="email") }}
+            {{ macros.field(form.password, label=_("Current Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% trans %}Change your email{% endtrans %}</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_edit_password").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
+{% endblock %}

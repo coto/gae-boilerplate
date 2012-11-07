@@ -1,0 +1,78 @@
+{% extends base_layout %}
+
+{% block header_title %}
+        {% trans %}Edit Profile{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+    <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
+            {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
+            {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
+            {{ macros.field(form.country, label=_("Country")) }}
+            <div class="control-group">
+                <label class="control-label">{% trans %}Email{% endtrans %}:</label>
+                <div class="controls">
+                    {{ email }} (<a href="{{ uri_for('edit-email') }}">{% trans %}Change your email{% endtrans %}</a>)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <a href="{{ uri_for("edit-password") }}">{% trans %}Change your password{% endtrans %}</a>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
+            </div>
+            {% if enable_federated_login %}
+	            {% if used_providers %}
+	                <div id="trird_party_login" class="existing-accociation">
+	                    <h4>{% trans %}Existing social association{% endtrans %}:</h4>
+	                    <table class=" social-login-icons">
+	                        {% for provider in used_providers %}
+	                            <tr>
+	                                <td><a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a></td>
+	                                <td><a href="/social_login/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+	                            </tr>
+	                        {% endfor %}
+	                    </table>
+	                </div>
+	            {% endif %}
+	            {% if unused_providers %}
+	                <div id="trird_party_login" class="form-actions">
+	                    <h4>{% trans %}Associate account with{% endtrans %}:</h4>
+	                    <div class="social-login-icons">
+	                        {% for provider in unused_providers %}
+	                            <a href="{{ provider_uris[provider.name] }}" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}">{{ provider.label }}</a>
+	                        {% endfor %}
+	                    </div>
+	                </div>
+	            {% endif %}
+            {% endif %}
+        </fieldset>
+    </form>
+
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript">
+    $().ready(function() {
+        $("#form_edit_profile").validate({
+            submitHandler: function(form) {
+                    form.submit();
+            },
+            errorPlacement: function(error, element) {
+                element.parent().parent().addClass("error");
+                error.addClass("help-inline").appendTo( element.parent() );
+            }
+        });
+        {% if country != "" %}
+        $('#country option[value="{{ country }}"]').attr("selected",true);
+        {% endif %}
+    });
+</script>
+{% endblock %}
+
