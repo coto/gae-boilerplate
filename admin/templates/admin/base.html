@@ -8,6 +8,12 @@
                     <span class="icon-chevron-down icon"></span>
                 </button>
                 <a class="brand" href="/">{{ app_name }}</a>
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+                        <li class="divider-vertical"></li>
+                        <li><a href="{{ uri_for('admin-logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                    </ul>
+                </div><!-- /navbar-collapse -->
             </div><!-- /navbar-inner -->
         </div><!-- /navbar -->
 {% endblock %}
