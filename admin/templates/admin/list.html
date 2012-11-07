@@ -1,0 +1,45 @@
+{% extends 'admin/base.html' %}
+
+{% block header_title %}
+    {% trans %}Search User{% endtrans %}
+{% endblock %}
+
+{% block content %}
+<div class="navbar">
+  <div class="navbar-inner">
+    <form method="GET" class="navbar-search">
+        <span class="badge"> {{ count }}&nbsp</span>
+        <input type="text" name="q" value="{{ q or '' }}" class="input-medium search-query" placeholder="{{ _('Search User') }}"></input>
+        <button type="submit" title="Search"><i class="icon-search"></i></button>
+        {% if q %}
+        <a href="{{ uri_for('user-list') }}" class="clear">×</a>
+        {% endif %}
+    </form>
+    </div>
+</div>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="span1">&nbsp;</th>
+            {% for attr, name in list_columns %}
+            <th>
+                {{ name }}
+            </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    {% for user in users %}
+    <tr>
+        <td>
+            <a class="icon" href="{{ uri_for('user-edit', user_id=user.get_id()) }}"><i class="icon-pencil"></i></a>
+        </td>
+        {% for attr, name in list_columns %}
+        <td>
+            {{ getattr(user, attr) }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{{ lib.render_pager() }}
+{% endblock %}

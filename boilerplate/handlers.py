@@ -21,6 +21,7 @@ from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
 from google.appengine.api import taskqueue
+from google.appengine.api import users
 from linkedin import linkedin
 
 # local application/library specific imports
@@ -30,6 +31,12 @@ from lib import utils, captcha, twitter
 from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
 from lib import facebook
+
+
+class LoginRequiredHandler(BaseHandler):
+    def get(self):
+        continue_url, = self.request.get('continue',allow_multiple=True)
+        self.redirect(users.create_login_url(dest_url=continue_url))
 
 
 class RegisterBaseHandler(BaseHandler):
