@@ -140,6 +140,7 @@
 		            {% trans %}to help you to create your application.{% endtrans %}
 				</p>
                 {% endblock %}
+                {% block subnavbar %}
                 <div class="subnav">
                     <ul>
                         <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{% trans %}Contact{% endtrans %}</a></li>
@@ -149,6 +150,7 @@
                         {% endif %}
                     </ul>
                 </div>
+                {% endblock %}
             </header>
             {% endblock %}
 

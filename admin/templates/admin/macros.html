@@ -1,0 +1,60 @@
+<{% macro render_form_fields(form) %}
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+    {% for field in form %}
+    <div class="control-group{% if field.errors %} error{% endif %}">
+      {{ field.label(class='control-label') }}
+      <div class="controls">
+        {{ field()|safe }}
+         {% if field.errors %}
+          {% for error in field.errors %}
+            <span class="error help-inline">{{ error }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+{% endmacro %}
+
+{% macro form_tag(legend) %}
+    <form method="POST" class="form-horizontal">
+      <fieldset>
+        {% if legend %}
+        <legend>{{ legend }}</legend>
+        {% endif %}
+        {{ caller() }}
+      </fieldset>
+    </form>
+{% endmacro %}
+
+{% macro render_form_buttons(return_url, btn) %}
+    <div class="control-group">
+      <div class="controls">
+        <input type="submit" class="btn btn-primary" value="{{ _(btn) }}" />
+        {% if return_url %}
+        <a href="{{ return_url }}" class="btn">{{ _('Cancel') }}</a>
+        {% endif %}
+      </div>
+    </div>
+{% endmacro %}
+
+{% macro render_form(form, return_url, btn='Save', legend='') -%}
+    {% call form_tag(legend) %}
+        {{ render_form_fields(form) }}
+        {{ render_form_buttons(return_url, btn) }}
+    {% endcall %}
+{% endmacro %}
+
+{% macro render_pager() -%}
+    <ul class="pager">
+      {% if prev_cursor %}
+      <li><a href="{{ pager_url('prev', prev_cursor) }}">Previous</a></li>
+      {% else %}
+      <li class='disabled'><span>Previous</span></li>
+      {% endif %}
+      {% if next_cursor %}
+      <li><a href="{{ pager_url('next', next_cursor) }}">Next</a></li>
+      {% else %}
+      <li class='disabled'><span>Next</span></li>
+      {% endif %}
+    </ul>
+{% endmacro %}
