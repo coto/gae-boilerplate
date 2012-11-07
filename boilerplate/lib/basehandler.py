@@ -3,6 +3,8 @@
 # standard library imports
 import logging
 import re
+import traceback
+import sys
 # related third party imports
 import webapp2
 from google.appengine.api.users import NotAllowedError
@@ -69,17 +71,25 @@ def jinja2_factory(app):
     return j
 
 def handle_error(request, response, exception):
+    exc_type, exc_value, exc_tb = sys.exc_info()
+
     c = {
         'exception': str(exception),
         'url': request.url,
-        }
+    }
 
     if request.app.config.get('send_mail_developer') is not False:
         # send email
-        subject         = request.app.config.get('app_name') + " error."
-        email_body_path = "emails/error.txt"
-        message         = 'This error was looking for you: ' + c['exception'] + ' from ' + c['url']
+        subject         = "[{}] ERROR {}".format(request.app.config.get('environment').upper(), request.app.config.get('app_name'))
 
+        lines = traceback.format_exception(exc_type, exc_value, exc_tb)
+
+        message         = '<strong>Type:</strong> ' + exc_type.__name__ + "<br />" + \
+                          '<strong>Description:</strong> ' + c['exception'] + "<br />" + \
+                          '<strong>URL:</strong> ' + c['url'] + "<br />" + \
+                          '<strong>Traceback:</strong> <br />' + '<br />'.join(lines)
+
+        email_body_path = "emails/error.txt"
         if c['exception'] is not 'Error saving Email Log in datastore':
             template_val = {
                 "app_name"  : request.app.config.get('app_name'),
