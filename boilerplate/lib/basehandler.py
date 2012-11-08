@@ -32,6 +32,7 @@ def user_required(handler):
             auth = self.auth.get_user_by_session()
             if not auth:
                 try:
+                    self.auth_config['login_url'] = self.uri_for('login', continue_url=self.request.path)
                     self.redirect(self.auth_config['login_url'], abort=True)
                 except (AttributeError, KeyError), e:
                     self.abort(403)
@@ -244,12 +245,21 @@ class BaseHandler(webapp2.RequestHandler):
         try:
             provider_info = models.SocialUser.PROVIDERS_INFO
             login_urls = {}
+            continue_url = self.request.get('continue_url')
             for provider in provider_info:
                 provider_uri = provider_info[provider]['uri']
                 if provider_uri:
-                    login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=self.uri_for('social-login-complete', provider_name=provider))
+                    if continue_url:
+                        dest_url=self.uri_for('social-login-complete', provider_name=provider, continue_url=continue_url)
+                    else:
+                        dest_url=self.uri_for('social-login-complete', provider_name=provider)
+                    login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=dest_url)
                 else:
-                    login_urls[provider] = self.uri_for("social-login", provider_name=provider)
+                    if continue_url:
+                        login_url = self.uri_for("social-login", provider_name=provider, continue_url=continue_url)
+                    else:
+                        login_url = self.uri_for("social-login", provider_name=provider)
+                    login_urls[provider] = login_url
             return login_urls
         except NotAllowedError:
             self.response.write('<p class="alert alert-error"><a class="close" data-dismiss="alert">x</a> '

@@ -201,6 +201,18 @@ def slugify(value):
     value = unicode(_slugify_strip_re.sub('', value).strip().lower())
     return _slugify_hyphenate_re.sub('-', value)
 
+def parse_if_int(s):
+    """Try to parse a string to an int.
+    Return the int on success or string on failure.
+    Useful for parsing entity ids from urls when
+    entity ids could be manually assigned strings or 
+    automatically assigned numbers.
+    """
+    try:
+        return int(s)
+    except ValueError:
+        return s
+
 # TODO: Use locale (Babel)
 COUNTRIES = [
     ("", ""),

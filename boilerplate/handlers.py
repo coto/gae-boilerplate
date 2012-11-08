@@ -116,6 +116,7 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
+        continue_url = self.request.get('continue_url').encode('ascii', 'ignore')
 
         try:
             if utils.is_email_valid(username):
@@ -209,14 +210,17 @@ class LoginHandler(BaseHandler):
                 timestamp=utils.get_date_time()
             )
             logVisit.put()
-            self.redirect_to('home')
+            if continue_url:
+                self.redirect(continue_url)
+            else:
+                self.redirect_to('home')
         except (InvalidAuthIdError, InvalidPasswordError), e:
             # Returns error message to self.response.write in
             # the BaseHandler.dispatcher
             message = _("Your username or password is incorrect. "
                         "Please try again (make sure your caps lock is off)")
             self.add_message(message, 'error')
-            return self.redirect_to('login')
+            self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
     @webapp2.cached_property
     def form(self):
@@ -270,6 +274,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             message = _('Federated login is disabled.')
             self.add_message(message, 'warning')
             return self.redirect_to('login')
+        continue_url = self.request.get('continue_url')
         if provider_name == "twitter":
             oauth_token = self.request.get('oauth_token')
             oauth_verifier = self.request.get('oauth_verifier')
@@ -293,7 +298,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     message = _('This Twitter account is already in use.')
                     self.add_message(message, 'error')
-                self.redirect_to('edit-profile')
+                if continue_url:
+                    self.redirect(continue_url)
+                else:
+                    self.redirect_to('edit-profile')
             else:
                 # login with twitter
                 social_user = models.SocialUser.get_by_provider_and_uid('twitter',
@@ -309,7 +317,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                         timestamp = utils.get_date_time()
                     )
                     logVisit.put()
-                    self.redirect_to('home')
+                    if continue_url:
+                        self.redirect(continue_url)
+                    else:
+                        self.redirect_to('home')
                 else:
                     # Social user does not exists. Need show login and registration forms
                     twitter_helper.save_association_data(user_data)
@@ -317,7 +328,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 'If you already have a %s Account, you have <a href="/login/">sign in here</a> '
                                 'or <a href="/register/">create an account</a>.' % self.app.config.get('app_name'))
                     self.add_message(message, 'warning')
-                    self.redirect_to('login')
+                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
         # facebook association
         elif provider_name == "facebook":
@@ -344,7 +355,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     message = _('This Facebook account is already in use!')
                     self.add_message(message,'error')
-                self.redirect_to('edit-profile')
+                if continue_url:
+                    self.redirect(continue_url)
+                else:
+                    self.redirect_to('edit-profile')
             else:
                 # login with Facebook
                 social_user = models.SocialUser.get_by_provider_and_uid('facebook',
@@ -360,7 +374,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                         timestamp = utils.get_date_time()
                     )
                     logVisit.put()
-                    self.redirect_to('home')
+                    if continue_url:
+                        self.redirect(continue_url)
+                    else:
+                        self.redirect_to('home')
                 else:
                     # Social user does not exists. Need show login and registration forms
 
@@ -369,10 +386,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                     signup_url = '%s/register/' %  self.request.host_url
                     message = _('The Facebook account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
                     self.add_message(message,'info')
-                    self.redirect_to('login')
+                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
             # end facebook
-         # association with linkedin
+        # association with linkedin
         elif provider_name == "linkedin":
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
             link = linkedin.LinkedIn(self.app.config.get('linkedin_api'), self.app.config.get('linkedin_secret'), callback_url)
@@ -406,7 +423,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     message = _('This Linkedin account is already in use!')
                     self.add_message(message,'error')
-                self.redirect_to('edit-profile')
+                if continue_url:
+                    self.redirect(continue_url)
+                else:
+                    self.redirect_to('edit-profile')
             else:
                 # login with Linkedin
                 social_user = models.SocialUser.get_by_provider_and_uid('linkedin',
@@ -422,7 +442,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                         timestamp = utils.get_date_time()
                     )
                     logVisit.put()
-                    self.redirect_to('home')
+                    if continue_url:
+                        self.redirect(continue_url)
+                    else:
+                        self.redirect_to('home')
                 else:
                     # Social user does not exists. Need show login and registration forms
                     self.session['linkedin'] = json.dumps(user_data)
@@ -430,7 +453,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     signup_url = '%s/register/' %  self.request.host_url
                     message = _('The Linkedin account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
                     self.add_message(message,'info')
-                    self.redirect_to('login')
+                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
             #end linkedin
 
@@ -451,7 +474,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                             'Please ensure you are logging in from an authorized OpenID Provider (OP).'
                             % provider_display_name)
                 self.add_message(message, 'error')
-                return self.redirect_to('login')
+                return self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
             if self.user:
                 # add social account to user
                 user_info = models.User.get_by_id(long(self.user_id))
@@ -468,7 +491,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     message = _('This %s account is already in use.' % provider_display_name)
                     self.add_message(message, 'error')
-                self.redirect_to('edit-profile')
+                if continue_url:
+                    self.redirect(continue_url)
+                else:
+                    self.redirect_to('edit-profile')
             else:
                 # login with OpenId Provider
                 social_user = models.SocialUser.get_by_provider_and_uid(provider_name, uid)
@@ -483,7 +509,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                         timestamp = utils.get_date_time()
                     )
                     logVisit.put()
-                    self.redirect_to('home')
+                    if continue_url:
+                        self.redirect(continue_url)
+                    else:
+                        self.redirect_to('home')
                 else:
                     # Social user does not exist yet so create it with the federated identity provided (uid)
                     # and create prerequisite user and log the user account in
@@ -530,14 +559,17 @@ class CallbackSocialLoginHandler(BaseHandler):
 
                         message = _('%s association successfully added.' % provider_display_name)
                         self.add_message(message, 'success')
-                        self.redirect_to('home')
                     else:
                         message = _('This %s account is already in use.' % provider_display_name)
                         self.add_message(message, 'error')
+                    if continue_url:
+                        self.redirect(continue_url)
+                    else:
+                        self.redirect_to('edit-profile')
         else:
             message = _('This authentication method is not yet implemented.')
             self.add_message(message, 'warning')
-            self.redirect_to('login')
+            self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
 
 class DeleteSocialProviderHandler(BaseHandler):
