@@ -6,13 +6,26 @@ from boilerplate.handlers import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
 from google.appengine.api import users
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from wtforms import fields
 
 
 class Logout(BaseHandler):
     def get(self):
         self.redirect(users.create_logout_url(dest_url=self.uri_for('home')))
+
+
+class Geochart(BaseHandler):
+    def get(self):
+        users = models.User.query().fetch(projection=['country'])
+        users_by_country = Counter()
+        for user in users:
+            if user.country:
+                users_by_country[user.country] += 1
+        params = {
+            "data": users_by_country.items()
+         }
+        return self.render_template('admin/geochart.html', **params)
 
 
 class EditProfileForm(forms.EditProfileForm):
