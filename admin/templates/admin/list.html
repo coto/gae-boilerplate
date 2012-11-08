@@ -1,7 +1,7 @@
 {% extends 'admin/base.html' %}
 {% block subnavbar %}
     <ul class="breadcrumb">
-        <li><a href="#">Home</a><span class="divider">/</span></li>
+        <li><a href="/admin/">Home</a><span class="divider">/</span></li>
         <li  class="active">List</li>
     </ul>
 {% endblock %}
@@ -43,7 +43,7 @@
     <tr>
 
         <td>
-            <a class="icon" href="{{ uri_for('%s-edit'%class_name.lower(), user_id=user.key.urlsafe()) }}"><i class="icon-pencil"></i></a>
+            <a class="icon" href="{{ uri_for('%s-edit'%class_name.lower(), id=user.key.urlsafe()) }}"><i class="icon-pencil"></i></a>
         </td>
         {% for attr, name in list_columns %}
         <td>
@@ -51,7 +51,7 @@
         </td>
         {% endfor %}
         <td>
-            <a class="icon" href="{{ uri_for('%s-delete'%class_name.lower(), user_id=user.key.urlsafe()) }}"><i class="icon-remove-circle"></i></a>
+            <a class="icon" href="{{ uri_for('%s-delete'%class_name.lower(), id=user.key.urlsafe()) }}"><i class="icon-remove-circle"></i></a>
         </td>
     </tr>
     {% endfor %}

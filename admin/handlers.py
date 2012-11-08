@@ -3,11 +3,12 @@ from boilerplate.handlers import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
 from collections import OrderedDict
-from wtforms import fields
+from boilerplate.external.wtforms import fields
 import logging
-
+import admin.forms
 logger = logging.getLogger(__name__)
 from admin.forms import *
+import routes
 
 
 
@@ -73,20 +74,20 @@ class Edit(BaseHandler):
     form_class=None
     model_class=None
 
-    def get_or_404(self, user_id,*args,**kwargs):
+    def get_or_404(self, id,*args,**kwargs):
         try:
-            logger.warn("the user id: %s "%user_id)
-            user = ndb.Key(urlsafe=user_id).get()
+            logger.warn("the user id: %s "%id)
+            user = ndb.Key(urlsafe=id).get()
             if user:
                 return user
         except ValueError:
             pass
         self.abort(404)
 
-    def delete (self, user_id,  *args, **kwargs):
+    def delete (self, id,  *args, **kwargs):
         self.model_class=kwargs['_class']
         self.form_class=kwargs['_form_class']
-        user = ndb.Key(urlsafe=user_id)
+        user = ndb.Key(urlsafe=id)
         user.delete()
         return self.redirect_to("%s-list"%self.model_class.__name__.lower())
 
@@ -97,25 +98,25 @@ class Edit(BaseHandler):
         user=self.model_class()
         user.put()
         logger.warn("The key:%s "%user.key.urlsafe())
-        return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), user_id=user.key.urlsafe())
+        return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), id=user.key.urlsafe())
 
-    def edit(self, user_id,*args,**kwargs):
+    def edit(self, id,*args,**kwargs):
 
         self.model_class=kwargs['_class']
         self.form_class=kwargs['_form_class']
         self.form=self.form_class(self)
 
         if self.request.POST:
-            user = self.get_or_404(user_id)
+            user = self.get_or_404(id)
             if self.form.validate():
                 self.form.populate_obj(user)
                 user.put()
                 self.add_message("Changes saved!", 'success')
-                return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), user_id=user_id)
+                return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), id=id)
             else:
                 self.add_message("Could not save changes!", 'error')
         else:
-            user = self.get_or_404(user_id)
+            user = self.get_or_404(id)
             self.form.process(obj=user)
 
         params = {
@@ -124,4 +125,16 @@ class Edit(BaseHandler):
         }
         return self.render_template('admin/edit.html', **params)
 
-
+class Home(BaseHandler):
+    def get(self,*args,**kwargs):
+        class_list=[]
+        for model in routes.models:
+            model_params={}
+            model_params['name']=model['class'].__name__
+            model_params['link']=self.uri_for('%s-list'%model['class'].__name__.lower())
+            model_params['add_uri']=self.uri_for('%s-add'%model['class'].__name__.lower())
+            class_list.append(model_params)
+        params = {
+            'class_list': class_list
+        }
+        return self.render_template('admin/home.html', **params)

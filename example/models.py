@@ -1,8 +1,10 @@
 from boilerplate.models import User
 from google.appengine.ext import ndb
 from google.appengine.ext.ndb import polymodel
-
-class Lesson(ndb.Model):
+"""
+This is an example of a model you could put in your admin
+"""
+class Example(ndb.Model):
 
 
     day = ndb.StringProperty()
