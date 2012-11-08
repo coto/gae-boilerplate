@@ -5,8 +5,14 @@ from boilerplate import forms
 from boilerplate.handlers import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
+from google.appengine.api import users
 from collections import OrderedDict
 from wtforms import fields
+
+
+class Logout(BaseHandler):
+    def get(self):
+        self.redirect(users.create_logout_url(dest_url=self.uri_for('home')))
 
 
 class EditProfileForm(forms.EditProfileForm):
