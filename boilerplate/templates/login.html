@@ -23,6 +23,10 @@
                 <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
             </div>
             {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
+            <div id="register" class="form-actions">
+                <h4>{% trans %}Don't have an account?{% endtrans %}</h4>
+               	<a href="{{ uri_for("register") }}" class="btn btn-primary btn-large btn-login">{% trans %}Sign Up{% endtrans %}</a>
+            </div>
         </fieldset>
     </form>
 {% endblock %}
