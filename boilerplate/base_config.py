@@ -1,6 +1,6 @@
 """
 This is the boilerplate default configuration file.
-Changes and additions to settings should be done in config.py
+Changes and additions to settings should be done in the config module
 located in the application root rather than this config.
 """
 config = {
