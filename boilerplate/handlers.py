@@ -948,6 +948,10 @@ class EditProfileHandler(BaseHandler):
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
             providers_info = user_info.get_social_providers_info()
+            if not user_info.password:
+                params['local_account'] = False
+            else:
+                params['local_account'] = True
             params['used_providers'] = providers_info['used']
             params['unused_providers'] = providers_info['unused']
             params['country'] = user_info.country
