@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+
+{% block header_title %}
+  {% trans %}Big Picture{% endtrans %}
+{% endblock %}
+
+{% block content %}
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+{% endblock %}
+ 
+{% block mediaJS %}
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+     google.load('visualization', '1', {'packages': ['geochart']});
+     google.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Registrations'],
+          {% for country, registrations in data %}
+            ['{{ country }}', {{ registrations }}],
+          {% endfor %}
+        ]);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    };
+    </script>
+ {% endblock %}
+ 
