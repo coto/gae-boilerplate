@@ -7,8 +7,11 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon"></span>
                 </button>
-                <a class="brand" href="/">{{ app_name }}</a>
+                <a class="brand" href="{{ uri_for('user-list') }}">{{ app_name }}</a>
                 <div class="nav-collapse">
+                    <ul class="nav">
+                        <li><a href="{{ uri_for('geochart') }}">{% trans %}Big Picture{% endtrans %}</a></li>
+                    </ul>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
                         <li><a href="{{ uri_for('admin-logout') }}">{% trans %}Logout{% endtrans %}</a></li>
