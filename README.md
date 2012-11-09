@@ -44,7 +44,7 @@ Functions and features:
 + Contact Form
 + Client side and server side form validation
 + Automatic detection of user language
-+ Support for 5 Languages (English, Spanish, Italian, Chinese and Indonesian)
++ Support for 8 Languages (English, Spanish, Italian, French, Chinese, Indonesian, German and Russian)
 + Visitors Log
 + Notifications and Confirmation for users when they change their email or password
 + Responsive Design for viewing on PCs, tablets, and mobile phones (synchronized with Twitter-Bootstrap project)
@@ -92,7 +92,7 @@ Front-end Technologies
 + [HTML5Boilerplate](http://html5boilerplate.com/)
 + [Modernizr 2.6.1](http://modernizr.com)
 + [jQuery 1.8.2](http://jquery.com)
-+ [Twitter Bootstrap 2.1.1](http://twitter.github.com/bootstrap/) Template for Desktop Version.
++ [Twitter Bootstrap 2.2.1](http://twitter.github.com/bootstrap/) Template for Desktop Version.
 
 Please help us translate and add new languages!
 -----------------------------------------------
