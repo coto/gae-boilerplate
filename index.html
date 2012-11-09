@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Google App Engine Boilerplate by coto</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Google App Engine Boilerplate</h1>
+        <p>Google App Engine Boilerplate</p>
+
+        <p class="view"><a href="https://github.com/coto/gae-boilerplate">View the Project on GitHub <small>coto/gae-boilerplate</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/coto/gae-boilerplate/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/coto/gae-boilerplate/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/coto/gae-boilerplate">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a href="http://appengine.beecoss.com">Google App Engine Boilerplate</a> <a href="http://travis-ci.org/coto/gae-boilerplate"><img src="https://secure.travis-ci.org/coto/gae-boilerplate.png" alt="Build Status"></a>
+</h1>
+
+<p>Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
+  <img src="http://www.jetbrains.com/img/logos/pycharm_logo142x29.gif"></a></p>
+
+<p>Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
+Create powerful applications by using the latest technology supported on Google App Engine. 
+It will introduces new developers to App Engine and advanced developers to follow best practices.</p>
+
+<p><a href="http://appengine.beecoss.com">Try a online demo</a></p>
+
+<h2>What's a Boilerplate?</h2>
+
+<p>A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. (<a href="http://en.wikipedia.org/wiki/Boilerplate_code">wikipedia</a>)</p>
+
+<h2>What makes this Boilerplate Amazing?</h2>
+
+<p>It is fully featured, actively maintained, and uses the latest and most supported technologies of Google App Engine.</p>
+
+<p>New to Google App Engine? Learn about it by watching <a href="http://www.youtube.com/watch?v=bfgO-LXGpTM">this video</a> or reading <a href="https://developers.google.com/appengine/">this website</a>.</p>
+
+<h2>Get started in just a few easy steps</h2>
+
+<ol>
+<li>Download the last version of the <a href="http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python">App Engine SDK</a> for Linux, Mac OS or Windows (Tested with SDK version 1.7.2).</li>
+<li>Download the code of this Boilerplate (<a href="https://github.com/coto/gae-boilerplate/zipball/master">here</a>)</li>
+<li>Run locally (<a href="https://developers.google.com/appengine/docs/python/tools/devserver">instructions</a>).</li>
+<li>Set your 'application' name in <a href="https://github.com/coto/gae-boilerplate/blob/master/app.yaml">app.yaml</a>
+</li>
+<li>Set custom config parameters in <a href="https://github.com/coto/gae-boilerplate/blob/master/config.py">config.py</a>.  (secret key, <a href="http://www.google.com/recaptcha/whyrecaptcha">recaptcha code</a>, salt etc.)  To get started, copy the default settings from <a href="https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py">boilerplate/config.py</a>.  Note that most of the default settings will need to be changed to yield a secure and working application.  Make the changes to these settings in the root config.py.  The root config.py takes precedence over the boilerplate config.py.</li>
+<li>Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)</li>
+<li>Deploy it online (<a href="https://developers.google.com/appengine/docs/python/gettingstarted/uploading">instructions</a> - recommended setup: python 2.7, high replication datastore)</li>
+</ol><p>Please note that boilerplate code is located in the boilerplate module while your custom application code should be located in the web module.
+The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
+Settings, code, and templates in the root <a href="https://github.com/coto/gae-boilerplate/blob/master/config.py">config.py</a>, web module, and templates directory take precedence over the equivalent files in the boilerplate module.</p>
+
+<h2>Functions and features:</h2>
+
+<ul>
+<li>Authentication (Login, Logout, Sign Up)</li>
+<li>Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth</li>
+<li>Reset Password</li>
+<li>Update User Profile</li>
+<li>Contact Form</li>
+<li>Client side and server side form validation</li>
+<li>Automatic detection of user language</li>
+<li>Support for 8 Languages (English, Spanish, Italian, French, Chinese, Indonesian, German and Russian)</li>
+<li>Visitors Log</li>
+<li>Notifications and Confirmation for users when they change their email or password</li>
+<li>Responsive Design for viewing on PCs, tablets, and mobile phones (synchronized with Twitter-Bootstrap project)</li>
+<li>Mobile identification</li>
+<li>Unit testing</li>
+<li>Error handling</li>
+<li>Basic user management features available under /admin/users/ for Google Application Administrators</li>
+</ul><h2>Open Source</h2>
+
+<p>If you want to add, fix or improve something, create an <a href="https://github.com/coto/gae-boilerplate/issues">issue</a> or send a <a href="https://github.com/coto/gae-boilerplate/pull/new/master">Pull Request</a>.</p>
+
+<p>Before committing fixes we recommend running the unitests (in the boilerplate package).  This will help guard against changes that accidently break other code.  See the testing section below for instructions.</p>
+
+<p>Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.</p>
+
+<h2>Testing</h2>
+
+<p><strong>Unit testing</strong></p>
+
+<ul>
+<li>Unit tests can be run via <a href="https://github.com/coto/gae-boilerplate/blob/master/testrunner.py">testrunner</a> or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.</li>
+<li>You may need to add /boilerplate/external to your python path.</li>
+<li>Please add unittests for your application to <a href="https://github.com/coto/gae-boilerplate/tree/master/web/tests">unittests</a>.</li>
+<li>To run unittests it may be necessary to install <a href="http://webtest.pythonpaste.org/en/latest/index.html#installation">webtest</a>, <a href="http://www.voidspace.org.uk/python/mock/">mock</a>, and <a href="http://packages.python.org/pyquery/">pyquery</a> in your local python installation.</li>
+<li>Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.</li>
+</ul><h2>Technologies used</h2>
+
+<ul>
+<li>Python 2.7</li>
+<li>
+<a href="http://developers.google.com/appengine/docs/python/ndb/">NDB 1.0.5</a> (The best datastore API for the Google App Engine Python runtime).</li>
+<li>
+<a href="http://jinja.pocoo.org/docs/">Jinja2 2.6</a> (A fully featured template engine for Python).</li>
+<li>
+<a href="http://wtforms.simplecodes.com/">WTForms-1.0.2</a> (Forms validation framework keeping user interaction secure and flexible with or without javascript).</li>
+<li>
+<a href="http://babel.edgewall.org/">Babel-0.9.6</a> and <a href="http://code.google.com/p/gae-pytz/">gaepytz-2011h</a> (Industy standard internationalization renders the site in multiple languages).</li>
+<li>
+<a href="http://webapp-improved.appspot.com/">webapp2 2.5.1</a> (A lightweight Python web framework, the most compatible with Google App Engine).
+
+<ul>
+<li>webapp2_extras.sessions</li>
+<li>webapp2_extras.routes</li>
+<li>webapp2_extras.auth</li>
+<li>webapp2_extras.i18n</li>
+</ul>
+</li>
+<li>Code written following the <a href="http://google-styleguide.googlecode.com/svn/trunk/pyguide.html">Google Python Style Guide</a>
+</li>
+<li>Unit testing with <a href="http://docs.python.org/library/unittest.html">unittest</a>, <a href="http://webtest.pythonpaste.org/en/latest/index.html">webtest</a>, <a href="http://packages.python.org/pyquery/">pyquery</a>
+</li>
+<li>OpenID library provided by Google App Engine</li>
+<li>OAuth2 for federated login providers that do not support OpenID</li>
+</ul><h2>Front-end Technologies</h2>
+
+<ul>
+<li><a href="http://html5boilerplate.com/">HTML5Boilerplate</a></li>
+<li><a href="http://modernizr.com">Modernizr 2.6.1</a></li>
+<li><a href="http://jquery.com">jQuery 1.8.2</a></li>
+<li>
+<a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2.1.1</a> Template for Desktop Version.</li>
+</ul><h2>Please help us translate and add new languages!</h2>
+
+<p>In each locale//LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
+msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:</p>
+
+<p><tt>msgid "Change your password"</tt></p>
+
+<p><tt>msgstr "Cambiar tu contraseña"</tt></p>
+
+<h2>Working with Internationalization (i18n)</h2>
+
+<p>This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
+Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.</p>
+
+<p>Adding or updating text to be translated or adding new languages requires more work as indicated in the steps below:</p>
+
+<ol>
+<li>Text to be translated should be enclosed in <code>_("text to translate")</code> in *.py files.
+
+<ul>
+<li><code>{{..._("text to translate")...}}</code></li>
+<li><code>{%..._("text to translate")...%}</code></li>
+</ul>
+</li>
+<li>
+<p>In html templates translated text is indicated by:</p>
+
+<ul>
+<li><code>{% trans %}text to translate{% endtrans %}</code></li>
+</ul>
+<p><strong>NOTE:</strong> Translations can be added to other types of files too.  See <a href="https://github.com/coto/gae-boilerplate/blob/master/locale/babel.cfg">babel.cfg</a>
+and <a href="http://babel.edgewall.org/wiki/Documentation/0.9/messages.html">babel.cfg documentation</a></p>
+</li>
+<li>
+<p>Obtain pybabel to perform the steps below.  You will need to install and compile <a href="http://jinja.pocoo.org/docs/">jinja2</a> and <a href="http://babel.edgewall.org/wiki/Download">babel</a>.
+Note that you may need to first install <a href="http://pypi.python.org/pypi/setuptools">setuptools and easy_install</a>.
+pybabel.exe can be run from the Scripts directory in your python installation.</p>
+
+<ul>
+<li><code>easy_install jinja2 babel</code></li>
+</ul>
+</li>
+<li><p>Babel then needs to find all translationed text blocks throughout code and templates.
+After installing pybabl run this command to extract messages (assuming ./ is the location of this boilerplate):
+<tt>pybabel extract -F ./locale/babel.cfg -o ./locale/messages.pot ./ --sort-output --no-location --omit-header</tt></p></li>
+<li>
+<p>Update translations of existing languages or add new languages</p>
+
+<ol>
+<li>Update translations of existing languages by running this command for each locale:
+<tt>pybabel update -l es_ES -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete</tt>
+Run this command for each locale by replacing es_ES in the command.  Locale names are the directory names in ./locale.</li>
+<li>Add new languages
+Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add:
+<tt>pybabel init -l es_ES -d ./locale -i ./locale/messages.pot</tt>
+Add the locale to the locales array in <a href="https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py">config.py</a>.  Instructions on how to pick a locale code are provided in the comments above the array.</li>
+</ol>
+</li>
+<li>
+<p>Provide translations for each language
+In each locale//LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
+msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:</p>
+
+<ul>
+<li><code>msgid "Change your password"</code></li>
+<li><code>msgstr "Cambiar tu contraseña"</code></li>
+</ul>
+</li>
+<li><p>Compile translations
+Run: <tt>pybabel compile -f -d ./locale</tt></p></li>
+</ol><p>See <a href="http://webapp-improved.appspot.com/tutorials/i18n.html">webapp2's tutorial</a> and <a href="http://babel.edgewall.org/wiki/Documentation/cmdline.html">pybabel's docs</a> for more details.</p>
+
+<p><strong>Disabling i18n</strong>
+i18n can be disabled and language options hidden.  Set locales in config.py to None or empty array [] to do this.  This may be useful to provide a performance boost or simplify sites that serve a market with only one language.
+The locale directory can be safely removed to save space if not needed but the babel and pytz directories cannot be removed without breaking code (imports and trans statements) at this time.</p>
+
+<h2>Security</h2>
+
+<p><strong>SSL</strong></p>
+
+<ul>
+<li>SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)</li>
+<li>SSL either requires a free google app engine *.appspot.com domain or a <a href="https://developers.google.com/appengine/docs/ssl">custom domain and certificate</a>
+</li>
+<li>Alternatively SSL can be enabled at a controller level via webapp2 schemes. Use the secure_scheme provided in routes.py</li>
+<li>It is recommended to enable ssl site wide to help prevent <a href="http://en.wikipedia.org/wiki/Session_hijacking">session hijacking</a>
+</li>
+</ul><p><strong>Passwords</strong></p>
+
+<ul>
+<li>passwords encrypted with SHA512 and PyCrypto</li>
+</ul><p><strong>CSRF</strong></p>
+
+<ul>
+<li>
+<a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">Cross-site request forgery</a> protection</li>
+</ul><h2>Acknowledgements</h2>
+
+<p>Google App Engine Boilerplate is a collaborative project created by <a href="https://github.com/coto">coto</a> which is bringing to you thanks to the help of
+these <a href="https://github.com/coto/gae-boilerplate/graphs/contributors?type=a">amazing people</a></p>
+
+<p><strong>Top 10: Primary contributors:</strong></p>
+
+<ul>
+<li><a href="https://github.com/tmeryu">Tmeryu</a></li>
+<li><a href="https://github.com/peta15">Peta15</a></li>
+<li><a href="https://github.com/sergue1">Sergue1</a></li>
+<li><a href="https://github.com/sabirmostofa">Sabirmostofa</a></li>
+<li><a href="https://github.com/pmanacas">Pmanacas</a></li>
+<li><a href="https://github.com/copycat91">copycat91</a></li>
+<li><a href="https://github.com/mooose">Mooose</a></li>
+<li><a href="https://github.com/f1shear">f1shear</a></li>
+<li><a href="https://github.com/presveva">presveva</a></li>
+<li><a href="https://github.com/sorced-Jim">Sorced-Jim</a></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/coto">coto</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-15733015-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
