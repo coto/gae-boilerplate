@@ -12,7 +12,7 @@
             {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-primary btn-large btn-login">{% trans %}Login{% endtrans %}</button>
+                    <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
                     <label class="remember">
                         <input type="checkbox" name="remember_me" id="remember_me" value="on">
                         {% trans %}Remember me?{% endtrans %}
@@ -25,7 +25,7 @@
             {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
             <div id="register" class="form-actions">
                 <h4>{% trans %}Don't have an account?{% endtrans %}</h4>
-               	<a href="{{ uri_for("register") }}" class="btn btn-primary btn-large btn-login">{% trans %}Sign Up{% endtrans %}</a>
+               	<a href="{{ uri_for("register") }}" class="btn btn-primary btn-login">{% trans %}Sign Up{% endtrans %}</a>
             </div>
         </fieldset>
     </form>
