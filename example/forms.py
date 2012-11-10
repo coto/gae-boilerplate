@@ -4,6 +4,8 @@ from boilerplate.external.wtforms.compat import text_type
 from webapp2_extras.i18n import lazy_gettext as _
 from boilerplate.forms import *
 from example.models import *
+from boilerplate.models import User
+
 
 """
 This form is just an example

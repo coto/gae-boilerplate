@@ -14,7 +14,5 @@ class Example(ndb.Model):
     basic_type = ndb.StringProperty(choices=['Sailing','Windsurfing'])
     sub_type = ndb.StringProperty(choices=['Level 1','Level 2','Level 3'])
 
-class User(User):
-    pass
 
 
