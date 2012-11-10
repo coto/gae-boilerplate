@@ -22,6 +22,7 @@ from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
 from google.appengine.api import taskqueue
 from google.appengine.api import users
+from github import github
 from linkedin import linkedin
 
 # local application/library specific imports
@@ -258,6 +259,12 @@ class SocialLoginHandler(BaseHandler):
                 self.session['request_token_secret']=link._request_token_secret
                 self.redirect(link.get_authorize_url())
 
+        elif provider_name == "github":
+            scope = 'gist'
+            github_helper = github.GithubAuth(self.app.config.get('github_server'), self.app.config.get('github_client_id'), \
+                                              self.app.config.get('github_client_secret'), self.app.config.get('github_redirect_uri'), scope)
+            self.redirect( github_helper.get_authorize_url() )
+
         else:
             message = _('%s authentication is not yet implemented.' % provider_display_name)
             self.add_message(message, 'warning')
@@ -329,6 +336,64 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 'or <a href="/register/">create an account</a>.' % self.app.config.get('app_name'))
                     self.add_message(message, 'warning')
                     self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+
+        # github association
+        elif provider_name == "github":
+            # get our request code back from the social login handler above
+            code = self.request.get('code')
+
+            # create our github auth object 
+            scope = 'gist'
+            github_helper = github.GithubAuth(self.app.config.get('github_server'), self.app.config.get('github_client_id'), \
+                                              self.app.config.get('github_client_secret'), self.app.config.get('github_redirect_uri'), scope)
+
+            # retrieve the access token using the code and auth object
+            access_token = github_helper.get_access_token(code)
+            user_data = github_helper.get_user_info(access_token)
+
+            if self.user:
+                # user is already logged in so we set a new association with twitter
+                user_info = models.User.get_by_id(long(self.user_id))
+                if models.SocialUser.check_unique(user_info.key, 'github', str(user_data['login'])):
+                    social_user = models.SocialUser(
+                        user = user_info.key,
+                        provider = 'github',
+                        uid = str(user_data['login']),
+                        extra_data = user_data
+                    )
+                    social_user.put()
+
+                    message = _('Github association added.')
+                    self.add_message(message, 'success')
+                else:
+                    message = _('This Github account is already in use.')
+                    self.add_message(message, 'error')
+                self.redirect_to('edit-profile')
+            else:
+                # user is not logged in, but is trying to log in via github
+                social_user = models.SocialUser.get_by_provider_and_uid('github', str(user_data['login']))
+                if social_user:
+                    # Social user exists. Need authenticate related site account
+                    user = social_user.user.get()
+                    self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+                    logVisit = models.LogVisit(
+                        user = user.key,
+                        uastring = self.request.user_agent,
+                        ip = self.request.remote_addr,
+                        timestamp = utils.get_date_time()
+                    )
+                    logVisit.put()
+                    self.redirect_to('home')
+                else:
+                    # Social user does not exists. Need show login and registration forms!
+                    login_url = '%s/login/'  % self.request.host_url
+                    signup_url = '%s/register/' %  self.request.host_url                    
+                    message = _('This Github account is not associated with any local account. '
+                                'If you already have a %s Account, you can <a href=""%s>sign in here</a> '
+                                'or <a href="%s">create an account</a>.' % (self.app.config.get('app_name'), login_url, signup_url))
+                    self.add_message(message,'info')
+                    self.redirect_to('login')
+        #end github
 
         # facebook association
         elif provider_name == "facebook":
