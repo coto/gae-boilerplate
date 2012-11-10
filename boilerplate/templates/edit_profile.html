@@ -35,7 +35,9 @@
 	                        {% for provider in used_providers %}
 	                            <tr>
 	                                <td><a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a></td>
-	                                <td><a href="/social_login/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+	                                {% if used_providers|length > 1 or local_account %}
+                                    <td><a href="/social_login/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+                                    {% endif %}
 	                            </tr>
 	                        {% endfor %}
 	                    </table>
