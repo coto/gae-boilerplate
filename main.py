@@ -34,11 +34,8 @@ webapp2_config.update(config.config)
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=webapp2_config)
 
-app.error_handlers[403] = handle_error
-app.error_handlers[404] = handle_error
-if not app.debug:
-    app.error_handlers[500]    = handle_error
-    app.config['send_mail_developer'] = False
+for status_int in app.config['error_templates']:
+    app.error_handlers[status_int] = handle_error
 
 routes.add_routes(app)
 boilerplate_routes.add_routes(app)

@@ -1,6 +1,6 @@
 """
 This is the boilerplate default configuration file.
-Changes and additions to settings should be done in config.py
+Changes and additions to settings should be done in the config module
 located in the application root rather than this config.
 """
 config = {
@@ -71,6 +71,9 @@ config = {
 'google_analytics_domain' : "YOUR_PRIMARY_DOMAIN (e.g. google.com)",
 'google_analytics_code' : "UA-XXXXX-X",
 
+# add status codes and templates used to catch and display errors
+# if a status code is not listed here it will use the default app engine
+# stacktrace error page or browser error page
 'error_templates' : {
     403: 'errors/default_error.html',
     404: 'errors/default_error.html',
