@@ -16,8 +16,9 @@
 __author__ = 'Kord Campbell'
 __website__ = 'http://www.tinyprobe.com'
 
+try: import simplejson as json
+except ImportError: import json
 import oauth_client as oauth2
-import simplejson
 import logging
 
 # Github OAuth Implementation
@@ -77,4 +78,4 @@ class GithubAuth(object):
             access_token=access_token,
             token_param='access_token'
         )
-        return simplejson.loads(body)
+        return json.loads(body)
