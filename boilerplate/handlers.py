@@ -291,11 +291,11 @@ class CallbackSocialLoginHandler(BaseHandler):
             if self.user:
                 # new association with twitter
                 user_info = models.User.get_by_id(long(self.user_id))
-                if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['id'])):
+                if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['user_id'])):
                     social_user = models.SocialUser(
                         user = user_info.key,
                         provider = 'twitter',
-                        uid = str(user_data['id']),
+                        uid = str(user_data['user_id']),
                         extra_data = user_data
                     )
                     social_user.put()
