@@ -241,31 +241,15 @@ class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
     def provider_uris(self):
-        from google.appengine.api import users
-        try:
-            provider_info = models.SocialUser.PROVIDERS_INFO
-            login_urls = {}
-            continue_url = self.request.get('continue_url')
-            for provider in provider_info:
-                provider_uri = provider_info[provider]['uri']
-                if provider_uri:
-                    if continue_url:
-                        dest_url=self.uri_for('social-login-complete', provider_name=provider, continue_url=continue_url)
-                    else:
-                        dest_url=self.uri_for('social-login-complete', provider_name=provider)
-                    login_urls[provider] = users.create_login_url(federated_identity=provider_uri, dest_url=dest_url)
-                else:
-                    if continue_url:
-                        login_url = self.uri_for("social-login", provider_name=provider, continue_url=continue_url)
-                    else:
-                        login_url = self.uri_for("social-login", provider_name=provider)
-                    login_urls[provider] = login_url
-            return login_urls
-        except NotAllowedError:
-            self.response.write('<p class="alert alert-error"><a class="close" data-dismiss="alert">x</a> '
-                                'You must enable Federated Login Before for this application.<br> '
-                                '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
-                                'Administration -> Application Settings -> Authentication Options</p>')
+        login_urls = {}
+        continue_url = self.request.get('continue_url')
+        for provider in self.provider_info:
+            if continue_url:
+                login_url = self.uri_for("social-login", provider_name=provider, continue_url=continue_url)
+            else:
+                login_url = self.uri_for("social-login", provider_name=provider)
+            login_urls[provider] = login_url
+        return login_urls
 
     @webapp2.cached_property
     def provider_info(self):

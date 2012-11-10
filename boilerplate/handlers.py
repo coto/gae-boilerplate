@@ -233,7 +233,7 @@ class SocialLoginHandler(BaseHandler):
     """
 
     def get(self, provider_name):
-        provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+        provider = self.provider_info[provider_name]
 
         if not self.app.config.get('enable_federated_login'):
             message = _('Federated login is disabled.')
@@ -258,10 +258,25 @@ class SocialLoginHandler(BaseHandler):
                 self.session['request_token_secret']=link._request_token_secret
                 self.redirect(link.get_authorize_url())
 
+        elif provider_name in models.SocialUser.open_id_providers():
+            continue_url = self.request.get('continue_url')
+            if continue_url:
+                dest_url=self.uri_for('social-login-complete', provider_name=provider_name, continue_url=continue_url)
+            else:
+                dest_url=self.uri_for('social-login-complete', provider_name=provider_name)
+            try:
+                login_url = users.create_login_url(federated_identity=provider['uri'], dest_url=dest_url)
+                self.redirect(login_url)
+            except users.NotAllowedError:
+                self.add_message('You must enable Federated Login Before for this application.<br> '
+                                '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
+                                'Administration -> Application Settings -> Authentication Options', 'error')
+                self.redirect_to('login')
+
         else:
-            message = _('%s authentication is not yet implemented.' % provider_display_name)
+            message = _('%s authentication is not yet implemented.' % provider.get('label'))
             self.add_message(message, 'warning')
-            self.redirect_to('edit-profile')
+            self.redirect_to('login')
 
 
 class CallbackSocialLoginHandler(BaseHandler):
