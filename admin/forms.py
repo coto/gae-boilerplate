@@ -7,7 +7,6 @@ from example.models import *
 from boilerplate.models import User
 
 
-
 class AdminUserForm(EditProfileForm):
     activated = fields.BooleanField('Activated')
     list_columns=[('username', 'Username'),
