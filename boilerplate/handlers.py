@@ -581,13 +581,18 @@ class DeleteSocialProviderHandler(BaseHandler):
     def get(self, provider_name):
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
-            if social_user:
-                social_user.key.delete()
-                message = _('%s successfully disassociated.' % provider_name)
-                self.add_message(message, 'success')
+            if len(user_info.get_social_providers_info()['used']) > 1 or (user_info.password is not None):
+                social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
+                if social_user:
+                    social_user.key.delete()
+                    message = _('%s successfully disassociated.' % provider_name)
+                    self.add_message(message, 'success')
+                else:
+                    message = _('Social account on %s not found for this user.' % provider_name)
+                    self.add_message(message, 'error')
             else:
-                message = _('Social account on %s not found for this user.' % provider_name)
+                message = ('Social account on %s cannot be deleted for user.' 
+                            '  Please create a username and password to delete social account.' % provider_name)
                 self.add_message(message, 'error')
         self.redirect_to('edit-profile')
 
