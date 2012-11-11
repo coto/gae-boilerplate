@@ -151,6 +151,11 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
                         "This Twitter account is not associated with any local account.")
         self.assert_user_not_logged_in()
  
+    def test_login_twitter_add_association(self):
+        self.register_activate_login_testuser()
+        response = self._test_login_twitter()
+        self.assert_success_message_in_response(response, 'Twitter association added.')
+
     def test_login_twitter(self):
         user = self.register_activate_testuser()
         models.SocialUser(user=user.key, provider='twitter', uid='7588892').put()
