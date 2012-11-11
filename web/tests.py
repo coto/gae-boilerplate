@@ -22,7 +22,7 @@ from mock import patch
 
 import boilerplate
 from boilerplate import models
-from boilerplate import base_config as boilerplate_config
+from boilerplate import config as boilerplate_config
 import config
 from boilerplate import routes
 from boilerplate import routes as boilerplate_routes
