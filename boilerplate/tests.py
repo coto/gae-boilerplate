@@ -80,7 +80,6 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         response = self.get('/')
         self.assertIn('Congratulations on your Google App Engine Boilerplate powered page.', response)
 
-    @unittest.skip('FIXME: performance regression')
     def test_homepage_has_no_calls_create_login_url(self):
         with patch('google.appengine.api.users.create_login_url') as create_login_url:
             self.get('/')            
