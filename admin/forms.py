@@ -13,6 +13,7 @@ class AdminUserForm(EditProfileForm):
                   ('last_name', 'Last Name'),
                   ('email', 'E-Mail'),
                   ('country', 'Country')]
+    search_list=['last_name','username','email']
 
 
 

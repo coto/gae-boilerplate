@@ -17,7 +17,7 @@
         <input type="text" name="q" value="{{ q or '' }}" class="input-medium search-query" placeholder="search {{ class_name }}"></input>
         <button type="submit" title="Search"><i class="icon-search"></i></button>
         {% if q %}
-        <a href="{{ uri_for('{{ class_name.lower()}}-list') }}" class="clear">×</a>
+        <a href="{{ uri_for('%s-list'%class_name.lower()) }}" class="clear">×</a>
         {% endif %}
     </form>
     <ul class="nav pull-right">
@@ -51,10 +51,44 @@
         </td>
         {% endfor %}
         <td>
-            <a class="icon" href="{{ uri_for('%s-delete'%class_name.lower(), id=user.key.urlsafe()) }}"><i class="icon-remove-circle"></i></a>
+            <div class="delete" id="{{ user.key.urlsafe() }}"><i class="icon-remove-circle"></i></div>
         </td>
     </tr>
     {% endfor %}
 </table>
 {{ lib.render_pager() }}
+{% endblock %}
+{% block mediaJS %}
+    <script type='text/javascript'>
+        $(".delete").click(function(){
+            var form= document.createElement('form');
+            form.method= 'post';
+            form.action= window.location.href;
+            var input= document.createElement('input');
+
+            input.type= 'hidden';
+            input.name= '_csrf_token';
+            input.value= "{{ csrf_token() }}";
+            form.appendChild(input);
+
+            input= document.createElement('input');
+            input.type= 'hidden';
+            input.name= 'id';
+            input.value= this.id;
+            form.appendChild(input);
+
+            input= document.createElement('input');
+            input.type= 'hidden';
+            input.name= 'action';
+            input.value= 'delete';
+            form.appendChild(input);
+
+
+
+            document.body.appendChild(form);
+
+            form.submit();
+            return false;
+        })
+    </script>
 {% endblock %}

@@ -23,9 +23,6 @@ for model in models:
     redirect_list.append(RedirectRoute('/%s/add/'%model['class'].__name__.lower(), handlers.Edit, name='%s-add'%model['class'].__name__.lower(),
         handler_method='add',strict_slash=True,defaults={'_class':model['class'],'_form_class':model['admin_form']}))
 
-    redirect_list.append(RedirectRoute('/%s/delete/<id>'%model['class'].__name__.lower(), handlers.Edit, name='%s-delete'%model['class'].__name__.lower(),
-        handler_method='delete',strict_slash=True,defaults={'_class':model['class'],'_form_class':model['admin_form']}))
-
     redirect_list.append(RedirectRoute('/%s/<id>/'%model['class'].__name__.lower(), handlers.Edit, name='%s-edit'%model['class'].__name__.lower(),
         handler_method='edit',strict_slash=True,defaults={'_class':model['class'],'_form_class':model['admin_form']}))
 

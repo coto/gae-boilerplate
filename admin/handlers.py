@@ -2,6 +2,7 @@
 from boilerplate.handlers import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
+from google.appengine.ext.ndb.query import FilterNode
 from collections import OrderedDict
 from boilerplate.external.wtforms import fields
 import logging
@@ -15,6 +16,12 @@ import routes
 class List(BaseHandler):
     model_class=None
     form_class=None
+    def post(self,*args,**kwargs):
+        action= self.request.get("action")
+        id = self.request.get("id")
+        user = ndb.Key(urlsafe=id)
+        user.delete()
+        self.get(*args,**kwargs)
 
     def get(self,*args,**kwargs):
         self.model_class=kwargs['_class']
@@ -24,11 +31,13 @@ class List(BaseHandler):
         c = self.request.get('c')
         forward = True if p not in ['prev'] else False
         cursor = Cursor(urlsafe=c)
-
+        from google.appengine.ext.ndb.query import Node
         if q:
-            qry = self.model_class.query(ndb.OR(self.model_class.last_name == q,
-                                           self.model_class.email == q,
-                                           self.model_class.username == q))
+            nodes=[]
+            for search in self.form_class.search_list:
+                nodes.append(FilterNode(search,'=',q))
+            qry = self.model_class.query(ndb.OR(*nodes))
+
         else:
             qry = self.model_class.query()
 
@@ -54,7 +63,7 @@ class List(BaseHandler):
                 params['p'] = p
             if cursor:
                 params['c'] = cursor.urlsafe()
-            return self.uri_for('user-list', **params)
+            return self.uri_for('%s-list'%self.model_class.__name__, **params)
 
         self.view.pager_url = pager_url
         self.view.q = q
@@ -84,24 +93,35 @@ class Edit(BaseHandler):
             pass
         self.abort(404)
 
-    def delete (self, id,  *args, **kwargs):
-        self.model_class=kwargs['_class']
-        self.form_class=kwargs['_form_class']
-        user = ndb.Key(urlsafe=id)
-        user.delete()
-        return self.redirect_to("%s-list"%self.model_class.__name__.lower())
 
 
     def add (self, *args, **kwargs):
         self.model_class=kwargs['_class']
         self.form_class=kwargs['_form_class']
-        user=self.model_class()
-        user.put()
-        logger.warn("The key:%s "%user.key.urlsafe())
-        return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), id=user.key.urlsafe())
+        self.form=self.form_class(self)
+
+        #user=self.model_class()
+        #user.put()
+        if self.request.POST:
+
+            user =self.model_class()
+            user.put()
+            if self.form.validate():
+                self.form.populate_obj(user)
+                user.put()
+                self.add_message("Changes saved!", 'success')
+                return self.redirect_to("%s-edit"%self.model_class.__name__.lower(), id=user.key.urlsafe())
+            else:
+                self.add_message("Could not save changes!", 'error')
+
+        params = {
+            'user' : None,
+            'pretty_name': self.model_class.__name__
+        }
+        return self.render_template('admin/edit.html', **params)
 
     def edit(self, id,*args,**kwargs):
-
+        user = None
         self.model_class=kwargs['_class']
         self.form_class=kwargs['_form_class']
         self.form=self.form_class(self)

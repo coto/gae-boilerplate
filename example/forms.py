@@ -144,4 +144,4 @@ class AdminExampleForm(BaseForm):
                   ('end_date', 'End Date'),
                   ('basic_type', 'Type'),
                   ('sub_type', 'Sub Type')]
-
+    search_list=['user_name','basic_type','sub_type']
