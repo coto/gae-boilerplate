@@ -80,6 +80,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def tearDown(self):
         self.testbed.deactivate()
 
+    def test_config_environment(self):
+        self.assertEquals(self.app.config.get('environment'), 'testing')
 
 class ModelTest(unittest.TestCase):
     def setUp(self):
