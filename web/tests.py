@@ -22,7 +22,7 @@ from mock import patch
 
 import boilerplate
 from boilerplate import models
-from boilerplate import base_config as boilerplate_config
+from boilerplate import config as boilerplate_config
 import config
 from boilerplate import routes
 from boilerplate import routes as boilerplate_routes
@@ -80,6 +80,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def tearDown(self):
         self.testbed.deactivate()
 
+    def test_config_environment(self):
+        self.assertEquals(self.app.config.get('environment'), 'testing')
 
 class ModelTest(unittest.TestCase):
     def setUp(self):
