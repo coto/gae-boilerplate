@@ -24,7 +24,7 @@ import boilerplate
 from boilerplate import models
 from boilerplate import routes
 from boilerplate import routes as boilerplate_routes
-from boilerplate import base_config as boilerplate_config
+from boilerplate import config as boilerplate_config
 from boilerplate.lib import utils
 from boilerplate.lib import captcha
 from boilerplate.lib import i18n
