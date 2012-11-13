@@ -128,12 +128,12 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_login_openid_add_association(self):
         response = self._login_openid('google', 'http://www.google.com/accounts/123')
-        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_success_message_in_response(response, 'Welcome!  You have been registered as a new user')
         self.assert_user_logged_in()
 
     def test_login_openid_with_email_add_association(self):
         response = self._login_openid('google', 'http://www.google.com/accounts/123', 'testuser@example.com')
-        self.assert_success_message_in_response(response, 'association successfully added.')
+        self.assert_success_message_in_response(response, 'Welcome!  You have been registered as a new user')
         self.assert_user_logged_in()
         user = models.User.query().get()
         self.assertEqual('testuser@example.com', user.email)
@@ -146,9 +146,8 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_login_twitter_no_association(self):
         response = self._test_login_twitter()
-        self.assert_warning_message_in_response(response,
-                        "This Twitter account is not associated with any local account.")
-        self.assert_user_not_logged_in()
+        self.assert_success_message_in_response(response, "Welcome!  You have been registered as a new user")
+        self.assert_user_logged_in()
  
     def test_login_twitter_add_association(self):
         self.register_activate_login_testuser()
