@@ -16,7 +16,7 @@ from google.appengine.ext import testbed
 import webapp2
 
 
-from boilerplate import base_config as boilerplate_config
+from boilerplate import config as boilerplate_config
 from boilerplate.lib import i18n
 
 class I18nTest(unittest.TestCase):    

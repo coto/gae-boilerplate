@@ -614,7 +614,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                                 auth_id, activated=True
                             )
                         if not user_info[0]: #user is a tuple
-                            message = _('The account %s is already in use.' % provider_display_name)
+                            message = _('The %s account is already in use.' % provider_display_name)
                             self.add_message(message, 'error')
                             return self.redirect_to('register')
 
