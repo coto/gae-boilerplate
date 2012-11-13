@@ -303,6 +303,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             twitter_helper = twitter.TwitterAuth(self)
             user_data = twitter_helper.auth_complete(oauth_token,
                 oauth_verifier)
+            logging.info('twitter user_data: ' + str(user_data))
             if self.user:
                 # new association with twitter
                 user_info = models.User.get_by_id(long(self.user_id))
@@ -344,13 +345,9 @@ class CallbackSocialLoginHandler(BaseHandler):
                     else:
                         self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms
-                    twitter_helper.save_association_data(user_data)
-                    message = _('This Twitter account is not associated with any local account. '
-                                'If you already have a %s Account, you have <a href="/login/">sign in here</a> '
-                                'or <a href="/register/">create an account</a>.' % self.app.config.get('app_name'))
-                    self.add_message(message, 'warning')
-                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+                    uid = str(user_data['user_id'])
+                    email = str(user_data.get('email'))
+                    self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
 
         # github association
         elif provider_name == "github":
@@ -365,7 +362,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             # retrieve the access token using the code and auth object
             access_token = github_helper.get_access_token(code)
             user_data = github_helper.get_user_info(access_token)
-
+            logging.info('github user_data: ' + str(user_data))
             if self.user:
                 # user is already logged in so we set a new association with twitter
                 user_info = models.User.get_by_id(long(self.user_id))
@@ -400,14 +397,9 @@ class CallbackSocialLoginHandler(BaseHandler):
                     logVisit.put()
                     self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms!
-                    login_url = '%s/login/'  % self.request.host_url
-                    signup_url = '%s/register/' %  self.request.host_url                    
-                    message = _('This Github account is not associated with any local account. '
-                                'If you already have a %s Account, you can <a href=""%s>sign in here</a> '
-                                'or <a href="%s">create an account</a>.' % (self.app.config.get('app_name'), login_url, signup_url))
-                    self.add_message(message,'info')
-                    self.redirect_to('login')
+                    uid = str(user_data['id'])
+                    email = str(user_data.get('email'))
+                    self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
         #end github
 
         # facebook association
@@ -418,6 +410,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
+            logging.info('facebook user_data: ' + str(user_data))
             if self.user:
                 # new association with facebook
                 user_info = models.User.get_by_id(long(self.user_id))
@@ -459,14 +452,9 @@ class CallbackSocialLoginHandler(BaseHandler):
                     else:
                         self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms
-
-                    self.session['facebook']=json.dumps(user_data)
-                    login_url = '%s/login/'  % self.request.host_url
-                    signup_url = '%s/register/' %  self.request.host_url
-                    message = _('The Facebook account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
-                    self.add_message(message,'info')
-                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+                    uid = str(user_data['id'])
+                    email = str(user_data.get('email'))
+                    self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
 
             # end facebook
         # association with linkedin
@@ -485,6 +473,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             user_key = re.search(r'key=(\d+)', u_data.private_url).group(1)
             user_data={'first_name':u_data.first_name, 'last_name':u_data.last_name ,'id':user_key}
             self.session['linkedin'] = json.dumps(user_data)
+            logging.info('linkedin user_data: ' + str(user_data))
 
             if self.user:
                 # new association with linkedin
@@ -527,13 +516,9 @@ class CallbackSocialLoginHandler(BaseHandler):
                     else:
                         self.redirect_to('home')
                 else:
-                    # Social user does not exists. Need show login and registration forms
-                    self.session['linkedin'] = json.dumps(user_data)
-                    login_url = '%s/login/'  % self.request.host_url
-                    signup_url = '%s/register/' %  self.request.host_url
-                    message = _('The Linkedin account isn\'t associated with any local account. If you already have a Google App Engine Boilerplate Account, you have <a href="%s">sign in here</a> or <a href="%s">Create an account</a>') % (login_url, signup_url)
-                    self.add_message(message,'info')
-                    self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+                    uid = str(user_data['id'])
+                    email = str(user_data.get('email'))
+                    self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
 
             #end linkedin
 
@@ -594,63 +579,70 @@ class CallbackSocialLoginHandler(BaseHandler):
                     else:
                         self.redirect_to('home')
                 else:
-                    # Social user does not exist yet so create it with the federated identity provided (uid)
-                    # and create prerequisite user and log the user account in
-                    if models.SocialUser.check_unique_uid(provider_name, uid):
-                        # create user
-                        # Returns a tuple, where first value is BOOL.
-                        # If True ok, If False no new user is created
-                        # Assume provider has already verified email address
-                        # if email is provided so set activated to True
-                        auth_id = "%s:%s" % (provider_name, uid)
-                        if email:
-                            unique_properties = ['email']
-                            user_info = self.auth.store.user_model.create_user(
-                                auth_id, unique_properties, email=email,
-                                activated=True
-                            )
-                        else:
-                            user_info = self.auth.store.user_model.create_user(
-                                auth_id, activated=True
-                            )
-                        if not user_info[0]: #user is a tuple
-                            message = _('The %s account is already in use.' % provider_display_name)
-                            self.add_message(message, 'error')
-                            return self.redirect_to('register')
-
-                        user = user_info[1]
-
-                        # create social user and associate with user
-                        social_user = models.SocialUser(
-                            user = user.key,
-                            provider = provider_name,
-                            uid = uid
-                        )
-                        social_user.put()
-                        # authenticate user
-                        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                        logVisit = models.LogVisit(
-                            user = user.key,
-                            uastring = self.request.user_agent,
-                            ip = self.request.remote_addr,
-                            timestamp = utils.get_date_time()
-                        )
-                        logVisit.put()
-
-                        message = _('%s association successfully added.' % provider_display_name)
-                        self.add_message(message, 'success')
-                    else:
-                        message = _('This %s account is already in use.' % provider_display_name)
-                        self.add_message(message, 'error')
-                    if continue_url:
-                        self.redirect(continue_url)
-                    else:
-                        self.redirect_to('edit-profile')
+                    self.create_account_from_social_provider(provider_name, uid, email, continue_url)
         else:
             message = _('This authentication method is not yet implemented.')
             self.add_message(message, 'warning')
             self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
 
+    def create_account_from_social_provider(self, provider_name, uid, email=None, continue_url=None, user_data=None):
+        """Social user does not exist yet so create it with the federated identity provided (uid)
+        and create prerequisite user and log the user account in
+        """
+        provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
+        if models.SocialUser.check_unique_uid(provider_name, uid):
+            # create user
+            # Returns a tuple, where first value is BOOL.
+            # If True ok, If False no new user is created
+            # Assume provider has already verified email address
+            # if email is provided so set activated to True
+            auth_id = "%s:%s" % (provider_name, uid)
+            if email:
+                unique_properties = ['email']
+                user_info = self.auth.store.user_model.create_user(
+                    auth_id, unique_properties, email=email,
+                    activated=True
+                )
+            else:
+                user_info = self.auth.store.user_model.create_user(
+                    auth_id, activated=True
+                )
+            if not user_info[0]: #user is a tuple
+                message = _('The account %s is already in use.' % provider_display_name)
+                self.add_message(message, 'error')
+                return self.redirect_to('register')
+
+            user = user_info[1]
+
+            # create social user and associate with user
+            social_user = models.SocialUser(
+                user = user.key,
+                provider = provider_name,
+                uid = uid,
+            )
+            if user_data:
+                social_user.extra_data = user_data
+                self.session[provider_name] = json.dumps(user_data) # TODO is this needed?
+            social_user.put()
+            # authenticate user
+            self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+            logVisit = models.LogVisit(
+                user = user.key,
+                uastring = self.request.user_agent,
+                ip = self.request.remote_addr,
+                timestamp = utils.get_date_time()
+            )
+            logVisit.put()
+
+            message = _('Welcome!  You have been registered as a new user through %s and logged in.' % provider_display_name)
+            self.add_message(message, 'success')
+        else:
+            message = _('This %s account is already in use.' % provider_display_name)
+            self.add_message(message, 'error')
+        if continue_url:
+            self.redirect(continue_url)
+        else:
+            self.redirect_to('edit-profile')
 
 class DeleteSocialProviderHandler(BaseHandler):
     """
