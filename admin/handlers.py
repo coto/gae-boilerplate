@@ -63,7 +63,7 @@ class List(BaseHandler):
                 params['p'] = p
             if cursor:
                 params['c'] = cursor.urlsafe()
-            return self.uri_for('%s-list'%self.model_class.__name__, **params)
+            return self.uri_for('%s-list'%self.model_class.__name__.lower(), **params)
 
         self.view.pager_url = pager_url
         self.view.q = q
