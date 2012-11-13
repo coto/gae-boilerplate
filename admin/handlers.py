@@ -105,7 +105,6 @@ class Edit(BaseHandler):
         if self.request.POST:
 
             user =self.model_class()
-            user.put()
             if self.form.validate():
                 self.form.populate_obj(user)
                 user.put()
