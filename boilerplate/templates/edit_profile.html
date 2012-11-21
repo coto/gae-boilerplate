@@ -5,28 +5,29 @@
 {% endblock %}
 
 {% block content %}
-
-    <form id="form_edit_profile" action="{{ url|safe }}" method="post" class="well form-horizontal">
+    <div id="edit_profile" class="well form-horizontal">
         <fieldset>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
-            {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
-            {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
-            {{ macros.field(form.country, label=_("Country")) }}
-            <div class="control-group">
-                <label class="control-label">{% trans %}Email{% endtrans %}:</label>
-                <div class="controls">
-                    {{ email }} (<a href="{{ uri_for('edit-email') }}">{% trans %}Change your email{% endtrans %}</a>)
+            <form id="form_edit_profile" action="{{ url|safe }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter your")+" "+_("Username"), class="input-xlarge focused required") }}
+                {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused") }}
+                {{ macros.field(form.last_name, label=_("Last Name"), placeholder=_("Enter your")+" "+_("Last Name"), class="input-xlarge focused") }}
+                {{ macros.field(form.country, label=_("Country")) }}
+                <div class="control-group">
+                    <label class="control-label">{% trans %}Email{% endtrans %}:</label>
+                    <div class="controls">
+                        {{ email }} (<a href="{{ uri_for('edit-email') }}">{% trans %}Change your email{% endtrans %}</a>)
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <a href="{{ uri_for("edit-password") }}">{% trans %}Change your password{% endtrans %}</a>
+                <div class="control-group">
+                    <div class="controls">
+                        <a href="{{ uri_for("edit-password") }}">{% trans %}Change your password{% endtrans %}</a>
+                    </div>
                 </div>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
-            </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
+                </div>
+            </form>
             {% if enable_federated_login %}
 	            {% if used_providers %}
 	                <div id="trird_party_login" class="existing-accociation">
@@ -36,7 +37,12 @@
 	                            <tr>
 	                                <td><a href="#" class="social-btn social-btn-{{ provider.name }}" title="{{ provider.label }}"></a></td>
 	                                {% if used_providers|length > 1 or local_account %}
-                                    <td><a href="/social_login/{{ provider.name }}/delete" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</a></td>
+                                    <td>
+                                        <form id="delete_social" action="/social_login/{{ provider.name }}/delete" method="post"  provider="{{provider.name}}" >
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                            <button class="btn btn-danger" type="submit"><i class="icon-trash icon-white"></i>&nbsp;{% trans %}Remove{% endtrans %}</button>
+                                        </form>
+                                    </td>
                                     {% endif %}
 	                            </tr>
 	                        {% endfor %}
@@ -55,7 +61,7 @@
 	            {% endif %}
             {% endif %}
         </fieldset>
-    </form>
+    </div>
 
 {% endblock %}
 
