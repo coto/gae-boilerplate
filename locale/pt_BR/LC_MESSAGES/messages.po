@@ -1,0 +1,398 @@
+# Portugues (Brasil) translations for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-08-12 16:24-0400\n"
+"PO-Revision-Date: 2012-06-21 01:50-0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#, python-format
+msgid "%s Account Verification"
+msgstr "%s Verificação de Conta"
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr "%s Notificação de Email Alterado"
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr "%s Ajuda de Senha"
+
+#, python-format
+msgid "%s association successfully added."
+msgstr "%s associação adicionada com sucesso."
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr "%s autenticação ainda não está implementada."
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr "%s desassociação com sucesso."
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
+msgstr ""
+"<a href=\"http://browsehappy.com/\">Atualize para um browser diferente</a>\n"
+"    \tou <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tisntale Google Chrome Frame</a> para usar este site."
+
+msgid "Associate account with"
+msgstr "Associar conta com"
+
+msgid "Change password"
+msgstr "Alterar senha"
+
+msgid "Change your email"
+msgstr "Alterar seu email"
+
+msgid "Change your password"
+msgstr "Alterar sua senha"
+
+msgid "Confirm Password"
+msgstr "Confirme a Senha"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Parabéns pela sua página movida a Google App Engine Boilerplate."
+
+#, python-format
+msgid ""
+"Congratulations, Your account %s has been successfully "
+"activated.<strong>{0:>s}</strong>"
+msgstr "Parabéns, sua conta %s foi ativada com sucesso.<strong>{0:>s}</strong>"
+
+msgid "Contact"
+msgstr "Contato"
+
+msgid "Country"
+msgstr "País"
+
+msgid "Current Password"
+msgstr "Senha Atual"
+
+msgid "Edit Profile"
+msgstr "Editar perfil"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Enter a new email address"
+msgstr "Informe um novo endereço de email"
+
+msgid "Enter your"
+msgstr "Etnre seu"
+
+msgid "Error sending the message. Please try again later."
+msgstr "Erro ao enviar mensagem. Por favor, tente novamente mais tarde."
+
+msgid "Existing social association"
+msgstr "Associação social existente"
+
+msgid "Federated login is disabled."
+msgstr "Login federado está desabilitado."
+
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Googla App Engine Boilerplate foi lançado sob a"
+
+msgid "If the e-mail address you entered"
+msgstr "Se o endereço de email informado"
+
+msgid "If the username you entered"
+msgstr "Se o username informado"
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr ""
+"Senha inválida! Por favor informe sua senha atual para alterar as "
+"preferências da conta."
+
+msgid "Invalid email address."
+msgstr "Endereço de email inválido"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Last Name"
+msgstr "Sobrenome"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Entenda por que esse Boilerplate detona"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "New Email"
+msgstr "Novo Email"
+
+msgid "New Password"
+msgstr "Nova Senha"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+"Nenhuma informação de autenticação de usuário recebida de %s. Por favor verifique "
+"se você está se logando a partir de um provedor OpenID autorizado."
+
+msgid "Or Sign in using:"
+msgstr "Ou entre usando:"
+
+msgid "Password"
+msgstr "Senha"
+
+msgid "Password changed successfully."
+msgstr "Senha atualizada com sucesso."
+
+msgid "Passwords must match."
+msgstr "Senhas devem coincidir."
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+"Por favor verifique seu novo email de confirmação. Seu email será atualizado "
+"depois da confirmação."
+
+msgid "Remember me?"
+msgstr "Lembra-se de mim?"
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "Reset password"
+msgstr "Resetar senha"
+
+msgid "Secure Page"
+msgstr "Página Segura"
+
+msgid "Send Message"
+msgstr "Enviar Mensagem"
+
+msgid "Sign Up"
+msgstr "Se Cadastrar"
+
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr "Conta social em %s não encontrada para este usuário."
+
+msgid "Sorry you are not logged in."
+msgstr "Desculpe mas você não está logado."
+
+msgid "Sorry, Some error occurred."
+msgstr "Desculpe, aconteceu um erro."
+
+#, python-format
+msgid "Sorry, The email %s is already registered.<strong>{0:>s}</strong>"
+msgstr "Desculpe, o email %s já foi registrado.<strong>{0:>s}</strong>"
+
+msgid "Sorry, The user is already registered."
+msgstr "Desculpe, este usuário já foi registrado."
+
+#, python-format
+msgid "Sorry, The username %s is already registered.<strong>{0:>s}</strong>"
+msgstr "Desculpe, o usuário %s já foi registrado.<strong>{0:>s}</strong>"
+
+msgid "Source Code"
+msgstr "Código Fonte"
+
+msgid "Thanks, your settings have been saved."
+msgstr "Obrigado, suas configurações foram salvas."
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr "A URL que você tentou acessar está incorreta ou não é mais válida."
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+"A URL que você tentou acessar está incorreta ou não é mais válida. Informe "
+"seus detalhes abaixo novamente para conseguir uma nova."
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr "A conta %s já está em uso."
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr "O email %s já foi registrado."
+
+msgid "The two passwords must match."
+msgstr "As duas senhas devem coincidir."
+
+#, python-format
+msgid ""
+"The username %s is already taken. Please choose "
+"another.<strong>{0:>s}</strong>"
+msgstr ""
+"O username %s já foi usado. Por favor escolha outro.<strong>{0:>s}</strong>"
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+"O email de verificação foi reenviado %s. Por favor verifique seus emails para "
+"ativar a sua conta."
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr "Esta conta %s já está em uso."
+
+msgid "This Twitter account is already in use."
+msgstr "Esta conta do Twitter já está em uso."
+
+#, python-format
+msgid ""
+"This Twitter account is not associated with any local account. If you "
+"already have a %s Account, you have <a href=\"/login/\">sign in here</a> "
+"or <a href=\"/register/\">create an account</a>."
+msgstr ""
+"Esta conta do Twitter não está associada com nenhuma conta local. Se você "
+"já tem a conta %s, você tem que <a href=\"/login/\">entrar aqui</a> "
+"ou <a href=\"/register/\">criar uma nova conta</a>."
+
+msgid "This authentication method is not yet implemented."
+msgstr "Este método de autenticação ainda não foi implementado."
+
+msgid "Twitter association added."
+msgstr "Associação com Twitter adicionada."
+
+msgid "Unable to update profile. Please try again later."
+msgstr "Impossível atualizar perfil. Por favor tente novamente mais tarde."
+
+#, python-format
+msgid "Unexpected error creating the user %s{0:>s}."
+msgstr "Erro inexperado ao criar usuário %s{0:>s}."
+
+msgid "Update Profile"
+msgstr "Atualizar Perfil"
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr "Usuário não está logado, porém houve um erro de redirecionamento."
+
+msgid "Username"
+msgstr "Usuário"
+
+msgid "Username invalid. Use only letters and numbers."
+msgstr "Usuário inválido. Use somente letras e números."
+
+msgid "Username or Email"
+msgstr "Usuário e Email"
+
+#, python-format
+msgid "Welcome %s, you are now logged in.<strong>{0:>s}</strong>"
+msgstr "Bem vindo %s, você está logado.<strong>{0:>s}</strong>"
+
+msgid "Wrong image verification code. Please try again."
+msgstr "Código de verificação de imagem inválido. Por favor tente novamente."
+
+msgid "You didn't change your email."
+msgstr "Você não alterou seu email."
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+"Você foi registrado com sucesso. Por favor check seu email para ativar "
+"ativar sua conta."
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenId providers too if you logged in on a public computer."
+msgstr ""
+"Seu registro foi cancelado com sucesso. Aviso: Por favor limpe todos os cookies "
+" e faça logout dos provedores OpenID também se estiver logado através de "
+"um computador público."
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr ""
+"Sua conta foi ativada. Por favor <a href=\"/login/\">entre</a> na sua conta."
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
+"Sua conta ainda não foi ativada. Por favor verifique seu email para "
+"ativação ou"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Seu browser é <em>pré-histórico!</em>"
+
+msgid "Your email has been successfully updated."
+msgstr "Seu email foi atualizado com sucesso."
+
+msgid "Your message was sent successfully."
+msgstr "Sua mensagem foi enviada com sucesso."
+
+#, python-format
+msgid "Your new username is %s<strong>{0:>s}</strong>"
+msgstr "Seu usuário é %s<strong>{0:>s}</strong>"
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+"Seu usuário ou senha está incorreto. Por favor tente novamente (verifique se "
+"o caps lock está habilitado)"
+
+msgid "click here"
+msgstr "clique aqui"
+
+msgid "contact us"
+msgstr "contate-nos"
+
+msgid "download the Source Code"
+msgstr "baixar o Código Fonte"
+
+msgid "for further assistance."
+msgstr "para mais detalhes."
+
+msgid ""
+"is associated with an account in our records, you will receive an e-mail "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr ""
+"está associado com uma conta em nossos registros, você receberá um e-mail "
+"com instruções de como resetar sua senha. <br>Se não receber as instruções em "
+"alguns minutos, verifique sua caixa de spam, ou "
+
+msgid "or just"
+msgstr "ou simplesmente"
+
+msgid "to help you to create your application."
+msgstr "para ajuda-lo a criar sua aplicação."
+
+msgid "to resend the email."
+msgstr "para reenviar o email."
+
