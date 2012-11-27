@@ -53,6 +53,11 @@ Functions and features:
 + Error handling
 + Basic user management features available under /admin/users/ for Google Application Administrators
 
+
+Resources
+---------
+Boilerplate has a Google group ([gae-boilerplate](https://groups.google.com/forum/?fromgroups#!forum/gae-boilerplate)) for discussions and a Twitter account ([@gaeboilerplate](http://twitter.com/gaeboilerplate/)).
+
 Open Source
 -----------
 If you want to add, fix or improve something, create an [issue](https://github.com/coto/gae-boilerplate/issues) or send a [Pull Request](https://github.com/coto/gae-boilerplate/pull/new/master).
