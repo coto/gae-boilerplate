@@ -1,10 +1,9 @@
 application: sandengine
-version: 2-2
+version: dev
 runtime: python27
 api_version: 1
 threadsafe: true
 
-# In production, uncomment line below.
 default_expiration: "30d"
 
 skip_files:
