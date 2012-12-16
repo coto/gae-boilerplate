@@ -183,7 +183,7 @@
     <script src="/boilerplate/js/script.js"></script>
     <script src="/js/script.js"></script>
     {% if locale_language_id != "en" %}
-        {% if locale_iso.language and locale_iso.territory %}
+        {% if locale_iso.language == "pt" and locale_iso.territory == "BR" %}
     <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_iso.language }}_{{ locale_iso.territory }}.js"></script>
         {% else %}
     <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
