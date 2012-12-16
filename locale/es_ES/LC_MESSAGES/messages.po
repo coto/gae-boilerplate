@@ -106,7 +106,7 @@ msgid "Learn why this Boilerplate Rocks"
 msgstr "Aprende porque este Boilerplate es asombroso"
 
 msgid "Login"
-msgstr "Login"
+msgstr "Entrar"
 
 msgid "Logout"
 msgstr "Cerrar sesión"
