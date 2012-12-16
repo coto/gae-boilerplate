@@ -79,7 +79,7 @@ libraries:
 - name: jinja2
   version: "2.6"
 - name: webapp2
-  version: "2.5.1"
+  version: "2.5.2"
 - name: markupsafe
   version: "0.15"
 - name: pycrypto
