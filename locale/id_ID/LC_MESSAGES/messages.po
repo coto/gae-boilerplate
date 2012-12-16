@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-08-12 16:24-0400\n"
+"POT-Creation-Date: 2012-12-15 21:06-0300\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: id_ID <LL@li.org>\n"
@@ -18,30 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#, python-format
-msgid "%s Account Verification"
-msgstr ""
-
-#, python-format
-msgid "%s Email Changed Notification"
-msgstr ""
-
-#, python-format
-msgid "%s Password Assistance"
-msgstr ""
-
-#, python-format
-msgid "%s association successfully added."
-msgstr ""
-
-#, python-format
-msgid "%s authentication is not yet implemented."
-msgstr ""
-
-#, python-format
-msgid "%s successfully disassociated."
-msgstr ""
-
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
@@ -49,6 +25,12 @@ msgid ""
 msgstr ""
 
 msgid "Associate account with"
+msgstr ""
+
+msgid "Big Picture"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 #, fuzzy
@@ -67,12 +49,6 @@ msgstr "Ulangi password"
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr "Selamat atas halaman yang di-support oleh Google App Engine Boilerplate."
 
-#, python-format
-msgid ""
-"Congratulations, Your account %s has been successfully "
-"activated.<strong>{0:>s}</strong>"
-msgstr ""
-
 msgid "Contact"
 msgstr "Kontak"
 
@@ -81,6 +57,9 @@ msgstr "Negara"
 
 msgid "Current Password"
 msgstr "Password saat ini"
+
+msgid "Don't have an account?"
+msgstr ""
 
 msgid "Edit Profile"
 msgstr "Edit Profil"
@@ -94,34 +73,24 @@ msgstr ""
 msgid "Enter your"
 msgstr "Masukkan"
 
-msgid "Error sending the message. Please try again later."
-msgstr ""
-
 msgid "Existing social association"
-msgstr ""
-
-msgid "Federated login is disabled."
 msgstr ""
 
 msgid "Forgot your password?"
 msgstr "Lupa password?"
 
+#, fuzzy
+#| msgid "Change password"
+msgid "Good Password"
+msgstr "Ubah password"
+
 msgid "Google App Engine Boilerplate is released under the"
 msgstr ""
 
-msgid "If the e-mail address you entered"
-msgstr ""
-
-msgid "If the username you entered"
-msgstr ""
-
-msgid ""
-"Incorrect password! Please enter your current password to change your "
-"account settings."
-msgstr ""
-
-msgid "Invalid email address."
-msgstr ""
+#, fuzzy
+#| msgid "Reset password"
+msgid "Insecure Password"
+msgstr "Reset password"
 
 msgid "Language"
 msgstr "Bahasa"
@@ -151,28 +120,11 @@ msgstr "Ubah email"
 msgid "New Password"
 msgstr "Password baru"
 
-#, python-format
-msgid ""
-"No user authentication information received from %s. Please ensure you "
-"are logging in from an authorized OpenID Provider (OP)."
-msgstr ""
-
 msgid "Or Sign in using:"
 msgstr ""
 
 msgid "Password"
 msgstr "Password"
-
-msgid "Password changed successfully."
-msgstr ""
-
-msgid "Passwords must match."
-msgstr ""
-
-msgid ""
-"Please check your new email for confirmation. Your email will be updated "
-"after confirmation."
-msgstr ""
 
 msgid "Remember me?"
 msgstr "Ingin diingat?"
@@ -183,191 +135,53 @@ msgstr ""
 msgid "Reset password"
 msgstr "Reset password"
 
+msgid "Search User"
+msgstr ""
+
 msgid "Secure Page"
 msgstr "Halaman aman"
+
+#, fuzzy
+#| msgid "Reset password"
+msgid "Secure Password"
+msgstr "Reset password"
 
 msgid "Send Message"
 msgstr "Kirim pesan"
 
+#, fuzzy
+#| msgid "Reset password"
+msgid "Short Password"
+msgstr "Reset password"
+
 msgid "Sign Up"
 msgstr "Daftar"
 
-#, python-format
-msgid "Social account on %s not found for this user."
-msgstr ""
-
-msgid "Sorry you are not logged in."
-msgstr ""
-
-msgid "Sorry, Some error occurred."
-msgstr ""
-
-#, python-format
-msgid "Sorry, The email %s is already registered.<strong>{0:>s}</strong>"
-msgstr ""
-
-msgid "Sorry, The user is already registered."
-msgstr ""
-
-#, python-format
-msgid "Sorry, The username %s is already registered.<strong>{0:>s}</strong>"
-msgstr ""
-
 msgid "Source Code"
 msgstr "Kode sumber"
-
-msgid "Thanks, your settings have been saved."
-msgstr ""
-
-msgid "The URL you tried to use is either incorrect or no longer valid."
-msgstr ""
-
-msgid ""
-"The URL you tried to use is either incorrect or no longer valid. Enter "
-"your details again below to get a new one."
-msgstr ""
-
-#, python-format
-msgid "The account %s is already in use."
-msgstr ""
-
-#, python-format
-msgid "The email %s is already registered."
-msgstr ""
-
-msgid "The two passwords must match."
-msgstr ""
-
-#, python-format
-msgid ""
-"The username %s is already taken. Please choose "
-"another.<strong>{0:>s}</strong>"
-msgstr ""
-
-#, python-format
-msgid ""
-"The verification email has been resent to %s. Please check your email to "
-"activate your account."
-msgstr ""
-
-#, python-format
-msgid "This %s account is already in use."
-msgstr ""
-
-msgid "This Twitter account is already in use."
-msgstr ""
-
-#, python-format
-msgid ""
-"This Twitter account is not associated with any local account. If you "
-"already have a %s Account, you have <a href=\"/login/\">sign in here</a> "
-"or <a href=\"/register/\">create an account</a>."
-msgstr ""
-
-msgid "This authentication method is not yet implemented."
-msgstr ""
-
-msgid "Twitter association added."
-msgstr ""
-
-msgid "Unable to update profile. Please try again later."
-msgstr ""
-
-#, python-format
-msgid "Unexpected error creating the user %s{0:>s}."
-msgstr ""
 
 #, fuzzy
 msgid "Update Profile"
 msgstr "Edit Profil"
 
-msgid "User is logged out, but there was an error on the redirection."
+msgid "User Details"
 msgstr ""
 
 msgid "Username"
 msgstr "Nama Pengguna"
 
-msgid "Username invalid. Use only letters and numbers."
-msgstr ""
-
 msgid "Username or Email"
 msgstr "Nama pengguna atau email"
-
-#, python-format
-msgid "Welcome %s, you are now logged in.<strong>{0:>s}</strong>"
-msgstr ""
-
-msgid "Wrong image verification code. Please try again."
-msgstr ""
-
-#, fuzzy
-msgid "You didn't change your email."
-msgstr "Ubah email"
-
-msgid ""
-"You were successfully registered. Please check your email to activate "
-"your account."
-msgstr ""
-
-msgid ""
-"You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
-msgstr ""
-
-msgid ""
-"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
-"to your account."
-msgstr ""
-
-msgid ""
-"Your account has not yet been activated. Please check your email to "
-"activate it or"
-msgstr ""
 
 msgid "Your browser is <em>ancient!</em>"
 msgstr "Browser kamu sudah <em>ketinggalan zaman!</em>"
 
-msgid "Your email has been successfully updated."
-msgstr ""
-
-msgid "Your message was sent successfully."
-msgstr ""
-
-#, python-format
-msgid "Your new username is %s<strong>{0:>s}</strong>"
-msgstr ""
-
-msgid ""
-"Your username or password is incorrect. Please try again (make sure your "
-"caps lock is off)"
-msgstr ""
-
-msgid "click here"
-msgstr ""
-
-#, fuzzy
-msgid "contact us"
-msgstr "Kontak"
-
 msgid "download the Source Code"
 msgstr "unduh kode sumber"
-
-msgid "for further assistance."
-msgstr ""
-
-msgid ""
-"is associated with an account in our records, you will receive an e-mail "
-"from us with instructions for resetting your password. <br>If you don't "
-"receive instructions within a minute or two, check your email's spam and "
-"junk filters, or "
-msgstr ""
 
 msgid "or just"
 msgstr "atau"
 
 msgid "to help you to create your application."
 msgstr "saja untuk membuat aplikasi sendiri."
-
-msgid "to resend the email."
-msgstr ""
 
