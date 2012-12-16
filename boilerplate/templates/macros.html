@@ -23,11 +23,11 @@
 {% if enable_federated_login %}
             <div id="third_party_login" class="form-actions">
                 <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
-                <div class="social-login-icons">
+                <ul class="social-login-icons">
                     {% for p in provider_info if provider_uris[p] %}
-                    <a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p }}">{{ p }}</a>
+                        <li><a href="{{ provider_uris[p] }}" class="social-btn social-btn-{{ p }}" title="{{ p }}">{{ p }}</a></li>
                     {% endfor %}
-                </div>
+                </ul>
             </div>
 {% endif %}
 {%- endmacro %}

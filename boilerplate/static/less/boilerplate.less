@@ -127,7 +127,27 @@ span.password_strength{
     }
 }
 
+fieldset.well{
+    padding: 15px;
+}
+
+.social-login-icons {
+    margin: 0;
+    list-style: none;
+}
+
+.social-login-icons li{
+    width: 32px;
+    float: left;
+    margin-right: 0.4em;
+}
+
+.auth-at-home .social-login-icons li{
+    margin-right: 0.1em;
+}
+
 .social-login-icons a.social-btn{
+    overflow: hidden;
     display: inline-block;
     margin: 0 0 0.5em 0;
     text-indent: -9000px;
@@ -384,6 +404,9 @@ footer{
     .led {
         background-color: #58FA58;
     }
+    .auth-at-home .social-login-icons li{
+        margin-right: 0.4em;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -395,6 +418,9 @@ footer{
         width: 1170px;
         margin: 0 auto;
         padding: 0 1px;
+    }
+    .auth-at-home .social-login-icons li{
+        margin-right: 0.1em;
     }
 }
 
