@@ -23,7 +23,7 @@ New to Google App Engine? Learn about it by watching [this video](http://www.you
 
 Get started in just a few easy steps
 ------------------------------------
-1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.7.2).
+1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.7.4).
 1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
@@ -77,12 +77,12 @@ Testing
 
 Technologies used
 -----------------
-+ Python 2.7
++ Python 2.7.3
 + [NDB 1.0.5](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
 + [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
-+ [webapp2 2.5.1](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
++ [webapp2 2.5.2](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
     + webapp2_extras.sessions
     + webapp2_extras.routes
     + webapp2_extras.auth
