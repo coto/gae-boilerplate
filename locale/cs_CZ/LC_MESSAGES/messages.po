@@ -1,0 +1,180 @@
+# Czech (Czech Republic) translations for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-12-20 10:38+0100\n"
+"PO-Revision-Date: 2012-12-19 14:29+0100\n"
+"Last-Translator: Josef Jezek <josef@jezek.co.cz>\n"
+"Language-Team: cs_CZ <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
+msgstr ""
+"<a href=\"http://browsehappy.com/\">Přejít na jiný prohlížeč</a>\n"
+"    \tnebo <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tnainstalovat Google Chrome Frame</a> pro poznání této moderní "
+"stránky."
+
+msgid "Associate account with"
+msgstr "Propojit účet s"
+
+msgid "Big Picture"
+msgstr "Velký obrázek"
+
+msgid "Cancel"
+msgstr "Zrušit"
+
+msgid "Change password"
+msgstr "Změnit heslo"
+
+msgid "Change your email"
+msgstr "Změnit svůj e-mail"
+
+msgid "Change your password"
+msgstr "Změnit své heslo"
+
+msgid "Confirm Password"
+msgstr "Potvrďte heslo"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Blahopřejeme ke stránce postavený na Google App Engine Boilerplate."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Country"
+msgstr "Země"
+
+msgid "Current Password"
+msgstr "Současné heslo"
+
+msgid "Don't have an account?"
+msgstr "Ještě nemáte svůj účet?"
+
+msgid "Edit Profile"
+msgstr "Upravit profil"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Enter a new email address"
+msgstr "Zadejte novou e-mailovou adresu"
+
+msgid "Enter your"
+msgstr "Zadejte"
+
+msgid "Existing social association"
+msgstr "Stávající propojení"
+
+msgid "Forgot your password?"
+msgstr "Zapomněli jste heslo?"
+
+msgid "Good Password"
+msgstr "Dobré heslo"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate je uvolněn pod"
+
+msgid "Insecure Password"
+msgstr "Slabé heslo"
+
+msgid "Language"
+msgstr "Jazyk"
+
+msgid "Last Name"
+msgstr "Příjmení"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Zjistěte sílu kódu Boilerplate"
+
+msgid "Login"
+msgstr "Přihlásit"
+
+msgid "Logout"
+msgstr "Odhlásit"
+
+msgid "Message"
+msgstr "Zpráva"
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "New Email"
+msgstr "Nový e-mail"
+
+msgid "New Password"
+msgstr "Nové heslo"
+
+msgid "Or Sign in using:"
+msgstr "Nebo přihlaste se pomocí:"
+
+msgid "Password"
+msgstr "Heslo"
+
+msgid "Remember me?"
+msgstr "Pamatovat si mě?"
+
+msgid "Remove"
+msgstr "Odstranit"
+
+msgid "Reset password"
+msgstr "Obnovit heslo"
+
+msgid "Search User"
+msgstr "Hledat uživatele"
+
+msgid "Secure Page"
+msgstr "Zabezpečená stránka"
+
+msgid "Secure Password"
+msgstr "Silné heslo"
+
+msgid "Send Message"
+msgstr "Odeslat zprávu"
+
+msgid "Short Password"
+msgstr "Krátké heslo"
+
+msgid "Sign Up"
+msgstr "Vytvořit účet"
+
+msgid "Source Code"
+msgstr "Zdrojový kód"
+
+msgid "Update Profile"
+msgstr "Aktualizovat profil"
+
+msgid "User Details"
+msgstr "Údaje o uživateli"
+
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+msgid "Username or Email"
+msgstr "Uživatelské jméno nebo e-mail"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Váš internetový prohlížeč je <em>zastaralý!</em>"
+
+msgid "download the Source Code"
+msgstr "stáhněte zdrojový kód"
+
+msgid "or just"
+msgstr "nebo si"
+
+msgid "to help you to create your application."
+msgstr "pro vytvoření vlastní aplikace."
+
