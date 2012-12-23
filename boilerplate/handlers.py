@@ -10,6 +10,7 @@
 """
 # standard library imports
 import logging
+import random
 import re
 import json
 
@@ -33,6 +34,23 @@ from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
 from lib import facebook
 
+class AbTestHandler(BaseHandler):
+    """
+    AB Testing experiments are communly used with landing pages, but is not limited to them.
+    If the rendered page contains a form (i.e. newsletter subscription), 
+    manage the post request in a different handler
+
+    For complex A/B test, you can use the 2 templates instead of one.
+    By default only one template is used as abtest_b.html is a soft link to abtest_a.html
+    """
+    def get(self):
+        a = True
+        template = 'abtest_a.html'
+        if random.randint(0,1) :
+            a = False
+            template = 'abtest_b.html'
+        params = { 'a': a , 'b': not a  }
+        return self.render_template(template, **params)
 
 class LoginRequiredHandler(BaseHandler):
     def get(self):
