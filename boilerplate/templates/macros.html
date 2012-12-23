@@ -22,6 +22,11 @@
 {% macro federated_login(provider_info, provider_uris, enable_federated_login) -%}
 {% if enable_federated_login %}
             <div id="third_party_login" class="form-actions">
+{#
+                {% if disable_local_accounts %}
+                <h4>{% trans %}Sign in using:{% endtrans %}</h4>
+                {% else %}
+#}
                 <h4>{% trans %}Or Sign in using:{% endtrans %}</h4>
                 <ul class="social-login-icons">
                     {% for p in provider_info if provider_uris[p] %}
