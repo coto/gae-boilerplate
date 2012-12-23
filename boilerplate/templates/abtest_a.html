@@ -1,0 +1,148 @@
+{% extends base_layout %}
+
+{% block header_title_lead %}{% endblock %}
+
+{% block content %}
+
+    {% if user_id %}
+    <div class="hero-unit home_bp">
+        <h1>
+            Google App Engine Boilerplate
+        </h1>
+        <p>
+            {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
+            <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.md" target="_blank">
+            {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
+            <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
+            {% trans %}to help you to create your application.{% endtrans %}
+        </p>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="span9">
+            <div class="home_bp">
+                <h1>
+                    Google App Engine Boilerplate
+                </h1>
+                <p>
+                    {% trans %}Congratulations on your Google App Engine Boilerplate powered page.{% endtrans %}
+                    <br><a href="http://github.com/coto/gae-boilerplate/blob/master/README.md" target="_blank">
+                    {% trans %}Learn why this Boilerplate Rocks{% endtrans %}</a> {% trans %}or just{% endtrans %} 
+                    <a href="http://github.com/coto/gae-boilerplate/" target="_blank">{% trans %}download the Source Code{% endtrans %}</a> 
+                    {% trans %}to help you to create your application.{% endtrans %}
+                </p>
+            </div>
+        </div>
+        <div class="span3 auth-at-home">
+            <form id="form_login_user" action="{{ uri_for("login") }}" method="post">
+                <fieldset class="well">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    {% if a %}
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls row-fluid">
+                            <label class="span8">
+                                <input class="focused required" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                            </label>
+                            <label class="span4">
+                                <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                            {% trans %}Remember me?{% endtrans %} <span class="separator"></span>
+                            <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                        </label>
+                    </div>
+                    {% endif %}
+                    {% if b %}
+                        {% set disable_local_accounts = True %}
+                    {% endif %}
+                    {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
+                </fieldset>
+            </form>
+
+            {% if a %}
+            <h3>{% trans %}Sign Up{% endtrans %}</h3>
+            <form id="form_register" action="{{ uri_for("register") }}" method="post">
+                <fieldset class="well">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required email" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
+                            <input type="hidden" name="country" value="">
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label class="controls">
+                            <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>
+                    </div>
+                </fieldset>
+            </form>
+            {% endif %}
+        </div>
+    </div><!-- /row -->
+    {% endif %}
+
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+
+            $("#form_register").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                rules: {
+                    password: 'required',
+                    c_password: {
+                        required: true,
+                        equalTo: '#password'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+            
+            $("#password").passStrength({
+                shortPassText: '{% trans %}Short Password{% endtrans %}',
+                badPassText: '{% trans %}Insecure Password{% endtrans %}',
+                goodPassText: '{% trans %}Good Password{% endtrans %}',
+                strongPassText: '{% trans %}Secure Password{% endtrans %}'
+            });
+        });
+    </script>
+{% endblock %}
+
