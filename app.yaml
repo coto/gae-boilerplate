@@ -1,18 +1,27 @@
-application: sandengine
-version: dev
-runtime: python27
-api_version: 1
-threadsafe: true
+#----------------------------------------------------------------------
+# Google AppEngine Python Application Configuration
+#----------------------------------------------------------------------
+# Document at https://developers.google.com/appengine/docs/python/config/appconfig?hl=en
 
-default_expiration: "30d"
+application: sandengine                 # Application identifier (and blospot url)
+version: dev                            # A version specified for the application code (version can be rolled back on GAE)
+runtime: python27                       # GAE runtime environment used by the application
+api_version: 1                          # GAE version of the python runtime environment
+threadsafe: true                        # Configure the application to use concurrent requests
 
-skip_files:
+default_expiration: "30d 5h"            # The length of time a static file served by a static file handler ought to be cached by
+
+skip_files:                             # Which files in the application directory are not to be uploaded to App Engine
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
 - ^(.*/)?#.*#
 - ^(.*/)?.*~
 - ^(.*/)?.*\.py[co]
 - ^(.*/)?.*/RCS/.*
 - ^(.*/)?\..*
-- ^(.*/)?test$
+- ^(.*/)?test$                          # down to this line was default skip_file
 - ^(.*/)?test$
 - ^Makefile
 - ^COPYING.LESSER
@@ -21,9 +30,71 @@ skip_files:
 - ^\.git/.*
 - \.*\.lint$
 
+#----------------------------------------------------------------------
+# BUILTINS
+# Builtins are a set of tools used to manage the application (i.e performance, etc)
+# More at https://developers.google.com/appengine/docs/python/config/appconfig?hl=en#Builtin_Handlers
+# More at https://developers.google.com/appengine/docs/python/tools/
+
 builtins:
-- appstats: on #/_ah/stats/
-- remote_api: on #/_ah/remote_api/
+# admin_redirect: on                    #
+- appstats: on                          # Enables /_ah/stats/ url. More at https://developers.google.com/appengine/docs/python/t
+#- datastore_admin: on                  # (Obsolete) Enables /_ah/datastore_admin/
+#- default: on                          #
+- deferred: on                          # Enables /_ah/queue/deferred
+#- django_wsgi: on                      # Enable django support
+- remote_api: on                        # Enables /_ah/remote_api/ url. More at https://developers.google.com/appengine/docs/pyt
+
+#----------------------------------------------------------------------
+# INBOUND SERVICES
+# Before an application can receive email or XMPP messages, the application must be configured to enable the service. 
+# You enable the service for a Python app by including an inbound_services section in the app.yaml file.
+# More at https://developers.google.com/appengine/docs/python/config/appconfig?hl=en#Inbound_Services
+
+#inbound_services:
+#- channel_presence
+#- mail
+#- xmpp_message                          # Allows the application to receive instant messages
+#- xmpp_presence                         # Allows the application to receive a user's chat presence
+#- xmpp_subscribe                        # Allows the application to receive user subscription POSTs
+#- warmup                                # Enables /_ah/warmup url. Warmup requests load application code into a new instance be
+
+#----------------------------------------------------------------------
+# LIBRARIES
+# GAE supported 3rd Party libraries
+# Must be installed separately to GAE on your local machine
+# More at https://developers.google.com/appengine/docs/python/tools/libraries27
+
+libraries:
+- name: jinja2                          # Jinja2 template engine (pip jinja2 )
+  version: "2.6"
+- name: webapp2                         # A lightweight Python web framework.
+  version: "2.5.1"
+- name: markupsafe                      # A XML/HTML/XHTML markup safe string for Python.
+  version: "0.15"
+- name: pycrypto                        # A library of cryptography functions such as random number generation.
+  version: "2.6"
+#- name: PIL                            # Python image library for creating and transforming images (yum install python-imaging)
+#  version: latest
+
+#----------------------------------------------------------------------
+# CUSTOM ERROR RESPONSES
+# When certain errors occur, App Engine serves a generic error page. 
+# You can configure your application to serve a custom static file instead of these generic error pages. 
+# More at https://developers.google.com/appengine/docs/python/config/appconfig?hl=en#Custom_Error_Responses
+
+error_handlers:
+    # Only errors with error_code, don't put a default error here
+    # file: boilerplate/templates/errors/default_error.html  
+    - error_code: over_quota                                        # Served whenever the app has exceeded a resource quota;
+      file: boilerplate/templates/errors/over_quota.html
+    - error_code: dos_api_denial                                    # Served to any client blocked by your app's DoS Protection conf
+      file: boilerplate/templates/errors/dos_api_denial.html
+    - error_code: timeout                                           # Served if a deadline is reached before there is a response fro
+      file: boilerplate/templates/errors/timeout.html
+
+#----------------------------------------------------------------------
+# Handlers
 
 handlers:
 - url: /admin/.*
@@ -75,23 +146,3 @@ handlers:
   script: main.app
 #  secure: always
 
-libraries:
-- name: jinja2
-  version: "2.6"
-- name: webapp2
-  version: "2.5.2"
-- name: markupsafe
-  version: "0.15"
-- name: pycrypto
-  version: "2.6"
-
-error_handlers:
-  # Only errors with error_code, don't put a default error here
-  - error_code: over_quota
-    file: boilerplate/templates/errors/over_quota.html
-
-  - error_code: dos_api_denial
-    file: boilerplate/templates/errors/dos_api_denial.html
-
-  - error_code: timeout
-    file: boilerplate/templates/errors/timeout.html

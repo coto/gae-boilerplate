@@ -75,6 +75,33 @@ class User(User):
                 result['unused'].append(v)
         return result
 
+class MailingListSubscriber(ndb.Model):
+    """ 
+    Mailing list subscriber (i.e newsletter, automated blog update, etc) 
+    Currently there is not confirmation email, and not mailing list backend! 
+    """
+    #: Creation date.
+    created = ndb.DateTimeProperty(auto_now_add=True)
+    #: Modification date.
+    updated = ndb.DateTimeProperty(auto_now=True)
+    #: Subscriber Name
+    name = ndb.StringProperty()
+    #: Subscriber email
+    email = ndb.StringProperty(required=True)
+    #: Account activation verifies email
+    activated = ndb.BooleanProperty(default=True)
+
+    @classmethod
+    def get_by_email(cls, email):
+        """Returns a subscriber object based on an email.
+
+        :param email:
+            String representing the user email. Examples:
+
+        :returns:
+            A user object.
+        """
+        return cls.query(cls.email == email).get()
 
 class LogVisit(ndb.Model):
     user = ndb.KeyProperty(kind=User)

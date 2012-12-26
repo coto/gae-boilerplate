@@ -34,24 +34,6 @@ from lib.basehandler import BaseHandler
 from lib.basehandler import user_required
 from lib import facebook
 
-class AbTestHandler(BaseHandler):
-    """
-    AB Testing experiments are communly used with landing pages, but is not limited to them.
-    If the rendered page contains a form (i.e. newsletter subscription), 
-    manage the post request in a different handler
-
-    For complex A/B test, you can use the 2 templates instead of one.
-    By default only one template is used as abtest_b.html is a soft link to abtest_a.html
-    """
-    def get(self):
-        a = True
-        template = 'abtest_a.html'
-        if random.randint(0,1) :
-            a = False
-            template = 'abtest_b.html'
-        params = { 'a': a , 'b': not a  }
-        return self.render_template(template, **params)
-
 class LoginRequiredHandler(BaseHandler):
     def get(self):
         continue_url, = self.request.get('continue',allow_multiple=True)
@@ -1458,6 +1440,62 @@ class EmailChangedCompleteHandler(BaseHandler):
             message = _('Your email has been successfully updated.')
             self.add_message(message, 'success')
             self.redirect_to('edit-profile')
+
+class AbTestHandler(BaseHandler):
+    """
+    AB Testing experiments are commonly used with landing pages, but is not limited to them.
+    If the rendered page contains a form (i.e. newsletter subscription), 
+    manage the post request in a different handler
+
+    For complex A/B test, you can use the 2 templates instead of one.
+    By default only one template is used as abtest_b.html is a soft link to abtest_a.html
+    """
+    def get(self):
+        a = True
+        template = 'abtest_a.html'
+        if random.randint(0,1) :
+            a = False
+            template = 'abtest_b.html'
+        params = { 'a': a , 'b': not a  }
+        return self.render_template(template, **params)
+
+class MailingListSubscriptionHandler(BaseHandler):
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.MailingListSubscriptionForm(self)
+
+    def get(self):
+        """ Returns a simple HTML form for home """
+        params = {}
+        return self.render_template('mailing_list_subscription.html', **params)
+
+    def post(self):
+        """ Activation is currently not handled """
+        if not self.form.validate():
+            return self.get()
+        email = self.form.email.data.strip()
+        name = self.form.name.data.strip()
+
+        try:
+            subscriber = models.MailingListSubscriber.get_by_email(email)
+            if subscriber is None:
+                subscriber = models.MailingListSubscriber(email = email, name = name)
+            else:
+                subscriber.name = name
+            subscriber.put()
+            message = _('Your email (%s) has been addedd to our mailing list.' % email)
+            self.add_message(message, 'success')
+        except (AttributeError, KeyError), e:
+            logging.error('Unexpected error creating the subscriber %s: %s' % (email, e ))
+            message = _('Unexpected error creating the subscriber %s' % email )
+            self.add_message(message, 'error')
+        finally:
+            continue_url = self.request.get('continue_url').encode('ascii', 'ignore')
+            if continue_url:
+                self.redirect(continue_url)
+            else:
+                self.redirect_to('home')
 
 
 class HomeRequestHandler(RegisterBaseHandler):
