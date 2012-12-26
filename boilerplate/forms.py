@@ -94,4 +94,8 @@ class EditPasswordMobileForm(PasswordMixin, CurrentPasswordMixin):
 
 class EditEmailForm(PasswordMixin):
     new_email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
-    
+
+class MailingListSubscriptionForm(BaseForm):
+    """ Intended to be used for subscription to a mailing list (i.e newsletter, etc) """
+    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+    name = fields.TextField(_('Name'), [validators.Length(max=FIELD_MAXLENGTH)])
