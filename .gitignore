@@ -25,6 +25,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+.vagrant
+Vagrantfile
 
 # IDEs
 .DS_Store
@@ -34,3 +36,5 @@ pip-log.txt
 .project
 .settings*
 
+# node stuff
+node_modules

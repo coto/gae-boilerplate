@@ -7,19 +7,25 @@ threadsafe: true
 default_expiration: "30d"
 
 skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
 - ^(.*/)?#.*#
 - ^(.*/)?.*~
 - ^(.*/)?.*\.py[co]
 - ^(.*/)?.*/RCS/.*
 - ^(.*/)?\..*
+- ^(.*/)?tests$
 - ^(.*/)?test$
-- ^(.*/)?test$
-- ^Makefile
+- ^test/(.*/)?
 - ^COPYING.LESSER
-- ^README.md
+- ^README\..*
 - \.gitignore
 - ^\.git/.*
 - \.*\.lint$
+- ^fabfile\.py
+- ^testrunner\.py
+- ^grunt\.js
+- ^node_modules/(.*/)?
 
 builtins:
 - appstats: on #/_ah/stats/
