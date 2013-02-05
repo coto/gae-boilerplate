@@ -95,6 +95,12 @@ config = {
     ('Santa Klauss', 'snowypal@northpole.com'),
 ),
 
+# If true, it will write in datastore a log of every email sent
+'log_email' : True,
+
+# If true, it will write in datastore a log of every visit
+'log_visit' : True,
+
 # ----> ADD MORE CONFIGURATION OPTIONS HERE <----
 
 } # end config
