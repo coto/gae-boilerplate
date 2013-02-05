@@ -23,6 +23,8 @@ from webapp2_extras.i18n import gettext as _
 from webapp2_extras.appengine.auth.models import Unique
 from google.appengine.api import taskqueue
 from google.appengine.api import users
+from google.appengine.api.datastore_errors import BadValueError
+from google.appengine.runtime import apiproxy_errors
 from github import github
 from linkedin import linkedin
 
@@ -78,8 +80,6 @@ class SendEmailHandler(BaseHandler):
     def post(self):
 
         from google.appengine.api import mail, app_identity
-        from google.appengine.api.datastore_errors import BadValueError
-        from google.appengine.runtime import apiproxy_errors
 
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -93,17 +93,18 @@ class SendEmailHandler(BaseHandler):
                 app_id = app_identity.get_application_id()
                 sender = "%s <no-reply@%s.appspotmail.com>" % (app_id, app_id)
 
-        try:
-            logEmail = models.LogEmail(
-                sender = sender,
-                to = to,
-                subject = subject,
-                body = body,
-                when = utils.get_date_time("datetimeProperty")
-            )
-            logEmail.put()
-        except (apiproxy_errors.OverQuotaError, BadValueError):
-            logging.error("Error saving Email Log in datastore")
+        if self.app.config['log_email']:
+            try:
+                logEmail = models.LogEmail(
+                    sender = sender,
+                    to = to,
+                    subject = subject,
+                    body = body,
+                    when = utils.get_date_time("datetimeProperty")
+                )
+                logEmail.put()
+            except (apiproxy_errors.OverQuotaError, BadValueError):
+                logging.error("Error saving Email Log in datastore")
 
         message = mail.EmailMessage()
         message.sender=sender
@@ -222,13 +223,17 @@ class LoginHandler(BaseHandler):
 
             # end linkedin
 
-            logVisit = models.LogVisit(
-                user=user.key,
-                uastring=self.request.user_agent,
-                ip=self.request.remote_addr,
-                timestamp=utils.get_date_time()
-            )
-            logVisit.put()
+            if self.app.config['log_visit']:
+                try:
+                    logVisit = models.LogVisit(
+                        user=user.key,
+                        uastring=self.request.user_agent,
+                        ip=self.request.remote_addr,
+                        timestamp=utils.get_date_time()
+                    )
+                    logVisit.put()
+                except (apiproxy_errors.OverQuotaError, BadValueError):
+                    logging.error("Error saving Visit Log in datastore")
             if continue_url:
                 self.redirect(continue_url)
             else:
@@ -351,13 +356,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                    logVisit = models.LogVisit(
-                        user = user.key,
-                        uastring = self.request.user_agent,
-                        ip = self.request.remote_addr,
-                        timestamp = utils.get_date_time()
-                    )
-                    logVisit.put()
+                    if self.app.config['log_visit']:
+                        try:
+                            logVisit = models.LogVisit(
+                                user=user.key,
+                                uastring=self.request.user_agent,
+                                ip=self.request.remote_addr,
+                                timestamp=utils.get_date_time()
+                            )
+                            logVisit.put()
+                        except (apiproxy_errors.OverQuotaError, BadValueError):
+                            logging.error("Error saving Visit Log in datastore")
                     if continue_url:
                         self.redirect(continue_url)
                     else:
@@ -406,13 +415,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                    logVisit = models.LogVisit(
-                        user = user.key,
-                        uastring = self.request.user_agent,
-                        ip = self.request.remote_addr,
-                        timestamp = utils.get_date_time()
-                    )
-                    logVisit.put()
+                    if self.app.config['log_visit']:
+                        try:
+                            logVisit = models.LogVisit(
+                                user=user.key,
+                                uastring=self.request.user_agent,
+                                ip=self.request.remote_addr,
+                                timestamp=utils.get_date_time()
+                            )
+                            logVisit.put()
+                        except (apiproxy_errors.OverQuotaError, BadValueError):
+                            logging.error("Error saving Visit Log in datastore")
                     self.redirect_to('home')
                 else:
                     uid = str(user_data['id'])
@@ -458,13 +471,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                    logVisit = models.LogVisit(
-                        user = user.key,
-                        uastring = self.request.user_agent,
-                        ip = self.request.remote_addr,
-                        timestamp = utils.get_date_time()
-                    )
-                    logVisit.put()
+                    if self.app.config['log_visit']:
+                        try:
+                            logVisit = models.LogVisit(
+                                user=user.key,
+                                uastring=self.request.user_agent,
+                                ip=self.request.remote_addr,
+                                timestamp=utils.get_date_time()
+                            )
+                            logVisit.put()
+                        except (apiproxy_errors.OverQuotaError, BadValueError):
+                            logging.error("Error saving Visit Log in datastore")
                     if continue_url:
                         self.redirect(continue_url)
                     else:
@@ -522,13 +539,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                    logVisit = models.LogVisit(
-                        user = user.key,
-                        uastring = self.request.user_agent,
-                        ip = self.request.remote_addr,
-                        timestamp = utils.get_date_time()
-                    )
-                    logVisit.put()
+                    if self.app.config['log_visit']:
+                        try:
+                            logVisit = models.LogVisit(
+                                user=user.key,
+                                uastring=self.request.user_agent,
+                                ip=self.request.remote_addr,
+                                timestamp=utils.get_date_time()
+                            )
+                            logVisit.put()
+                        except (apiproxy_errors.OverQuotaError, BadValueError):
+                            logging.error("Error saving Visit Log in datastore")
                     if continue_url:
                         self.redirect(continue_url)
                     else:
@@ -585,13 +606,17 @@ class CallbackSocialLoginHandler(BaseHandler):
                     # Social user found. Authenticate the user
                     user = social_user.user.get()
                     self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-                    logVisit = models.LogVisit(
-                        user = user.key,
-                        uastring = self.request.user_agent,
-                        ip = self.request.remote_addr,
-                        timestamp = utils.get_date_time()
-                    )
-                    logVisit.put()
+                    if self.app.config['log_visit']:
+                        try:
+                            logVisit = models.LogVisit(
+                                user=user.key,
+                                uastring=self.request.user_agent,
+                                ip=self.request.remote_addr,
+                                timestamp=utils.get_date_time()
+                            )
+                            logVisit.put()
+                        except (apiproxy_errors.OverQuotaError, BadValueError):
+                            logging.error("Error saving Visit Log in datastore")
                     if continue_url:
                         self.redirect(continue_url)
                     else:
@@ -644,13 +669,17 @@ class CallbackSocialLoginHandler(BaseHandler):
             social_user.put()
             # authenticate user
             self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-            logVisit = models.LogVisit(
-                user = user.key,
-                uastring = self.request.user_agent,
-                ip = self.request.remote_addr,
-                timestamp = utils.get_date_time()
-            )
-            logVisit.put()
+            if self.app.config['log_visit']:
+                try:
+                    logVisit = models.LogVisit(
+                        user=user.key,
+                        uastring=self.request.user_agent,
+                        ip=self.request.remote_addr,
+                        timestamp=utils.get_date_time()
+                    )
+                    logVisit.put()
+                except (apiproxy_errors.OverQuotaError, BadValueError):
+                    logging.error("Error saving Visit Log in datastore")
 
             message = _('Welcome!  You have been registered as a new user through %s and logged in.' % provider_display_name)
             self.add_message(message, 'success')
@@ -1469,3 +1498,4 @@ class HomeRequestHandler(RegisterBaseHandler):
         """ Returns a simple HTML form for home """
         params = {}
         return self.render_template('home.html', **params)
+
