@@ -1339,7 +1339,7 @@ class PasswordResetHandler(BaseHandler):
     def get(self):
         chtml = captcha.displayhtml(
             public_key = self.app.config.get('captcha_public_key'),
-            use_ssl = False,
+            use_ssl = (self.request.scheme == 'https'),
             error = None)
         if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
            self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
