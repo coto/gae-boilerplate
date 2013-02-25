@@ -74,7 +74,7 @@ msgid "Enter a new email address"
 msgstr "Informe um novo endereço de email"
 
 msgid "Enter your"
-msgstr "Etnre seu"
+msgstr "Entre seu"
 
 msgid "Existing social association"
 msgstr "Associação social existente"
