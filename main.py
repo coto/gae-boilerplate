@@ -37,8 +37,8 @@ app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('
 for status_int in app.config['error_templates']:
     app.error_handlers[status_int] = handle_error
 
-routes.add_routes(app)
 boilerplate_routes.add_routes(app)
+routes.add_routes(app)
 admin_routes.add_routes(app)
 
 
