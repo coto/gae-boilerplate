@@ -39,7 +39,7 @@ from lib import facebook
 class AbTestHandler(BaseHandler):
     """
     AB Testing experiments are communly used with landing pages, but is not limited to them.
-    If the rendered page contains a form (i.e. newsletter subscription), 
+    If the rendered page contains a form (i.e. newsletter subscription),
     manage the post request in a different handler
 
     For complex A/B test, you can use the 2 templates instead of one.
@@ -276,11 +276,12 @@ class SocialLoginHandler(BaseHandler):
 
         elif provider_name == 'linkedin':
             self.session['facebook'] = None
-            link = linkedin.LinkedIn(self.app.config.get('linkedin_api'), self.app.config.get('linkedin_secret'), callback_url)
-            if link.request_token():
-                self.session['request_token']=link._request_token
-                self.session['request_token_secret']=link._request_token_secret
-                self.redirect(link.get_authorize_url())
+            authentication = linkedin.LinkedInAuthentication(
+                self.app.config.get('linkedin_api'),
+                self.app.config.get('linkedin_secret'),
+                callback_url,
+                [linkedin.PERMISSIONS.BASIC_PROFILE, linkedin.PERMISSIONS.EMAIL_ADDRESS])
+            self.redirect(authentication.authorization_url)
 
         elif provider_name == "github":
             scope = 'gist'
@@ -381,7 +382,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             # get our request code back from the social login handler above
             code = self.request.get('code')
 
-            # create our github auth object 
+            # create our github auth object
             scope = 'gist'
             github_helper = github.GithubAuth(self.app.config.get('github_server'), self.app.config.get('github_client_id'), \
                                               self.app.config.get('github_client_secret'), self.app.config.get('github_redirect_uri'), scope)
@@ -495,18 +496,20 @@ class CallbackSocialLoginHandler(BaseHandler):
         # association with linkedin
         elif provider_name == "linkedin":
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
-            link = linkedin.LinkedIn(self.app.config.get('linkedin_api'), self.app.config.get('linkedin_secret'), callback_url)
-            request_token = self.session['request_token']
-            request_token_secret= self.session['request_token_secret']
-            link._request_token = request_token
-            link._request_token_secret = request_token_secret
-            verifier = self.request.get('oauth_verifier')
-            #~ print 'test'
-            #~ print 'request_token= %s ; request_token_secret= %s ;verifier = %s ' % (request_token, request_token_secret, verifier)
-            link.access_token(verifier=verifier)
-            u_data = link.get_profile()
-            user_key = re.search(r'key=(\d+)', u_data.private_url).group(1)
-            user_data={'first_name':u_data.first_name, 'last_name':u_data.last_name ,'id':user_key}
+            authentication = linkedin.LinkedInAuthentication(
+                self.app.config.get('linkedin_api'),
+                self.app.config.get('linkedin_secret'),
+                callback_url,
+                [linkedin.PERMISSIONS.BASIC_PROFILE, linkedin.PERMISSIONS.EMAIL_ADDRESS])
+            authentication.authorization_code = self.request.get('code')
+            access_token = authentication.get_access_token()
+            link = linkedin.LinkedInApplication(authentication)
+            u_data = link.get_profile(selectors=['id','first-name','last-name', 'email-address'])
+            user_data={
+                'first_name':u_data.get('firstName'),
+                'last_name':u_data.get('lastName'),
+                'id':u_data.get('id'),
+                'email':u_data.get('emailAddress')}
             self.session['linkedin'] = json.dumps(user_data)
             logging.info('linkedin user_data: ' + str(user_data))
 
@@ -710,7 +713,7 @@ class DeleteSocialProviderHandler(BaseHandler):
                     message = _('Social account on %s not found for this user.' % provider_name)
                     self.add_message(message, 'error')
             else:
-                message = ('Social account on %s cannot be deleted for user.' 
+                message = ('Social account on %s cannot be deleted for user.'
                             '  Please create a username and password to delete social account.' % provider_name)
                 self.add_message(message, 'error')
         self.redirect_to('edit-profile')
