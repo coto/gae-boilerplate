@@ -6,6 +6,7 @@
 """
 
 from fabric.api import local
+import config
 
 def lang(mode="extract"):
     """
@@ -49,7 +50,7 @@ def start(mode="normal"):
     else:
         local("dev_appserver.py ./ --host 0.0.0.0 --port 8001")
 
-def deploy(app_id="sandengine", version="2-2"):
+def deploy(app_id=config.app_id, version=config.version):
     """
         app.yaml never has to be version:default
 

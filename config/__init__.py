@@ -14,3 +14,5 @@ if "SERVER_SOFTWARE" in os.environ:
 else:
     from config.testing import config
 
+app_id = "YOUR_APP_ID"
+version = "YOUR_APP_VERSION"
