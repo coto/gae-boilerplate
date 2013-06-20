@@ -774,7 +774,7 @@ class RegisterHandler(RegisterBaseHandler):
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
-                user_info = models.User.get_by_email(email)
+                user_info = user[1]
                 if (user_info.activated == False):
                     # send email
                     subject =  _("%s Account Verification" % self.app.config.get('app_name'))
