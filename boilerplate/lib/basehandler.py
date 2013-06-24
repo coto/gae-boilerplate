@@ -3,54 +3,24 @@
 # standard library imports
 import logging
 import re
-import traceback
-import sys
+import pytz
 # related third party imports
 import webapp2
-from google.appengine.api.users import NotAllowedError
 from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
-from google.appengine.api import taskqueue
 # local application/library specific imports
 from boilerplate import models
 from boilerplate.lib import utils, i18n
 from babel import Locale
 
-def user_required(handler):
-    """
-         Decorator for checking if there's a user associated
-         with the current session.
-         Will also fail if there's no session present.
-    """
-
-    def check_login(self, *args, **kwargs):
-        """
-            If handler has no login_url specified invoke a 403 error
-        """
-        try:
-            auth = self.auth.get_user_by_session()
-            if not auth:
-                try:
-                    self.auth_config['login_url'] = self.uri_for('login', continue_url=self.request.path)
-                    self.redirect(self.auth_config['login_url'], abort=True)
-                except (AttributeError, KeyError), e:
-                    self.abort(403)
-            else:
-                return handler(self, *args, **kwargs)
-        except AttributeError, e:
-            # avoid AttributeError when the session was delete from the server
-            logging.error(e)
-            self.auth.unset_session()
-            self.redirect_to('home')
-
-    return check_login
 
 def generate_csrf_token():
     session = sessions.get_store().get_session()
     if '_csrf_token' not in session:
         session['_csrf_token'] = utils.random_string()
     return session['_csrf_token']
+
 
 def jinja2_factory(app):
     j = jinja2.Jinja2(app)
@@ -60,7 +30,7 @@ def jinja2_factory(app):
     })
     j.environment.globals.update({
         # Set global variables.
-        'csrf_token' : generate_csrf_token,
+        'csrf_token': generate_csrf_token,
         'uri_for': webapp2.uri_for,
         'getattr': getattr,
         'str': str
@@ -71,49 +41,6 @@ def jinja2_factory(app):
     })
     return j
 
-def handle_error(request, response, exception):
-    exc_type, exc_value, exc_tb = sys.exc_info()
-
-    c = {
-        'exception': str(exception),
-        'url': request.url,
-    }
-
-    if request.app.config.get('send_mail_developer') is not False:
-        # send email
-        subject         = "[{}] ERROR {}".format(request.app.config.get('environment').upper(), request.app.config.get('app_name'))
-
-        lines = traceback.format_exception(exc_type, exc_value, exc_tb)
-
-        message         = '<strong>Type:</strong> ' + exc_type.__name__ + "<br />" + \
-                          '<strong>Description:</strong> ' + c['exception'] + "<br />" + \
-                          '<strong>URL:</strong> ' + c['url'] + "<br />" + \
-                          '<strong>Traceback:</strong> <br />' + '<br />'.join(lines)
-
-        email_body_path = "emails/error.txt"
-        if c['exception'] is not 'Error saving Email Log in datastore':
-            template_val = {
-                "app_name"  : request.app.config.get('app_name'),
-                "message"   : message,
-                }
-
-            email_body = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(email_body_path, **template_val)
-            email_url = webapp2.uri_for('taskqueue-send-email')
-
-            for dev in request.app.config.get('developers'):
-                taskqueue.add(url = email_url, params={
-                    'to':       dev[1],
-                    'subject' : subject,
-                    'body' :    email_body,
-                    'sender' :  request.app.config.get('contact_sender'),
-                    })
-
-    status_int = hasattr(exception, 'status_int') and exception.status_int or 500
-    template = request.app.config.get('error_templates')[status_int]
-    t = jinja2.get_jinja2(factory=jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
-    logging.error(str(status_int) + " - " + str(exception))
-    response.write(t)
-    response.set_status(status_int)
 
 class ViewClass:
     """
@@ -211,7 +138,7 @@ class BaseHandler(webapp2.RequestHandler):
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
             return user_info.key
-        return  None
+        return None
 
     @webapp2.cached_property
     def username(self):
@@ -224,7 +151,7 @@ class BaseHandler(webapp2.RequestHandler):
                 logging.error(e)
                 self.auth.unset_session()
                 self.redirect_to('home')
-        return  None
+        return None
 
     @webapp2.cached_property
     def email(self):
@@ -237,7 +164,7 @@ class BaseHandler(webapp2.RequestHandler):
                 logging.error(e)
                 self.auth.unset_session()
                 self.redirect_to('home')
-        return  None
+        return None
 
     @webapp2.cached_property
     def provider_uris(self):
@@ -284,6 +211,40 @@ class BaseHandler(webapp2.RequestHandler):
         return locales
 
     @webapp2.cached_property
+    def tz(self):
+        tz = [(tz, tz.replace('_', ' ')) for tz in pytz.all_timezones]
+        tz.insert(0, ("", ""))
+        return tz
+
+    @webapp2.cached_property
+    def get_user_tz(self):
+        user = self.current_user
+        if user:
+            if hasattr(user, 'tz') and user.tz:
+                return pytz.timezone(user.tz)
+        return pytz.timezone('UTC')
+
+    @webapp2.cached_property
+    def countries(self):
+        return Locale.parse(self.locale).territories
+
+    @webapp2.cached_property
+    def countries_tuple(self):
+        countries = self.countries
+        del (countries["001"])
+        countries = [(key, countries[key]) for key in countries]
+        countries.append(("", ""))
+        countries.sort(key=lambda tup: tup[1])
+        return countries
+
+    @webapp2.cached_property
+    def current_user(self):
+        user = self.auth.get_user_by_session()
+        if user:
+            return models.User.get_by_id(user['user_id'])
+        return None
+
+    @webapp2.cached_property
     def is_mobile(self):
         return utils.set_device_cookie_and_return_bool(self)
 
@@ -325,8 +286,8 @@ class BaseHandler(webapp2.RequestHandler):
 
         # set or overwrite special vars for jinja templates
         kwargs.update({
-            'google_analytics_domain' : self.app.config.get('google_analytics_domain'),
-            'google_analytics_code' : self.app.config.get('google_analytics_code'),
+            'google_analytics_domain': self.app.config.get('google_analytics_domain'),
+            'google_analytics_code': self.app.config.get('google_analytics_code'),
             'app_name': self.app.config.get('app_name'),
             'user_id': self.user_id,
             'username': self.username,
@@ -344,7 +305,7 @@ class BaseHandler(webapp2.RequestHandler):
             'provider_info': self.provider_info,
             'enable_federated_login': self.app.config.get('enable_federated_login'),
             'base_layout': self.get_base_layout
-            })
+        })
         kwargs.update(self.auth_config)
         if hasattr(self, 'form'):
             kwargs['form'] = self.form
