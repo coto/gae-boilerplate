@@ -138,7 +138,7 @@ def is_email_valid(email):
 
 ALPHANUMERIC_REGEXP = "^\w+$"
 VALID_USERNAME_REGEXP = "^(\w+([\-\.])?\w*)$"
-NAME_LASTNAME_REGEXP = "^[\w\s\-\']+$"
+NAME_LASTNAME_REGEXP = "^[\w\s\-\']*$"
 
 
 def is_alphanumeric(field):

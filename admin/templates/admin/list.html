@@ -35,7 +35,7 @@
         </td>
         {% for attr, name in list_columns %}
         <td>
-            {{ getattr(user, attr)|safe }}
+            {{ getattr(user, attr)|e }}
         </td>
         {% endfor %}
     </tr>
