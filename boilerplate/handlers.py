@@ -31,13 +31,14 @@ import models
 import forms as forms
 from lib import utils, captcha, twitter
 from lib.basehandler import BaseHandler
-from lib.basehandler import user_required
+from lib.decorators import user_required
+from lib.decorators import taskqueue_method
 from lib import facebook
 
 
 class LoginRequiredHandler(BaseHandler):
     def get(self):
-        continue_url, = self.request.get('continue',allow_multiple=True)
+        continue_url, = self.request.get('continue', allow_multiple=True)
         self.redirect(users.create_login_url(dest_url=continue_url))
 
 
@@ -45,12 +46,10 @@ class RegisterBaseHandler(BaseHandler):
     """
     Base class for handlers with registration and login forms.
     """
+
     @webapp2.cached_property
     def form(self):
-        if self.is_mobile:
-            return forms.RegisterMobileForm(self)
-        else:
-            return forms.RegisterForm(self)
+        return forms.RegisterForm(self)
 
 
 class SendEmailHandler(BaseHandler):
@@ -58,6 +57,8 @@ class SendEmailHandler(BaseHandler):
     Core Handler for sending Emails
     Use with TaskQueue
     """
+
+    @taskqueue_method
     def post(self):
 
         from google.appengine.api import mail, app_identity
@@ -77,22 +78,25 @@ class SendEmailHandler(BaseHandler):
         if self.app.config['log_email']:
             try:
                 logEmail = models.LogEmail(
-                    sender = sender,
-                    to = to,
-                    subject = subject,
-                    body = body,
-                    when = utils.get_date_time("datetimeProperty")
+                    sender=sender,
+                    to=to,
+                    subject=subject,
+                    body=body,
+                    when=utils.get_date_time("datetimeProperty")
                 )
                 logEmail.put()
             except (apiproxy_errors.OverQuotaError, BadValueError):
                 logging.error("Error saving Email Log in datastore")
 
-        message = mail.EmailMessage()
-        message.sender=sender
-        message.to=to
-        message.subject=subject
-        message.html=body
-        message.send()
+        try:
+            message = mail.EmailMessage()
+            message.sender = sender
+            message.to = to
+            message.subject = subject
+            message.html = body
+            message.send()
+        except Exception, e:
+            logging.error("Error sending email: %s" % e)
 
 
 class LoginHandler(BaseHandler):
@@ -151,8 +155,8 @@ class LoginHandler(BaseHandler):
                 # redirect to home with error message
                 resend_email_uri = self.uri_for('resend-account-activation', user_id=user.get_id(),
                                                 token=models.User.create_resend_token(user.get_id()))
-                message = _('Your account has not yet been activated. Please check your email to activate it or') +\
-                          ' <a href="'+resend_email_uri+'">' + _('click here') + '</a> ' + _('to resend the email.')
+                message = _('Your account has not yet been activated. Please check your email to activate it or') + \
+                          ' <a href="' + resend_email_uri + '">' + _('click here') + '</a> ' + _('to resend the email.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
@@ -162,10 +166,10 @@ class LoginHandler(BaseHandler):
             if twitter_association_data is not None:
                 if models.SocialUser.check_unique(user.key, 'twitter', str(twitter_association_data['id'])):
                     social_user = models.SocialUser(
-                        user = user.key,
-                        provider = 'twitter',
-                        uid = str(twitter_association_data['id']),
-                        extra_data = twitter_association_data
+                        user=user.key,
+                        provider='twitter',
+                        uid=str(twitter_association_data['id']),
+                        extra_data=twitter_association_data
                     )
                     social_user.put()
 
@@ -179,10 +183,10 @@ class LoginHandler(BaseHandler):
             if fb_data is not None:
                 if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
                     social_user = models.SocialUser(
-                        user = user.key,
-                        provider = 'facebook',
-                        uid = str(fb_data['id']),
-                        extra_data = fb_data
+                        user=user.key,
+                        provider='facebook',
+                        uid=str(fb_data['id']),
+                        extra_data=fb_data
                     )
                     social_user.put()
 
@@ -192,13 +196,14 @@ class LoginHandler(BaseHandler):
                 li_data = json.loads(self.session['linkedin'])
             except:
                 pass
+
             if li_data is not None:
                 if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
                     social_user = models.SocialUser(
-                        user = user.key,
-                        provider = 'linkedin',
-                        uid = str(li_data['id']),
-                        extra_data = li_data
+                        user=user.key,
+                        provider='linkedin',
+                        uid=str(li_data['id']),
+                        extra_data=li_data
                     )
                     social_user.put()
 
@@ -266,23 +271,25 @@ class SocialLoginHandler(BaseHandler):
 
         elif provider_name == "github":
             scope = 'gist'
-            github_helper = github.GithubAuth(self.app.config.get('github_server'), self.app.config.get('github_client_id'), \
-                                              self.app.config.get('github_client_secret'), self.app.config.get('github_redirect_uri'), scope)
-            self.redirect( github_helper.get_authorize_url() )
+            github_helper = github.GithubAuth(self.app.config.get('github_server'),
+                                              self.app.config.get('github_client_id'), \
+                                              self.app.config.get('github_client_secret'),
+                                              self.app.config.get('github_redirect_uri'), scope)
+            self.redirect(github_helper.get_authorize_url())
 
         elif provider_name in models.SocialUser.open_id_providers():
             continue_url = self.request.get('continue_url')
             if continue_url:
-                dest_url=self.uri_for('social-login-complete', provider_name=provider_name, continue_url=continue_url)
+                dest_url = self.uri_for('social-login-complete', provider_name=provider_name, continue_url=continue_url)
             else:
-                dest_url=self.uri_for('social-login-complete', provider_name=provider_name)
+                dest_url = self.uri_for('social-login-complete', provider_name=provider_name)
             try:
                 login_url = users.create_login_url(federated_identity=provider['uri'], dest_url=dest_url)
                 self.redirect(login_url)
             except users.NotAllowedError:
                 self.add_message('You must enable Federated Login Before for this application.<br> '
-                                '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
-                                'Administration -> Application Settings -> Authentication Options', 'error')
+                                 '<a href="http://appengine.google.com" target="_blank">Google App Engine Control Panel</a> -> '
+                                 'Administration -> Application Settings -> Authentication Options', 'error')
                 self.redirect_to('login')
 
         else:
@@ -307,17 +314,17 @@ class CallbackSocialLoginHandler(BaseHandler):
             oauth_verifier = self.request.get('oauth_verifier')
             twitter_helper = twitter.TwitterAuth(self)
             user_data = twitter_helper.auth_complete(oauth_token,
-                oauth_verifier)
+                                                     oauth_verifier)
             logging.info('twitter user_data: ' + str(user_data))
             if self.user:
                 # new association with twitter
                 user_info = models.User.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['user_id'])):
                     social_user = models.SocialUser(
-                        user = user_info.key,
-                        provider = 'twitter',
-                        uid = str(user_data['user_id']),
-                        extra_data = user_data
+                        user=user_info.key,
+                        provider='twitter',
+                        uid=str(user_data['user_id']),
+                        extra_data=user_data
                     )
                     social_user.put()
 
@@ -333,7 +340,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             else:
                 # login with twitter
                 social_user = models.SocialUser.get_by_provider_and_uid('twitter',
-                    str(user_data['user_id']))
+                                                                        str(user_data['user_id']))
                 if social_user:
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
@@ -365,8 +372,10 @@ class CallbackSocialLoginHandler(BaseHandler):
 
             # create our github auth object
             scope = 'gist'
-            github_helper = github.GithubAuth(self.app.config.get('github_server'), self.app.config.get('github_client_id'), \
-                                              self.app.config.get('github_client_secret'), self.app.config.get('github_redirect_uri'), scope)
+            github_helper = github.GithubAuth(self.app.config.get('github_server'),
+                                              self.app.config.get('github_client_id'), \
+                                              self.app.config.get('github_client_secret'),
+                                              self.app.config.get('github_redirect_uri'), scope)
 
             # retrieve the access token using the code and auth object
             access_token = github_helper.get_access_token(code)
@@ -377,10 +386,10 @@ class CallbackSocialLoginHandler(BaseHandler):
                 user_info = models.User.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'github', str(user_data['login'])):
                     social_user = models.SocialUser(
-                        user = user_info.key,
-                        provider = 'github',
-                        uid = str(user_data['login']),
-                        extra_data = user_data
+                        user=user_info.key,
+                        provider='github',
+                        uid=str(user_data['login']),
+                        extra_data=user_data
                     )
                     social_user.put()
 
@@ -419,7 +428,8 @@ class CallbackSocialLoginHandler(BaseHandler):
         elif provider_name == "facebook":
             code = self.request.get('code')
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
-            token = facebook.get_access_token_from_code(code, callback_url, self.app.config.get('fb_api_key'), self.app.config.get('fb_secret'))
+            token = facebook.get_access_token_from_code(code, callback_url, self.app.config.get('fb_api_key'),
+                                                        self.app.config.get('fb_secret'))
             access_token = token['access_token']
             fb = facebook.GraphAPI(access_token)
             user_data = fb.get_object('me')
@@ -429,18 +439,18 @@ class CallbackSocialLoginHandler(BaseHandler):
                 user_info = models.User.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'facebook', str(user_data['id'])):
                     social_user = models.SocialUser(
-                        user = user_info.key,
-                        provider = 'facebook',
-                        uid = str(user_data['id']),
-                        extra_data = user_data
+                        user=user_info.key,
+                        provider='facebook',
+                        uid=str(user_data['id']),
+                        extra_data=user_data
                     )
                     social_user.put()
 
                     message = _('Facebook association added!')
-                    self.add_message(message,'success')
+                    self.add_message(message, 'success')
                 else:
                     message = _('This Facebook account is already in use!')
-                    self.add_message(message,'error')
+                    self.add_message(message, 'error')
                 if continue_url:
                     self.redirect(continue_url)
                 else:
@@ -448,7 +458,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             else:
                 # login with Facebook
                 social_user = models.SocialUser.get_by_provider_and_uid('facebook',
-                    str(user_data['id']))
+                                                                        str(user_data['id']))
                 if social_user:
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
@@ -473,7 +483,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     email = str(user_data.get('email'))
                     self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
 
-            # end facebook
+                    # end facebook
         # association with linkedin
         elif provider_name == "linkedin":
             callback_url = "%s/social_login/%s/complete" % (self.request.host_url, provider_name)
@@ -485,12 +495,12 @@ class CallbackSocialLoginHandler(BaseHandler):
             authentication.authorization_code = self.request.get('code')
             access_token = authentication.get_access_token()
             link = linkedin.LinkedInApplication(authentication)
-            u_data = link.get_profile(selectors=['id','first-name','last-name', 'email-address'])
-            user_data={
-                'first_name':u_data.get('firstName'),
-                'last_name':u_data.get('lastName'),
-                'id':u_data.get('id'),
-                'email':u_data.get('emailAddress')}
+            u_data = link.get_profile(selectors=['id', 'first-name', 'last-name', 'email-address'])
+            user_data = {
+                'first_name': u_data.get('firstName'),
+                'last_name': u_data.get('lastName'),
+                'id': u_data.get('id'),
+                'email': u_data.get('emailAddress')}
             self.session['linkedin'] = json.dumps(user_data)
             logging.info('linkedin user_data: ' + str(user_data))
 
@@ -499,18 +509,18 @@ class CallbackSocialLoginHandler(BaseHandler):
                 user_info = models.User.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'linkedin', str(user_data['id'])):
                     social_user = models.SocialUser(
-                        user = user_info.key,
-                        provider = 'linkedin',
-                        uid = str(user_data['id']),
-                        extra_data = user_data
+                        user=user_info.key,
+                        provider='linkedin',
+                        uid=str(user_data['id']),
+                        extra_data=user_data
                     )
                     social_user.put()
 
                     message = _('Linkedin association added!')
-                    self.add_message(message,'success')
+                    self.add_message(message, 'success')
                 else:
                     message = _('This Linkedin account is already in use!')
-                    self.add_message(message,'error')
+                    self.add_message(message, 'error')
                 if continue_url:
                     self.redirect(continue_url)
                 else:
@@ -518,7 +528,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             else:
                 # login with Linkedin
                 social_user = models.SocialUser.get_by_provider_and_uid('linkedin',
-                    str(user_data['id']))
+                                                                        str(user_data['id']))
                 if social_user:
                     # Social user exists. Need authenticate related site account
                     user = social_user.user.get()
@@ -543,13 +553,14 @@ class CallbackSocialLoginHandler(BaseHandler):
                     email = str(user_data.get('email'))
                     self.create_account_from_social_provider(provider_name, uid, email, continue_url, user_data)
 
-            #end linkedin
+                    #end linkedin
 
         # google, myopenid, yahoo OpenID Providers
         elif provider_name in models.SocialUser.open_id_providers():
             provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
             # get info passed from OpenId Provider
             from google.appengine.api import users
+
             current_user = users.get_current_user()
             if current_user:
                 if current_user.federated_identity():
@@ -562,15 +573,16 @@ class CallbackSocialLoginHandler(BaseHandler):
                             'Please ensure you are logging in from an authorized OpenID Provider (OP).'
                             % provider_display_name)
                 self.add_message(message, 'error')
-                return self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to('login')
+                return self.redirect_to('login', continue_url=continue_url) if continue_url else self.redirect_to(
+                    'login')
             if self.user:
                 # add social account to user
                 user_info = models.User.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, provider_name, uid):
                     social_user = models.SocialUser(
-                        user = user_info.key,
-                        provider = provider_name,
-                        uid = uid
+                        user=user_info.key,
+                        provider=provider_name,
+                        uid=uid
                     )
                     social_user.put()
 
@@ -643,9 +655,9 @@ class CallbackSocialLoginHandler(BaseHandler):
 
             # create social user and associate with user
             social_user = models.SocialUser(
-                user = user.key,
-                provider = provider_name,
-                uid = uid,
+                user=user.key,
+                provider=provider_name,
+                uid=uid,
             )
             if user_data:
                 social_user.extra_data = user_data
@@ -665,7 +677,8 @@ class CallbackSocialLoginHandler(BaseHandler):
                 except (apiproxy_errors.OverQuotaError, BadValueError):
                     logging.error("Error saving Visit Log in datastore")
 
-            message = _('Welcome!  You have been registered as a new user through %s and logged in.' % provider_display_name)
+            message = _(
+                'Welcome!  You have been registered as a new user through %s and logged in.' % provider_display_name)
             self.add_message(message, 'success')
         else:
             message = _('This %s account is already in use.' % provider_display_name)
@@ -674,6 +687,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             self.redirect(continue_url)
         else:
             self.redirect_to('edit-profile')
+
 
 class DeleteSocialProviderHandler(BaseHandler):
     """
@@ -695,7 +709,7 @@ class DeleteSocialProviderHandler(BaseHandler):
                     self.add_message(message, 'error')
             else:
                 message = ('Social account on %s cannot be deleted for user.'
-                            '  Please create a username and password to delete social account.' % provider_name)
+                           '  Please create a username and password to delete social account.' % provider_name)
                 self.add_message(message, 'error')
         self.redirect_to('edit-profile')
 
@@ -722,7 +736,7 @@ class LogoutHandler(BaseHandler):
             return self.redirect_to('home')
 
 
-class RegisterHandler(RegisterBaseHandler):
+class RegisterHandler(BaseHandler):
     """
     Handler for Sign Up Users
     """
@@ -746,6 +760,7 @@ class RegisterHandler(RegisterBaseHandler):
         email = self.form.email.data.lower()
         password = self.form.password.data.strip()
         country = self.form.country.data
+        tz = self.form.tz.data
 
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
@@ -758,14 +773,15 @@ class RegisterHandler(RegisterBaseHandler):
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
-            ip=self.request.remote_addr, country=country
+            ip=self.request.remote_addr, country=country, tz=tz
         )
 
         if not user[0]: #user is a tuple
             if "username" in str(user[1]):
-                message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
+                message = _(
+                    'Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username))
             elif "email" in str(user[1]):
-                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email) )
+                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email))
             else:
                 message = _('Sorry, The user is already registered.')
             self.add_message(message, 'error')
@@ -774,14 +790,13 @@ class RegisterHandler(RegisterBaseHandler):
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
-                user_info = models.User.get_by_email(email)
-                if (user_info.activated == False):
+                if not user[1].activated:
                     # send email
-                    subject =  _("%s Account Verification" % self.app.config.get('app_name'))
+                    subject = _("%s Account Verification" % self.app.config.get('app_name'))
                     confirmation_url = self.uri_for("account-activation",
-                        user_id=user_info.get_id(),
-                        token = models.User.create_auth_token(user_info.get_id()),
-                        _full = True)
+                                                    user_id=user[1].get_id(),
+                                                    token=models.User.create_auth_token(user[1].get_id()),
+                                                    _full=True)
 
                     # load email's template
                     template_val = {
@@ -794,11 +809,11 @@ class RegisterHandler(RegisterBaseHandler):
                     body = self.jinja2.render_template(body_path, **template_val)
 
                     email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url = email_url, params={
+                    taskqueue.add(url=email_url, params={
                         'to': str(email),
-                        'subject' : subject,
-                        'body' : body,
-                        })
+                        'subject': subject,
+                        'body': body,
+                    })
 
                     message = _('You were successfully registered. '
                                 'Please check your email to activate your account.')
@@ -813,10 +828,10 @@ class RegisterHandler(RegisterBaseHandler):
                 if twitter_association_data is not None:
                     if models.SocialUser.check_unique(user[1].key, 'twitter', str(twitter_association_data['id'])):
                         social_user = models.SocialUser(
-                            user = user[1].key,
-                            provider = 'twitter',
-                            uid = str(twitter_association_data['id']),
-                            extra_data = twitter_association_data
+                            user=user[1].key,
+                            provider='twitter',
+                            uid=str(twitter_association_data['id']),
+                            extra_data=twitter_association_data
                         )
                         social_user.put()
 
@@ -826,33 +841,39 @@ class RegisterHandler(RegisterBaseHandler):
                 if fb_data is not None:
                     if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
                         social_user = models.SocialUser(
-                            user = user.key,
-                            provider = 'facebook',
-                            uid = str(fb_data['id']),
-                            extra_data = fb_data
+                            user=user.key,
+                            provider='facebook',
+                            uid=str(fb_data['id']),
+                            extra_data=fb_data
                         )
                         social_user.put()
-                #check linkedin association
+                    #check linkedin association
                 li_data = json.loads(self.session['linkedin'])
                 if li_data is not None:
                     if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
                         social_user = models.SocialUser(
-                            user = user.key,
-                            provider = 'linkedin',
-                            uid = str(li_data['id']),
-                            extra_data = li_data
+                            user=user.key,
+                            provider='linkedin',
+                            uid=str(li_data['id']),
+                            extra_data=li_data
                         )
                         social_user.put()
 
-
-                message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username) )
+                message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username))
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
                 logging.error('Unexpected error creating the user %s: %s' % (username, e ))
-                message = _('Unexpected error creating the user %s' % username )
+                message = _('Unexpected error creating the user %s' % username)
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
+
+    @webapp2.cached_property
+    def form(self):
+        f = forms.RegisterForm(self)
+        f.country.choices = self.countries_tuple
+        f.tz.choices = self.tz
+        return f
 
 
 class AccountActivationHandler(BaseHandler):
@@ -879,7 +900,7 @@ class AccountActivationHandler(BaseHandler):
             models.User.delete_auth_token(user_id, token)
 
             message = _('Congratulations, Your account %s has been successfully activated.'
-                        % '<strong>{0:>s}</strong>'.format(user.username) )
+                        % '<strong>{0:>s}</strong>'.format(user.username))
             self.add_message(message, 'success')
             self.redirect_to('home')
 
@@ -909,9 +930,9 @@ class ResendActivationEmailHandler(BaseHandler):
                 # send email
                 subject = _("%s Account Verification" % self.app.config.get('app_name'))
                 confirmation_url = self.uri_for("account-activation",
-                    user_id = user.get_id(),
-                    token = models.User.create_auth_token(user.get_id()),
-                    _full = True)
+                                                user_id=user.get_id(),
+                                                token=models.User.create_auth_token(user.get_id()),
+                                                _full=True)
 
                 # load email's template
                 template_val = {
@@ -924,11 +945,11 @@ class ResendActivationEmailHandler(BaseHandler):
                 body = self.jinja2.render_template(body_path, **template_val)
 
                 email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url = email_url, params={
+                taskqueue.add(url=email_url, params={
                     'to': str(email),
-                    'subject' : subject,
-                    'body' : body,
-                    })
+                    'subject': subject,
+                    'body': body,
+                })
 
                 models.User.delete_resend_token(user_id, token)
 
@@ -963,8 +984,8 @@ class ContactHandler(BaseHandler):
             if user_info.email:
                 self.form.email.data = user_info.email
         params = {
-            "exception" : self.request.get('exception')
-            }
+            "exception": self.request.get('exception')
+        }
 
         return self.render_template('contact.html', **params)
 
@@ -973,8 +994,8 @@ class ContactHandler(BaseHandler):
 
         if not self.form.validate():
             return self.get()
-        remoteip  = self.request.remote_addr
-        user_agent  = self.request.user_agent
+        remoteip = self.request.remote_addr
+        user_agent = self.request.user_agent
         exception = self.request.POST.get('exception')
         name = self.form.name.data.strip()
         email = self.form.email.data.lower()
@@ -990,10 +1011,10 @@ class ContactHandler(BaseHandler):
             operating_system_full_name = str(ua[os]['name'])
 
             if 'version' in ua[os]:
-                operating_system_full_name += ' '+str(ua[os]['version'])
+                operating_system_full_name += ' ' + str(ua[os]['version'])
 
             if 'dist' in ua:
-                operating_system_full_name += ' '+str(ua['dist'])
+                operating_system_full_name += ' ' + str(ua['dist'])
 
             template_val = {
                 "name": name,
@@ -1017,12 +1038,12 @@ class ContactHandler(BaseHandler):
             body = self.jinja2.render_template(body_path, **template_val)
 
             email_url = self.uri_for('taskqueue-send-email')
-            taskqueue.add(url = email_url, params={
+            taskqueue.add(url=email_url, params={
                 'to': self.app.config.get('contact_recipient'),
-                'subject' : subject,
-                'body' : body,
-                'sender' : self.app.config.get('contact_sender'),
-                })
+                'subject': subject,
+                'body': body,
+                'sender': self.app.config.get('contact_sender'),
+            })
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
@@ -1055,6 +1076,7 @@ class EditProfileHandler(BaseHandler):
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
             self.form.country.data = user_info.country
+            self.form.tz.data = user_info.tz
             providers_info = user_info.get_social_providers_info()
             if not user_info.password:
                 params['local_account'] = False
@@ -1063,6 +1085,7 @@ class EditProfileHandler(BaseHandler):
             params['used_providers'] = providers_info['used']
             params['unused_providers'] = providers_info['unused']
             params['country'] = user_info.country
+            params['tz'] = user_info.tz
 
         return self.render_template('edit_profile.html', **params)
 
@@ -1075,40 +1098,43 @@ class EditProfileHandler(BaseHandler):
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
         country = self.form.country.data
+        tz = self.form.tz.data
 
         try:
             user_info = models.User.get_by_id(long(self.user_id))
 
             try:
-                message=''
+                message = ''
                 # update username if it has changed and it isn't already taken
                 if username != user_info.username:
-                    user_info.unique_properties = ['username','email']
+                    user_info.unique_properties = ['username', 'email']
                     uniques = [
-                               'User.username:%s' % username,
-                               'User.auth_id:own:%s' % username,
-                               ]
+                        'User.username:%s' % username,
+                        'User.auth_id:own:%s' % username,
+                    ]
                     # Create the unique username and auth_id.
                     success, existing = Unique.create_multi(uniques)
                     if success:
                         # free old uniques
-                        Unique.delete_multi(['User.username:%s' % user_info.username, 'User.auth_id:own:%s' % user_info.username])
+                        Unique.delete_multi(
+                            ['User.username:%s' % user_info.username, 'User.auth_id:own:%s' % user_info.username])
                         # The unique values were created, so we can save the user.
-                        user_info.username=username
-                        user_info.auth_ids[0]='own:%s' % username
-                        message+= _('Your new username is %s' % '<strong>{0:>s}</strong>'.format(username) )
+                        user_info.username = username
+                        user_info.auth_ids[0] = 'own:%s' % username
+                        message += _('Your new username is %s' % '<strong>{0:>s}</strong>'.format(username))
 
                     else:
-                        message+= _('The username %s is already taken. Please choose another.'
-                                % '<strong>{0:>s}</strong>'.format(username) )
+                        message += _('The username %s is already taken. Please choose another.'
+                                     % '<strong>{0:>s}</strong>'.format(username))
                         # At least one of the values is not unique.
                         self.add_message(message, 'error')
                         return self.get()
-                user_info.name=name
-                user_info.last_name=last_name
-                user_info.country=country
+                user_info.name = name
+                user_info.last_name = last_name
+                user_info.country = country
+                user_info.tz = tz
                 user_info.put()
-                message+= " " + _('Thanks, your settings have been saved.')
+                message += " " + _('Thanks, your settings have been saved.')
                 self.add_message(message, 'success')
                 return self.get()
 
@@ -1125,7 +1151,10 @@ class EditProfileHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        return forms.EditProfileForm(self)
+        f = forms.EditProfileForm(self)
+        f.country.choices = self.countries_tuple
+        f.tz.choices = self.tz
+        return f
 
 
 class EditPasswordHandler(BaseHandler):
@@ -1175,12 +1204,12 @@ class EditPasswordHandler(BaseHandler):
                 email_body_path = "emails/password_changed.txt"
                 email_body = self.jinja2.render_template(email_body_path, **template_val)
                 email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url = email_url, params={
+                taskqueue.add(url=email_url, params={
                     'to': user.email,
-                    'subject' : subject,
-                    'body' : email_body,
-                    'sender' : self.app.config.get('contact_sender'),
-                    })
+                    'subject': subject,
+                    'body': email_body,
+                    'sender': self.app.config.get('contact_sender'),
+                })
 
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
@@ -1192,17 +1221,14 @@ class EditPasswordHandler(BaseHandler):
                 message = _("Incorrect password! Please enter your current password to change your account settings.")
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
-        except (AttributeError,TypeError), e:
+        except (AttributeError, TypeError), e:
             login_error_message = _('Sorry you are not logged in.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
     @webapp2.cached_property
     def form(self):
-        if self.is_mobile:
-            return forms.EditPasswordMobileForm(self)
-        else:
-            return forms.EditPasswordForm(self)
+        return forms.EditPasswordForm(self)
 
 
 class EditEmailHandler(BaseHandler):
@@ -1253,10 +1279,10 @@ class EditEmailHandler(BaseHandler):
                     subject = _("%s Email Changed Notification" % self.app.config.get('app_name'))
                     user_token = models.User.create_auth_token(self.user_id)
                     confirmation_url = self.uri_for("email-changed-check",
-                        user_id = user_info.get_id(),
-                        encoded_email = utils.encode(new_email),
-                        token = user_token,
-                        _full = True)
+                                                    user_id=user_info.get_id(),
+                                                    encoded_email=utils.encode(new_email),
+                                                    token=user_token,
+                                                    _full=True)
 
                     # load email's template
                     template_val = {
@@ -1275,19 +1301,20 @@ class EditEmailHandler(BaseHandler):
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
 
                     email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url = email_url, params={
+                    taskqueue.add(url=email_url, params={
                         'to': user.email,
-                        'subject' : subject,
-                        'body' : old_body,
-                        })
-                    taskqueue.add(url = email_url, params={
+                        'subject': subject,
+                        'body': old_body,
+                    })
+                    taskqueue.add(url=email_url, params={
                         'to': new_email,
-                        'subject' : subject,
-                        'body' : new_body,
-                        })
+                        'subject': subject,
+                        'body': new_body,
+                    })
 
                     # display successful message
-                    msg = _("Please check your new email for confirmation. Your email will be updated after confirmation.")
+                    msg = _(
+                        "Please check your new email for confirmation. Your email will be updated after confirmation.")
                     self.add_message(msg, 'success')
                     return self.redirect_to('edit-profile')
 
@@ -1303,9 +1330,9 @@ class EditEmailHandler(BaseHandler):
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-email')
 
-        except (AttributeError,TypeError), e:
+        except (AttributeError, TypeError), e:
             login_error_message = _('Sorry you are not logged in.')
-            self.add_message(login_error_message,'error')
+            self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
     @webapp2.cached_property
@@ -1318,15 +1345,13 @@ class PasswordResetHandler(BaseHandler):
     Password Reset Handler with Captcha
     """
 
-
-
     def get(self):
         chtml = captcha.displayhtml(
-            public_key = self.app.config.get('captcha_public_key'),
-            use_ssl = (self.request.scheme == 'https'),
-            error = None)
+            public_key=self.app.config.get('captcha_public_key'),
+            use_ssl=(self.request.scheme == 'https'),
+            error=None)
         if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
-           self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
+                        self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
             chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
                     '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
                     'for API keys</a> in order to use reCAPTCHA.</div>' \
@@ -1334,14 +1359,14 @@ class PasswordResetHandler(BaseHandler):
                     '<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />'
         params = {
             'captchahtml': chtml,
-            }
+        }
         return self.render_template('password_reset.html', **params)
 
     def post(self):
         # check captcha
         challenge = self.request.POST.get('recaptcha_challenge_field')
-        response  = self.request.POST.get('recaptcha_response_field')
-        remoteip  = self.request.remote_addr
+        response = self.request.POST.get('recaptcha_response_field')
+        remoteip = self.request.remote_addr
 
         cResponse = captcha.submit(
             challenge,
@@ -1360,17 +1385,18 @@ class PasswordResetHandler(BaseHandler):
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
-            _message = _("If the e-mail address you entered") + " (<strong>%s</strong>) " % email_or_username
+            _message = _("If the email address you entered") + " (<strong>%s</strong>) " % email_or_username
         else:
             auth_id = "own:%s" % email_or_username
             user = models.User.get_by_auth_id(auth_id)
             _message = _("If the username you entered") + " (<strong>%s</strong>) " % email_or_username
 
         _message = _message + _("is associated with an account in our records, you will receive "
-                                "an e-mail from us with instructions for resetting your password. "
+                                "an email from us with instructions for resetting your password. "
                                 "<br>If you don't receive instructions within a minute or two, "
-                                "check your email's spam and junk filters, or ") +\
-                   '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' +  _("for further assistance.")
+                                "check your email's spam and junk filters, or ") + \
+                   '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' + _(
+            "for further assistance.")
 
         if user is not None:
             user_id = user.get_id()
@@ -1390,12 +1416,12 @@ class PasswordResetHandler(BaseHandler):
 
             body_path = "emails/reset_password.txt"
             body = self.jinja2.render_template(body_path, **template_val)
-            taskqueue.add(url = email_url, params={
+            taskqueue.add(url=email_url, params={
                 'to': user.email,
-                'subject' : subject,
-                'body' : body,
-                'sender' : self.app.config.get('contact_sender'),
-                })
+                'subject': subject,
+                'body': body,
+                'sender': self.app.config.get('contact_sender'),
+            })
         self.add_message(_message, 'warning')
         return self.redirect_to('login')
 
@@ -1440,10 +1466,7 @@ class PasswordResetCompleteHandler(BaseHandler):
 
     @webapp2.cached_property
     def form(self):
-        if self.is_mobile:
-            return forms.PasswordResetCompleteMobileForm(self)
-        else:
-            return forms.PasswordResetCompleteForm(self)
+        return forms.PasswordResetCompleteForm(self)
 
 
 class EmailChangedCompleteHandler(BaseHandler):
