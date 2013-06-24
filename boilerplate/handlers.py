@@ -1004,7 +1004,6 @@ class ContactHandler(BaseHandler):
         try:
             # parsing user_agent and getting which os key to use
             # windows uses 'os' while other os use 'flavor'
-            logging.info(user_agent)
             ua = httpagentparser.detect(user_agent)
             os = ua.has_key('flavor') and 'flavor' or 'os'
 
