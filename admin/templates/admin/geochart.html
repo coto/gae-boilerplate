@@ -1,7 +1,7 @@
 {% extends 'admin/base.html' %}
 
 {% block header_title %}
-  {% trans %}Big Picture{% endtrans %}
+  {% trans %}Users Geolocation{% endtrans %}
 {% endblock %}
 
 {% block content %}
@@ -11,22 +11,21 @@
 {% block mediaJS %}
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script type='text/javascript'>
-     google.load('visualization', '1', {'packages': ['geochart']});
-     google.setOnLoadCallback(drawRegionsMap);
+        google.load('visualization', '1', {'packages': ['geochart']});
+        google.setOnLoadCallback(drawRegionsMap);
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['Country', 'Registrations'],
+                {% for country, registrations in data %}
+                ['{{ country }}', {{ registrations }}],
+                {% endfor %}
+            ]);
 
-      function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Registrations'],
-          {% for country, registrations in data %}
-            ['{{ country }}', {{ registrations }}],
-          {% endfor %}
-        ]);
+            var options = {};
 
-        var options = {};
-
-        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    };
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
     </script>
  {% endblock %}
  

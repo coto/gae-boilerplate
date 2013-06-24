@@ -5,10 +5,10 @@ import users
 
 _routes = [
     PathPrefixRoute('/admin', [
-        RedirectRoute('/logout/', users.Logout, name='admin-logout', strict_slash=True),
-        RedirectRoute('/geochart/', users.Geochart, name='geochart', strict_slash=True),
-        RedirectRoute('/users/', users.List, name='user-list', strict_slash=True),
-        RedirectRoute('/users/<user_id>/', users.Edit, name='user-edit', strict_slash=True, handler_method='edit')
+        RedirectRoute('/logout/', users.AdminLogoutHandler, name='admin-logout', strict_slash=True),
+        RedirectRoute('/', users.AdminGeoChartHandler, name='geochart', strict_slash=True),
+        RedirectRoute('/users/', users.AdminUserListHandler, name='user-list', strict_slash=True),
+        RedirectRoute('/users/<user_id>/', users.AdminUserEditHandler, name='user-edit', strict_slash=True, handler_method='edit')
     ])
 ]
 

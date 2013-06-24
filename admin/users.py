@@ -10,12 +10,12 @@ from collections import OrderedDict, Counter
 from wtforms import fields
 
 
-class Logout(BaseHandler):
+class AdminLogoutHandler(BaseHandler):
     def get(self):
         self.redirect(users.create_logout_url(dest_url=self.uri_for('home')))
 
 
-class Geochart(BaseHandler):
+class AdminGeoChartHandler(BaseHandler):
     def get(self):
         users = models.User.query().fetch(projection=['country'])
         users_by_country = Counter()
@@ -24,7 +24,7 @@ class Geochart(BaseHandler):
                 users_by_country[user.country] += 1
         params = {
             "data": users_by_country.items()
-         }
+        }
         return self.render_template('admin/geochart.html', **params)
 
 
@@ -32,7 +32,7 @@ class EditProfileForm(forms.EditProfileForm):
     activated = fields.BooleanField('Activated')
 
 
-class List(BaseHandler):
+class AdminUserListHandler(BaseHandler):
     def get(self):
         p = self.request.get('p')
         q = self.request.get('q')
@@ -60,7 +60,7 @@ class List(BaseHandler):
             if next_cursor and more:
                 self.view.prev_cursor = next_cursor
             self.view.next_cursor = cursor.reversed()
- 
+
         def pager_url(p, cursor):
             params = OrderedDict()
             if q:
@@ -73,19 +73,21 @@ class List(BaseHandler):
 
         self.view.pager_url = pager_url
         self.view.q = q
-        
+
         params = {
             "list_columns": [('username', 'Username'),
-                             ('last_name', 'Last Name'), 
-                             ('email', 'E-Mail'),
-                             ('country', 'Country')],
-            "users" : users,
-            "count" : qry.count()
+                             ('name', 'Name'),
+                             ('last_name', 'Last Name'),
+                             ('email', 'Email'),
+                             ('country', 'Country'),
+                             ('tz', 'TimeZone')],
+            "users": users,
+            "count": qry.count()
         }
         return self.render_template('admin/list.html', **params)
 
 
-class Edit(BaseHandler):
+class AdminUserEditHandler(BaseHandler):
     def get_or_404(self, user_id):
         try:
             user = models.User.get_by_id(long(user_id))
@@ -110,11 +112,13 @@ class Edit(BaseHandler):
             self.form.process(obj=user)
 
         params = {
-            'user' : user
+            'user': user
         }
         return self.render_template('admin/edit.html', **params)
 
     @webapp2.cached_property
     def form(self):
-        return EditProfileForm(self)
-
+        f = EditProfileForm(self)
+        f.country.choices = self.countries_tuple
+        f.tz.choices = self.tz
+        return f
