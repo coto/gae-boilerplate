@@ -27,7 +27,7 @@ from boilerplate import routes as boilerplate_routes
 from admin import routes as admin_routes
 from boilerplate import config as boilerplate_config
 import config
-from boilerplate.lib.basehandler import handle_error
+from boilerplate.lib.error_handler import handle_error
 
 webapp2_config = boilerplate_config.config
 webapp2_config.update(config.config)
