@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-23 21:25-0400\n"
+"POT-Creation-Date: 2013-06-23 22:38-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: Coto Augosto <coto@beecoss.com>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -68,11 +68,11 @@ msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr "Felicitaciones por tu página potenciada con Google App Engine Boilerplate."
 
 msgid ""
-"Congratulations, Your account %s has been successfully "
-"activated.<strong>{0:>s}</strong>"
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
 msgstr ""
-"Felicitaciones, Tu cuenta %s ha sido activada "
-"exitósamente.<strong>{0:>s}</strong>"
+"Felicitaciones, Tu cuenta <strong>{}</strong> ha sido activada "
+"exitósamente."
 
 msgid "Contact"
 msgstr "Contacto"
@@ -117,7 +117,6 @@ msgstr "Olvidaste tu contraseña?"
 msgid "Github association added."
 msgstr "Asociación con Github agregada!"
 
-#, fuzzy
 msgid "Good Password"
 msgstr "Cambiar contraseña"
 
@@ -174,8 +173,8 @@ msgid ""
 "No user authentication information received from %s. Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
-"No hay información de autenticación recibida de %s. Asegúrate "
-"de estar usando un proveedor autorizado de OpenID."
+"No hay información de autenticación recibida de %s. Asegúrate de estar "
+"usando un proveedor autorizado de OpenID."
 
 msgid "Or Sign in using:"
 msgstr "O inicia sesión usando:"
@@ -190,8 +189,8 @@ msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
 msgstr ""
-"Por revisa tu nuevo email para confirmar el cambio. Tu email será actualizado "
-"después de la confirmación."
+"Por revisa tu nuevo email para confirmar el cambio. Tu email será "
+"actualizado después de la confirmación."
 
 msgid "Remember me?"
 msgstr "Recordarme?"
@@ -208,7 +207,6 @@ msgstr ""
 msgid "Secure Page"
 msgstr "Página segura"
 
-#, fuzzy
 msgid "Secure Password"
 msgstr "Reiniciar contraseña"
 
@@ -230,14 +228,14 @@ msgstr "Lo sentimos, no estás logeado."
 msgid "Sorry, Some error occurred."
 msgstr "Lo sentimos, ha currido un error."
 
-msgid "Sorry, The email %s is already registered.<strong>{0:>s}</strong>"
-msgstr "Lo sentimos, el email %s ya está registrado.<strong>{0:>s}</strong>"
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr "Lo sentimos, el email <strong>{}</strong> ya está en uso."
 
 msgid "Sorry, The user is already registered."
 msgstr "Lo sentimos, el nombre de usuario ya está registrado."
 
-msgid "Sorry, The username %s is already registered.<strong>{0:>s}</strong>"
-msgstr "Lo sentimos, el nombre de usuario %s ya está registrado.<strong>{0:>s}</strong>"
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr "Lo sentimos, el nombre de usuario <strong>{}</strong> ya está registrado."
 
 msgid "Source Code"
 msgstr "Código fuente"
@@ -252,8 +250,8 @@ msgid ""
 "The URL you tried to use is either incorrect or no longer valid. Enter "
 "your details again below to get a new one."
 msgstr ""
-"La URL que intentas visitar es incorrecta o ya no es válida. Ingresa "
-"tus datos a continuación ara obtener una nueva."
+"La URL que intentas visitar es incorrecta o ya no es válida. Ingresa tus "
+"datos a continuación ara obtener una nueva."
 
 msgid "The account %s is already in use."
 msgstr "La cuenta %s ya está en uso."
@@ -267,18 +265,16 @@ msgstr "El link no es válido."
 msgid "The two passwords must match."
 msgstr "Las dos contraseñas deben coincidir."
 
-msgid ""
-"The username %s is already taken. Please choose "
-"another.<strong>{0:>s}</strong>"
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
 msgstr ""
+"El nombre de usuario <strong>{}</strong> ya está en uso, por favor elige"
+" otro."
 
-#, python-format
 msgid ""
 "The verification email has been resent to %s. Please check your email to "
 "activate your account."
 msgstr ""
 
-#, python-format
 msgid "This %s account is already in use."
 msgstr ""
 
@@ -306,11 +302,9 @@ msgstr ""
 msgid "Unable to update profile. Please try again later."
 msgstr ""
 
-#, python-format
 msgid "Unexpected error creating the user %s"
 msgstr ""
 
-#, fuzzy
 msgid "Update Profile"
 msgstr "Actualizar perfil de usuario"
 
@@ -332,9 +326,8 @@ msgstr "Nombre de Usuario o Email"
 msgid "Users Geolocation"
 msgstr ""
 
-#, python-format
-msgid "Welcome %s, you are now logged in.<strong>{0:>s}</strong>"
-msgstr ""
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr "Bienvenido <strong>{}</strong>, has iniciado sesión."
 
 #, python-format
 msgid "Welcome!  You have been registered as a new user through %s and logged in."
@@ -376,8 +369,8 @@ msgstr ""
 msgid "Your message was sent successfully."
 msgstr ""
 
-msgid "Your new username is %s<strong>{0:>s}</strong>"
-msgstr ""
+msgid "Your new username is <strong>{}</strong>"
+msgstr "Tu nuevo nombre de usuario es <strong>{}</strong>"
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-23 21:25-0400\n"
+"POT-Creation-Date: 2013-06-23 22:38-0400\n"
 "PO-Revision-Date: 2012-07-19 12:53-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr_FR <LL@li.org>\n"
@@ -69,10 +69,9 @@ msgstr ""
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr ""
 
-#, python-format
 msgid ""
-"Congratulations, Your account %s has been successfully "
-"activated.<strong>{0:>s}</strong>"
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
 msgstr ""
 
 msgid "Contact"
@@ -224,15 +223,13 @@ msgstr ""
 msgid "Sorry, Some error occurred."
 msgstr ""
 
-#, python-format
-msgid "Sorry, The email %s is already registered.<strong>{0:>s}</strong>"
+msgid "Sorry, The email <strong>{}</strong> is already registered."
 msgstr ""
 
 msgid "Sorry, The user is already registered."
 msgstr ""
 
-#, python-format
-msgid "Sorry, The username %s is already registered.<strong>{0:>s}</strong>"
+msgid "Sorry, The username <strong>{}</strong> is already registered."
 msgstr ""
 
 msgid "Source Code"
@@ -263,10 +260,7 @@ msgstr ""
 msgid "The two passwords must match."
 msgstr ""
 
-#, python-format
-msgid ""
-"The username %s is already taken. Please choose "
-"another.<strong>{0:>s}</strong>"
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
 msgstr ""
 
 #, python-format
@@ -328,8 +322,7 @@ msgstr ""
 msgid "Users Geolocation"
 msgstr ""
 
-#, python-format
-msgid "Welcome %s, you are now logged in.<strong>{0:>s}</strong>"
+msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr ""
 
 #, python-format
@@ -371,8 +364,7 @@ msgstr ""
 msgid "Your message was sent successfully."
 msgstr ""
 
-#, python-format
-msgid "Your new username is %s<strong>{0:>s}</strong>"
+msgid "Your new username is <strong>{}</strong>"
 msgstr ""
 
 msgid ""

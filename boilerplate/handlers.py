@@ -779,9 +779,9 @@ class RegisterHandler(BaseHandler):
         if not user[0]: #user is a tuple
             if "username" in str(user[1]):
                 message = _(
-                    'Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username))
+                    'Sorry, The username <strong>{}</strong> is already registered.').format(username)
             elif "email" in str(user[1]):
-                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email))
+                message = _('Sorry, The email <strong>{}</strong> is already registered.').format(email)
             else:
                 message = _('Sorry, The user is already registered.')
             self.add_message(message, 'error')
@@ -847,7 +847,7 @@ class RegisterHandler(BaseHandler):
                             extra_data=fb_data
                         )
                         social_user.put()
-                    #check linkedin association
+                        #check linkedin association
                 li_data = json.loads(self.session['linkedin'])
                 if li_data is not None:
                     if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
@@ -859,7 +859,7 @@ class RegisterHandler(BaseHandler):
                         )
                         social_user.put()
 
-                message = _('Welcome %s, you are now logged in.' % '<strong>{0:>s}</strong>'.format(username))
+                message = _('Welcome <strong>{}</strong>, you are now logged in.').format(username)
                 self.add_message(message, 'success')
                 return self.redirect_to('home')
             except (AttributeError, KeyError), e:
@@ -899,8 +899,8 @@ class AccountActivationHandler(BaseHandler):
             # Delete token
             models.User.delete_auth_token(user_id, token)
 
-            message = _('Congratulations, Your account %s has been successfully activated.'
-                        % '<strong>{0:>s}</strong>'.format(user.username))
+            message = _('Congratulations, Your account <strong>{}</strong> has been successfully activated.').format(
+                user.username)
             self.add_message(message, 'success')
             self.redirect_to('home')
 
@@ -1121,11 +1121,12 @@ class EditProfileHandler(BaseHandler):
                         # The unique values were created, so we can save the user.
                         user_info.username = username
                         user_info.auth_ids[0] = 'own:%s' % username
-                        message += _('Your new username is %s' % '<strong>{0:>s}</strong>'.format(username))
+                        message += _('Your new username is <strong>{}</strong>').format(username)
 
                     else:
-                        message += _('The username %s is already taken. Please choose another.'
-                                     % '<strong>{0:>s}</strong>'.format(username))
+                        message += _(
+                            'The username <strong>{}</strong> is already taken. Please choose another.').format(
+                            username)
                         # At least one of the values is not unique.
                         self.add_message(message, 'error')
                         return self.get()
