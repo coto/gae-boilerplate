@@ -145,7 +145,11 @@ class BaseHandler(webapp2.RequestHandler):
         if self.user:
             try:
                 user_info = models.User.get_by_id(long(self.user_id))
-                return str(user_info.username)
+                if not user_info.activated:
+                    self.auth.unset_session()
+                    self.redirect_to('home')
+                else:
+                    return str(user_info.username)
             except AttributeError, e:
                 # avoid AttributeError when the session was delete from the server
                 logging.error(e)
