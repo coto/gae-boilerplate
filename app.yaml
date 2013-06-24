@@ -65,6 +65,14 @@ handlers:
   static_files: boilerplate/static/img/\1
   upload: boilerplate/static/img/(.*\.(gif|png|jpg))
 
+- url: /img/(.*\.(gif|png|jpg|jpeg))
+  static_files: static/img/\1
+  upload: static/img/(.*\.(gif|png|jpg|jpeg))
+
+- url: /css/(.*\.(gif|png|jpg|jpeg))
+  static_files: static/css/\1
+  upload: static/css/(.*\.(gif|png|jpg|jpeg))
+
 - url: /css
   mime_type: text/css
   static_dir: static/css
@@ -72,10 +80,6 @@ handlers:
 - url: /js
   mime_type: text/javascript
   static_dir: static/js
-
-- url: /img/(.*\.(gif|png|jpg))
-  static_files: static/img/\1
-  upload: static/img/(.*\.(gif|png|jpg))
 
 - url: /.*
   script: main.app
