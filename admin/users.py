@@ -47,7 +47,7 @@ class AdminUserListHandler(BaseHandler):
         else:
             qry = models.User.query()
 
-        PAGE_SIZE = 5
+        PAGE_SIZE = 50
         if forward:
             users, next_cursor, more = qry.order(models.User.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
             if next_cursor and more:
