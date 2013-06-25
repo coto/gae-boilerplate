@@ -127,6 +127,9 @@ def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
 
 
 EMAIL_REGEXP = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$"
+ALPHANUMERIC_REGEXP = "^\w+$"
+VALID_USERNAME_REGEXP = "^(\w+([\-\.])?\w*)$"
+NAME_LASTNAME_REGEXP = "^[\w\s\-\']*$"
 
 
 def is_email_valid(email):
@@ -134,11 +137,6 @@ def is_email_valid(email):
         if re.match(EMAIL_REGEXP, email) != None:
             return 1
     return 0
-
-
-ALPHANUMERIC_REGEXP = "^\w+$"
-VALID_USERNAME_REGEXP = "^(\w+([\-\.])?\w*)$"
-NAME_LASTNAME_REGEXP = "^[\w\s\-\']*$"
 
 
 def is_alphanumeric(field):
