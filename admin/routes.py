@@ -1,5 +1,4 @@
 from webapp2_extras.routes import RedirectRoute
-from webapp2_extras.routes import PathPrefixRoute
 import users
 
 
