@@ -32,7 +32,7 @@ builtins:
 - remote_api: on #/_ah/remote_api/
 
 handlers:
-- url: /admin/.*
+- url: /admin.*
   script: main.app
   login: admin
 
