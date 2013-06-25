@@ -235,7 +235,8 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def countries_tuple(self):
         countries = self.countries
-        del (countries["001"])
+        if "001" in countries:
+            del (countries["001"])
         countries = [(key, countries[key]) for key in countries]
         countries.append(("", ""))
         countries.sort(key=lambda tup: tup[1])

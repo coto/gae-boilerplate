@@ -822,7 +822,8 @@ class RegisterHandler(BaseHandler):
 
                 # If the user didn't register using registration form ???
                 db_user = self.auth.get_user_by_password(user[1].auth_ids[0], password)
-                # Check twitter association in session
+
+                # Check Twitter association in session
                 twitter_helper = twitter.TwitterAuth(self)
                 twitter_association_data = twitter_helper.get_association_data()
                 if twitter_association_data is not None:
@@ -835,9 +836,8 @@ class RegisterHandler(BaseHandler):
                         )
                         social_user.put()
 
-                #check facebook association
+                #check Facebook association
                 fb_data = json.loads(self.session['facebook'])
-
                 if fb_data is not None:
                     if models.SocialUser.check_unique(user.key, 'facebook', str(fb_data['id'])):
                         social_user = models.SocialUser(
@@ -847,7 +847,8 @@ class RegisterHandler(BaseHandler):
                             extra_data=fb_data
                         )
                         social_user.put()
-                        #check linkedin association
+
+                #check LinkedIn association
                 li_data = json.loads(self.session['linkedin'])
                 if li_data is not None:
                     if models.SocialUser.check_unique(user.key, 'linkedin', str(li_data['id'])):
