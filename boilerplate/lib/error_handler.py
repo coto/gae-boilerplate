@@ -6,6 +6,7 @@ import logging
 import sys
 # related third party imports
 import webapp2
+import httpagentparser
 from webapp2_extras import jinja2
 from google.appengine.api import taskqueue
 # local application/library specific imports
@@ -25,9 +26,28 @@ def handle_error(request, response, exception):
                                          request.app.config.get('app_name'))
 
         lines = traceback.format_exception(exc_type, exc_value, exc_tb)
+        ua = httpagentparser.detect(request.user_agent)
+        os = ua.has_key('flavor') and 'flavor' or 'os'
+
+        if len(ua.keys()) > 0:
+            operating_system = str(ua[os]['name'])
+            if 'version' in ua[os]:
+                operating_system += ' ' + str(ua[os]['version'])
+            if 'dist' in ua:
+                operating_system += ' ' + str(ua['dist'])
+            browser = str(ua['browser']['name'])
+            browser_version = str(ua['browser']['version'])
+        else:
+            operating_system = "-"
+            browser = "-"
+            browser_version = "-"
 
         message = '<strong>app_name:</strong> ' + request.app.config.get('app_name') + "<br />" + \
                   '<strong>Referer:</strong> ' + str(request.referer) + "<br />" + \
+                  '<strong>User Agent:</strong> ' + str(request.user_agent) + "<br />" + \
+                  '<strong>Operating System:</strong> ' + str(operating_system) + "<br />" + \
+                  '<strong>Browser:</strong> ' + str(browser) + "<br />" + \
+                  '<strong>Browser Version:</strong> ' + str(browser_version) + "<br />" + \
                   '<strong>Type:</strong> ' + exc_type.__name__ + "<br />" + \
                   '<strong>Description:</strong> ' + c['exception'] + "<br />" + \
                   '<strong>URL:</strong> ' + c['url'] + "<br />" + \
