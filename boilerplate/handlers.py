@@ -1008,18 +1008,14 @@ class ContactHandler(BaseHandler):
             ua = httpagentparser.detect(user_agent)
             _os = ua.has_key('flavor') and 'flavor' or 'os'
 
-            if len(ua.keys()) > 0:
-                operating_system = str(ua[_os]['name'])
-                if 'version' in ua[_os]:
-                    operating_system += ' ' + str(ua[_os]['version'])
-                if 'dist' in ua:
-                    operating_system += ' ' + str(ua['dist'])
-                browser = str(ua['browser']['name'])
-                browser_version = str(ua['browser']['version'])
-            else:
-                operating_system = "-"
-                browser = "-"
-                browser_version = "-"
+            operating_system = str(ua[_os]['name']) if "name" in ua[_os] else "-"
+            if 'version' in ua[_os]:
+                operating_system += ' ' + str(ua[_os]['version'])
+            if 'dist' in ua:
+                operating_system += ' ' + str(ua['dist'])
+
+            browser = str(ua['browser']['name']) if 'browser' in ua else "-"
+            browser_version = str(ua['browser']['version']) if 'browser' in ua else "-"
 
             template_val = {
                 "name": name,
