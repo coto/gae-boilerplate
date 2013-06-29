@@ -43,11 +43,13 @@ def handle_error(request, response, exception):
         message = '<strong>Application ID:</strong> ' + app_identity.get_application_id() + "<br />" + \
                   '<strong>Application Version:</strong> ' + os.environ['CURRENT_VERSION_ID'] + "<br />" + \
                   '<hr><strong>User Agent:</strong> ' + str(request.user_agent) + "<br />" + \
+                  '<strong>IP Address:</strong> ' + str(request.remote_addr) + "<br />" + \
                   '<strong>Operating System:</strong> ' + str(operating_system) + "<br />" + \
                   '<strong>Browser:</strong> ' + str(browser) + "<br />" + \
                   '<strong>Browser Version:</strong> ' + str(browser_version) + "<br />" + \
                   '<hr><strong>Error Type:</strong> ' + exc_type.__name__ + "<br />" + \
                   '<strong>Description:</strong> ' + c['exception'] + "<br />" + \
+                  '<strong>Method:</strong> ' + str(os.environ['REQUEST_METHOD']) + "<br />" + \
                   '<strong>URL:</strong> ' + c['url'] + "<br />" + \
                   '<strong>Referer:</strong> ' + str(request.referer) + "<br />" + \
                   '<strong>Traceback:</strong> <br />' + '<br />'.join(lines)
