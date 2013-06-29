@@ -1,3 +1,5 @@
+# *-* coding: UTF-8 *-*
+
 # standard library imports
 import os
 import re
@@ -14,6 +16,7 @@ import webapp2
 def random_string(size=6, chars=string.ascii_letters + string.digits):
     """ Generate random string """
     return ''.join(random.choice(chars) for _ in range(size))
+
 
 def hashing(plaintext, salt="", sha="512"):
     """ Returns the hashed and encrypted hexdigest of a plaintext and salt"""
@@ -129,7 +132,7 @@ def get_date_time(format="%Y-%m-%d %H:%M:%S", UTC_OFFSET=3):
 EMAIL_REGEXP = "^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$"
 ALPHANUMERIC_REGEXP = "^\w+$"
 VALID_USERNAME_REGEXP = "^(\w+([\-\.])?\w*)$"
-NAME_LASTNAME_REGEXP = "^[\w\s\-\']*$"
+NAME_LASTNAME_REGEXP = "^[a-zA-ZàáâäãåąćęèéêëìíîïłńòóôöõøùúûüÿýżźñçčšžÀÁÂÄÃÅĄĆĘÈÉÊËÌÍÎÏŁŃÒÓÔÖÕØÙÚÛÜŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$"
 
 
 def is_email_valid(email):
