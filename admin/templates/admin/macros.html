@@ -7,7 +7,7 @@
         {{ field()|safe }}
          {% if field.errors %}
           {% for error in field.errors %}
-            <span class="error help-inline">{{ error }}</span>
+            <span class="error help-inline">{{ error|safe }}</span>
           {% endfor %}
         {% endif %}
       </div>
@@ -37,7 +37,7 @@
     </div>
 {% endmacro %}
 
-{% macro render_form(form, return_url, btn='Save', legend='') -%}
+{% macro render_form(form, return_url, btn='Save', legend='') %}
     {% call form_tag(legend) %}
         {{ render_form_fields(form) }}
         {{ render_form_buttons(return_url, btn) }}

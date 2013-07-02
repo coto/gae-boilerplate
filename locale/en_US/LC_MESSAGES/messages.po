@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-12-15 21:06-0300\n"
+"POT-Creation-Date: 2013-06-23 22:37-0400\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,6 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
+#, python-format
+msgid "%s Account Verification"
+msgstr ""
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr ""
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr ""
+
+#, python-format
+msgid "%s association successfully added."
+msgstr ""
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr ""
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr ""
+
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
@@ -25,9 +49,6 @@ msgid ""
 msgstr ""
 
 msgid "Associate account with"
-msgstr ""
-
-msgid "Big Picture"
 msgstr ""
 
 msgid "Cancel"
@@ -46,6 +67,11 @@ msgid "Confirm Password"
 msgstr ""
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr ""
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
 msgstr ""
 
 msgid "Contact"
@@ -72,16 +98,39 @@ msgstr ""
 msgid "Enter your"
 msgstr ""
 
+msgid "Error sending the message. Please try again later."
+msgstr ""
+
 msgid "Existing social association"
 msgstr ""
 
+msgid "Facebook association added!"
+msgstr ""
+
+msgid "Federated login is disabled."
+msgstr ""
+
 msgid "Forgot your password?"
+msgstr ""
+
+msgid "Github association added."
 msgstr ""
 
 msgid "Good Password"
 msgstr ""
 
 msgid "Google App Engine Boilerplate is released under the"
+msgstr ""
+
+msgid "If the email address you entered"
+msgstr ""
+
+msgid "If the username you entered"
+msgstr ""
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
 msgstr ""
 
 msgid "Insecure Password"
@@ -94,6 +143,9 @@ msgid "Last Name"
 msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
+msgstr ""
+
+msgid "Linkedin association added!"
 msgstr ""
 
 msgid "Login"
@@ -114,10 +166,24 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+
 msgid "Or Sign in using:"
 msgstr ""
 
 msgid "Password"
+msgstr ""
+
+msgid "Password changed successfully."
+msgstr ""
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
 msgstr ""
 
 msgid "Remember me?"
@@ -147,7 +213,92 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr ""
+
+msgid "Sorry you are not logged in."
+msgstr ""
+
+msgid "Sorry, Some error occurred."
+msgstr ""
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr ""
+
+msgid "Sorry, The user is already registered."
+msgstr ""
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr ""
+
 msgid "Source Code"
+msgstr ""
+
+msgid "Thanks, your settings have been saved."
+msgstr ""
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr ""
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr ""
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr ""
+
+msgid "The link is invalid."
+msgstr ""
+
+msgid "The two passwords must match."
+msgstr ""
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr ""
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr ""
+
+msgid "This Facebook account is already in use!"
+msgstr ""
+
+msgid "This Github account is already in use."
+msgstr ""
+
+msgid "This Linkedin account is already in use!"
+msgstr ""
+
+msgid "This Twitter account is already in use."
+msgstr ""
+
+msgid "This authentication method is not yet implemented."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Twitter association added."
+msgstr ""
+
+msgid "Unable to update profile. Please try again later."
+msgstr ""
+
+#, python-format
+msgid "Unexpected error creating the user %s"
 msgstr ""
 
 msgid "Update Profile"
@@ -156,21 +307,96 @@ msgstr ""
 msgid "User Details"
 msgstr ""
 
+msgid "User List"
+msgstr ""
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr ""
+
 msgid "Username"
 msgstr ""
 
 msgid "Username or Email"
 msgstr ""
 
+msgid "Users Geolocation"
+msgstr ""
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr ""
+
+#, python-format
+msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgstr ""
+
+msgid "Wrong image verification code. Please try again."
+msgstr ""
+
+msgid "You didn't change your email."
+msgstr ""
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenId providers too if you logged in on a public computer."
+msgstr ""
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr ""
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
+
 msgid "Your browser is <em>ancient!</em>"
 msgstr ""
 
+msgid "Your email has been successfully updated."
+msgstr ""
+
+msgid "Your message was sent successfully."
+msgstr ""
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+
+msgid "click here"
+msgstr ""
+
+msgid "contact us"
+msgstr ""
+
 msgid "download the Source Code"
+msgstr ""
+
+msgid "for further assistance."
+msgstr ""
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
 msgstr ""
 
 msgid "or just"
 msgstr ""
 
 msgid "to help you to create your application."
+msgstr ""
+
+msgid "to resend the email."
 msgstr ""
 

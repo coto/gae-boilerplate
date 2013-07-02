@@ -22,76 +22,98 @@ class FormTranslations(object):
 
 
 class BaseForm(Form):
-    
     def __init__(self, request_handler):
         super(BaseForm, self).__init__(request_handler.request.POST)
+
     def _get_translations(self):
         return FormTranslations()
 
-
-class CurrentPasswordMixin(BaseForm):
-    current_password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
-
-
-class PasswordMixin(BaseForm):
-    password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
-
-
-class ConfirmPasswordMixin(BaseForm):
-    c_password = fields.TextField(_('Confirm Password'), [validators.Required(), validators.EqualTo('password', _('Passwords must match.')), validators.Length(max=FIELD_MAXLENGTH)])
+# ==== Mixins ====
+class PasswordConfirmMixin(BaseForm):
+    password = fields.TextField(_('Password'), [validators.Required(),
+                                                validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters."))])
+    c_password = fields.TextField(_('Confirm Password'),
+                                  [validators.Required(), validators.EqualTo('password', _('Passwords must match.')),
+                                   validators.Length(max=FIELD_MAXLENGTH,
+                                                     message=_("Field cannot be longer than %(max)d characters."))])
 
 
-class UserMixin(BaseForm):
-    username = fields.TextField(_('Username'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH), validators.regexp(utils.ALPHANUMERIC_REGEXP, message=_('Username invalid. Use only letters and numbers.'))])
-    name = fields.TextField(_('Name'), [validators.Length(max=FIELD_MAXLENGTH)])
-    last_name = fields.TextField(_('Last Name'), [validators.Length(max=FIELD_MAXLENGTH)])
-    country = fields.SelectField(_('Country'), choices=utils.COUNTRIES)
+class UsernameMixin(BaseForm):
+    username = fields.TextField(_('Username'), [validators.Required(),
+                                                validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters.")),
+                                                validators.regexp(utils.VALID_USERNAME_REGEXP, message=_(
+                                                    "Username invalid. Use only letters and numbers."))])
 
 
-class PasswordResetCompleteForm(PasswordMixin, ConfirmPasswordMixin):
+class NameMixin(BaseForm):
+    name = fields.TextField(_('Name'), [
+        validators.Length(max=FIELD_MAXLENGTH, message=_("Field cannot be longer than %(max)d characters.")),
+        validators.regexp(utils.NAME_LASTNAME_REGEXP, message=_(
+            "Name invalid. Use only letters and numbers."))])
+    last_name = fields.TextField(_('Last Name'), [
+        validators.Length(max=FIELD_MAXLENGTH, message=_("Field cannot be longer than %(max)d characters.")),
+        validators.regexp(utils.NAME_LASTNAME_REGEXP, message=_(
+            "Last Name invalid. Use only letters and numbers."))])
+
+
+class EmailMixin(BaseForm):
+    email = fields.TextField(_('Email'), [validators.Required(),
+                                          validators.Length(min=8, max=FIELD_MAXLENGTH, message=_(
+                                                    "Field must be between %(min)d and %(max)d characters long.")),
+                                          validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+
+
+# ==== Forms ====
+class PasswordResetCompleteForm(PasswordConfirmMixin):
     pass
 
 
-# mobile form does not require c_password as last letter is shown while typing and typing is difficult on mobile
-class PasswordResetCompleteMobileForm(PasswordMixin):
+class LoginForm(UsernameMixin):
+    password = fields.TextField(_('Password'), [validators.Required(),
+                                                validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters."))],
+                                id='l_password')
     pass
 
 
-class LoginForm(BaseForm):
-    password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)], id='l_password')
-    username = fields.TextField(_('Username'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)], id='l_username')
-
-
-class ContactForm(BaseForm):
-    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
-    name = fields.TextField(_('Name'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+class ContactForm(EmailMixin):
+    name = fields.TextField(_('Name'), [validators.Required(),
+                                        validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters.")),
+                                        validators.regexp(utils.NAME_LASTNAME_REGEXP, message=_(
+                                                    "Name invalid. Use only letters and numbers."))])
     message = fields.TextAreaField(_('Message'), [validators.Required(), validators.Length(max=65536)])
-
-
-class RegisterForm(PasswordMixin, ConfirmPasswordMixin, UserMixin):
-    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
     pass
 
 
-# mobile form does not require c_password as last letter is shown while typing and typing is difficult on mobile
-class RegisterMobileForm(PasswordMixin, UserMixin):
-    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+class RegisterForm(PasswordConfirmMixin, UsernameMixin, NameMixin, EmailMixin):
+    country = fields.SelectField(_('Country'), choices=[])
+    tz = fields.SelectField(_('Timezone'), choices=[])
     pass
 
 
-class EditProfileForm(UserMixin):
+class EditProfileForm(UsernameMixin, NameMixin):
+    country = fields.SelectField(_('Country'), choices=[])
+    tz = fields.SelectField(_('Timezone'), choices=[])
     pass
 
 
-class EditPasswordForm(PasswordMixin, ConfirmPasswordMixin, CurrentPasswordMixin):
+class EditPasswordForm(PasswordConfirmMixin):
+    current_password = fields.TextField(_('Password'), [validators.Required(),
+                                                        validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                            "Field cannot be longer than %(max)d characters."))])
     pass
 
 
-# mobile form does not require c_password as last letter is shown while typing and typing is difficult on mobile
-class EditPasswordMobileForm(PasswordMixin, CurrentPasswordMixin):
+class EditEmailForm(BaseForm):
+    new_email = fields.TextField(_('Email'), [validators.Required(),
+                                              validators.Length(min=8, max=FIELD_MAXLENGTH, message=_(
+                                                    "Field must be between %(min)d and %(max)d characters long.")),
+                                              validators.regexp(utils.EMAIL_REGEXP,
+                                                                message=_('Invalid email address.'))])
+    password = fields.TextField(_('Password'), [validators.Required(),
+                                                validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters."))])
     pass
-
-
-class EditEmailForm(PasswordMixin):
-    new_email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
-    

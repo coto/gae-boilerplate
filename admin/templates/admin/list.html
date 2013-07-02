@@ -1,7 +1,7 @@
 {% extends 'admin/base.html' %}
 
 {% block header_title %}
-    {% trans %}Search User{% endtrans %}
+    {% trans %}User List{% endtrans %}
 {% endblock %}
 
 {% block content %}
@@ -23,7 +23,7 @@
             <th class="span1">&nbsp;</th>
             {% for attr, name in list_columns %}
             <th>
-                {{ name }}
+                {{ name|safe }}
             </th>
             {% endfor %}
         </tr>
@@ -35,7 +35,7 @@
         </td>
         {% for attr, name in list_columns %}
         <td>
-            {{ getattr(user, attr) }}
+            {{ getattr(user, attr)|e }}
         </td>
         {% endfor %}
     </tr>

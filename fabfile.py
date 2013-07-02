@@ -6,7 +6,6 @@
 """
 
 from fabric.api import local
-import config
 
 def lang(mode="extract"):
     """
@@ -46,24 +45,17 @@ def start(mode="normal"):
     """
 
     if mode == "clear":
-        local("dev_appserver.py ./ --host 0.0.0.0 --port 8001 --clear_datastore=yes")
+        local("dev_appserver.py ./ --host 0.0.0.0 --port 8002 --clear_datastore=yes")
     else:
-        local("dev_appserver.py ./ --host 0.0.0.0 --port 8001")
+        local("dev_appserver.py ./ --host 0.0.0.0 --port 8002")
 
-def deploy(app_id=config.app_id, version=config.version):
+def deploy():
     """
         app.yaml never has to be version:default
 
-        HOW TO RUN:
-
-            option 1) fab deploy
-            option 2) fab deploy:preview
-            option 3) fab deploy:prod
-            option 4) fab deploy:homo
-
     """
 
-    local("appcfg.py --no_cookies --oauth2 -A {0} -V {1} update .".format(app_id, version))
+    local("appcfg.py --oauth2 update .")
 
 def test(os="mac"):
     """
