@@ -154,15 +154,9 @@ class LoginHandler(BaseHandler):
 
                 # redirect to home with error message
                 resend_email_uri = self.uri_for('resend-account-activation', user_id=user.get_id(),
-<<<<<<< HEAD
                                                 token=self.auth.store.user_model.create_resend_token(user.get_id()))
-                message = _('Your account has not yet been activated. Please check your email to activate it or') +\
-                          ' <a href="'+resend_email_uri+'">' + _('click here') + '</a> ' + _('to resend the email.')
-=======
-                                                token=models.User.create_resend_token(user.get_id()))
                 message = _('Your account has not yet been activated. Please check your email to activate it or') + \
                           ' <a href="' + resend_email_uri + '">' + _('click here') + '</a> ' + _('to resend the email.')
->>>>>>> upstream/master
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
@@ -796,24 +790,14 @@ class RegisterHandler(BaseHandler):
             # User registered successfully
             # But if the user registered using the form, the user has to check their email to activate the account ???
             try:
-<<<<<<< HEAD
-                user_info = self.auth.store.user_model.get_by_email(email)
-                if (user_info.activated == False):
-=======
                 if not user[1].activated:
->>>>>>> upstream/master
                     # send email
                     subject = _("%s Account Verification" % self.app.config.get('app_name'))
                     confirmation_url = self.uri_for("account-activation",
-<<<<<<< HEAD
-                        user_id=user_info.get_id(),
-                        token = self.auth.store.user_model.create_auth_token(user_info.get_id()),
-                        _full = True)
-=======
                                                     user_id=user[1].get_id(),
-                                                    token=models.User.create_auth_token(user[1].get_id()),
+                                                    token=self.auth.store.user_model.create_auth_token(user[1].get_id()),
                                                     _full=True)
->>>>>>> upstream/master
+
 
                     # load email's template
                     template_val = {
@@ -948,15 +932,9 @@ class ResendActivationEmailHandler(BaseHandler):
                 # send email
                 subject = _("%s Account Verification" % self.app.config.get('app_name'))
                 confirmation_url = self.uri_for("account-activation",
-<<<<<<< HEAD
-                    user_id = user.get_id(),
-                    token = self.auth.store.user_model.create_auth_token(user.get_id()),
-                    _full = True)
-=======
                                                 user_id=user.get_id(),
-                                                token=models.User.create_auth_token(user.get_id()),
+                                                token=self.auth.store.user_model.create_auth_token(user.get_id()),
                                                 _full=True)
->>>>>>> upstream/master
 
                 # load email's template
                 template_val = {
