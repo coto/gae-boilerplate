@@ -73,12 +73,15 @@ Testing
 + You may need to add /boilerplate/external to your python path.
 + Please add unittests for your application to [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests).
 + To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
+    sudo pip install webtest
+    sudo pip install mock
+    sudo pip install pyquery
 + Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
 
 Technologies used
 -----------------
 + Python 2.7.3
-+ [NDB 1.0.5](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
++ [NDB 1.0.9](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
 + [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
