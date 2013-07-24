@@ -68,7 +68,7 @@
                             </a>
                             <ul class="dropdown-menu">
                             	{% for l in locales %}
-                                {% if str(locale_iso) != l %}<li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>{% endif %}
+                                {% if locale_iso != l %}<li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>{% endif %}
                                 {% endfor %}
                             </ul>
                         </li>
