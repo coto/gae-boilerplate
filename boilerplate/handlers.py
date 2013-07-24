@@ -125,14 +125,14 @@ class LoginHandler(BaseHandler):
 
         try:
             if utils.is_email_valid(username):
-                user = models.User.get_by_email(username)
+                user = self.auth.store.user_model.get_by_email(username)
                 if user:
                     auth_id = user.auth_ids[0]
                 else:
                     raise InvalidAuthIdError
             else:
                 auth_id = "own:%s" % username
-                user = models.User.get_by_auth_id(auth_id)
+                user = self.auth.store.user_model.get_by_auth_id(auth_id)
 
             password = self.form.password.data.strip()
             remember_me = True if str(self.request.POST.get('remember_me')) == 'on' else False
@@ -154,7 +154,7 @@ class LoginHandler(BaseHandler):
 
                 # redirect to home with error message
                 resend_email_uri = self.uri_for('resend-account-activation', user_id=user.get_id(),
-                                                token=models.User.create_resend_token(user.get_id()))
+                                                token=self.auth.store.user_model.create_resend_token(user.get_id()))
                 message = _('Your account has not yet been activated. Please check your email to activate it or') + \
                           ' <a href="' + resend_email_uri + '">' + _('click here') + '</a> ' + _('to resend the email.')
                 self.add_message(message, 'error')
@@ -318,7 +318,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             logging.info('twitter user_data: ' + str(user_data))
             if self.user:
                 # new association with twitter
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'twitter', str(user_data['user_id'])):
                     social_user = models.SocialUser(
                         user=user_info.key,
@@ -383,7 +383,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             logging.info('github user_data: ' + str(user_data))
             if self.user:
                 # user is already logged in so we set a new association with twitter
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'github', str(user_data['login'])):
                     social_user = models.SocialUser(
                         user=user_info.key,
@@ -436,7 +436,7 @@ class CallbackSocialLoginHandler(BaseHandler):
             logging.info('facebook user_data: ' + str(user_data))
             if self.user:
                 # new association with facebook
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'facebook', str(user_data['id'])):
                     social_user = models.SocialUser(
                         user=user_info.key,
@@ -506,7 +506,7 @@ class CallbackSocialLoginHandler(BaseHandler):
 
             if self.user:
                 # new association with linkedin
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, 'linkedin', str(user_data['id'])):
                     social_user = models.SocialUser(
                         user=user_info.key,
@@ -577,7 +577,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                     'login')
             if self.user:
                 # add social account to user
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
                 if models.SocialUser.check_unique(user_info.key, provider_name, uid):
                     social_user = models.SocialUser(
                         user=user_info.key,
@@ -697,7 +697,7 @@ class DeleteSocialProviderHandler(BaseHandler):
     @user_required
     def post(self, provider_name):
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             if len(user_info.get_social_providers_info()['used']) > 1 or (user_info.password is not None):
                 social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
                 if social_user:
@@ -795,8 +795,9 @@ class RegisterHandler(BaseHandler):
                     subject = _("%s Account Verification" % self.app.config.get('app_name'))
                     confirmation_url = self.uri_for("account-activation",
                                                     user_id=user[1].get_id(),
-                                                    token=models.User.create_auth_token(user[1].get_id()),
+                                                    token=self.auth.store.user_model.create_auth_token(user[1].get_id()),
                                                     _full=True)
+
 
                     # load email's template
                     template_val = {
@@ -884,12 +885,12 @@ class AccountActivationHandler(BaseHandler):
 
     def get(self, user_id, token):
         try:
-            if not models.User.validate_auth_token(user_id, token):
+            if not self.auth.store.user_model.validate_auth_token(user_id, token):
                 message = _('The link is invalid.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
-            user = models.User.get_by_id(long(user_id))
+            user = self.auth.store.user_model.get_by_id(long(user_id))
             # activate the user's account
             user.activated = True
             user.put()
@@ -898,7 +899,7 @@ class AccountActivationHandler(BaseHandler):
             self.auth.get_user_by_token(int(user_id), token)
 
             # Delete token
-            models.User.delete_auth_token(user_id, token)
+            self.auth.store.user_model.delete_auth_token(user_id, token)
 
             message = _('Congratulations, Your account <strong>{}</strong> has been successfully activated.').format(
                 user.username)
@@ -919,12 +920,12 @@ class ResendActivationEmailHandler(BaseHandler):
 
     def get(self, user_id, token):
         try:
-            if not models.User.validate_resend_token(user_id, token):
+            if not self.auth.store.user_model.validate_resend_token(user_id, token):
                 message = _('The link is invalid.')
                 self.add_message(message, 'error')
                 return self.redirect_to('home')
 
-            user = models.User.get_by_id(long(user_id))
+            user = self.auth.store.user_model.get_by_id(long(user_id))
             email = user.email
 
             if (user.activated == False):
@@ -932,7 +933,7 @@ class ResendActivationEmailHandler(BaseHandler):
                 subject = _("%s Account Verification" % self.app.config.get('app_name'))
                 confirmation_url = self.uri_for("account-activation",
                                                 user_id=user.get_id(),
-                                                token=models.User.create_auth_token(user.get_id()),
+                                                token=self.auth.store.user_model.create_auth_token(user.get_id()),
                                                 _full=True)
 
                 # load email's template
@@ -952,7 +953,7 @@ class ResendActivationEmailHandler(BaseHandler):
                     'body': body,
                 })
 
-                models.User.delete_resend_token(user_id, token)
+                self.auth.store.user_model.delete_resend_token(user_id, token)
 
                 message = _('The verification email has been resent to %s. '
                             'Please check your email to activate your account.' % email)
@@ -979,7 +980,7 @@ class ContactHandler(BaseHandler):
         """ Returns a simple HTML for contact form """
 
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             if user_info.name or user_info.last_name:
                 self.form.name.data = user_info.name + " " + user_info.last_name
             if user_info.email:
@@ -1072,7 +1073,7 @@ class EditProfileHandler(BaseHandler):
 
         params = {}
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             self.form.username.data = user_info.username
             self.form.name.data = user_info.name
             self.form.last_name.data = user_info.last_name
@@ -1102,7 +1103,7 @@ class EditProfileHandler(BaseHandler):
         tz = self.form.tz.data
 
         try:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
 
             try:
                 message = ''
@@ -1180,13 +1181,13 @@ class EditPasswordHandler(BaseHandler):
         password = self.form.password.data.strip()
 
         try:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
 
             # Password to SHA512
             current_password = utils.hashing(current_password, self.app.config.get('salt'))
             try:
-                user = models.User.get_by_auth_password(auth_id, current_password)
+                user = self.auth.store.user_model.get_by_auth_password(auth_id, current_password)
                 # Password to SHA512
                 password = utils.hashing(password, self.app.config.get('salt'))
                 user.password = security.generate_password_hash(password, length=12)
@@ -1244,7 +1245,7 @@ class EditEmailHandler(BaseHandler):
 
         params = {}
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             params['current_email'] = user_info.email
 
         return self.render_template('edit_email.html', **params)
@@ -1258,20 +1259,20 @@ class EditEmailHandler(BaseHandler):
         password = self.form.password.data.strip()
 
         try:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.auth.store.user_model.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
             # Password to SHA512
             password = utils.hashing(password, self.app.config.get('salt'))
 
             try:
                 # authenticate user by its password
-                user = models.User.get_by_auth_password(auth_id, password)
+                user = self.auth.store.user_model.get_by_auth_password(auth_id, password)
 
                 # if the user change his/her email address
                 if new_email != user.email:
 
                     # check whether the new email has been used by another user
-                    aUser = models.User.get_by_email(new_email)
+                    aUser = self.auth.store.user_model.get_by_email(new_email)
                     if aUser is not None:
                         message = _("The email %s is already registered." % new_email)
                         self.add_message(message, 'error')
@@ -1279,7 +1280,7 @@ class EditEmailHandler(BaseHandler):
 
                     # send email
                     subject = _("%s Email Changed Notification" % self.app.config.get('app_name'))
-                    user_token = models.User.create_auth_token(self.user_id)
+                    user_token = self.auth.store.user_model.create_auth_token(self.user_id)
                     confirmation_url = self.uri_for("email-changed-check",
                                                     user_id=user_info.get_id(),
                                                     encoded_email=utils.encode(new_email),
@@ -1386,11 +1387,11 @@ class PasswordResetHandler(BaseHandler):
             #check if we got an email or username
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
-            user = models.User.get_by_email(email_or_username)
+            user = self.auth.store.user_model.get_by_email(email_or_username)
             _message = _("If the email address you entered") + " (<strong>%s</strong>) " % email_or_username
         else:
             auth_id = "own:%s" % email_or_username
-            user = models.User.get_by_auth_id(auth_id)
+            user = self.auth.store.user_model.get_by_auth_id(auth_id)
             _message = _("If the username you entered") + " (<strong>%s</strong>) " % email_or_username
 
         _message = _message + _("is associated with an account in our records, you will receive "
@@ -1402,7 +1403,7 @@ class PasswordResetHandler(BaseHandler):
 
         if user is not None:
             user_id = user.get_id()
-            token = models.User.create_auth_token(user_id)
+            token = self.auth.store.user_model.create_auth_token(user_id)
             email_url = self.uri_for('taskqueue-send-email')
             reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
             subject = _("%s Password Assistance" % self.app.config.get('app_name'))
@@ -1434,7 +1435,7 @@ class PasswordResetCompleteHandler(BaseHandler):
     """
 
     def get(self, user_id, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
+        verify = self.auth.store.user_model.get_by_auth_token(int(user_id), token)
         params = {}
         if verify[0] is None:
             message = _('The URL you tried to use is either incorrect or no longer valid. '
@@ -1446,7 +1447,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             return self.render_template('password_reset_complete.html', **params)
 
     def post(self, user_id, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
+        verify = self.auth.store.user_model.get_by_auth_token(int(user_id), token)
         user = verify[0]
         password = self.form.password.data.strip()
         if user and self.form.validate():
@@ -1456,7 +1457,7 @@ class PasswordResetCompleteHandler(BaseHandler):
             user.password = security.generate_password_hash(password, length=12)
             user.put()
             # Delete token
-            models.User.delete_auth_token(int(user_id), token)
+            self.auth.store.user_model.delete_auth_token(int(user_id), token)
             # Login User
             self.auth.get_user_by_password(user.auth_ids[0], password)
             self.add_message(_('Password changed successfully.'), 'success')
@@ -1478,7 +1479,7 @@ class EmailChangedCompleteHandler(BaseHandler):
     """
 
     def get(self, user_id, encoded_email, token):
-        verify = models.User.get_by_auth_token(int(user_id), token)
+        verify = self.auth.store.user_model.get_by_auth_token(int(user_id), token)
         email = utils.decode(encoded_email)
         if verify[0] is None:
             message = _('The URL you tried to use is either incorrect or no longer valid.')
@@ -1491,7 +1492,7 @@ class EmailChangedCompleteHandler(BaseHandler):
             user.email = email
             user.put()
             # delete token
-            models.User.delete_auth_token(int(user_id), token)
+            self.auth.store.user_model.delete_auth_token(int(user_id), token)
             # add successful message and redirect
             message = _('Your email has been successfully updated.')
             self.add_message(message, 'success')

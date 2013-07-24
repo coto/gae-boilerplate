@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from collections import OrderedDict, Counter
 from wtforms import fields
+from webapp2_extras.i18n import lazy_gettext as _
 
 
 class AdminLogoutHandler(BaseHandler):
@@ -17,7 +18,7 @@ class AdminLogoutHandler(BaseHandler):
 
 class AdminGeoChartHandler(BaseHandler):
     def get(self):
-        users = models.User.query().fetch(projection=['country'])
+        users = self.auth.store.user_model.query().fetch(projection=['country'])
         users_by_country = Counter()
         for user in users:
             if user.country:
@@ -29,7 +30,7 @@ class AdminGeoChartHandler(BaseHandler):
 
 
 class EditProfileForm(forms.EditProfileForm):
-    activated = fields.BooleanField('Activated')
+    activated = fields.BooleanField(_('Activated'))
 
 
 class AdminUserListHandler(BaseHandler):
@@ -41,21 +42,21 @@ class AdminUserListHandler(BaseHandler):
         cursor = Cursor(urlsafe=c)
 
         if q:
-            qry = models.User.query(ndb.OR(models.User.last_name == q,
-                                           models.User.email == q,
-                                           models.User.username == q))
+            qry = self.auth.store.user_model.query(ndb.OR(self.auth.store.user_model.last_name == q,
+                                           self.auth.store.user_model.email == q,
+                                           self.auth.store.user_model.username == q))
         else:
-            qry = models.User.query()
+            qry = self.auth.store.user_model.query()
 
         PAGE_SIZE = 50
         if forward:
-            users, next_cursor, more = qry.order(models.User.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
+            users, next_cursor, more = qry.order(self.auth.store.user_model.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
             if next_cursor and more:
                 self.view.next_cursor = next_cursor
             if c:
                 self.view.prev_cursor = cursor.reversed()
         else:
-            users, next_cursor, more = qry.order(-models.User.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
+            users, next_cursor, more = qry.order(-self.auth.store.user_model.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
             users = list(reversed(users))
             if next_cursor and more:
                 self.view.prev_cursor = next_cursor
@@ -90,7 +91,7 @@ class AdminUserListHandler(BaseHandler):
 class AdminUserEditHandler(BaseHandler):
     def get_or_404(self, user_id):
         try:
-            user = models.User.get_by_id(long(user_id))
+            user = self.auth.store.user_model.get_by_id(long(user_id))
             if user:
                 return user
         except ValueError:
