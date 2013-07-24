@@ -51,7 +51,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         routes.add_routes(self.app)
         boilerplate_routes.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
-        
+
         # activate GAE stubs
         self.testbed = testbed.Testbed()
         self.testbed.activate()
@@ -82,7 +82,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_homepage_has_no_calls_create_login_url(self):
         with patch('google.appengine.api.users.create_login_url') as create_login_url:
-            self.get('/')            
+            self.get('/')
         self.assertEqual(0, create_login_url.call_count)
 
     def test_csrf_protection(self):
@@ -116,14 +116,14 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form['password'] = '123456'
         self.submit(form, expect_error=True, error_message='Please check your email to activate it')
         self.assert_user_not_logged_in()
-        
+
     def _login_openid(self, provider, uid, email=None):
         openid_user = Mock()
         openid_user.federated_identity.return_value = uid
         openid_user.email.return_value = email
         with patch('google.appengine.api.users.get_current_user', return_value=openid_user):
             response = self.get('/social_login/{}/complete'.format(provider), status=302)
-            response = response.follow(status=200, headers=self.headers) 
+            response = response.follow(status=200, headers=self.headers)
         return response
 
     def test_login_openid_add_association(self):
@@ -148,7 +148,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         response = self._test_login_twitter()
         self.assert_success_message_in_response(response, "Welcome!  You have been registered as a new user")
         self.assert_user_logged_in()
- 
+
     def test_login_twitter_add_association(self):
         self.register_activate_login_testuser()
         response = self._test_login_twitter()
@@ -159,7 +159,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         models.SocialUser(user=user.key, provider='twitter', uid='7588892').put()
         self._test_login_twitter()
         self.assert_user_logged_in()
- 
+
     def _test_login_twitter(self):
         oauth_token = 'NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0'
         oauth_token_secret = 'veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI'
@@ -194,10 +194,10 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
             self.assertEquals(urlopen.call_count, 2)
             self.assertTrue(urlopen.call_args_list[1][0][0].
                             startswith('https://api.twitter.com/oauth/access_token?'))
- 
+
             response = response.follow(status=200, headers=self.headers)
             return response
- 
+
     def test_resend_activation_mail(self):
         self.register_testuser()
 
@@ -339,11 +339,11 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
 
     def test_register(self):
         self._test_register('/register/',
-                    expect_fields=['username', 'name', 'last_name', 'email', 'password', 'c_password', 'country'])
+                    expect_fields=['username', 'name', 'last_name', 'email', 'password', 'c_password', 'country', 'tz'])
 
     def test_register_from_home_page(self):
         self._test_register('/',
-                    expect_fields=['username', 'email', 'country', 'password', 'c_password'])
+                    expect_fields=['username', 'email', 'country', 'password', 'c_password', 'tz'])
 
     def _test_register(self, url, form_id='form_register', expect_fields=None):
         form = self.get_form(url, form_id, expect_fields=expect_fields)
