@@ -33,7 +33,6 @@ def jinja2_factory(app):
         'csrf_token': generate_csrf_token,
         'uri_for': webapp2.uri_for,
         'getattr': getattr,
-        'str': str,
     })
     j.environment.tests.update({
         # Set test.
