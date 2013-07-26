@@ -89,7 +89,7 @@ config = {
     'base_layout': 'base.html',
 
     # send error emails to developers
-    'send_mail_developer': True,
+    'send_mail_developer': False,
 
     # fellas' list
     'developers': (
