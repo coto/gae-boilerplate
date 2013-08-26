@@ -1,0 +1,408 @@
+# Vietnamese (Vietnam) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-26 16:19+0700\n"
+"PO-Revision-Date: 2013-08-26 16:19+0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: vi_VN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#, python-format
+msgid "%s Account Verification"
+msgstr "%s xac thuc tai khoan"
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr "% thay doi email thong bao"
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr "% mat khau"
+
+#, python-format
+msgid "%s association successfully added."
+msgstr "%s ket noi da duoc them vao."
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr "%s tinh nang xac thuc ko ton tai"
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr "Huy ket noi %s thanh cong"
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
+msgstr ""
+
+msgid "Associate account with"
+msgstr "Ket noi tai khoan voi"
+
+msgid "Cancel"
+msgstr "Huy bo"
+
+msgid "Change password"
+msgstr "Doi mat khau"
+
+msgid "Change your email"
+msgstr "Doi email"
+
+msgid "Change your password"
+msgstr "Doi mat khau cua ban"
+
+msgid "Confirm Password"
+msgstr "Xac nhan mat khau"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Cai dat thanh cong Google App Engine Boilerplate"
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
+msgstr ""
+"Chuc mung, tai khoan <strong>{}</strong> da kich hoat "
+"thanh cong."
+
+msgid "Contact"
+msgstr "Lien lac"
+
+msgid "Country"
+msgstr "Quoc gia"
+
+msgid "Current Password"
+msgstr "Mat khau hien tai"
+
+msgid "Don't have an account?"
+msgstr "Chua co tai khoan"
+
+msgid "Edit Profile"
+msgstr "Thong tin ca nhan"
+
+msgid "Email"
+msgstr ""
+
+msgid "Enter a new email address"
+msgstr "Nhap dia chi email moi"
+
+msgid "Enter your"
+msgstr "Nhap vao "
+
+msgid "Error sending the message. Please try again later."
+msgstr "Xay ra loi. Vui long thu lai sau."
+
+msgid "Existing social association"
+msgstr "Cac tai khoan da ket noi"
+
+msgid "Facebook association added!"
+msgstr "Ket noi Facebook da duoc them vao!"
+
+msgid "Federated login is disabled."
+msgstr ""
+
+msgid "Forgot your password?"
+msgstr "Quen mat khau"
+
+msgid "Github association added."
+msgstr "Ket noi github da duoc them vao."
+
+msgid "Good Password"
+msgstr "Mat khau tot"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr ""
+
+msgid "If the email address you entered"
+msgstr ""
+
+msgid "If the username you entered"
+msgstr ""
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr ""
+"Mat khau khong dung! Please enter your current password to change your "
+"account settings."
+
+msgid "Insecure Password"
+msgstr ""
+
+msgid "Language"
+msgstr "Ngon ngu"
+
+msgid "Last Name"
+msgstr "Ho"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr ""
+
+msgid "Linkedin association added!"
+msgstr ""
+
+msgid "Login"
+msgstr "Dang nhap"
+
+msgid "Logout"
+msgstr "Dang xuat"
+
+msgid "Message"
+msgstr "Tin nhan"
+
+msgid "Name"
+msgstr "Ten"
+
+msgid "New Email"
+msgstr "Email moi"
+
+msgid "New Password"
+msgstr "Mat khau noi"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+
+msgid "Or Sign in using:"
+msgstr "Hoac dang nhap bang:"
+
+msgid "Password"
+msgstr "Mat khau"
+
+msgid "Password changed successfully."
+msgstr "Thay doi mat khau thanh cong."
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+"Vui long kiem tra email. Your email will be updated "
+"after confirmation."
+
+msgid "Remember me?"
+msgstr "Ghi nho toi?"
+
+msgid "Remove"
+msgstr "Xoa"
+
+msgid "Reset password"
+msgstr "Khoi phuc mat khau"
+
+msgid "Search User"
+msgstr "Tim thanh vien"
+
+msgid "Secure Page"
+msgstr ""
+
+msgid "Secure Password"
+msgstr ""
+
+msgid "Send Message"
+msgstr ""
+
+msgid "Short Password"
+msgstr ""
+
+msgid "Sign Up"
+msgstr ""
+
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr ""
+
+msgid "Sorry you are not logged in."
+msgstr ""
+
+msgid "Sorry, Some error occurred."
+msgstr ""
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr ""
+
+msgid "Sorry, The user is already registered."
+msgstr ""
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr ""
+
+msgid "Source Code"
+msgstr ""
+
+msgid "Thanks, your settings have been saved."
+msgstr ""
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr ""
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr ""
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr ""
+
+msgid "The link is invalid."
+msgstr ""
+
+msgid "The two passwords must match."
+msgstr ""
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr ""
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr ""
+
+msgid "This Facebook account is already in use!"
+msgstr ""
+
+msgid "This Github account is already in use."
+msgstr ""
+
+msgid "This Linkedin account is already in use!"
+msgstr ""
+
+msgid "This Twitter account is already in use."
+msgstr ""
+
+msgid "This authentication method is not yet implemented."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Twitter association added."
+msgstr ""
+
+msgid "Unable to update profile. Please try again later."
+msgstr ""
+
+#, python-format
+msgid "Unexpected error creating the user %s"
+msgstr ""
+
+msgid "Update Profile"
+msgstr ""
+
+msgid "User Details"
+msgstr ""
+
+msgid "User List"
+msgstr ""
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Username or Email"
+msgstr ""
+
+msgid "Users Geolocation"
+msgstr ""
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr ""
+
+#, python-format
+msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgstr ""
+
+msgid "Wrong image verification code. Please try again."
+msgstr ""
+
+msgid "You didn't change your email."
+msgstr ""
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenId providers too if you logged in on a public computer."
+msgstr ""
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr ""
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr ""
+
+msgid "Your email has been successfully updated."
+msgstr ""
+
+msgid "Your message was sent successfully."
+msgstr ""
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+
+msgid "click here"
+msgstr ""
+
+msgid "contact us"
+msgstr ""
+
+msgid "download the Source Code"
+msgstr ""
+
+msgid "for further assistance."
+msgstr ""
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr ""
+
+msgid "or just"
+msgstr ""
+
+msgid "to help you to create your application."
+msgstr ""
+
+msgid "to resend the email."
+msgstr ""
+
