@@ -27,7 +27,7 @@ def displayhtml (public_key,
     else:
         server = API_SERVER
 
-    return """<script type="text/javascript" src="%(ApiServer)s/challenge?k=%(PublicKey)s%(ErrorParam)s"></script>
+    return """<script src="%(ApiServer)s/challenge?k=%(PublicKey)s%(ErrorParam)s"></script>
 
 <noscript>
   <iframe src="%(ApiServer)s/noscript?k=%(PublicKey)s%(ErrorParam)s" height="300" width="500" frameborder="0"></iframe><br />
