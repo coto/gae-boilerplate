@@ -1,11 +1,11 @@
 """
 Extract client information from http user agent
 The module does not try to detect all capabilities of browser in current form (it can easily be extended though).
-Aim is
-    * fast
+Tries to
+    * be fast
     * very easy to extend
     * reliable enough for practical purposes
-    * and assist python web apps to detect clients.
+    * assist python web apps to detect clients.
 """
 import sys
 
@@ -54,7 +54,8 @@ class DetectorBase(object):
     skip_if_found = [] # strings if present stop processin
     can_register = False
     prefs = dict() # dict(info_type = [name1, name2], ..)
-    version_splitters = ["/", " "]
+    version_markers = [("/", " ")]
+    allow_space_in_version = False
     _suggested_detectors = None
 
     def __init__(self):
@@ -80,14 +81,27 @@ class DetectorBase(object):
             return True
 
     def getVersion(self, agent):
-        # -> version string /None
-        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[0].strip()
+        """
+        => version string /None
+        """
+        version_markers = self.version_markers if \
+                isinstance(self.version_markers[0], (list, tuple)) else [self.version_markers]
+        version_part = agent.split(self.look_for, 1)[-1]
+        for start, end in version_markers:
+            if version_part.startswith(start) and end in version_part:
+                version = version_part[1:]
+                if end: # end could be empty string
+                    version = version.split(end)[0]
+                if not self.allow_space_in_version:
+                    version = version.split()[0]
+                return version
 
 
 class OS(DetectorBase):
     info_type = "os"
     can_register = False
-    version_splitters = [";", " "]
+    version_markers = [";", " "]
+    allow_space_in_version = True
 
 
 class Dist(DetectorBase):
@@ -114,11 +128,17 @@ class Macintosh(OS):
 
 class Firefox(Browser):
     look_for = "Firefox"
+    version_markers = [('/', '')]
+    skip_if_found = ["SeaMonkey"]
+
+class SeaMonkey(Browser):
+    look_for = "SeaMonkey"
+    version_markers = [('/', '')]
 
 
 class Konqueror(Browser):
     look_for = "Konqueror"
-    version_splitters = ["/", ";"]
+    version_markers = ["/", ";"]
 
 class OperaMobile(Browser):
     look_for = "Opera Mobi"
@@ -143,12 +163,13 @@ class Opera(Browser):
 
 class Netscape(Browser):
     look_for = "Netscape"
+    version_markers = [("/", '')]
 
 class MSIE(Browser):
     look_for = "MSIE"
     skip_if_found = ["Opera"]
     name = "Microsoft Internet Explorer"
-    version_splitters = [" ", ";"]
+    version_markers = [" ", ";"]
 
 
 class Galeon(Browser):
@@ -173,6 +194,8 @@ class Safari(Browser):
     def getVersion(self, agent):
         if "Version/" in agent:
             return agent.split('Version/')[-1].split(' ')[0].strip()
+        if "Safari/" in agent:
+            return agent.split('Safari/')[-1].split(' ')[0].strip()
         else:
             return agent.split('Safari ')[-1].split(' ')[0].strip() # Mobile Safari
 
@@ -217,14 +240,15 @@ class Windows(OS):
     look_for = 'Windows'
     prefs = dict(browser=["Microsoft Internet Explorer", 'Firefox'], dict=None, flavor=None)
     win_versions = {
-        "NT 6.1": "7",
-        "NT 6.0": "Vista",
-        "NT 5.2": "Server 2003 / XP x64",
-        "NT 5.1": "XP",
-        "NT 5.01": "2000 SP1",
-        "NT 5.0": "2000",
-        "98; Win 9x 4.90": "Me"
-    }
+            "NT 6.2": "8",
+            "NT 6.1": "7",
+            "NT 6.0": "Vista",
+            "NT 5.2": "Server 2003 / XP x64",
+            "NT 5.1": "XP",
+            "NT 5.01": "2000 SP1",
+            "NT 5.0": "2000",
+            "98; Win 9x 4.90": "Me"
+        }
 
     def getVersion(self, agent):
         v = agent.split('Windows')[-1].split(';')[0].strip()
@@ -236,30 +260,39 @@ class Windows(OS):
 
 class Ubuntu(Dist):
     look_for = 'Ubuntu'
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
     prefs = dict(browser=['Firefox'])
 
 
 class Debian(Dist):
     look_for = 'Debian'
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
     prefs = dict(browser=['Firefox'])
 
 
 class Chrome(Browser):
     look_for = "Chrome"
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
+    def getVersion(self, agent):
+        part = agent.split(self.look_for + self.version_markers[0])[-1]
+        version = part.split(self.version_markers[1])[0]
+        if '+' in version:
+            version = part.split('+')[0]
+        return version.strip()
 
 class ChromeiOS(Browser):
     look_for = "CriOS"
-    version_splitters = ["/", " "]
+    version_markers = ["/", " "]
 
 class ChromeOS(OS):
     look_for = "CrOS"
-    version_splitters = [" ", " "]
+    version_markers = [" ", " "]
     prefs = dict(browser=['Chrome'])
     def getVersion(self, agent):
-        return agent.split(self.look_for + self.version_splitters[0])[-1].split(self.version_splitters[1])[1].strip()[:-1]
+        version_markers = self.version_markers
+        if self.look_for + '+' in agent:
+            version_markers = ['+', '+']
+        return agent.split(self.look_for + version_markers[0])[-1].split(version_markers[1])[1].strip()[:-1]
 
 class Android(Dist):
     look_for = 'Android'
@@ -288,57 +321,45 @@ class IPhone(Dist):
                 return version.replace('_', '.')
 
 class IPad(Dist):
-    look_for = 'iPad'
+    look_for = 'iPad; CPU OS'
     prefs = dict(browser=['Safari'])
+    version_markers = [(' ', ' ')]
+    allow_space_in_version = False
 
     def getVersion(self, agent):
-        version_end_chars = [';', ')']
-        part = agent.split('Mac OS')[-1].strip()
-        for c in version_end_chars:
-            if c in part:
-                version = part.split(c)[0]
-                return version.replace('_', '.')
+        version = super(Dist, self).getVersion(agent)
+        return version.replace('_', '.')
 
 detectorshub = DetectorsHub()
 
-def detect(agent):
+
+def detect(agent, fill_none=False):
+    """
+    fill_none: if name/version is not detected respective key is still added to the result with value None
+    """
     result = dict()
-    prefs = dict()
-    _suggested_detectors = []
-    for info_type in detectorshub:
-        if not _suggested_detectors:
-            detectors = detectorshub[info_type]
-            _d_prefs = prefs.get(info_type, [])
-            detectors = detectorshub.reorderByPrefs(detectors, _d_prefs)
-            if "detector" in locals():
-                detector._suggested_detectors = detectors
-        else:
-            detectors = _suggested_detectors
-        for detector in detectors:
-            print("detector name: %s" % detector.name)
-            if detector.detect(agent, result):
-                prefs = detector.prefs
-                _suggested_detectors = detector._suggested_detectors
-                break
-    return result
-
-
-class Result(dict):
-    def __missing__(self, k):
-        return ""
-
-
-def detect(agent):
-    result = Result()
     _suggested_detectors = []
     for info_type in detectorshub:
         detectors = _suggested_detectors or detectorshub[info_type]
         for detector in detectors:
-            if detector.detect(agent, result):
+            try:
+                ret = detector.detect(agent, result)
+            except Exception as err:
+                ret = False
+            if ret:
                 if detector.prefs and not detector._suggested_detectors:
                     _suggested_detectors = detectorshub.reorderByPrefs(detectors, detector.prefs.get(info_type))
                     detector._suggested_detectors = _suggested_detectors
                     break
+
+    if fill_none:
+        attrs_d = {'name': None, 'version': None}
+        for key in ('os', 'browser'):
+            if key not in result:
+                result[key] = attrs_d
+            else:
+                for k, v in attrs_d.items():
+                    result[k] = v
     return result
 
 
@@ -354,7 +375,7 @@ def simple_detect(agent):
 
     os = os_list and " ".join(os_list) or "Unknown OS"
     os_version = os_list and (result.get('flavor') and result['flavor'].get('version')) or (
-        result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
+    result.get('dist') and result['dist'].get('version')) or (result.get('os') and result['os'].get('version')) or ""
     browser = 'browser' in result and result['browser'].get('name') or 'Unknown Browser'
     browser_version = 'browser' in result and result['browser'].get('version') or ""
     if browser_version:
