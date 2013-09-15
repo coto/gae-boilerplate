@@ -1,0 +1,429 @@
+# Vietnamese (Vietnam) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: nampnq@gmail.com\n"
+"POT-Creation-Date: 2013-08-26 16:19+0700\n"
+"PO-Revision-Date: 2013-08-26 16:19+0700\n"
+"Last-Translator: Nam Pham Ngoc Quang <nampnq@gmail.com>\n"
+"Language-Team: vi_VN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#, python-format
+msgid "%s Account Verification"
+msgstr "%s xác thực tài khoản"
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr "%s thay đổi email"
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr "% hỗ trợ mật khẩu"
+
+#, python-format
+msgid "%s association successfully added."
+msgstr "Liên kết %s đã được thêm vào."
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr "Phương thức xác thực %s chưa được hiện thực."
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr "Hủy liên kết %s thành công"
+
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstall Google Chrome Frame</a> to experience this site."
+msgstr ""
+"<a href=\"http://browsehappy.com/\">Vui lòng cập nhật trình duyệt khác</a>\n"
+"    \thoặc <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tcài Google Chrome Frame</a> để trải nghiệm đầy đủ tính năng."
+
+msgid "Associate account with"
+msgstr "Liên kết tài khoản với"
+
+msgid "Cancel"
+msgstr "Hủy bỏ"
+
+msgid "Change password"
+msgstr "Đổi mật khẩu"
+
+msgid "Change your email"
+msgstr "Đổi email"
+
+msgid "Change your password"
+msgstr "Đổi mật khẩu của bạn"
+
+msgid "Confirm Password"
+msgstr "Xác nhận lại mật khẩu"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Cài đặt thành công Google App Engine Boilerplate"
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
+msgstr ""
+"Chúc mừng, tài khoản <strong>{}</strong> đã kích hoạt "
+"thành công."
+
+msgid "Contact"
+msgstr "Liên lạc"
+
+msgid "Country"
+msgstr "Quốc gia"
+
+msgid "Current Password"
+msgstr "Mật khẩu hiện tại"
+
+msgid "Don't have an account?"
+msgstr "Chưa có tài khoản?"
+
+msgid "Edit Profile"
+msgstr "Trang cá nhân"
+
+msgid "Email"
+msgstr ""
+
+msgid "Enter a new email address"
+msgstr "Nhập địa chỉ email mới"
+
+msgid "Enter your"
+msgstr "Nhập"
+
+msgid "Error sending the message. Please try again later."
+msgstr "Xảy ra lỗi trong khi gửi tin nhắn. Vui lòng thử lại sau."
+
+msgid "Existing social association"
+msgstr "Các tài khoản đã liên kết"
+
+msgid "Facebook association added!"
+msgstr "Liên kết Facebook đã được thêm!"
+
+msgid "Federated login is disabled."
+msgstr "Đăng nhập trung gian đã bị vô hiệu hóa."
+
+msgid "Forgot your password?"
+msgstr "Quên mật khẩu"
+
+msgid "Github association added."
+msgstr "Liên kết Github đã được thêm"
+
+msgid "Good Password"
+msgstr "Mật khẩu tốt"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate được phát hành dưới giấy phép"
+
+msgid "If the email address you entered"
+msgstr "Nếu bạn nhập địa chỉ email"
+
+msgid "If the username you entered"
+msgstr "Nếu bạn nhập tên đăng nhập"
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr ""
+"Mật khẩu không đúng! Vui lòng nhập đúng mật khẩu hiện tại "
+"để thay đổi thiết lập tài khoản."
+
+msgid "Insecure Password"
+msgstr "Mật khẩu không an toàn"
+
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+msgid "Last Name"
+msgstr "Họ"
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Tại sao nên sử dụng Boilerplate Rocks"
+
+msgid "Linkedin association added!"
+msgstr "Liên kết Linkedin đã được thêm!"
+
+msgid "Login"
+msgstr "Đăng nhập"
+
+msgid "Logout"
+msgstr "Đăng xuất"
+
+msgid "Message"
+msgstr "Tin nhắn"
+
+msgid "Name"
+msgstr "Tên"
+
+msgid "New Email"
+msgstr "Email mới"
+
+msgid "New Password"
+msgstr "Mật khẩu mới"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+"Không tìm thấy thông tin đăng nhập từ %s. Chắc rằng "
+"được đăng nhập từ một Nhà cung cấp OpenID có thẩm quyền (OP)."
+
+msgid "Or Sign in using:"
+msgstr "Hoặc đăng nhập bằng:"
+
+msgid "Password"
+msgstr "Mật khẩu"
+
+msgid "Password changed successfully."
+msgstr "Thay đổi mật khẩu thành công."
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+"Vui lòng xác nhận bằng email. Email của bạn sẽ được cập nhật "
+"Sau khi xác nhận."
+
+msgid "Remember me?"
+msgstr "Duy trì đăng nhập?"
+
+msgid "Remove"
+msgstr "Xóa"
+
+msgid "Reset password"
+msgstr "Khôi phục mật khẩu"
+
+msgid "Search User"
+msgstr "Tìm thành viên"
+
+msgid "Secure Page"
+msgstr "Trang an toàn"
+
+msgid "Secure Password"
+msgstr "Mật khẩu an toàn"
+
+msgid "Send Message"
+msgstr "Gửi tin nhắn"
+
+msgid "Short Password"
+msgstr "Mật khẩu ngắn"
+
+msgid "Sign Up"
+msgstr "Đăng kí"
+
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr "Tài khoản %s không liên kết với thành viên nào."
+
+msgid "Sorry you are not logged in."
+msgstr "Xin lỗi, bạn không thể đăng nhập."
+
+msgid "Sorry, Some error occurred."
+msgstr "Xin lỗi, đã xảy ra một số lỗi."
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr "Xin lỗi, email <strong>{}</strong> đã được đăng kí."
+
+msgid "Sorry, The user is already registered."
+msgstr "Xin lỗi, thành viên này đã đăng kí."
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr "Xin lỗi, tên đăng nhập <strong>{}</strong> đã tồn tại."
+
+msgid "Source Code"
+msgstr "Mã nguồn"
+
+msgid "Thanks, your settings have been saved."
+msgstr "Cảm ơn, thiết lập của bạn đã được lưu."
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr "Đường dẫn bạn yêu cầu không đúng"
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+"Đường dẫn bạn yêu cầu không đúng. Nhập"
+"chi tiết bạn được dẫn đến đây."
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr "Tài khoản %s đã được sử dụng"
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr "Email %s đã được đăng kí"
+
+msgid "The link is invalid."
+msgstr "Đường dẫn không đúng"
+
+msgid "The two passwords must match."
+msgstr "Hai mật khẩu không giống nhau."
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr "Tên đăng nhập <strong>{}</strong> đã tồn tại. Vui lòng chọn tên khác."
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+"Một email xác thực đã được gửi tới %s. Vui lòng kiểm tra mail "
+"để xác thực."
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr "Tài khoản %s này đã được sử dụng."
+
+msgid "This Facebook account is already in use!"
+msgstr "Tài khoản Facebook này đã được sử dụng!"
+
+msgid "This Github account is already in use."
+msgstr "Tài khoản Github này đã được sử dụng."
+
+msgid "This Linkedin account is already in use!"
+msgstr "Tài khoản Linkedin này đã được sử dụng."
+
+msgid "This Twitter account is already in use."
+msgstr "Tài khoản Twitter này đã được sử dụng."
+
+msgid "This authentication method is not yet implemented."
+msgstr "Phương thức chưa được hiện thực"
+
+msgid "Timezone"
+msgstr "Múi giờ"
+
+msgid "Twitter association added."
+msgstr "Liên kết Twitter đã được thêm."
+
+msgid "Unable to update profile. Please try again later."
+msgstr "Không thể cập nhật thông tin. Vui lòng thử lại sau."
+
+#, python-format
+msgid "Unexpected error creating the user %s"
+msgstr "Lỗi không xác định khi tạo thành viên %s"
+
+msgid "Update Profile"
+msgstr "Cập nhập thông tin"
+
+msgid "User Details"
+msgstr "Thông tin thành viên"
+
+msgid "User List"
+msgstr "Danh sách thành viên"
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr "Có lỗi khi chuyển hướng"
+
+msgid "Username"
+msgstr "Tên đăng nhập"
+
+msgid "Username or Email"
+msgstr "Tên đăng nhập hoặc email"
+
+msgid "Users Geolocation"
+msgstr "Vị trí thành viên"
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr "Chào <strong>{}</strong>, bạn đã đăng nhập thành công."
+
+#, python-format
+msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgstr "Xin chào! Bạn đã đăng kí thành công với tài khoản %s"
+
+msgid "Wrong image verification code. Please try again."
+msgstr "Sai mã xác nhận. Vui lòng thử lại."
+
+msgid "You didn't change your email."
+msgstr "Bạn không thể đổi email."
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+"Bạn đã đăng kí thành công. Vui lòng kiểm tra mail"
+"để kích hoạt"
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenId providers too if you logged in on a public computer."
+msgstr ""
+"Bạn đã đăng xuất thành công. Cảnh báo: Vui lòng xóa hết cookies"
+"nếu bạn đang sử dụng máy tính công cộng."
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr ""
+"Tài khoản bạn đã được kích hoạt. Vui lòng <a href=\"/login/\">đăng nhập</a> "
+"vào tài khoản."
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
+"Tài khoản bày chưa kích hoạt. Vui lòng kiểm tra mail"
+"để kích hoạt hoặc"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Trình duyệt bạn <em>quá cũ!</em>"
+
+msgid "Your email has been successfully updated."
+msgstr "Cập nhật email thành công."
+
+msgid "Your message was sent successfully."
+msgstr "Gửi tin nhắn thành công."
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr "Tên đăng nhập bạn là <strong>{}</strong>"
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+"Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại( chắc"
+"rằng phím caplock đã tắt"
+
+msgid "click here"
+msgstr "Click vào đây"
+
+msgid "contact us"
+msgstr "Liên hệ"
+
+msgid "download the Source Code"
+msgstr "Tải về từ mã nguồn"
+
+msgid "for further assistance."
+msgstr "để được hỗ trợ thêm"
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr ""
+"bạn sẽ nhận được email hướng dẫn phục hồi mật khẩu. <br>"
+"Nếu bạn chưa nhận được, vui lòng chờ trong chốc lát, kiểm tra mail spam, rác, hoặc"
+
+msgid "or just"
+msgstr "hoặc"
+
+msgid "to help you to create your application."
+msgstr "để giúp bạn tạo ứng dụng."
+
+msgid "to resend the email."
+msgstr "để gửi lại email."
+
