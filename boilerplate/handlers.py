@@ -118,8 +118,9 @@ class LoginHandler(BaseHandler):
         password: Get the password from POST dict
         """
 
-        if not self.form.validate():
-            return self.get()
+#--- Fixes issue #253 for login no validation is required. If matching login details are found, they are ok.
+#        if not self.form.validate():
+#            return self.get()
         username = self.form.username.data.lower()
         continue_url = self.request.get('continue_url').encode('ascii', 'ignore')
 
