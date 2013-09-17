@@ -763,14 +763,32 @@ class RegisterHandler(BaseHandler):
         country = self.form.country.data
         tz = self.form.tz.data
 
+        auth_id = "own:%s" % username
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
+
+        # check for existence of User with matching username
+        qry = models.User.query(models.User.username == username)
+        user = qry.fetch(1)
+        if user:
+            message = _(
+                    'Sorry, The username <strong>{}</strong> is already registered.').format(username)
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        
+        # check for existence of User with matching email
+        qry = models.User.query(models.User.email == email)
+        user = qry.fetch(1)
+        if user:
+            message = _(
+                'Sorry, The email <strong>{}</strong> is already registered.').format(email)
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
         unique_properties = ['username', 'email']
-        auth_id = "own:%s" % username
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
