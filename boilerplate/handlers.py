@@ -11,6 +11,7 @@
 # standard library imports
 import logging
 import json
+import time
 
 # related third party imports
 import webapp2
@@ -930,6 +931,209 @@ class AccountActivationHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('home')
 
+class AccountActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+
+    def get(self, user_id, token):
+        try:
+            if not models.User.validate_auth_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+            user = models.User.get_by_id(long(user_id))
+            # activate the user's account
+            user.activated = True
+            user.put()
+
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
+
+            message = _('Congratulations, Your account %s has been successfully activated.'
+                        % '<strong>{0:>s}</strong>'.format(user.username) )
+            self.add_message(message, 'success')
+            self.redirect_to('home')
+
+        except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
+            logging.error("Error activating an account: %s" % e)
+            message = _('Sorry, Some error occurred.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+
+class InviteUser(BaseHandler):
+    """
+    Handler for Inviting New users
+    """
+
+    def send_invite_email(self, user_info, username, email):
+        # send email
+        subject =  _("%s Account Verification" % self.app.config.get('app_name'))
+        confirmation_url = self.uri_for("account-activation-invite",
+            user_id=user_info.get_id(),
+            token = models.User.create_auth_token(user_info.get_id()),
+            _full = True)
+
+        # load email's template
+        template_val = {
+            "app_name": self.app.config.get('app_name'),
+            "username": username,
+            "email": email,
+            "confirmation_url": confirmation_url,
+            "support_url": self.uri_for("contact", _full=True)
+        }
+        body_path = "emails/account_invite.txt"
+        body = self.jinja2.render_template(body_path, **template_val)
+
+        email_url = self.uri_for('taskqueue-send-email')
+        taskqueue.add(url = email_url, params={
+            'to': str(email),
+            'subject' : subject,
+            'body' : body,
+            })
+
+    def get(self):
+        """ Returns a simple HTML form for create a new user """
+
+        if not self.user:
+            return self.redirect_to('home')
+
+        params = {}
+        return self.render_template('invite.html', **params)
+
+    def post(self):
+        """ Get fields from POST dict """
+
+        if not self.form.validate():
+            logging.info("Form failed validation")
+            return self.get()
+        username = self.form.username.data.lower()
+        email = self.form.email.data.lower()
+
+        unique_properties = ['username', 'email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, 
+            username=username, email=email,
+            ip=self.request.remote_addr
+        )
+
+        if not user[0]: #user is a tuple
+            if "username" in str(user[1]) or "email" in str(user[1]):
+                user_info = models.User.get_by_email(email)
+                if user_info and (user_info.activated == False) and user_info.username == username:
+                    # Re-send the invite
+                    self.send_invite_email(user_info, username, email)
+                    message = _('User invite re-sent. '
+                                'They should check their email to activate their account.')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+
+            if "username" in str(user[1]):
+                message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
+            elif "email" in str(user[1]):
+                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email) )
+            else:
+                message = _('Sorry, The user is already registered.')
+            self.add_message(message, 'error')
+            return self.redirect_to('invite-user')
+        else:
+            # User registered successfully
+            # But if the user registered using the form, the user has to check their email to activate the account ???
+            try:
+                # Because of NDB async operation, I have to wait for the User object to be found
+                # alternatively I could enforce a hierarchy of objects, and do a get within the hierarchy.
+                user_info = None
+                while not user_info:
+                    time.sleep(1) # wait a second, for the NDB async put operation to complete
+                    user_info = models.User.get_by_email(email)
+
+                if (user_info.activated == False):
+                    self.send_invite_email(user_info, username, email)
+                    message = _('User successfully invited. '
+                                'They should check their email to activate their account.')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+
+            except (AttributeError, KeyError), e:
+                logging.error('Unexpected error creating the user %s: %s' % (username, e ))
+                message = _('Unexpected error creating the user %s' % username )
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.InviteUserForm(self)
+
+class InviteActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+
+    def get(self, user_id, token):
+        """ Returns a simple HTML form to set user values """
+        if self.user:
+            self.redirect_to('home')
+        params = {}
+
+        if not models.User.validate_auth_token(user_id, token):
+            message = _('The link is invalid.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+        return self.render_template('invite_activate.html', **params)
+
+    def post(self, user_id, token):
+
+        if not self.form.validate():
+            return self.get(user_id, token)
+        password = self.form.password.data.strip()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        country = self.form.country.data
+
+        try:
+            if not models.User.validate_auth_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+            user = models.User.get_by_id(long(user_id))
+            # Password to SHA512
+            password = utils.hashing(password, self.app.config.get('salt'))
+            user.password = security.generate_password_hash(password, length=12)
+            # activate the user's account
+            user.activated = True
+            user.name = name
+            user.last_name = last_name
+            user.country = country
+            user.put()
+
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
+
+            message = _('Congratulations, Your account %s has been successfully activated.'
+                        % '<strong>{0:>s}</strong>'.format(user.username) )
+            self.add_message(message, 'success')
+            self.redirect_to('home')
+
+        except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
+            logging.error("Error activating an account: %s" % e)
+            message = _('Sorry, Some error occurred.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.InviteActivateForm(self)
 
 class ResendActivationEmailHandler(BaseHandler):
     """
