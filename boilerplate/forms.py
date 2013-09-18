@@ -44,7 +44,8 @@ class UsernameMixin(BaseForm):
                                                 validators.Length(max=FIELD_MAXLENGTH, message=_(
                                                     "Field cannot be longer than %(max)d characters.")),
                                                 validators.regexp(utils.VALID_USERNAME_REGEXP, message=_(
-                                                    "Username invalid. Use only letters and numbers."))])
+                                                    "Username invalid. Use only letters and numbers."))
+                                              ])
 
 
 class NameMixin(BaseForm):
