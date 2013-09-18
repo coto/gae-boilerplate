@@ -15,11 +15,10 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon"></span>
                 </button>
-                <a class="brand" href="{{ uri_for('geochart') }}">Admin {{ app_name }}</a>
+                <a class="brand" href="{{ uri_for('user-list') }}">Admin {{ app_name }}</a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li {% if path == uri_for('geochart') %}class="active"{% endif %}><a href="{{ uri_for('geochart') }}">{% trans %}Users Geolocation{% endtrans %}</a></li>
-                        <li {% if path == uri_for('user-list') %}class="active"{% endif %}><a href="{{ uri_for('user-list') }}">{% trans %}User List{% endtrans %}</a></li>
                     </ul>
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
