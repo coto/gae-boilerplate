@@ -1398,6 +1398,7 @@ class EditPasswordHandler(BaseHandler):
         """ Get fields from POST dict """
 
         if not self.form.validate():
+            logging.error('Input could not be validated')
             return self.get()
         current_password = self.form.current_password.data.strip()
         password = self.form.password.data.strip()
@@ -1409,7 +1410,14 @@ class EditPasswordHandler(BaseHandler):
             # Password to SHA512
             current_password = utils.hashing(current_password, self.app.config.get('salt'))
             try:
-                user = models.User.get_by_auth_password(auth_id, current_password)
+                # If original password is empty, get:by_auth_password doesn´t work
+                # then we just assume that the logged in user from above has the authority.
+                if not user_info.password == None:
+                    logging.info('current_password!=empty')
+                    user = models.User.get_by_auth_password(auth_id, current_password)
+                else:
+                    user = user_info
+                    logging.info('current_password==empty')
                 # Password to SHA512
                 password = utils.hashing(password, self.app.config.get('salt'))
                 user.password = security.generate_password_hash(password, length=12)

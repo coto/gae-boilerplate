@@ -118,7 +118,8 @@ class EditProfileForm(UsernameMixin, NameMixin):
 
 
 class EditPasswordForm(PasswordConfirmMixin):
-    current_password = fields.TextField(_('Password'), [validators.Required(),
+    #--- if first logged in as federated user, no password is set. So no current password required.
+    current_password = fields.TextField(_('Password'), [
                                                         validators.Length(max=FIELD_MAXLENGTH, message=_(
                                                             "Field cannot be longer than %(max)d characters."))])
     pass
