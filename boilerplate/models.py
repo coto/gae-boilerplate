@@ -7,8 +7,6 @@ class User(User):
     Universal user model. Can be used with App Engine's default users API,
     own auth or third party authentication methods (OpenID, OAuth etc).
     based on https://gist.github.com/kylefinley
-    
-    Parent = person that invited this user, or caused this user to join.
     """
 
     #: Creation date.
