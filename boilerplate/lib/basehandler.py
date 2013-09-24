@@ -69,7 +69,7 @@ class BaseHandler(webapp2.RequestHandler):
         """
         self.initialize(request, response)
         self.locale = i18n.set_locale(self)
-        self.view = ViewClass()
+        self.view = ViewClass()  
 
     def dispatch(self):
         """
@@ -123,6 +123,10 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def language(self):
         return str(Locale.parse(self.locale).language)
+
+    @webapp2.cached_property
+    def locale_iso(self):
+        return Locale.parse(self.locale)
 
     @webapp2.cached_property
     def user(self):
@@ -283,7 +287,7 @@ class BaseHandler(webapp2.RequestHandler):
             territory_id = locale_iso.territory
             language = locale_iso.languages[language_id]
             territory = locale_iso.territories[territory_id]
-
+                
         # make all self.view variables available in jinja2 templates
         if hasattr(self, 'view'):
             kwargs.update(self.view.__dict__)
