@@ -151,6 +151,11 @@ Adding or updating text to be translated or adding new languages requires more w
 1. Compile translations
    Run: <tt>pybabel compile -f -d ./locale</tt>
 
+1. In addition to this locale specific configuration files can be realized by using standard Jinja2 import functionality
+   For examples see register.html and account_activation.txt
+   {% include ['tnc-'+ locale_iso.language + '_'+locale_iso.territory+ '.html', 'tnc.html'] ignore missing %}
+
+
 See [webapp2's tutorial](http://webapp-improved.appspot.com/tutorials/i18n.html) and [pybabel's docs](http://babel.edgewall.org/wiki/Documentation/cmdline.html) for more details.
 
 **Disabling i18n**

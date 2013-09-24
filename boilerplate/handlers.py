@@ -823,7 +823,8 @@ class RegisterHandler(BaseHandler):
                         "app_name": self.app.config.get('app_name'),
                         "username": username,
                         "confirmation_url": confirmation_url,
-                        "support_url": self.uri_for("contact", _full=True)
+                        "support_url": self.uri_for("contact", _full=True),
+                         "locale_iso": self.locale_iso,
                     }
                     body_path = "emails/account_activation.txt"
                     body = self.jinja2.render_template(body_path, **template_val)
@@ -1163,7 +1164,9 @@ class ResendActivationEmailHandler(BaseHandler):
                     "app_name": self.app.config.get('app_name'),
                     "username": user.username,
                     "confirmation_url": confirmation_url,
-                    "support_url": self.uri_for("contact", _full=True)
+                    "support_url": self.uri_for("contact", _full=True),
+                    "locale_iso": self.locale_iso,
+
                 }
                 body_path = "emails/account_activation.txt"
                 body = self.jinja2.render_template(body_path, **template_val)
@@ -1432,7 +1435,7 @@ class EditPasswordHandler(BaseHandler):
                     "first_name": user.name,
                     "username": user.username,
                     "email": user.email,
-                    "reset_password_url": self.uri_for("password-reset", _full=True)
+                    "verification_url": self.uri_for("password-reset", _full=True)
                 }
                 email_body_path = "emails/password_changed.txt"
                 email_body = self.jinja2.render_template(email_body_path, **template_val)
@@ -1635,28 +1638,37 @@ class PasswordResetHandler(BaseHandler):
             user_id = user.get_id()
             token = models.User.create_auth_token(user_id)
             email_url = self.uri_for('taskqueue-send-email')
-            reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
-            subject = _("%s Password Assistance" % self.app.config.get('app_name'))
+            
+            if (user.activated == False):
+                subject = _("%s Account Verification" % self.app.config.get('app_name'))
+                verification_url = self.uri_for("account-activation",user_id=user_id,token=token,_full=True)
+                body_path = "emails/account_activation.txt"
+            else:
+                subject = _("%s Password Assistance" % self.app.config.get('app_name'))
+                verification_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
+                body_path = "emails/reset_password.txt"
 
             # load email's template
             template_val = {
-                "username": user.username,
-                "email": user.email,
-                "reset_password_url": reset_url,
-                "support_url": self.uri_for("contact", _full=True),
                 "app_name": self.app.config.get('app_name'),
+                "username": user.username,
+                "verification_url": verification_url,
+                "support_url": self.uri_for("contact", _full=True),
+                "locale_iso": self.locale_iso,
             }
-
-            body_path = "emails/reset_password.txt"
+                
             body = self.jinja2.render_template(body_path, **template_val)
+            message = _('The verification email has been resent to %s. '
+                            'Please check your email to activate your account.' % user.email)
+            self.add_message(message, 'success')
             taskqueue.add(url=email_url, params={
                 'to': user.email,
                 'subject': subject,
                 'body': body,
                 'sender': self.app.config.get('contact_sender'),
             })
-        self.add_message(_message, 'warning')
-        return self.redirect_to('login')
+            
+        return self.redirect_to('home')
 
 
 class PasswordResetCompleteHandler(BaseHandler):

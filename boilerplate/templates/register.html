@@ -23,6 +23,8 @@
         </fieldset>
     </form>
 
+{% include ['tnc-'+ locale_iso.language + '_'+locale_iso.territory+ '.html', 'tnc.html'] ignore missing %}
+
 {% endblock %}
 
 {% block mediaJS %}

@@ -1,0 +1,36 @@
+{% extends base_layout %}
+
+{% block header_title %}
+        {% trans %}Invite User{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+    <form id="form_invite" action="{{ url|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            {{ macros.field(form.username, label=_("Username"), placeholder=_("Enter a")+" "+_("Username"), class="input-xlarge focused required") }}
+            {{ macros.field(form.email, label=_("Email"), placeholder=_("Enter their")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{% trans %}Send Invite{% endtrans %}</button>
+            </div>
+        </fieldset>
+    </form>
+
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript">
+    $().ready(function() {
+        $("#form_invite").validate({
+            submitHandler: function(form) {
+                    form.submit();
+            },
+            errorPlacement: function(error, element) {
+                element.parent().parent().addClass("error");
+                error.addClass("help-inline").appendTo( element.parent() );
+            }
+        });
+    });
+</script>
+{% endblock %}
