@@ -29,6 +29,12 @@ class BaseForm(Form):
         return FormTranslations()
 
 # ==== Mixins ====
+class CurrentPasswordMixin(BaseForm):
+    current_password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+    
+class PasswordMixin(BaseForm):
+    password = fields.TextField(_('Password'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH)])
+
 class PasswordConfirmMixin(BaseForm):
     password = fields.TextField(_('Password'), [validators.Required(),
                                                 validators.Length(max=FIELD_MAXLENGTH, message=_(
@@ -44,7 +50,8 @@ class UsernameMixin(BaseForm):
                                                 validators.Length(max=FIELD_MAXLENGTH, message=_(
                                                     "Field cannot be longer than %(max)d characters.")),
                                                 validators.regexp(utils.VALID_USERNAME_REGEXP, message=_(
-                                                    "Username invalid. Use only letters and numbers."))])
+                                                    "Username invalid. Use only letters and numbers."))
+                                              ])
 
 
 class NameMixin(BaseForm):
@@ -77,6 +84,16 @@ class LoginForm(UsernameMixin):
                                 id='l_password')
     pass
 
+class InviteUserForm(BaseForm):
+    username = fields.TextField(_('Username'), [validators.Required(), validators.Length(max=FIELD_MAXLENGTH), validators.regexp(utils.ALPHANUMERIC_REGEXP, message=_('Username invalid. Use only letters and numbers.'))])
+    email = fields.TextField(_('Email'), [validators.Required(), validators.Length(min=7, max=FIELD_MAXLENGTH), validators.regexp(utils.EMAIL_REGEXP, message=_('Invalid email address.'))])
+    pass
+
+class InviteActivateForm(PasswordMixin, PasswordConfirmMixin):
+    name = fields.TextField(_('Name'), [validators.Length(max=FIELD_MAXLENGTH)])
+    last_name = fields.TextField(_('Last Name'), [validators.Length(max=FIELD_MAXLENGTH)])
+    country = fields.SelectField(_('Country'), choices=[])
+    pass
 
 class ContactForm(EmailMixin):
     name = fields.TextField(_('Name'), [validators.Required(),
@@ -101,7 +118,8 @@ class EditProfileForm(UsernameMixin, NameMixin):
 
 
 class EditPasswordForm(PasswordConfirmMixin):
-    current_password = fields.TextField(_('Password'), [validators.Required(),
+    #--- if first logged in as federated user, no password is set. So no current password required.
+    current_password = fields.TextField(_('Password'), [
                                                         validators.Length(max=FIELD_MAXLENGTH, message=_(
                                                             "Field cannot be longer than %(max)d characters."))])
     pass

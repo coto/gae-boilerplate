@@ -11,6 +11,7 @@
 # standard library imports
 import logging
 import json
+import time
 
 # related third party imports
 import webapp2
@@ -34,6 +35,64 @@ from lib.basehandler import BaseHandler
 from lib.decorators import user_required
 from lib.decorators import taskqueue_method
 from lib import facebook
+
+def add_email_to_taskqueue(basehandler,to,subject,body,sender=None):
+    """
+    Adds an email to the taskqueue, accompanies by a secure hash, aimed at preventing spammers using this interface
+    """
+    logging.info(
+        'add_email_to_taskqueue(to={0},subject={1},sender={2})'.format(to,subject,sender)
+    )
+    # In order to prevent hackers sending email in our name we enclose the creation time + its hash
+    # utils.hashing hangs, wherefore we use the simple hash which should suffice for now
+    #emailtime = time.ctime()
+    #emailtimehash  = utils.hashing(emailtime,basehandler.app.config.get('salt'))    
+    emailtime = time.ctime()
+    emailtimehash  = hash(emailtime+basehandler.app.config.get('salt'))
+
+    logging.info(
+        'add_email_to_taskqueue(to={0},subject={1},emailtime={2},emailtimehash={3})'.format(to,subject,emailtime,emailtimehash)
+    )
+
+    if not sender or sender == "":
+        sender = basehandler.app.config.get('contact_sender')
+
+    email_url = basehandler.uri_for('taskqueue-send-email')
+    taskqueue.add(url=email_url, params={
+                        'to': to,
+                        'subject': subject,
+                        'body': body,
+                        'sender':sender,
+                        'emailtime':emailtime,
+                        'emailtimehash': emailtimehash
+    })
+    
+def check_email_signature(basehandler):
+    """
+    returns True if the signature matches, and False otherwise
+    
+    No email should be sent, if the signature doesn't match.
+    """
+    emailtime = basehandler.request.get("emailtime")
+    emailtimehash = basehandler.request.get("emailtimehash") 
+
+    if not emailtime or not emailtimehash:
+        to = basehandler.request.get("to")
+        sender = basehandler.request.get("sender")
+        logging.error('Email (sender={2},to{3}) signature fields emailtime:({0}) and or emailtimehash:({1}) missing'.format(
+            emailtime,emailtimehash, sender,to))
+        return False
+
+    # utils.hashing hangs, wherefore we use the simple hash which should suffice for now
+    checkhash  = str(hash(emailtime+basehandler.app.config.get('salt')))
+    #checkhash  = 'teststr' #utils.hashing(emailtime,basehandler.app.config.get('salt'))
+    if not checkhash == emailtimehash:
+        to = basehandler.request.get("to")
+        sender = basehandler.request.get("sender")
+        logging.error('Email (sender={3},to{4}) signature mismatch emailtime:({0}), emailtimehash:({1}) should be ({2})'.format(
+            emailtime,checkhash,emailtimehash, sender,to))
+        return False
+    return True
 
 
 class LoginRequiredHandler(BaseHandler):
@@ -62,6 +121,10 @@ class SendEmailHandler(BaseHandler):
     def post(self):
 
         from google.appengine.api import mail, app_identity
+
+        # In order to prevent hackers sending email in our name we check the email signature before sending      
+        if not check_email_signature(self):
+            return
 
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -118,8 +181,9 @@ class LoginHandler(BaseHandler):
         password: Get the password from POST dict
         """
 
-        if not self.form.validate():
-            return self.get()
+#--- Fixes issue #253 for login no validation is required. If matching login details are found, they are ok.
+#        if not self.form.validate():
+#            return self.get()
         username = self.form.username.data.lower()
         continue_url = self.request.get('continue_url').encode('ascii', 'ignore')
 
@@ -755,6 +819,9 @@ class RegisterHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
+        logging.info('registerHandler {0}'.format(username))
+        
+        
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
         email = self.form.email.data.lower()
@@ -762,14 +829,32 @@ class RegisterHandler(BaseHandler):
         country = self.form.country.data
         tz = self.form.tz.data
 
+        auth_id = "own:%s" % username
         # Password to SHA512
         password = utils.hashing(password, self.app.config.get('salt'))
+
+        # check for existence of User with matching username
+        qry = models.User.query(models.User.username == username)
+        user = qry.fetch(1)
+        if user:
+            message = _(
+                    'Sorry, The username <strong>{}</strong> is already registered.').format(username)
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
+        
+        # check for existence of User with matching email
+        qry = models.User.query(models.User.email == email)
+        user = qry.fetch(1)
+        if user:
+            message = _(
+                'Sorry, The email <strong>{}</strong> is already registered.').format(email)
+            self.add_message(message, 'error')
+            return self.redirect_to('register')
 
         # Passing password_raw=password so password will be hashed
         # Returns a tuple, where first value is BOOL.
         # If True ok, If False no new user is created
         unique_properties = ['username', 'email']
-        auth_id = "own:%s" % username
         user = self.auth.store.user_model.create_user(
             auth_id, unique_properties, password_raw=password,
             username=username, name=name, last_name=last_name, email=email,
@@ -803,17 +888,13 @@ class RegisterHandler(BaseHandler):
                         "app_name": self.app.config.get('app_name'),
                         "username": username,
                         "confirmation_url": confirmation_url,
-                        "support_url": self.uri_for("contact", _full=True)
+                        "support_url": self.uri_for("contact", _full=True),
+                         "locale_iso": self.locale_iso,
                     }
                     body_path = "emails/account_activation.txt"
                     body = self.jinja2.render_template(body_path, **template_val)
 
-                    email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url=email_url, params={
-                        'to': str(email),
-                        'subject': subject,
-                        'body': body,
-                    })
+                    add_email_to_taskqueue(self,to=str(email),subject=subject,body=body)
 
                     message = _('You were successfully registered. '
                                 'Please check your email to activate your account.')
@@ -911,6 +992,204 @@ class AccountActivationHandler(BaseHandler):
             self.add_message(message, 'error')
             return self.redirect_to('home')
 
+class AccountActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+
+    def get(self, user_id, token):
+        try:
+            if not models.User.validate_auth_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+            user = models.User.get_by_id(long(user_id))
+            # activate the user's account
+            user.activated = True
+            user.put()
+
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
+
+            message = _('Congratulations, Your account %s has been successfully activated.'
+                        % '<strong>{0:>s}</strong>'.format(user.username) )
+            self.add_message(message, 'success')
+            self.redirect_to('home')
+
+        except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
+            logging.error("Error activating an account: %s" % e)
+            message = _('Sorry, Some error occurred.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+
+class InviteUser(BaseHandler):
+    """
+    Handler for Inviting New users
+    """
+
+    def send_invite_email(self, user_info, username, email):
+        # send email
+        subject =  _("%s Account Verification" % self.app.config.get('app_name'))
+        confirmation_url = self.uri_for("account-activation-invite",
+            user_id=user_info.get_id(),
+            token = models.User.create_auth_token(user_info.get_id()),
+            _full = True)
+
+        # load email's template
+        template_val = {
+            "app_name": self.app.config.get('app_name'),
+            "username": username,
+            "email": email,
+            "confirmation_url": confirmation_url,
+            "support_url": self.uri_for("contact", _full=True)
+        }
+        body_path = "emails/account_invite.txt"
+        body = self.jinja2.render_template(body_path, **template_val)
+
+        add_email_to_taskqueue(self,to=str(email),subject=ssbject, body=body)
+
+    def get(self):
+        """ Returns a simple HTML form for create a new user """
+
+        if not self.user:
+            return self.redirect_to('home')
+
+        params = {}
+        return self.render_template('invite.html', **params)
+
+    def post(self):
+        """ Get fields from POST dict """
+
+        if not self.form.validate():
+            logging.info("Form failed validation")
+            return self.get()
+        username = self.form.username.data.lower()
+        email = self.form.email.data.lower()
+
+        unique_properties = ['username', 'email']
+        auth_id = "own:%s" % username
+        user = self.auth.store.user_model.create_user(
+            auth_id, unique_properties, 
+            username=username, email=email,
+            ip=self.request.remote_addr
+        )
+
+        if not user[0]: #user is a tuple
+            if "username" in str(user[1]) or "email" in str(user[1]):
+                user_info = models.User.get_by_email(email)
+                if user_info and (user_info.activated == False) and user_info.username == username:
+                    # Re-send the invite
+                    self.send_invite_email(user_info, username, email)
+                    message = _('User invite re-sent. '
+                                'They should check their email to activate their account.')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+
+            if "username" in str(user[1]):
+                message = _('Sorry, The username %s is already registered.' % '<strong>{0:>s}</strong>'.format(username) )
+            elif "email" in str(user[1]):
+                message = _('Sorry, The email %s is already registered.' % '<strong>{0:>s}</strong>'.format(email) )
+            else:
+                message = _('Sorry, The user is already registered.')
+            self.add_message(message, 'error')
+            return self.redirect_to('invite-user')
+        else:
+            # User registered successfully
+            # But if the user registered using the form, the user has to check their email to activate the account ???
+            try:
+                # Because of NDB async operation, I have to wait for the User object to be found
+                # alternatively I could enforce a hierarchy of objects, and do a get within the hierarchy.
+                user_info = None
+                while not user_info:
+                    time.sleep(1) # wait a second, for the NDB async put operation to complete
+                    user_info = models.User.get_by_email(email)
+
+                if (user_info.activated == False):
+                    self.send_invite_email(user_info, username, email)
+                    message = _('User successfully invited. '
+                                'They should check their email to activate their account.')
+                    self.add_message(message, 'success')
+                    return self.redirect_to('home')
+
+            except (AttributeError, KeyError), e:
+                logging.error('Unexpected error creating the user %s: %s' % (username, e ))
+                message = _('Unexpected error creating the user %s' % username )
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.InviteUserForm(self)
+
+class InviteActivationHandler(BaseHandler):
+    """
+    Handler for account activation
+    """
+
+    def get(self, user_id, token):
+        """ Returns a simple HTML form to set user values """
+        if self.user:
+            self.redirect_to('home')
+        params = {}
+
+        if not models.User.validate_auth_token(user_id, token):
+            message = _('The link is invalid.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+        return self.render_template('invite_activate.html', **params)
+
+    def post(self, user_id, token):
+
+        if not self.form.validate():
+            return self.get(user_id, token)
+        password = self.form.password.data.strip()
+        name = self.form.name.data.strip()
+        last_name = self.form.last_name.data.strip()
+        country = self.form.country.data
+
+        try:
+            if not models.User.validate_auth_token(user_id, token):
+                message = _('The link is invalid.')
+                self.add_message(message, 'error')
+                return self.redirect_to('home')
+
+            user = models.User.get_by_id(long(user_id))
+            # Password to SHA512
+            password = utils.hashing(password, self.app.config.get('salt'))
+            user.password = security.generate_password_hash(password, length=12)
+            # activate the user's account
+            user.activated = True
+            user.name = name
+            user.last_name = last_name
+            user.country = country
+            user.put()
+
+            # Login User
+            self.auth.get_user_by_token(int(user_id), token)
+
+            # Delete token
+            models.User.delete_auth_token(user_id, token)
+
+            message = _('Congratulations, Your account %s has been successfully activated.'
+                        % '<strong>{0:>s}</strong>'.format(user.username) )
+            self.add_message(message, 'success')
+            self.redirect_to('home')
+
+        except (AttributeError, KeyError, InvalidAuthIdError, NameError), e:
+            logging.error("Error activating an account: %s" % e)
+            message = _('Sorry, Some error occurred.')
+            self.add_message(message, 'error')
+            return self.redirect_to('home')
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.InviteActivateForm(self)
 
 class ResendActivationEmailHandler(BaseHandler):
     """
@@ -940,17 +1219,14 @@ class ResendActivationEmailHandler(BaseHandler):
                     "app_name": self.app.config.get('app_name'),
                     "username": user.username,
                     "confirmation_url": confirmation_url,
-                    "support_url": self.uri_for("contact", _full=True)
+                    "support_url": self.uri_for("contact", _full=True),
+                    "locale_iso": self.locale_iso,
+
                 }
                 body_path = "emails/account_activation.txt"
                 body = self.jinja2.render_template(body_path, **template_val)
 
-                email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url=email_url, params={
-                    'to': str(email),
-                    'subject': subject,
-                    'body': body,
-                })
+                add_email_to_taskqueue(self,to=str(email),subject=subject, body=body)
 
                 models.User.delete_resend_token(user_id, token)
 
@@ -1038,13 +1314,8 @@ class ContactHandler(BaseHandler):
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
 
-            email_url = self.uri_for('taskqueue-send-email')
-            taskqueue.add(url=email_url, params={
-                'to': self.app.config.get('contact_recipient'),
-                'subject': subject,
-                'body': body,
-                'sender': self.app.config.get('contact_sender'),
-            })
+            add_email_to_taskqueue(self,to=self.app.config.get('contact_recipient'),subject=subject, body=body,
+                                   sender=str(email) )
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
@@ -1175,6 +1446,7 @@ class EditPasswordHandler(BaseHandler):
         """ Get fields from POST dict """
 
         if not self.form.validate():
+            logging.error('Input could not be validated')
             return self.get()
         current_password = self.form.current_password.data.strip()
         password = self.form.password.data.strip()
@@ -1186,7 +1458,14 @@ class EditPasswordHandler(BaseHandler):
             # Password to SHA512
             current_password = utils.hashing(current_password, self.app.config.get('salt'))
             try:
-                user = models.User.get_by_auth_password(auth_id, current_password)
+                # If original password is empty, get:by_auth_password doesn´t work
+                # then we just assume that the logged in user from above has the authority.
+                if not user_info.password == None:
+                    logging.info('current_password!=empty')
+                    user = models.User.get_by_auth_password(auth_id, current_password)
+                else:
+                    user = user_info
+                    logging.info('current_password==empty')
                 # Password to SHA512
                 password = utils.hashing(password, self.app.config.get('salt'))
                 user.password = security.generate_password_hash(password, length=12)
@@ -1201,17 +1480,14 @@ class EditPasswordHandler(BaseHandler):
                     "first_name": user.name,
                     "username": user.username,
                     "email": user.email,
-                    "reset_password_url": self.uri_for("password-reset", _full=True)
+                    "confirmation_url": self.uri_for("password-reset", _full=True)
                 }
                 email_body_path = "emails/password_changed.txt"
-                email_body = self.jinja2.render_template(email_body_path, **template_val)
-                email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url=email_url, params={
-                    'to': user.email,
-                    'subject': subject,
-                    'body': email_body,
-                    'sender': self.app.config.get('contact_sender'),
-                })
+                body = self.jinja2.render_template(email_body_path, **template_val)
+                
+                add_email_to_taskqueue(self,to=user.email,subject=subject, body=body
+                                       , sender=self.app.config.get('contact_sender'))
+
 
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
@@ -1302,17 +1578,8 @@ class EditEmailHandler(BaseHandler):
                     new_body_path = "emails/email_changed_notification_new.txt"
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
 
-                    email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url=email_url, params={
-                        'to': user.email,
-                        'subject': subject,
-                        'body': old_body,
-                    })
-                    taskqueue.add(url=email_url, params={
-                        'to': new_email,
-                        'subject': subject,
-                        'body': new_body,
-                    })
+                    add_email_to_taskqueue(self,to=user.email,subject=subject, body=old_body)
+                    add_email_to_taskqueue(self,to=new_email,subject=subject, body=new_body)
 
                     # display successful message
                     msg = _(
@@ -1400,32 +1667,38 @@ class PasswordResetHandler(BaseHandler):
                    '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' + _(
             "for further assistance.")
 
+        self.add_message(_message, 'warning')
+
         if user is not None:
             user_id = user.get_id()
             token = models.User.create_auth_token(user_id)
             email_url = self.uri_for('taskqueue-send-email')
-            reset_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
-            subject = _("%s Password Assistance" % self.app.config.get('app_name'))
+            
+            if (user.activated == False):
+                subject = _("%s Account Verification" % self.app.config.get('app_name'))
+                confirmation_url = self.uri_for("account-activation",user_id=user_id,token=token,_full=True)
+                body_path = "emails/account_activation.txt"
+            else:
+                subject = _("%s Password Assistance" % self.app.config.get('app_name'))
+                confirmation_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
+                body_path = "emails/reset_password.txt"
 
             # load email's template
             template_val = {
-                "username": user.username,
-                "email": user.email,
-                "reset_password_url": reset_url,
-                "support_url": self.uri_for("contact", _full=True),
                 "app_name": self.app.config.get('app_name'),
+                "username": user.username,
+                "confirmation_url": confirmation_url,
+                "support_url": self.uri_for("contact", _full=True),
+                "locale_iso": self.locale_iso,
             }
-
-            body_path = "emails/reset_password.txt"
+                
             body = self.jinja2.render_template(body_path, **template_val)
-            taskqueue.add(url=email_url, params={
-                'to': user.email,
-                'subject': subject,
-                'body': body,
-                'sender': self.app.config.get('contact_sender'),
-            })
-        self.add_message(_message, 'warning')
-        return self.redirect_to('login')
+
+            add_email_to_taskqueue(self,to=user.email,subject=subject, body=body
+                                       , sender=self.app.config.get('contact_sender'))
+
+            
+        return self.redirect_to('home')
 
 
 class PasswordResetCompleteHandler(BaseHandler):
