@@ -1314,8 +1314,8 @@ class ContactHandler(BaseHandler):
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
 
-            add_email_to_taskqueue(self,to=str(email),subject=subject, body=body,
-                                   sender=self.app.config.get('contact_sender'))
+            add_email_to_taskqueue(self,to=self.app.config.get('contact_recipient'),subject=subject, body=body,
+                                   sender=str(email) )
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
@@ -1667,6 +1667,8 @@ class PasswordResetHandler(BaseHandler):
                    '<a href="' + self.uri_for('contact') + '">' + _('contact us') + '</a> ' + _(
             "for further assistance.")
 
+        self.add_message(_message, 'warning')
+
         if user is not None:
             user_id = user.get_id()
             token = models.User.create_auth_token(user_id)
@@ -1691,9 +1693,6 @@ class PasswordResetHandler(BaseHandler):
             }
                 
             body = self.jinja2.render_template(body_path, **template_val)
-            message = _('The verification email has been resent to %s. '
-                            'Please check your email to activate your account.' % user.email)
-            self.add_message(message, 'success')
 
             add_email_to_taskqueue(self,to=user.email,subject=subject, body=body
                                        , sender=self.app.config.get('contact_sender'))
