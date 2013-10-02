@@ -36,6 +36,64 @@ from lib.decorators import user_required
 from lib.decorators import taskqueue_method
 from lib import facebook
 
+def add_email_to_taskqueue(basehandler,to,subject,body,sender=None):
+    """
+    Adds an email to the taskqueue, accompanies by a secure hash, aimed at preventing spammers using this interface
+    """
+    logging.info(
+        'add_email_to_taskqueue(to={0},subject={1},sender={2})'.format(to,subject,sender)
+    )
+    # In order to prevent hackers sending email in our name we enclose the creation time + its hash
+    # utils.hashing hangs, wherefore we use the simple hash which should suffice for now
+    #emailtime = time.ctime()
+    #emailtimehash  = utils.hashing(emailtime,basehandler.app.config.get('salt'))    
+    emailtime = time.ctime()
+    emailtimehash  = hash(emailtime+basehandler.app.config.get('salt'))
+
+    logging.info(
+        'add_email_to_taskqueue(to={0},subject={1},emailtime={2},emailtimehash={3})'.format(to,subject,emailtime,emailtimehash)
+    )
+
+    if not sender or sender == "":
+        sender = basehandler.app.config.get('contact_sender')
+
+    email_url = basehandler.uri_for('taskqueue-send-email')
+    taskqueue.add(url=email_url, params={
+                        'to': to,
+                        'subject': subject,
+                        'body': body,
+                        'sender':sender,
+                        'emailtime':emailtime,
+                        'emailtimehash': emailtimehash
+    })
+    
+def check_email_signature(basehandler):
+    """
+    returns True if the signature matches, and False otherwise
+    
+    No email should be sent, if the signature doesn't match.
+    """
+    emailtime = basehandler.request.get("emailtime")
+    emailtimehash = basehandler.request.get("emailtimehash") 
+
+    if not emailtime or not emailtimehash:
+        to = basehandler.request.get("to")
+        sender = basehandler.request.get("sender")
+        logging.error('Email (sender={2},to{3}) signature fields emailtime:({0}) and or emailtimehash:({1}) missing'.format(
+            emailtime,emailtimehash, sender,to))
+        return False
+
+    # utils.hashing hangs, wherefore we use the simple hash which should suffice for now
+    checkhash  = str(hash(emailtime+basehandler.app.config.get('salt')))
+    #checkhash  = 'teststr' #utils.hashing(emailtime,basehandler.app.config.get('salt'))
+    if not checkhash == emailtimehash:
+        to = basehandler.request.get("to")
+        sender = basehandler.request.get("sender")
+        logging.error('Email (sender={3},to{4}) signature mismatch emailtime:({0}), emailtimehash:({1}) should be ({2})'.format(
+            emailtime,checkhash,emailtimehash, sender,to))
+        return False
+    return True
+
 
 class LoginRequiredHandler(BaseHandler):
     def get(self):
@@ -63,6 +121,10 @@ class SendEmailHandler(BaseHandler):
     def post(self):
 
         from google.appengine.api import mail, app_identity
+
+        # In order to prevent hackers sending email in our name we check the email signature before sending      
+        if not check_email_signature(self):
+            return
 
         to = self.request.get("to")
         subject = self.request.get("subject")
@@ -757,6 +819,9 @@ class RegisterHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
+        logging.info('registerHandler {0}'.format(username))
+        
+        
         name = self.form.name.data.strip()
         last_name = self.form.last_name.data.strip()
         email = self.form.email.data.lower()
@@ -829,12 +894,7 @@ class RegisterHandler(BaseHandler):
                     body_path = "emails/account_activation.txt"
                     body = self.jinja2.render_template(body_path, **template_val)
 
-                    email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url=email_url, params={
-                        'to': str(email),
-                        'subject': subject,
-                        'body': body,
-                    })
+                    add_email_to_taskqueue(self,to=str(email),subject=subject,body=body)
 
                     message = _('You were successfully registered. '
                                 'Please check your email to activate your account.')
@@ -991,12 +1051,7 @@ class InviteUser(BaseHandler):
         body_path = "emails/account_invite.txt"
         body = self.jinja2.render_template(body_path, **template_val)
 
-        email_url = self.uri_for('taskqueue-send-email')
-        taskqueue.add(url = email_url, params={
-            'to': str(email),
-            'subject' : subject,
-            'body' : body,
-            })
+        add_email_to_taskqueue(self,to=str(email),subject=ssbject, body=body)
 
     def get(self):
         """ Returns a simple HTML form for create a new user """
@@ -1171,12 +1226,7 @@ class ResendActivationEmailHandler(BaseHandler):
                 body_path = "emails/account_activation.txt"
                 body = self.jinja2.render_template(body_path, **template_val)
 
-                email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url=email_url, params={
-                    'to': str(email),
-                    'subject': subject,
-                    'body': body,
-                })
+                add_email_to_taskqueue(self,to=str(email),subject=subject, body=body)
 
                 models.User.delete_resend_token(user_id, token)
 
@@ -1264,13 +1314,8 @@ class ContactHandler(BaseHandler):
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
 
-            email_url = self.uri_for('taskqueue-send-email')
-            taskqueue.add(url=email_url, params={
-                'to': self.app.config.get('contact_recipient'),
-                'subject': subject,
-                'body': body,
-                'sender': self.app.config.get('contact_sender'),
-            })
+            add_email_to_taskqueue(self,to=str(email),subject=subject, body=body,
+                                   sender=self.app.config.get('contact_sender'))
 
             message = _('Your message was sent successfully.')
             self.add_message(message, 'success')
@@ -1435,17 +1480,14 @@ class EditPasswordHandler(BaseHandler):
                     "first_name": user.name,
                     "username": user.username,
                     "email": user.email,
-                    "verification_url": self.uri_for("password-reset", _full=True)
+                    "confirmation_url": self.uri_for("password-reset", _full=True)
                 }
                 email_body_path = "emails/password_changed.txt"
-                email_body = self.jinja2.render_template(email_body_path, **template_val)
-                email_url = self.uri_for('taskqueue-send-email')
-                taskqueue.add(url=email_url, params={
-                    'to': user.email,
-                    'subject': subject,
-                    'body': email_body,
-                    'sender': self.app.config.get('contact_sender'),
-                })
+                body = self.jinja2.render_template(email_body_path, **template_val)
+                
+                add_email_to_taskqueue(self,to=user.email,subject=subject, body=body
+                                       , sender=self.app.config.get('contact_sender'))
+
 
                 #Login User
                 self.auth.get_user_by_password(user.auth_ids[0], password)
@@ -1536,17 +1578,8 @@ class EditEmailHandler(BaseHandler):
                     new_body_path = "emails/email_changed_notification_new.txt"
                     new_body = self.jinja2.render_template(new_body_path, **template_val)
 
-                    email_url = self.uri_for('taskqueue-send-email')
-                    taskqueue.add(url=email_url, params={
-                        'to': user.email,
-                        'subject': subject,
-                        'body': old_body,
-                    })
-                    taskqueue.add(url=email_url, params={
-                        'to': new_email,
-                        'subject': subject,
-                        'body': new_body,
-                    })
+                    add_email_to_taskqueue(self,to=user.email,subject=subject, body=old_body)
+                    add_email_to_taskqueue(self,to=new_email,subject=subject, body=new_body)
 
                     # display successful message
                     msg = _(
@@ -1641,18 +1674,18 @@ class PasswordResetHandler(BaseHandler):
             
             if (user.activated == False):
                 subject = _("%s Account Verification" % self.app.config.get('app_name'))
-                verification_url = self.uri_for("account-activation",user_id=user_id,token=token,_full=True)
+                confirmation_url = self.uri_for("account-activation",user_id=user_id,token=token,_full=True)
                 body_path = "emails/account_activation.txt"
             else:
                 subject = _("%s Password Assistance" % self.app.config.get('app_name'))
-                verification_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
+                confirmation_url = self.uri_for('password-reset-check', user_id=user_id, token=token, _full=True)
                 body_path = "emails/reset_password.txt"
 
             # load email's template
             template_val = {
                 "app_name": self.app.config.get('app_name'),
                 "username": user.username,
-                "verification_url": verification_url,
+                "confirmation_url": confirmation_url,
                 "support_url": self.uri_for("contact", _full=True),
                 "locale_iso": self.locale_iso,
             }
@@ -1661,12 +1694,10 @@ class PasswordResetHandler(BaseHandler):
             message = _('The verification email has been resent to %s. '
                             'Please check your email to activate your account.' % user.email)
             self.add_message(message, 'success')
-            taskqueue.add(url=email_url, params={
-                'to': user.email,
-                'subject': subject,
-                'body': body,
-                'sender': self.app.config.get('contact_sender'),
-            })
+
+            add_email_to_taskqueue(self,to=user.email,subject=subject, body=body
+                                       , sender=self.app.config.get('contact_sender'))
+
             
         return self.redirect_to('home')
 

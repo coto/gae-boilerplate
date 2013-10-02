@@ -8,7 +8,7 @@ and accepted our terms and conditions as shown at the end of this email.
 In order to activate your account, please verify your email by clicking the following link:
 </p>
 
-{{verification_url}}
+{{confirmation_url}}
 
 <p>
 If you have any question, please do not hesitate to contact us at:</br>
