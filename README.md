@@ -83,6 +83,8 @@ Technologies used
 + Python 2.7.3
 + [NDB 1.0.9](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
+  Please note that automatic escaping is by default switched off in Jinja2 for performance reasons. So in order to prevent CSS (cross site scripting) attacks to your site: make sure to do the escaping manually for each relevant field.
+  Escaping works by piping the variable through the |e filter: {{ user.username|e }}.
 + [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
 + [webapp2 2.5.2](http://webapp-improved.appspot.com/) (A lightweight Python web framework, the most compatible with Google App Engine).
@@ -148,6 +150,11 @@ Adding or updating text to be translated or adding new languages requires more w
    + `msgstr "Cambiar tu contraseña"`
 1. Compile translations
    Run: <tt>pybabel compile -f -d ./locale</tt>
+
+1. In addition to this locale specific configuration files can be realized by using standard Jinja2 import functionality
+   For examples see register.html and account_activation.txt
+   {% include ['tnc-'+ locale_iso.language + '_'+locale_iso.territory+ '.html', 'tnc.html'] ignore missing %}
+
 
 See [webapp2's tutorial](http://webapp-improved.appspot.com/tutorials/i18n.html) and [pybabel's docs](http://babel.edgewall.org/wiki/Documentation/cmdline.html) for more details.
 
