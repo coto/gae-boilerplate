@@ -1,5 +1,5 @@
 # urllib3/request.py
-# Copyright 2008-2012 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
+# Copyright 2008-2013 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
 #
 # This module is part of urllib3 and is released under
 # the MIT License: http://www.opensource.org/licenses/mit-license.php
@@ -30,7 +30,7 @@ class RequestMethods(object):
     in the URL (such as GET, HEAD, DELETE).
 
     :meth:`.request_encode_body` is for sending requests whose fields are
-    encoded in the *body* of the request using multipart or www-orm-urlencoded
+    encoded in the *body* of the request using multipart or www-form-urlencoded
     (such as for POST, PUT, PATCH).
 
     :meth:`.request` is for making any kind of request, it will look up the

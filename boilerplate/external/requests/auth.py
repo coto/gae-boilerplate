@@ -8,6 +8,7 @@ This module contains the authentication handlers for Requests.
 """
 
 import os
+import re
 import time
 import hashlib
 import logging
@@ -16,7 +17,6 @@ from base64 import b64encode
 
 from .compat import urlparse, str
 from .utils import parse_dict_header
-
 
 log = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class HTTPBasicAuth(AuthBase):
 
 
 class HTTPProxyAuth(HTTPBasicAuth):
-    """Attaches HTTP Proxy Authenetication to a given Request object."""
+    """Attaches HTTP Proxy Authentication to a given Request object."""
     def __call__(self, r):
         r.headers['Proxy-Authorization'] = _basic_auth_str(self.username, self.password)
         return r
@@ -77,7 +77,7 @@ class HTTPDigestAuth(AuthBase):
         else:
             _algorithm = algorithm.upper()
         # lambdas assume digest modules are imported at the top level
-        if _algorithm == 'MD5':
+        if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
             def md5_utf8(x):
                 if isinstance(x, str):
                     x = x.encode('utf-8')
@@ -89,7 +89,7 @@ class HTTPDigestAuth(AuthBase):
                     x = x.encode('utf-8')
                 return hashlib.sha1(x).hexdigest()
             hash_utf8 = sha_utf8
-        # XXX MD5-sess
+
         KD = lambda s, d: hash_utf8("%s:%s" % (s, d))
 
         if hash_utf8 is None:
@@ -104,24 +104,29 @@ class HTTPDigestAuth(AuthBase):
 
         A1 = '%s:%s:%s' % (self.username, realm, self.password)
         A2 = '%s:%s' % (method, path)
+        
+        HA1 = hash_utf8(A1)
+        HA2 = hash_utf8(A2)
 
-        if qop == 'auth':
-            if nonce == self.last_nonce:
-                self.nonce_count += 1
-            else:
-                self.nonce_count = 1
+        if nonce == self.last_nonce:
+            self.nonce_count += 1
+        else:
+            self.nonce_count = 1
+        ncvalue = '%08x' % self.nonce_count
+        s = str(self.nonce_count).encode('utf-8')
+        s += nonce.encode('utf-8')
+        s += time.ctime().encode('utf-8')
+        s += os.urandom(8)
 
-            ncvalue = '%08x' % self.nonce_count
-            s = str(self.nonce_count).encode('utf-8')
-            s += nonce.encode('utf-8')
-            s += time.ctime().encode('utf-8')
-            s += os.urandom(8)
+        cnonce = (hashlib.sha1(s).hexdigest()[:16])
+        noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, qop, HA2)
+        if _algorithm == 'MD5-SESS':
+            HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
 
-            cnonce = (hashlib.sha1(s).hexdigest()[:16])
-            noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, qop, hash_utf8(A2))
-            respdig = KD(hash_utf8(A1), noncebit)
-        elif qop is None:
-            respdig = KD(hash_utf8(A1), "%s:%s" % (nonce, hash_utf8(A2)))
+        if qop is None:
+            respdig = KD(HA1, "%s:%s" % (nonce, HA2))
+        elif qop == 'auth' or 'auth' in qop.split(','):
+            respdig = KD(HA1, noncebit)
         else:
             # XXX handle auth-int.
             return None
@@ -151,16 +156,21 @@ class HTTPDigestAuth(AuthBase):
         if 'digest' in s_auth.lower() and num_401_calls < 2:
 
             setattr(self, 'num_401_calls', num_401_calls + 1)
-            self.chal = parse_dict_header(s_auth.replace('Digest ', ''))
+            pat = re.compile(r'digest ', flags=re.IGNORECASE)
+            self.chal = parse_dict_header(pat.sub('', s_auth, count=1))
 
             # Consume content and release the original connection
             # to allow our new request to reuse the same one.
             r.content
             r.raw.release_conn()
+            prep = r.request.copy()
+            prep.prepare_cookies(r.cookies)
 
-            r.request.headers['Authorization'] = self.build_digest_header(r.request.method, r.request.url)
-            _r = r.connection.send(r.request, **kwargs)
+            prep.headers['Authorization'] = self.build_digest_header(
+                prep.method, prep.url)
+            _r = r.connection.send(prep, **kwargs)
             _r.history.append(r)
+            _r.request = prep
 
             return _r
 

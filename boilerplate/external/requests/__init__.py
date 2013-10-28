@@ -23,7 +23,7 @@ usage:
 
    >>> payload = dict(key1='value1', key2='value2')
    >>> r = requests.post("http://httpbin.org/post", data=payload)
-   >>> print r.text
+   >>> print(r.text)
    {
      ...
      "form": {
@@ -42,12 +42,18 @@ is at <http://python-requests.org>.
 """
 
 __title__ = 'requests'
-__version__ = '1.2.0'
-__build__ = 0x010200
+__version__ = '2.0.1'
+__build__ = 0x020001
 __author__ = 'Kenneth Reitz'
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2013 Kenneth Reitz'
 
+# Attempt to enable urllib3's SNI support, if possible
+try:
+    from .packages.urllib3.contrib import pyopenssl
+    pyopenssl.inject_into_urllib3()
+except ImportError:
+    pass
 
 from . import utils
 from .models import Request, Response, PreparedRequest
