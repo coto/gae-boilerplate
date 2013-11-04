@@ -1030,7 +1030,7 @@ class ContactHandler(BaseHandler):
             logging.error("error getting user agent info: %s" % e)
 
         try:
-            subject = _("Contact")
+            subject = _("Contact") + " " + self.app.config.get('app_name')
             # exceptions for error pages that redirect to contact
             if exception != "":
                 subject = subject + " (Exception error: %s)" % exception
