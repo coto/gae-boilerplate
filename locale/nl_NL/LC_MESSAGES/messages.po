@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2013-11-11 23:38+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid "Change your password"
 msgstr "Je wachtwoord wijzigen"
 
 msgid "Confirm Password"
-msgstr "Bevestig het wachtwoord"
+msgstr "Wachtwoord bevestigen"
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr "Gefeliciteerd met je Google App Engine Boilerplate aangedreven pagina."
@@ -84,7 +84,7 @@ msgid "Country"
 msgstr "Land"
 
 msgid "Current Password"
-msgstr "Huidige wachtwoord"
+msgstr "Huidig wachtwoord"
 
 msgid "Don't have an account?"
 msgstr "Nog geen account?"
@@ -112,6 +112,14 @@ msgstr "Facebook koppeling toegevoegd!"
 
 msgid "Federated login is disabled."
 msgstr "Federatief inloggen is uitgeschakeld."
+
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr "Veld kan niet langer zijn dan %(max)d tekens."
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "Veld moet tussen %(min)d en %(max)d tekens lang zijn."
 
 msgid "Forgot your password?"
 msgstr "Wachtwoord vergeten?"
@@ -141,11 +149,17 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "Onveilig wachtwoord"
 
+msgid "Invalid email address."
+msgstr "Ongeldig e-mailadres."
+
 msgid "Language"
 msgstr "Taal"
 
 msgid "Last Name"
 msgstr "Achternaam"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr "Achternaam ongeldig. Gebruik alleen letters en cijfers."
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Zie waarom deze Boilerplate geweldig is"
@@ -164,6 +178,9 @@ msgstr "Bericht"
 
 msgid "Name"
 msgstr "Naam"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr "Naam ongeldig. Gebruik alleen letters en cijfers."
 
 msgid "New Email"
 msgstr "Nieuw e-mail"
@@ -187,6 +204,9 @@ msgstr "Wachtwoord"
 
 msgid "Password changed successfully."
 msgstr "Wachtwoord succesvol gewijzigd."
+
+msgid "Passwords must match."
+msgstr "Wachtwoorden moeten overeenkomen."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -273,7 +293,7 @@ msgstr "De twee wachtwoorden moeten overeenkomen."
 
 msgid "The username <strong>{}</strong> is already taken. Please choose another."
 msgstr ""
-"De gebruikersnaam <strong>{}</ strong> is al in gebruik. Kies een andere "
+"De gebruikersnaam <strong>{}</strong> is al in gebruik. Kies een andere "
 "naam."
 
 #, python-format
@@ -331,6 +351,9 @@ msgstr "Gebruiker is uitgelogd, maar er was een fout in de omleiding."
 msgid "Username"
 msgstr "Gebruikersnaam"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr "Gebruikersnaam ongeldig. Gebruik alleen letters en cijfers."
+
 msgid "Username or Email"
 msgstr "Gebruikersnaam of E-mail"
 
@@ -340,11 +363,8 @@ msgstr "Geolocatie van gebruiker"
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Welkom <strong>{}</strong>, je bent nu ingelogd."
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
-msgstr ""
-"Welkom!  Je bent geregistreerd als een nieuwe gebruiker en ingelogd via "
-"%s."
+msgid "Welcome! You have been registered as a new user and logged in through {}."
+msgstr "Welkom! Je bent geregistreerd als een nieuwe gebruiker en ingelogd via {}."
 
 msgid "Wrong image verification code. Please try again."
 msgstr "Verkeerde verificatiecode. Probeer het opnieuw."
@@ -361,7 +381,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 "Je bent succesvol afgemeld. Waarschuwing: verwijder alle cookies en meld "
 "je ook af bij OpenID providers als je op een openbare computer werkt."

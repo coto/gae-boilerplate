@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google App Engine Boilerplate\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2012-10-20 22:18+0400\n"
 "Last-Translator: iROOT <iroota@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p"
@@ -119,6 +119,14 @@ msgstr ""
 msgid "Federated login is disabled."
 msgstr ""
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "Забыли пароль?"
 
@@ -145,11 +153,18 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "Небезопасный пароль"
 
+#, fuzzy
+msgid "Invalid email address."
+msgstr "Введите новый адрес электронной почты"
+
 msgid "Language"
 msgstr "Язык"
 
 msgid "Last Name"
 msgstr "Фамилия"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Узнайте о Boilerplate Rocks"
@@ -168,6 +183,9 @@ msgstr "Сообщение"
 
 msgid "Name"
 msgstr "Имя"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "New Email"
 msgstr "Новый E-Mail"
@@ -188,6 +206,9 @@ msgid "Password"
 msgstr "Пароль"
 
 msgid "Password changed successfully."
+msgstr ""
+
+msgid "Passwords must match."
 msgstr ""
 
 msgid ""
@@ -325,6 +346,9 @@ msgstr ""
 msgid "Username"
 msgstr "Имя пользователя"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr "Имя пользователя или E-Mail"
 
@@ -334,8 +358,7 @@ msgstr ""
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr ""
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgid "Welcome! You have been registered as a new user and logged in through {}."
 msgstr ""
 
 msgid "Wrong image verification code. Please try again."
@@ -352,7 +375,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 
 msgid ""

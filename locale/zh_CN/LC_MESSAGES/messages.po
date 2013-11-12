@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2012-06-21 01:51-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -111,6 +111,14 @@ msgstr ""
 msgid "Federated login is disabled."
 msgstr ""
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "忘记密码？"
 
@@ -139,11 +147,17 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "重设密码"
 
+msgid "Invalid email address."
+msgstr ""
+
 msgid "Language"
 msgstr "语言"
 
 msgid "Last Name"
 msgstr "姓"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "了解为什么这个样板是惊人的"
@@ -162,6 +176,9 @@ msgstr "讯息"
 
 msgid "Name"
 msgstr "名称"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr ""
 
 #, fuzzy
 msgid "New Email"
@@ -183,6 +200,9 @@ msgid "Password"
 msgstr "密码"
 
 msgid "Password changed successfully."
+msgstr ""
+
+msgid "Passwords must match."
 msgstr ""
 
 msgid ""
@@ -323,6 +343,9 @@ msgstr ""
 msgid "Username"
 msgstr "用户名"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr "用户名或电子邮件"
 
@@ -332,8 +355,7 @@ msgstr ""
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr ""
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgid "Welcome! You have been registered as a new user and logged in through {}."
 msgstr ""
 
 msgid "Wrong image verification code. Please try again."
@@ -350,7 +372,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 
 msgid ""

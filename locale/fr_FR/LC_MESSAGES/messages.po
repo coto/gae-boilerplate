@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2012-07-19 12:53-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr_FR <LL@li.org>\n"
@@ -110,6 +110,14 @@ msgstr ""
 msgid "Federated login is disabled."
 msgstr ""
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr ""
 
@@ -136,10 +144,16 @@ msgstr ""
 msgid "Insecure Password"
 msgstr ""
 
+msgid "Invalid email address."
+msgstr ""
+
 msgid "Language"
 msgstr ""
 
 msgid "Last Name"
+msgstr ""
+
+msgid "Last Name invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
@@ -158,6 +172,9 @@ msgid "Message"
 msgstr ""
 
 msgid "Name"
+msgstr ""
+
+msgid "Name invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "New Email"
@@ -179,6 +196,9 @@ msgid "Password"
 msgstr ""
 
 msgid "Password changed successfully."
+msgstr ""
+
+msgid "Passwords must match."
 msgstr ""
 
 msgid ""
@@ -316,6 +336,9 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr ""
 
@@ -325,8 +348,7 @@ msgstr ""
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr ""
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgid "Welcome! You have been registered as a new user and logged in through {}."
 msgstr ""
 
 msgid "Wrong image verification code. Please try again."
@@ -342,7 +364,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 
 msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: nampnq@gmail.com\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2013-08-26 16:19+0700\n"
 "Last-Translator: Nam Pham Ngoc Quang <nampnq@gmail.com>\n"
 "Language-Team: vi_VN <LL@li.org>\n"
@@ -114,6 +114,14 @@ msgstr "Liên kết Facebook đã được thêm!"
 msgid "Federated login is disabled."
 msgstr "Đăng nhập trung gian đã bị vô hiệu hóa."
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "Quên mật khẩu"
 
@@ -142,11 +150,18 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "Mật khẩu không an toàn"
 
+#, fuzzy
+msgid "Invalid email address."
+msgstr "Nhập địa chỉ email mới"
+
 msgid "Language"
 msgstr "Ngôn ngữ"
 
 msgid "Last Name"
 msgstr "Họ"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Tại sao nên sử dụng Boilerplate Rocks"
@@ -165,6 +180,9 @@ msgstr "Tin nhắn"
 
 msgid "Name"
 msgstr "Tên"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "New Email"
 msgstr "Email mới"
@@ -188,6 +206,10 @@ msgstr "Mật khẩu"
 
 msgid "Password changed successfully."
 msgstr "Thay đổi mật khẩu thành công."
+
+#, fuzzy
+msgid "Passwords must match."
+msgstr "Hai mật khẩu không giống nhau."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -326,6 +348,9 @@ msgstr "Có lỗi khi chuyển hướng"
 msgid "Username"
 msgstr "Tên đăng nhập"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr "Tên đăng nhập hoặc email"
 
@@ -335,9 +360,8 @@ msgstr "Vị trí thành viên"
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Chào <strong>{}</strong>, bạn đã đăng nhập thành công."
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
-msgstr "Xin chào! Bạn đã đăng kí thành công với tài khoản %s"
+msgid "Welcome! You have been registered as a new user and logged in through {}."
+msgstr "Xin chào! Bạn đã đăng kí thành công với tài khoản {}."
 
 msgid "Wrong image verification code. Please try again."
 msgstr "Sai mã xác nhận. Vui lòng thử lại."
@@ -350,9 +374,10 @@ msgid ""
 "your account."
 msgstr "Bạn đã đăng kí thành công. Vui lòng kiểm tra mailđể kích hoạt"
 
+#, fuzzy
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 "Bạn đã đăng xuất thành công. Cảnh báo: Vui lòng xóa hết cookiesnếu bạn "
 "đang sử dụng máy tính công cộng."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-12 13:36+0100\n"
+"POT-Creation-Date: 2013-11-12 23:46+0100\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: Coto Augosto <coto@beecoss.com>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -117,6 +117,14 @@ msgstr "Asociación con Facebook agregada!"
 msgid "Federated login is disabled."
 msgstr "Login Federado está desabilitado"
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "Olvidaste tu contraseña?"
 
@@ -145,11 +153,18 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "Reiniciar contraseña"
 
+#, fuzzy
+msgid "Invalid email address."
+msgstr "Ingresa una nueva dirección de email"
+
 msgid "Language"
 msgstr "Idioma"
 
 msgid "Last Name"
 msgstr "Apellido"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Aprende porque este Boilerplate es asombroso"
@@ -168,6 +183,9 @@ msgstr "Mensaje"
 
 msgid "Name"
 msgstr "Nombre"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr ""
 
 msgid "New Email"
 msgstr "Nuevo Email"
@@ -191,6 +209,10 @@ msgstr "Contraseña"
 
 msgid "Password changed successfully."
 msgstr "Contraseña actualizida exitósamente."
+
+#, fuzzy
+msgid "Passwords must match."
+msgstr "Las dos contraseñas deben coincidir."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -333,6 +355,9 @@ msgstr ""
 msgid "Username"
 msgstr "Nombre de usuario"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr "Nombre de Usuario o Email"
 
@@ -342,8 +367,7 @@ msgstr ""
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Bienvenido <strong>{}</strong>, has iniciado sesión."
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgid "Welcome! You have been registered as a new user and logged in through {}."
 msgstr ""
 
 msgid "Wrong image verification code. Please try again."
@@ -360,7 +384,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 
 msgid ""
