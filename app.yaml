@@ -1,4 +1,4 @@
-application: YOUR_APP_ID
+application: mdxs-dev
 version: dev
 runtime: python27
 api_version: 1
