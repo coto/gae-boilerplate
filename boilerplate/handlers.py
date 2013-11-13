@@ -558,7 +558,7 @@ class CallbackSocialLoginHandler(BaseHandler):
         # google, myopenid, yahoo OpenID Providers
         elif provider_name in models.SocialUser.open_id_providers():
             provider_display_name = models.SocialUser.PROVIDERS_INFO[provider_name]['label']
-            # get info passed from OpenId Provider
+            # get info passed from OpenID Provider
             from google.appengine.api import users
 
             current_user = users.get_current_user()
@@ -596,7 +596,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                 else:
                     self.redirect_to('edit-profile')
             else:
-                # login with OpenId Provider
+                # login with OpenID Provider
                 social_user = models.SocialUser.get_by_provider_and_uid(provider_name, uid)
                 if social_user:
                     # Social user found. Authenticate the user
@@ -677,8 +677,8 @@ class CallbackSocialLoginHandler(BaseHandler):
                 except (apiproxy_errors.OverQuotaError, BadValueError):
                     logging.error("Error saving Visit Log in datastore")
 
-            message = _(
-                'Welcome!  You have been registered as a new user through %s and logged in.' % provider_display_name)
+            message = _('Welcome!  You have been registered as a new user '
+                        'and logged in through {}.').format(provider_display_name)
             self.add_message(message, 'success')
         else:
             message = _('This %s account is already in use.' % provider_display_name)
@@ -722,7 +722,7 @@ class LogoutHandler(BaseHandler):
     def get(self):
         if self.user:
             message = _("You've signed out successfully. Warning: Please clear all cookies and logout "
-                        "of OpenId providers too if you logged in on a public computer.")
+                        "of OpenID providers too if you logged in on a public computer.")
             self.add_message(message, 'info')
 
         self.auth.unset_session()

@@ -162,7 +162,7 @@ def get_device(cls):
     elif "Presto" in uastring:
         browser = "Opera"
     elif "Android" in uastring and "AppleWebKit" in uastring:
-        browser = "Chrome for andriod"
+        browser = "Chrome for Android"
     elif "iPhone" in uastring and "AppleWebKit" in uastring:
         browser = "Safari for iPhone"
     elif "iPod" in uastring and "AppleWebKit" in uastring:
