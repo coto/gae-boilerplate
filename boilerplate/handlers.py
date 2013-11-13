@@ -677,7 +677,7 @@ class CallbackSocialLoginHandler(BaseHandler):
                 except (apiproxy_errors.OverQuotaError, BadValueError):
                     logging.error("Error saving Visit Log in datastore")
 
-            message = _('Welcome! You have been registered as a new user '
+            message = _('Welcome!  You have been registered as a new user '
                         'and logged in through {}.').format(provider_display_name)
             self.add_message(message, 'success')
         else:
