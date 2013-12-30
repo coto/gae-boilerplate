@@ -25,15 +25,18 @@ def lang(mode="extract"):
         local("pybabel compile -f -d ./locale")
     else:
         local("pybabel extract -F ./locale/babel.cfg -o ./locale/messages.pot ./ --sort-output --no-location --omit-header")
+        local("pybabel update -l cs_CZ -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l de_DE -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l en_US -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l es_ES -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
-        local("pybabel update -l it_IT -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
-        local("pybabel update -l zh_CN -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
-        local("pybabel update -l id_ID -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l fr_FR -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
-        local("pybabel update -l de_DE -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
-        local("pybabel update -l ru_RU -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l id_ID -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l it_IT -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l nl_NL -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l pt_BR -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l ru_RU -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l vi_VN -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l zh_CN -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
 
 def start(mode="normal"):
     """

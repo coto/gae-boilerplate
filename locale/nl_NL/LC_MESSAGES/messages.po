@@ -1,21 +1,18 @@
-# Russian (Russia) translations for Google App Engine.
-# Copyright (C) 2012 ORGANIZATION
-# This file is distributed under the same license as the Google App Engine
-# project.
+# Dutch (Netherlands) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
-# Translators:
-# Alexander Mitkalev <iroota@gmail.com>, 2012.
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Google App Engine Boilerplate\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-11-13 00:56+0100\n"
-"PO-Revision-Date: 2012-10-20 22:18+0400\n"
-"Last-Translator: iROOT <iroota@gmail.com>\n"
-"Language-Team: Russian (Russia) (http://www.transifex.com/projects/p"
-"/google-app-engine-boilerplate/language/ru_RU/)\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"PO-Revision-Date: 2013-11-11 23:38+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: nl_NL <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,400 +20,414 @@ msgstr ""
 
 #, python-format
 msgid "%s Account Verification"
-msgstr ""
+msgstr "%s Accountverificatie"
 
 #, python-format
 msgid "%s Email Changed Notification"
-msgstr ""
+msgstr "%s Bericht van E-mail Wijziging"
 
 #, python-format
 msgid "%s Password Assistance"
-msgstr ""
+msgstr "%s Wachtwoord Ondersteuning"
 
 #, python-format
 msgid "%s association successfully added."
-msgstr ""
+msgstr "%s koppeling succesvol toegevoegd."
 
 #, python-format
 msgid "%s authentication is not yet implemented."
-msgstr ""
+msgstr "%s authenticatie is nog niet geïmplementeerd."
 
 #, python-format
 msgid "%s successfully disassociated."
-msgstr ""
+msgstr "%s succesvol losgekoppeld."
 
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
 "    \tinstall Google Chrome Frame</a> to experience this site."
 msgstr ""
-"<a href=\\\"http://browsehappy.com/\\\">Перейдите на другой браузер</a>\n"
-"\n"
-"    \tили <a "
-"href=\\\"http://www.google.com/chromeframe/?redirect=true\\\">\n"
-"\n"
-"    \tустановите Google Chrome Frame</a> чтобы испытать этот сайт."
+"<a href=\"http://browsehappy.com/\">Upgrade naar een andere browser</a>\n"
+"    \tof <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstalleer Google Chrome Frame</a> om deze website te gebruiken."
 
 msgid "Associate account with"
-msgstr "Связать аккаунт с"
+msgstr "Koppel account met"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 msgid "Change password"
-msgstr "Изменить пароль"
+msgstr "Wijzig wachtwoord"
 
 msgid "Change your email"
-msgstr "Изменить E-Mail"
+msgstr "Verander je e-mail"
 
 msgid "Change your password"
-msgstr "Изменить пароль"
+msgstr "Je wachtwoord wijzigen"
 
 msgid "Confirm Password"
-msgstr "Подтвердите пароль"
+msgstr "Wachtwoord bevestigen"
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
-msgstr "Поздравляем Вас с установкой Google App Engine Boilerplate."
+msgstr "Gefeliciteerd met je Google App Engine Boilerplate aangedreven pagina."
 
 msgid ""
 "Congratulations, Your account <strong>{}</strong> has been successfully "
 "activated."
-msgstr ""
+msgstr "Gefeliciteerd, je account <strong>{}</strong> is succesvol geactiveerd."
 
 msgid "Contact"
-msgstr "Обратная связь"
+msgstr "Contact"
 
 msgid "Country"
-msgstr "Страна"
+msgstr "Land"
 
 msgid "Current Password"
-msgstr "Текущий пароль"
+msgstr "Huidig wachtwoord"
 
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Nog geen account?"
 
 msgid "Edit Profile"
-msgstr "Редактировать профиль"
+msgstr "Profiel bewerken"
 
 msgid "Email"
-msgstr "E-Mail"
+msgstr "E-mail"
 
 msgid "Enter a new email address"
-msgstr "Введите новый адрес электронной почты"
+msgstr "Voer een nieuw e-mailadres in"
 
 msgid "Enter your"
-msgstr "Укажите"
+msgstr "Invoeren"
 
 msgid "Error sending the message. Please try again later."
-msgstr ""
+msgstr "Fout bij het verzenden van het bericht. Probeer het later opnieuw."
 
 msgid "Existing social association"
-msgstr "Существующие связанные социальные сервисы"
+msgstr "Bestaande sociale koppeling"
 
 msgid "Facebook association added!"
-msgstr ""
+msgstr "Facebook koppeling toegevoegd!"
 
 msgid "Federated login is disabled."
-msgstr ""
+msgstr "Federatief inloggen is uitgeschakeld."
 
 #, python-format
 msgid "Field cannot be longer than %(max)d characters."
-msgstr ""
+msgstr "Veld kan niet langer zijn dan %(max)d tekens."
 
 #, python-format
 msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr ""
+msgstr "Veld moet tussen %(min)d en %(max)d tekens lang zijn."
 
 msgid "Forgot your password?"
-msgstr "Забыли пароль?"
+msgstr "Wachtwoord vergeten?"
 
 msgid "Github association added."
-msgstr ""
+msgstr "Github koppeling toegevoegd."
 
 msgid "Good Password"
-msgstr "Хороший пароль"
+msgstr "Goed wachtwoord"
 
 msgid "Google App Engine Boilerplate is released under the"
-msgstr "Google App Engine Boilerplate выпущен под"
+msgstr "Google App Engine Boilerplate is vrijgegeven onder de"
 
 msgid "If the email address you entered"
-msgstr ""
+msgstr "Als het ingevoerde e-mailadres"
 
 msgid "If the username you entered"
-msgstr ""
+msgstr "Als de ingevoerde gebruikersnaam"
 
 msgid ""
 "Incorrect password! Please enter your current password to change your "
 "account settings."
 msgstr ""
+"Onjuist wachtwoord! Voer je huidige wachtwoord in om je account te "
+"wijzigen."
 
 msgid "Insecure Password"
-msgstr "Небезопасный пароль"
+msgstr "Onveilig wachtwoord"
 
-#, fuzzy
 msgid "Invalid email address."
-msgstr "Введите новый адрес электронной почты"
+msgstr "Ongeldig e-mailadres."
 
 msgid "Language"
-msgstr "Язык"
+msgstr "Taal"
 
 msgid "Last Name"
-msgstr "Фамилия"
+msgstr "Achternaam"
 
 msgid "Last Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Achternaam ongeldig. Gebruik alleen letters en cijfers."
 
 msgid "Learn why this Boilerplate Rocks"
-msgstr "Узнайте о Boilerplate Rocks"
+msgstr "Zie waarom deze Boilerplate geweldig is"
 
 msgid "Linkedin association added!"
-msgstr ""
+msgstr "Linkedin koppeling toegevoegd!"
 
 msgid "Login"
-msgstr "Войти"
+msgstr "Inloggen"
 
 msgid "Logout"
-msgstr "Выйти"
+msgstr "Uitloggen"
 
 msgid "Message"
-msgstr "Сообщение"
+msgstr "Bericht"
 
 msgid "Name"
-msgstr "Имя"
+msgstr "Naam"
 
 msgid "Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Naam ongeldig. Gebruik alleen letters en cijfers."
 
 msgid "New Email"
-msgstr "Новый E-Mail"
+msgstr "Nieuw e-mail"
 
 msgid "New Password"
-msgstr "Новый пароль"
+msgstr "Nieuw wachtwoord"
 
 #, python-format
 msgid ""
 "No user authentication information received from %s. Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
+"Geen authenticatie informatie van de gebruiker ontvangen via %s.Zorg "
+"ervoor dat je inlogt via een geautoriseerde OpenID provider (OP)."
 
 msgid "Or Sign in using:"
-msgstr "Или войти с помощью:"
+msgstr "Of log in met:"
 
 msgid "Password"
-msgstr "Пароль"
+msgstr "Wachtwoord"
 
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Wachtwoord succesvol gewijzigd."
 
 msgid "Passwords must match."
-msgstr ""
+msgstr "Wachtwoorden moeten overeenkomen."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
 msgstr ""
+"Controleer uw nieuwe e-mail om te bevestigen. Uw e-mailadres zal na "
+"bevestiging worden bijgewerkt."
 
 msgid "Remember me?"
-msgstr "Запомнить меня?"
+msgstr "Onthou mij?"
 
 msgid "Remove"
-msgstr "Удалить"
+msgstr "Verwijderen"
 
 msgid "Reset password"
-msgstr "Сбросить пароль"
+msgstr "Wachtwoord herstellen"
 
 msgid "Search User"
-msgstr ""
+msgstr "Zoek gebruiker"
 
 msgid "Secure Page"
-msgstr "Безопасная страница"
+msgstr "Beveiligde pagina"
 
 msgid "Secure Password"
-msgstr "Безопасный пароль"
+msgstr "Veilig wachtwoord"
 
 msgid "Send Message"
-msgstr "Отправить сообщение"
+msgstr "Bericht verzenden"
 
 msgid "Short Password"
-msgstr "Короткий пароль"
+msgstr "Kort wachtwoord"
 
 msgid "Sign Up"
-msgstr "Регистрация"
+msgstr "Aanmelden"
 
 #, python-format
 msgid "Social account on %s not found for this user."
-msgstr ""
+msgstr "Sociale account op %s niet gevonden voor deze gebruiker."
 
 msgid "Sorry you are not logged in."
-msgstr ""
+msgstr "Sorry, je bent niet ingelogd"
 
 msgid "Sorry, Some error occurred."
-msgstr ""
+msgstr "Sorry, er is een fout opgetreden."
 
 msgid "Sorry, The email <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Sorry, de e-mail <strong>{}</strong> is al geregistreerd."
 
 msgid "Sorry, The user is already registered."
-msgstr ""
+msgstr "Sorry, de gebruiker is al geregistreerd."
 
 msgid "Sorry, The username <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Sorry, de gebruikersnaam <strong>{}</strong> is al geregistreerd."
 
 msgid "Source Code"
-msgstr "Исходный код"
+msgstr "Broncode"
 
 msgid "Thanks, your settings have been saved."
-msgstr ""
+msgstr "Bedankt, je instellingen zijn opgeslagen."
 
 msgid "The URL you tried to use is either incorrect or no longer valid."
-msgstr ""
+msgstr "De URL die je hebt gebruikt, is onjuist of niet meer geldig."
 
 msgid ""
 "The URL you tried to use is either incorrect or no longer valid. Enter "
 "your details again below to get a new one."
 msgstr ""
+"De URL die je hebt gebruikt, is onjuist of niet meer geldig.Vul je "
+"gegevens hieronder nogmaals in om een nieuwe te krijgen."
 
 #, python-format
 msgid "The account %s is already in use."
-msgstr ""
+msgstr "Het account %s is al in gebruik."
 
 #, python-format
 msgid "The email %s is already registered."
-msgstr ""
+msgstr "De e-mail %s is al geregistreerd."
 
 msgid "The link is invalid."
-msgstr ""
+msgstr "De link is ongeldig."
 
 msgid "The two passwords must match."
-msgstr ""
+msgstr "De twee wachtwoorden moeten overeenkomen."
 
 msgid "The username <strong>{}</strong> is already taken. Please choose another."
 msgstr ""
+"De gebruikersnaam <strong>{}</strong> is al in gebruik. Kies een andere "
+"naam."
 
 #, python-format
 msgid ""
 "The verification email has been resent to %s. Please check your email to "
 "activate your account."
 msgstr ""
+"De verificatie e-mail is opnieuw naar %s gestuurd. Controleer je e-mail "
+"om je account te activeren."
 
 #, python-format
 msgid "This %s account is already in use."
-msgstr ""
+msgstr "Dit %s account is al in gebruik."
 
 msgid "This Facebook account is already in use!"
-msgstr ""
+msgstr "Dit Facebook account is al in gebruik!"
 
 msgid "This Github account is already in use."
-msgstr ""
+msgstr "Dit Github account is al in gebruik."
 
 msgid "This Linkedin account is already in use!"
-msgstr ""
+msgstr "Dit Linkedin account is al in gebruik!"
 
 msgid "This Twitter account is already in use."
-msgstr ""
+msgstr "Dit Twitter account is al in gebruik."
 
 msgid "This authentication method is not yet implemented."
-msgstr ""
+msgstr "Deze authenticatiemethode is nog niet geïmplementeerd."
 
 msgid "Timezone"
-msgstr ""
+msgstr "Tijdzone"
 
 msgid "Twitter association added."
-msgstr ""
+msgstr "Twitter verbinding toegevoegd."
 
 msgid "Unable to update profile. Please try again later."
-msgstr ""
+msgstr "Kan profiel niet bijwerken. Probeer het later opnieuw."
 
 #, python-format
 msgid "Unexpected error creating the user %s"
-msgstr ""
+msgstr "Onverwachte fout bij het maken van de gebruiker %s"
 
 msgid "Update Profile"
-msgstr "Обновить профиль"
+msgstr "Profiel bijwerken"
 
 msgid "User Details"
-msgstr ""
+msgstr "Gebruikersgegevens"
 
 msgid "User List"
-msgstr ""
+msgstr "Gebruikers lijst"
 
 msgid "User is logged out, but there was an error on the redirection."
-msgstr ""
+msgstr "Gebruiker is uitgelogd, maar er was een fout in de omleiding."
 
 msgid "Username"
-msgstr "Имя пользователя"
+msgstr "Gebruikersnaam"
 
 msgid "Username invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Gebruikersnaam ongeldig. Gebruik alleen letters en cijfers."
 
 msgid "Username or Email"
-msgstr "Имя пользователя или E-Mail"
+msgstr "Gebruikersnaam of E-mail"
 
 msgid "Users Geolocation"
-msgstr ""
+msgstr "Geolocatie van gebruiker"
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
-msgstr ""
+msgstr "Welkom <strong>{}</strong>, je bent nu ingelogd."
 
 msgid "Welcome!  You have been registered as a new user and logged in through {}."
-msgstr ""
+msgstr "Welkom!  Je bent geregistreerd als een nieuwe gebruiker en ingelogd via {}."
 
 msgid "Wrong image verification code. Please try again."
-msgstr ""
+msgstr "Verkeerde verificatiecode. Probeer het opnieuw."
 
-#, fuzzy
 msgid "You didn't change your email."
-msgstr "Изменить E-Mail"
+msgstr "Je hebt je e-mail niet gewijzigd."
 
 msgid ""
 "You were successfully registered. Please check your email to activate "
 "your account."
 msgstr ""
+"Je bent succesvol geregistreerd. Controleer je e-mail om je account te "
+"activeren."
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
 "logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
+"Je bent succesvol afgemeld. Waarschuwing: verwijder alle cookies en meld "
+"je ook af bij OpenID providers als je op een openbare computer werkt."
 
 msgid ""
 "Your account has been activated. Please <a href=\"/login/\">sign in</a> "
 "to your account."
-msgstr ""
+msgstr "Je account is geactiveerd. <a href=\"/login/\">Log in</a> op je account."
 
 msgid ""
 "Your account has not yet been activated. Please check your email to "
 "activate it or"
 msgstr ""
+"Je account is nog niet geactiveerd. Controleer je e-mail om deze "
+"teactiveren of"
 
 msgid "Your browser is <em>ancient!</em>"
-msgstr "Ваш браузер <em>устарел!</em>"
+msgstr "Je browser is <em>oud!</em>"
 
 msgid "Your email has been successfully updated."
-msgstr ""
+msgstr "Je e-mail is succesvol bijgewerkt."
 
 msgid "Your message was sent successfully."
-msgstr ""
+msgstr "Je bericht is succesvol verzonden."
 
 msgid "Your new username is <strong>{}</strong>"
-msgstr ""
+msgstr "Je nieuwe gebruikersnaam is <strong>{}</strong>"
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
 msgstr ""
+"Je gebruikersnaam of wachtwoord is onjuist. Probeer het opnieuw (zorg "
+"ervoor dat Caps Lock is uitgeschakeld)"
 
 msgid "click here"
-msgstr ""
+msgstr "klik hier"
 
-#, fuzzy
 msgid "contact us"
-msgstr "Обратная связь"
+msgstr "neem contact op"
 
 msgid "download the Source Code"
-msgstr "скачайте исходный код"
+msgstr "download de broncode"
 
 msgid "for further assistance."
-msgstr ""
+msgstr "voor verdere ondersteuning."
 
 msgid ""
 "is associated with an account in our records, you will receive an email "
@@ -424,13 +435,17 @@ msgid ""
 "receive instructions within a minute or two, check your email's spam and "
 "junk filters, or "
 msgstr ""
+"is gekoppeld met een account in onze administratie, je ontvangt een "
+"e-mail van ons met instructies voor het opnieuw instellen van je "
+"wachtwoord. <br>Als je geen instructies ontvangt binnen een minuut of "
+"twee, kijk dan in je ongewenste e-mail gegevens en spamfilters, of "
 
 msgid "or just"
-msgstr "или просто"
+msgstr "of"
 
 msgid "to help you to create your application."
-msgstr "чтобы помочь вам создать свое приложение."
+msgstr "om je te helpen jouw applicatie te maken."
 
 msgid "to resend the email."
-msgstr ""
+msgstr "om de e-mail opnieuw te verzenden."
 
