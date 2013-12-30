@@ -20,369 +20,394 @@ msgstr ""
 
 #, python-format
 msgid "%s Account Verification"
-msgstr ""
+msgstr "%s Vérification du compte"
 
 #, python-format
 msgid "%s Email Changed Notification"
-msgstr ""
+msgstr "%s Notification de modification de l'Email"
 
 #, python-format
 msgid "%s Password Assistance"
-msgstr ""
+msgstr "%s Aide Mot de Passe"
 
 #, python-format
 msgid "%s association successfully added."
-msgstr ""
+msgstr "%s association ajoutée avec succès."
 
 #, python-format
 msgid "%s authentication is not yet implemented."
-msgstr ""
+msgstr "%s l'authentification n'est pas encore implémentée"
 
 #, python-format
 msgid "%s successfully disassociated."
-msgstr ""
+msgstr "%s succès de la désassociation."
 
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
 "    \tinstall Google Chrome Frame</a> to experience this site."
-msgstr ""
+msgstr "" 
+"<a href=\"http://browsehappy.com/\">Mise à niveau vers un navigateur différent</a>\n"
+"    \tou <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstaller Google Chrome Frame</a> pour découvrir ce site."
 
 msgid "Associate account with"
-msgstr ""
+msgstr "Associer le compte avec"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Abandonner"
 
 msgid "Change password"
-msgstr ""
+msgstr "Changer le mot de passe"
 
 msgid "Change your email"
-msgstr ""
+msgstr "Changer l'adresse mail"
 
 msgid "Change your password"
-msgstr ""
+msgstr "Changer votre mot de passe"
 
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmer le mot de passe"
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
-msgstr ""
+msgstr "Félicitations vous êtes sur votre page propulsée par Boilerplate de Google App Engine."
 
 msgid ""
 "Congratulations, Your account <strong>{}</strong> has been successfully "
 "activated."
 msgstr ""
+"Félicitations, Votre compte <strong>{}</strong> a été activé "
+"avec succés."
 
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 msgid "Current Password"
-msgstr ""
+msgstr "Mot de Passe Actuel"
 
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Vous n'avez pas de compte?"
 
 msgid "Edit Profile"
-msgstr ""
+msgstr "Editer votre profil"
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Enter a new email address"
-msgstr ""
+msgstr "Entrez une nouvelle adresse email"
 
 msgid "Enter your"
-msgstr ""
+msgstr "Entrez votre"
 
 msgid "Error sending the message. Please try again later."
-msgstr ""
+msgstr "Erreur lors de l'envoi du message. S.v.p. essayez à nouveau plus tard."
 
 msgid "Existing social association"
-msgstr ""
+msgstr "Association sociale déjà existante"
 
 msgid "Facebook association added!"
-msgstr ""
+msgstr "Facebook assocation ajoutée!"
 
 msgid "Federated login is disabled."
 msgstr ""
 
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Vous avez oublié votre mot de passe?"
 
 msgid "Github association added."
-msgstr ""
+msgstr "Github association ajoutée."
 
 msgid "Good Password"
-msgstr ""
+msgstr "Bon mot de passe"
 
 msgid "Google App Engine Boilerplate is released under the"
-msgstr ""
+msgstr "Google App Engine Boilerplate est distribué sous"
 
 msgid "If the email address you entered"
-msgstr ""
+msgstr "Si l'adresse Email que vous avez entrée"
 
 msgid "If the username you entered"
-msgstr ""
+msgstr "Si le nom d'utilisateur que vous avez entré"
 
 msgid ""
 "Incorrect password! Please enter your current password to change your "
 "account settings."
 msgstr ""
+"Mauvais mot de passe! S'il vous plaît entrez votre mot de passe actuel afin de changer "
+"les paramètres du compte."
 
 msgid "Insecure Password"
-msgstr ""
+msgstr "Mot de passe peu sûr"
 
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Nom de famille"
 
 msgid "Learn why this Boilerplate Rocks"
-msgstr ""
+msgstr "Apprenez pourquoi ça swing avec Boilerplate"
 
 msgid "Linkedin association added!"
-msgstr ""
+msgstr "Linkedin association ajoutée!"
 
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 msgid "Logout"
-msgstr ""
+msgstr "Logout"
 
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "New Email"
-msgstr ""
+msgstr "Nouveau Email"
 
 msgid "New Password"
-msgstr ""
+msgstr "Nouveau Mot de passe"
 
 #, python-format
 msgid ""
 "No user authentication information received from %s. Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
+"Aucune information d'authentification n'a été reçue de %s. S'il vous plaît assurez-vous "
+"que vous êtes connecté à un fournisseur OpenID (OP) autorisé. "
 
 msgid "Or Sign in using:"
-msgstr ""
+msgstr "Ou vous connecter en utilisant"
 
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Mot de Passe modifié avec suucès. "
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
 msgstr ""
+"S'il vous plaît vérifiez votre nouvel email de confirmation. Votre email sera mis à jour "
+"après confirmation."
 
 msgid "Remember me?"
-msgstr ""
+msgstr "Se souvenir de moi?"
 
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 msgid "Reset password"
-msgstr ""
+msgstr "Réinitialiser le mot de passe"
 
 msgid "Search User"
-msgstr ""
+msgstr "Cherche l'Utilisateur"
 
 msgid "Secure Page"
-msgstr ""
+msgstr "Page sécurisée"
 
 msgid "Secure Password"
-msgstr ""
+msgstr "Mot de Passe Sûr"
 
 msgid "Send Message"
-msgstr ""
+msgstr "Envoyer le Message"
 
 msgid "Short Password"
-msgstr ""
+msgstr "Mot de passe court"
 
 msgid "Sign Up"
-msgstr ""
+msgstr "Vous inscrire"
 
 #, python-format
 msgid "Social account on %s not found for this user."
-msgstr ""
+msgstr "Compte social non trouvé sur %s pour cet utilisateur."
 
 msgid "Sorry you are not logged in."
-msgstr ""
+msgstr "Désolé vous n'êtes pas connecté"
 
 msgid "Sorry, Some error occurred."
-msgstr ""
+msgstr "Désolé, une erreur est survenue."
 
 msgid "Sorry, The email <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Désolé, le email <strong>{}</strong> est déjà enregistré."
 
 msgid "Sorry, The user is already registered."
-msgstr ""
+msgstr "Désolé, l'utilisateur est déjà enregistré."
 
 msgid "Sorry, The username <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Désolé, Le nom d'utilisateur <strong>{}</strong> est déjà enregistré."
 
 msgid "Source Code"
-msgstr ""
+msgstr "Code Source"
 
 msgid "Thanks, your settings have been saved."
-msgstr ""
+msgstr "Merci, vos paramètres ont été sauvegardés"
 
 msgid "The URL you tried to use is either incorrect or no longer valid."
-msgstr ""
+msgstr "L'URL que vous avez tenté d'utiliser n'est pas correcte ou n'est plus valide."
 
 msgid ""
 "The URL you tried to use is either incorrect or no longer valid. Enter "
 "your details again below to get a new one."
 msgstr ""
+"L'URL que vous avez tenté d'utiliser n'est pas correcte ou n'est plus valide. Entrez "
+"vos détails à nouveau ci-dessous pour en obtenir une nouvelle."
 
 #, python-format
 msgid "The account %s is already in use."
-msgstr ""
+msgstr "Le compte %s est déjà en cours d'utilisation."
 
 #, python-format
 msgid "The email %s is already registered."
-msgstr ""
+msgstr "L'Email %s est déjà enregistré."
 
 msgid "The link is invalid."
-msgstr ""
+msgstr "Le lien n'est pas valide."
 
 msgid "The two passwords must match."
-msgstr ""
+msgstr "Les deux mots de passe doivent être identiques."
 
 msgid "The username <strong>{}</strong> is already taken. Please choose another."
-msgstr ""
+msgstr "Le nom d'utilisateur <strong>{}</strong> est déjà pris. S'il vous plaît choisir un autre nom."
 
 #, python-format
 msgid ""
 "The verification email has been resent to %s. Please check your email to "
 "activate your account."
-msgstr ""
+msgstr "" 
+"L'email de vérification a été renvoyé à %s. S'il vous plaît, vérifiez votre email pour"
+"activer votre compte"
 
 #, python-format
 msgid "This %s account is already in use."
-msgstr ""
+msgstr "Ce %s compte est déjà utilisé"
 
 msgid "This Facebook account is already in use!"
-msgstr ""
+msgstr "Ce compte Facebook est déjà utilisé!"
 
 msgid "This Github account is already in use."
-msgstr ""
+msgstr "Ce compte Github est déjà utilisé!"
 
 msgid "This Linkedin account is already in use!"
-msgstr ""
+msgstr "Ce compte Linkedin est déjà utilisé!"
 
 msgid "This Twitter account is already in use."
-msgstr ""
+msgstr "Ce compte Twitter est déjà utilisé!"
 
 msgid "This authentication method is not yet implemented."
-msgstr ""
+msgstr "Cette méthode d'authentification n'est pas encore implémentée."
 
 msgid "Timezone"
-msgstr ""
+msgstr "Timezone"
 
 msgid "Twitter association added."
-msgstr ""
+msgstr "Twitter association ajoutée"
 
 msgid "Unable to update profile. Please try again later."
-msgstr ""
+msgstr "Impossible de mettre à jour le profil. S'il vous plaît essayer à nouveau plus tard."
 
 #, python-format
 msgid "Unexpected error creating the user %s"
-msgstr ""
+msgstr "Erreur inattendue de création de l'utilisateur %s"
 
 msgid "Update Profile"
-msgstr ""
+msgstr "Mise à jour du profil"
 
 msgid "User Details"
-msgstr ""
+msgstr "Détails de l'utilisateur"
 
 msgid "User List"
-msgstr ""
+msgstr "Liste utilisateur"
 
 msgid "User is logged out, but there was an error on the redirection."
-msgstr ""
+msgstr "Utilisateur déconnecté, mais il ya une erreur de redirection."
 
 msgid "Username"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 msgid "Username or Email"
-msgstr ""
+msgstr "Nom d'utilisateur ou Email"
 
 msgid "Users Geolocation"
-msgstr ""
+msgstr "Géolocalisation des Utilisateurs"
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
-msgstr ""
+msgstr "Bienvenue <strong>{}</strong>, vous maintenant connecté."
 
 #, python-format
 msgid "Welcome!  You have been registered as a new user through %s and logged in."
-msgstr ""
+msgstr "Bienvenue! Vous avez été enregistré comme nouvel utilisateur sous %s et connecté."
 
 msgid "Wrong image verification code. Please try again."
-msgstr ""
+msgstr "Mauvais code de vérification de l'image. S'il vous plaît essayer de nouveau."
 
 msgid "You didn't change your email."
-msgstr ""
+msgstr "Vous n'avez pas changé votre email."
 
 msgid ""
 "You were successfully registered. Please check your email to activate "
 "your account."
 msgstr ""
+"Vous venez d'être enregistré avec succès. S'il vous plaît vérifiez votre email pour activer "
+"votre compte."
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
 "logout of OpenId providers too if you logged in on a public computer."
 msgstr ""
+"Vous vous êtes déconnecté avec succès. Avertissement: S.v.p. effacez tous les cookies et "
+"et déconnectez vous aussi du fournisseur OpenId si vous étiez connecté à partir d'un ordinateur public."
 
 msgid ""
 "Your account has been activated. Please <a href=\"/login/\">sign in</a> "
 "to your account."
 msgstr ""
+"Votre compte a été activé. S'il vous plaît <a href=\"/login/\">connectez-vous</a> "
+"à votre compte."
 
 msgid ""
 "Your account has not yet been activated. Please check your email to "
 "activate it or"
 msgstr ""
+"Votre compte n'a pas encore été activé. S.v.p. vérifiez votre email afin "
+"de l'activer ou"
 
 msgid "Your browser is <em>ancient!</em>"
-msgstr ""
+msgstr "Votre navigateur est <em>ancien!</em>"
 
 msgid "Your email has been successfully updated."
-msgstr ""
+msgstr "Votre email a été mis à jour avec succès."
 
 msgid "Your message was sent successfully."
-msgstr ""
+msgstr "Votre message a été envoyé correctement."
 
 msgid "Your new username is <strong>{}</strong>"
-msgstr ""
+msgstr "Votre nouveau nom d'utilisateur est <strong>{}</strong>"
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
 msgstr ""
+"Votre nom d'utilisateur ou mot de passe est incorrect. S'il vous plaît essayer de nouveau (assurez-vous "
+"que le verrouillage des majuscules est désactivé)"
 
 msgid "click here"
-msgstr ""
+msgstr "cliquer ici"
 
 msgid "contact us"
-msgstr ""
+msgstr "contactez nous"
 
 msgid "download the Source Code"
-msgstr ""
+msgstr "téléchargez le Code Source"
 
 msgid "for further assistance."
-msgstr ""
+msgstr "pour davantage d'assistance."
 
 msgid ""
 "is associated with an account in our records, you will receive an email "
@@ -390,13 +415,16 @@ msgid ""
 "receive instructions within a minute or two, check your email's spam and "
 "junk filters, or "
 msgstr ""
+"est associée à un compte dans nos enregistrements, vous recevrez un email"
+"de notre part avec des instructions afin de réinitialiser votre mot de passe. <br>Si vous ne recevez pas "
+"les instructions dans un délai d'une à deux minutes, vérifiez les spam dans votre messagerie et "
+"et les filtres de spam, ou "
 
 msgid "or just"
-msgstr ""
+msgstr "ou simplement"
 
 msgid "to help you to create your application."
-msgstr ""
+msgstr "pour vous aider à créer votre application."
 
 msgid "to resend the email."
-msgstr ""
-
+msgstr "pour renvoyer l'e-mail."
