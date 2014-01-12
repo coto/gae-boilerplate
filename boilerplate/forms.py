@@ -47,6 +47,12 @@ class UsernameMixin(BaseForm):
                                                     "Username invalid. Use only letters and numbers."))])
 
 
+class UsernameEmailMixin(BaseForm):
+    username = fields.TextField(_('Username'), [validators.Required(),
+                                                validators.Length(max=FIELD_MAXLENGTH, message=_(
+                                                    "Field cannot be longer than %(max)d characters."))])
+
+
 class NameMixin(BaseForm):
     name = fields.TextField(_('Name'), [
         validators.Length(max=FIELD_MAXLENGTH, message=_("Field cannot be longer than %(max)d characters.")),
@@ -70,7 +76,7 @@ class PasswordResetCompleteForm(PasswordConfirmMixin):
     pass
 
 
-class LoginForm(UsernameMixin):
+class LoginForm(UsernameEmailMixin):
     password = fields.TextField(_('Password'), [validators.Required(),
                                                 validators.Length(max=FIELD_MAXLENGTH, message=_(
                                                     "Field cannot be longer than %(max)d characters."))],
