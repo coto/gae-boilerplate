@@ -69,7 +69,7 @@ config = {
     'captcha_private_key': "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE",
 
     # Use a complete Google Analytics code, no just the Tracking ID
-    # In config/localhost.py there is an example to fill out this value
+    # In config/boilerplate.py there is an example to fill out this value
     'google_analytics_code': "",
 
     # add status codes and templates used to catch and display errors
