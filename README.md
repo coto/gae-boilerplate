@@ -19,15 +19,18 @@ What makes this Boilerplate Amazing?
 ------------------------------------
 It is fully featured, actively maintained, and uses the latest and most supported technologies of Google App Engine.
 
-New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) or reading [this website](https://developers.google.com/appengine/).
+New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) of @bslatkin or reading [the official documentation](https://developers.google.com/appengine/).
 
 Get started in just a few easy steps
 ------------------------------------
-1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.8.1).
-1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
+1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.8.9).
+1. Download or clone the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
-1. Set custom config parameters in [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/config/localhost.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)  To get started, copy the default settings from [boilerplate/config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py). . Note that most of the default settings will need to be changed to yield a secure and working application.  Make the changes to these settings in the config/*.py (localhost.py for development on your local PC, production.py for production on App Engine's servers, testing.py for unittests configurations)  The configurations in /config take precedence over boilerplate/config.py.
+1. Set custom config parameters in [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/config/localhost.py), [config/testing.py](https://github.com/coto/gae-boilerplate/blob/master/config/testing.py) and [config/production.py](https://github.com/coto/gae-boilerplate/blob/master/config/production.py) like secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt and other.
+ * Boilerplate will identify which config file to use in local, unit testing and production.
+ * To get started, look the default settings in [boilerplate/config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py). Those settings will be overwrite for your config files.
+ * Most of the default settings will need to be changed to yield a secure and working application.
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
 
@@ -69,19 +72,21 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 Testing
 -------
 **Unit testing**
-+ Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
++ Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting "run as..." -> "Python unit-test".
 + You may need to add /boilerplate/external to your python path.
-+ Please add unittests for your application to [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests).
++ Please add unittests for your application to [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests.py).
 + To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
+  ```bash
     sudo pip install webtest
     sudo pip install mock
     sudo pip install pyquery
+  ```
 + Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
 
 Technologies used
 -----------------
-+ Python 2.7.3
-+ [NDB 1.0.9](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
++ Python 2.7.5
++ [NDB 1.0.10](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
 + [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
@@ -102,8 +107,8 @@ Front-end Technologies
 + [jQuery 1.8.2](http://jquery.com)
 + [Twitter Bootstrap 2.2.1](http://twitter.github.com/bootstrap/) Template for Desktop Version.
 
-Please help us translate and add new languages!
------------------------------------------------
+Please help us to translate and add new languages!
+--------------------------------------------------
 In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
@@ -164,7 +169,7 @@ Security
 + It is recommended to enable ssl site wide to help prevent [session hijacking](http://en.wikipedia.org/wiki/Session_hijacking)
 
 **Passwords**
-+ passwords encrypted with SHA512 and PyCrypto
++ Passwords are hashed and encrypted with SHA512 and PyCrypto.
 
 **CSRF**
 + [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection
