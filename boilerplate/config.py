@@ -68,9 +68,9 @@ config = {
     'captcha_public_key': "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE",
     'captcha_private_key': "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE",
 
-    # Leave blank "google_analytics_domain" if you only want Analytics code
-    'google_analytics_domain': "YOUR_PRIMARY_DOMAIN (e.g. google.com)",
-    'google_analytics_code': "UA-XXXXX-X",
+    # Use a complete Google Analytics code, no just the Tracking ID
+    # In config/localhost.py there is an example to fill out this value
+    'google_analytics_code': "",
 
     # add status codes and templates used to catch and display errors
     # if a status code is not listed here it will use the default app engine

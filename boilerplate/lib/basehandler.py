@@ -290,7 +290,6 @@ class BaseHandler(webapp2.RequestHandler):
 
         # set or overwrite special vars for jinja templates
         kwargs.update({
-            'google_analytics_domain': self.app.config.get('google_analytics_domain'),
             'google_analytics_code': self.app.config.get('google_analytics_code'),
             'app_name': self.app.config.get('app_name'),
             'user_id': self.user_id,
