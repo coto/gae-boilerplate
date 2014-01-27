@@ -1,4 +1,4 @@
-{% extends 'admin/base.html' %}
+{% extends 'admin_base.html' %}
 
 {% block header_title %}
     {% trans %}User List{% endtrans %}
@@ -9,10 +9,10 @@
   <div class="navbar-inner">
     <form method="GET" class="navbar-search">
         <span class="badge"> {{ count }}&nbsp</span>
-        <input type="text" name="q" value="{{ q or '' }}" class="input-medium search-query" placeholder="{{ _('Search User') }}"></input>
+        <input type="text" name="q" value="{{ q or '' }}" class="input-medium search-query" placeholder="{{ _('Search User') }}" />
         <button type="submit" title="Search"><i class="icon-search"></i></button>
         {% if q %}
-        <a href="{{ uri_for('user-list') }}" class="clear">×</a>
+        <a href="{{ uri_for('admin-users-list') }}" class="clear">×</a>
         {% endif %}
     </form>
     </div>
@@ -31,7 +31,7 @@
     {% for user in users %}
     <tr>
         <td>
-            <a class="icon" href="{{ uri_for('user-edit', user_id=user.get_id()) }}"><i class="icon-pencil"></i></a>
+            <a class="icon" href="{{ uri_for('admin-user-edit', user_id=user.get_id()) }}"><i class="icon-pencil"></i></a>
         </td>
         {% for attr, name in list_columns %}
         <td>

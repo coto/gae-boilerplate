@@ -5,17 +5,11 @@ from boilerplate import forms
 from boilerplate.handlers import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
-from google.appengine.api import users
 from collections import OrderedDict, Counter
 from wtforms import fields
 
 
-class AdminLogoutHandler(BaseHandler):
-    def get(self):
-        self.redirect(users.create_logout_url(dest_url=self.uri_for('home')))
-
-
-class AdminGeoChartHandler(BaseHandler):
+class AdminUserGeoChartHandler(BaseHandler):
     def get(self):
         users = models.User.query().fetch(projection=['country'])
         users_by_country = Counter()
@@ -25,7 +19,7 @@ class AdminGeoChartHandler(BaseHandler):
         params = {
             "data": users_by_country.items()
         }
-        return self.render_template('admin/geochart.html', **params)
+        return self.render_template('admin_users_geochart.html', **params)
 
 
 class EditProfileForm(forms.EditProfileForm):
@@ -41,9 +35,9 @@ class AdminUserListHandler(BaseHandler):
         cursor = Cursor(urlsafe=c)
 
         if q:
-            qry = models.User.query(ndb.OR(models.User.last_name == q,
-                                           models.User.email == q,
-                                           models.User.username == q))
+            qry = models.User.query(ndb.OR(models.User.last_name == q.lower(),
+                                           models.User.email == q.lower(),
+                                           models.User.username == q.lower()))
         else:
             qry = models.User.query()
 
@@ -69,7 +63,7 @@ class AdminUserListHandler(BaseHandler):
                 params['p'] = p
             if cursor:
                 params['c'] = cursor.urlsafe()
-            return self.uri_for('user-list', **params)
+            return self.uri_for('admin-users-list', **params)
 
         self.view.pager_url = pager_url
         self.view.q = q
@@ -84,7 +78,7 @@ class AdminUserListHandler(BaseHandler):
             "users": users,
             "count": qry.count()
         }
-        return self.render_template('admin/list.html', **params)
+        return self.render_template('admin_users_list.html', **params)
 
 
 class AdminUserEditHandler(BaseHandler):
@@ -104,7 +98,7 @@ class AdminUserEditHandler(BaseHandler):
                 self.form.populate_obj(user)
                 user.put()
                 self.add_message("Changes saved!", 'success')
-                return self.redirect_to("user-edit", user_id=user_id)
+                return self.redirect_to("admin-user-edit", user_id=user_id)
             else:
                 self.add_message("Could not save changes!", 'error')
         else:
@@ -114,7 +108,7 @@ class AdminUserEditHandler(BaseHandler):
         params = {
             'user': user
         }
-        return self.render_template('admin/edit.html', **params)
+        return self.render_template('admin_user_edit.html', **params)
 
     @webapp2.cached_property
     def form(self):

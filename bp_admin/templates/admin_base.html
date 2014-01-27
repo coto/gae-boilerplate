@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'admin/macros.html' as lib with context %}
+{% import 'admin_macros.html' as lib with context %}
 
 {% block header %}
     <header class="navbar" id="overview">
@@ -15,13 +15,14 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-chevron-down icon"></span>
                 </button>
-                <a class="brand" href="{{ uri_for('geochart') }}">Admin {{ app_name }}</a>
+                <a class="brand" href="{{ uri_for('admin-users-geochart') }}">{{ app_name }} Admin</a>
                 <div class="nav-collapse">
                     <ul class="nav">
-                        <li {% if path == uri_for('geochart') %}class="active"{% endif %}><a href="{{ uri_for('geochart') }}">{% trans %}Users Geolocation{% endtrans %}</a></li>
-                        <li {% if path == uri_for('user-list') %}class="active"{% endif %}><a href="{{ uri_for('user-list') }}">{% trans %}User List{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-users-geochart') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-geochart') }}">{% trans %}Users Geolocation{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-users-list') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-list') }}">{% trans %}User List{% endtrans %}</a></li>
                     </ul>
                     <ul class="nav pull-right">
+                        <li><a href="/">{% trans %}Visit Site{% endtrans %}</a></li>
                         <li class="divider-vertical"></li>
                         <li><a href="{{ uri_for('admin-logout') }}">{% trans %}Logout{% endtrans %}</a></li>
                     </ul>

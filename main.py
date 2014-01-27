@@ -24,7 +24,7 @@ import webapp2
 
 import routes
 from boilerplate import routes as boilerplate_routes
-from admin import routes as admin_routes
+from bp_admin import routes as admin_routes
 from boilerplate import config as boilerplate_config
 import config
 from boilerplate.lib.error_handler import handle_error

@@ -1,4 +1,4 @@
-<{% macro render_form_fields(form) %}
+{% macro render_form_fields(form) %}
     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
     {% for field in form %}
     <div class="control-group{% if field.errors %} error{% endif %}">
