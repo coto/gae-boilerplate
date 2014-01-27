@@ -9,7 +9,7 @@
   <div class="navbar-inner">
     <form method="GET" class="navbar-search">
         <span class="badge"> {{ count }}&nbsp</span>
-        <input type="text" name="q" value="{{ q or '' }}" class="input-medium search-query" placeholder="{{ _('Search User') }}" />
+        <input type="text" name="q" value="{{ q|e }}" class="input-medium search-query" placeholder="{{ _('Search User') }}" />
         <button type="submit" title="Search"><i class="icon-search"></i></button>
         {% if q %}
         <a href="{{ uri_for('admin-users-list') }}" class="clear">×</a>
