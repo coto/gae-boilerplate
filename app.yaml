@@ -41,13 +41,9 @@ handlers:
   static_files: static/favicon.ico
   upload: static/favicon.ico
 
-- url: /apple-touch-icon\.png
-  static_files: static/apple-touch-icon.png
-  upload: static/apple-touch-icon.png
-
-- url: /apple-touch-icon-precomposed\.png
-  static_files: static/apple-touch-icon-precomposed.png
-  upload: static/apple-touch-icon-precomposed.png
+- url: /(apple-touch-icon.*\.(png))
+  static_files: static/\1
+  upload: static/(apple-touch-icon.*\.(png))
 
 - url: /(robots\.txt|humans\.txt|crossdomain\.xml)
   static_files: static/\1
