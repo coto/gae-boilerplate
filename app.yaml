@@ -1,4 +1,4 @@
-application: YOUR_APP_ID
+application: your-app-id
 version: dev
 runtime: python27
 api_version: 1
@@ -81,7 +81,7 @@ handlers:
   mime_type: text/javascript
   static_dir: static/js
 
-- url: /taskqueue-send-email
+- url: /taskqueue-send-email.*
   script: main.app
   login: admin
 
