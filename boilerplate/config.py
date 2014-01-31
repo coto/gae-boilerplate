@@ -12,8 +12,10 @@ config = {
     'webapp2_extras.auth': {'user_model': 'boilerplate.models.User',
                             'cookie_name': 'session_name'},
 
+    # jinja template name
+    'app_template_name' : 'default',
     # jinja2 templates
-    'webapp2_extras.jinja2': {'template_path': ['templates', 'boilerplate/templates', 'bp_admin/templates'],
+    'webapp2_extras.jinja2': {'template_path': ['templates', 'bp_content/themes/default/templates', 'bp_admin/templates'],
                               'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
     # application name

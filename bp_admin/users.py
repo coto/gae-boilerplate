@@ -2,7 +2,7 @@
 import webapp2
 from boilerplate import models
 from boilerplate import forms
-from boilerplate.handlers import BaseHandler
+from lib.basehandler import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
 from collections import OrderedDict, Counter

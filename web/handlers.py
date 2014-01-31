@@ -10,8 +10,8 @@
 """
 import httpagentparser
 from boilerplate import models
-from boilerplate.lib.basehandler import BaseHandler
-from boilerplate.lib.decorators import user_required
+from lib.basehandler import BaseHandler
+from lib.decorators import user_required
 
 
 class SecureRequestHandler(BaseHandler):
