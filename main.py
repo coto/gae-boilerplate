@@ -27,10 +27,10 @@ import routes
 from bp_admin import routes as admin_routes
 from bp_includes import config as boilerplate_config
 import config
-from lib.error_handler import handle_error
+from bp_includes.lib.error_handler import handle_error
 
 sys.path.append('bp_content/themes/' + boilerplate_config.config["app_template_name"])
-from route import routes as boilerplate_routes
+from bp_includes import routes as boilerplate_routes
 
 
 webapp2_config = boilerplate_config.config

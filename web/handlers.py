@@ -10,8 +10,8 @@
 """
 import httpagentparser
 from bp_includes import models
-from lib.basehandler import BaseHandler
-from lib.decorators import user_required
+from bp_includes.lib.basehandler import BaseHandler
+from bp_includes.lib.decorators import user_required
 
 
 class SecureRequestHandler(BaseHandler):

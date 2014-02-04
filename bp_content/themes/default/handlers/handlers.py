@@ -29,11 +29,11 @@ from linkedin import linkedin
 # local application/library specific imports
 import models
 import forms as forms
-from lib import utils, captcha, twitter
-from lib.basehandler import BaseHandler
-from lib.decorators import user_required
-from lib.decorators import taskqueue_method
-from lib import facebook
+from bp_includes.lib import utils, captcha, twitter
+from bp_includes.lib.basehandler import BaseHandler
+from bp_includes.lib.decorators import user_required
+from bp_includes.lib.decorators import taskqueue_method
+from bp_includes.lib import facebook
 
 
 class LoginRequiredHandler(BaseHandler):

@@ -1,4 +1,4 @@
-from boilerplate.lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
+from bp_includes.lib.oauth2 import Consumer as OAuthConsumer, Token, Request as OAuthRequest, \
                    SignatureMethod_HMAC_SHA1
 import urllib2
 import json

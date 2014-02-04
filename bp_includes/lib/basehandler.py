@@ -10,8 +10,8 @@ from webapp2_extras import jinja2
 from webapp2_extras import auth
 from webapp2_extras import sessions
 # local application/library specific imports
-from boilerplate import models
-from boilerplate.lib import utils, i18n
+from bp_includes import models
+from bp_includes.lib import utils, i18n
 from babel import Locale
 
 
