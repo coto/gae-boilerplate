@@ -18,14 +18,14 @@ __website__ = 'www.beecoss.com'
 
 import os, sys
 # Third party libraries path must be fixed before importing webapp2
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'boilerplate/external'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external'))
 
 import webapp2
 
 import routes
 #from boilerplate import routes as boilerplate_routes
 from bp_admin import routes as admin_routes
-from boilerplate import config as boilerplate_config
+from bp_includes import config as boilerplate_config
 import config
 from lib.error_handler import handle_error
 

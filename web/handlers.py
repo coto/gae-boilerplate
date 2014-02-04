@@ -9,7 +9,7 @@
     Routes are setup in routes.py and added in main.py
 """
 import httpagentparser
-from boilerplate import models
+from bp_includes import models
 from lib.basehandler import BaseHandler
 from lib.decorators import user_required
 

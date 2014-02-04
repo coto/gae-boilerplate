@@ -1,0 +1,442 @@
+@import "bootstrap.min.css";
+@import "bootstrap-responsive.min.css";
+/**   Styles only for Google App Engine Boilerplate  **/
+body{
+    padding-top: 50px;
+}
+
+/* general elements */
+
+/* password strength */
+span.password_strength{
+    display: block;
+    width: 271px;
+    margin: 4px 0 0;
+}
+
+
+/* Rewrite Twitter Bootstrap */
+.well {
+    background-color: #efefef; /* Old browsers */
+    background-repeat: repeat-x; /* Repeat the gradient */
+    background-image: -moz-linear-gradient(top, #efefef 0%, #eeeeee 100%); /* FF3.6+ */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#e7e7e7)); /* Chrome,Safari4+ */
+    background-image: -webkit-linear-gradient(top, #efefef 0%,#eeeeee 100%); /* Chrome 10+,Safari 5.1+ */
+    background-image: -ms-linear-gradient(top, #efefef 0%,#eeeeee 100%); /* IE10+ */
+    background-image: -o-linear-gradient(top, #efefef 0%,#eeeeee 100%); /* Opera 11.10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
+    background-image: linear-gradient(top, #efefef 0%,#eeeeee 1000%); /* W3C */
+
+    .form-actions{
+        margin-bottom: 0;
+        padding-bottom: 0;
+        background-color: transparent;
+    }
+}
+
+.auth-at-home{
+
+    button.btn-login{
+        margin-left: 13px;
+    }
+
+    span.password_strength{
+        display: inline-block;
+        width: auto;
+        cursor: default;
+        margin-bottom: 6px; 
+    }
+}
+
+.auth-at-loginpage{
+
+    fieldset{
+        width: 25%;
+        min-width: 270px;
+        margin: 0 auto;
+    }
+
+    .btn-login{
+        margin-right: 1em;
+    }
+
+    .remember{
+        display: inline;
+    }
+}
+
+.auth-at-dropdown{
+    width: 230px;
+
+    form{
+        margin: 0;
+    }
+
+    a{
+        padding: 0;
+        color: #0088cc;
+        text-decoration: none;
+
+        &:hover{
+            color: #005580;
+            text-decoration: underline;
+        }
+    }
+}
+
+
+.auth-at-dropdown, .auth-at-home{
+
+    .control-group{
+        margin-bottom: 0;
+    }
+
+    input{
+        width: 96%;
+
+        &[type=checkbox]{
+            width: auto;
+        }
+    }
+
+    .btn-login{
+        margin: 0;
+    }
+}
+
+#third_party_login{
+    padding: 0;
+    background: transparent;
+
+    @media (max-width: 980px){          
+        .nav-collapse .dropdown-menu #form_login_user a {
+            padding: 0;
+        }        
+    }
+
+    h4{
+        padding: 0.5em 0;
+    }
+}
+
+#register{
+    padding: 0;
+    background: transparent;
+    h4{
+        padding: 0.5em 0;
+    }
+}
+
+fieldset.well{
+    padding: 15px;
+}
+
+.social-login-icons {
+    margin: 0;
+    list-style: none;
+}
+
+.social-login-icons li{
+    width: 32px;
+    float: left;
+    margin-right: 0.4em;
+}
+
+.auth-at-home .social-login-icons li{
+    margin-right: 0.1em;
+}
+
+.social-login-icons a.social-btn{
+    overflow: hidden;
+    display: inline-block;
+    margin: 0 0 0.5em 0;
+    padding: 0;
+    text-indent: -9000px;
+    width: 32px;
+    height: 32px;
+    background-image: url('../img/social-login-icons.png');
+    background-repeat: no-repeat;
+    &:hover{
+        background-image: url('../img/social-login-icons.png');
+        background-repeat: no-repeat;
+        background-color: transparent;
+    }
+}
+
+.social-btn-google{
+    background-position: 0 0;
+}
+.social-btn-facebook{
+    background-position: -32px 0;
+}
+.social-btn-linkedin{
+    background-position: -64px -32px;
+}
+.social-btn-myopenid{
+    background-position: 0 -32px;
+}
+.social-btn-twitter{
+    background-position: -64px 0;
+}
+.social-btn-yahoo{
+    background-position: -32px -32px;
+}
+.social-btn-github{
+    background-position: -97px 0;
+}
+/* Existing Social association block on profile page */
+.existing-association{
+    padding: 0;
+    background: transparent;
+    border-top: 1px solid #e5e5e5;
+    margin: 18px 0 0 0;
+    clear: both;
+
+    h4{
+        padding-top: 0.5em;
+    }
+
+    div{
+        margin-top: 0.5em;
+        
+        .btn-danger{
+            float: right;
+        }
+        
+        div{
+            width: 250px;
+        }
+    }
+}
+
+.navbar{
+
+    .brand{
+        margin-left: 0;
+    }
+}
+
+/* Used by plugins.js (jQuery placeholder support for IE) */
+.hasPlaceholder {
+    color: #777;
+}
+
+/* Header Bar (Subnavegacion) */
+/* Subnav */
+.subnav {
+    width: 100%;
+    height: 36px;
+    background-color: #eeeeee; /* Old browsers */
+    background-repeat: repeat-x; /* Repeat the gradient */
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2); /* FF3.6+ */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(#ffffff), color-stop(#f2f2f2)); /* Chrome,Safari4+ */
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2); /* Chrome 10+,Safari 5.1+ */
+    background-image: -ms-linear-gradient(top, #ffffff,#f2f2f2); /* IE10+ */
+    background-image: -o-linear-gradient(top, #ffffff,#f2f2f2); /* Opera 11.10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-9 */
+    background-image: linear-gradient(top, #ffffff,#f2f2f2); /* W3C */
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-bottom: 18px;
+
+    ul{
+        margin: 0px;
+        overflow: hidden;
+
+        li{
+            margin: 0 -2px;
+            line-height: 36px;
+            display: inline-block;  
+            padding: 0 11px;
+            border-left: 1px solid #eee;
+            color: #777;
+
+            &:first-child{
+                border-left: none;
+            }
+
+            &:last-child{
+                border-right: none;
+            }
+            
+            &:hover{
+                color: #4183C4;
+                background: #ffff00;
+                background-image: -moz-linear-gradient(top, #e7e7e7 0%, #f1f1f1 70%); /* FF3.6+ */
+                background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e7e7), color-stop(70%,#f1f1f1)); /* Chrome,Safari4+ */
+                background-image: -webkit-linear-gradient(top, #e7e7e7 0%,#f1f1f1 70%); /* Chrome 10+,Safari 5.1+ */
+                background-image: -ms-linear-gradient(top, #e7e7e7 0%,#f1f1f1 70%); /* IE10+ */
+                background-image: -o-linear-gradient(top, #e7e7e7 0%,#f1f1f1 70%); /* Opera 11.10+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e7e7', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-9 */
+                background-image: linear-gradient(top, #e7e7e7 0%,#f1f1f1 70%); /* W3C */
+            }
+            &.active {
+                background-color: #E5E5E5;
+                -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+                -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+            }
+            
+            a {
+                color: inherit;
+                display: inline-block;
+                &:hover{
+                    text-decoration: none;
+                    color: inherit;
+                }
+            }
+
+        }
+    }
+
+}
+
+footer{
+    margin-bottom: 20px;
+}
+
+/*
+* Mediaqueries
+*/
+@media (max-width: 767px) {
+    /* Most Landscape Phones */
+    body {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    
+    .container {
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+    }
+    
+    .navbar-fixed-top {
+        margin-bottom: 0;
+    }
+    
+    .navbar-fixed-top, .navbar-fixed-bottom {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    
+    .navbar{
+
+        .well {
+            background-image: none;
+            padding: 20px 2px;
+        }
+    }
+
+    .led {
+        background-color: orange;
+    }
+
+    /* Subnav */
+    .subnav {
+        position: static;
+        top: auto;
+        z-index: auto;
+        width: auto;
+        height: auto;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        margin-top: 10px;
+
+        ul{            
+            li{
+                display: block;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    /* Most Portrait Phones */
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .navbar-fixed-top {
+        margin-bottom: 0;
+    }
+
+    .navbar{
+        
+        .well {
+            background-image: none;
+            padding: 10px 2px;
+        }
+        
+        .brand{
+            font-size: 1.4em;
+        }
+    }
+
+    .home_bp {
+        background-size: 60%;
+        padding-top: 18em;
+    }
+
+    .led {
+        background-color: red;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+    /* Most Portrait Tablets */
+    .navbar {
+    
+        .well {
+            background-image: none;
+            padding: 20px 2px;
+        }
+    }
+
+    .led {
+        background-color: #F4FA58;
+    }
+}
+
+@media (max-width: 979px) {
+    body {
+        padding-top: 0;
+    }
+}
+
+@media (min-width: 980px) {
+    /* Most Landscape Tablets */
+    .led {
+        background-color: #58FA58;
+    }
+    .auth-at-home .social-login-icons li{
+        margin-right: 0.4em;
+    }
+}
+
+@media (min-width: 1200px) {
+    .led {
+        background-color: #87cefa;
+    }
+
+    .subnav-fixed .nav {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 0 1px;
+    }
+    .auth-at-home .social-login-icons li{
+        margin-right: 0.1em;
+    }
+}
+
+@media (max-width: 1200px) {
+    .auth-at-home {
+        .row-fluid .span8 {
+            width: 100%;
+        }
+        button.btn-login {
+            margin-left: 0;
+        }
+    }
+}

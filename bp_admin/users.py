@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import webapp2
-from boilerplate import models
-from boilerplate import forms
+from bp_includes import models
+from bp_includes import forms
 from lib.basehandler import BaseHandler
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
