@@ -16,8 +16,8 @@ from google.appengine.ext import testbed
 import webapp2
 
 
-from boilerplate import config as boilerplate_config
-from boilerplate.lib import i18n
+from bp_includes import config as boilerplate_config
+from bp_includes.lib import i18n
 
 class I18nTest(unittest.TestCase):    
     def setUp(self):

@@ -6,7 +6,7 @@ RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 import sys
 from webapp2_extras.routes import RedirectRoute
 print(":D:D:D:D")
-from handlers import handlers as handlers
+from bp_includes import handlers as handlers
 
 secure_scheme = 'https'
 

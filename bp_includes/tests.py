@@ -20,15 +20,15 @@ from google.appengine.ext import testbed
 from mock import Mock
 from mock import patch
 
-import boilerplate
-from boilerplate import models
-from boilerplate import routes
-from boilerplate import routes as boilerplate_routes
-from boilerplate import config as boilerplate_config
-from boilerplate.lib import utils
-from boilerplate.lib import captcha
-from boilerplate.lib import i18n
-from boilerplate.lib import test_helpers
+import bp_includes
+from bp_includes import models
+from bp_includes import routes
+from bp_includes import routes as boilerplate_routes
+from bp_includes import config as boilerplate_config
+from bp_includes.lib import utils
+from bp_includes.lib import captcha
+from bp_includes.lib import i18n
+from bp_includes.lib import test_helpers
 
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'

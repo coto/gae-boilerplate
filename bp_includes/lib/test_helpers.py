@@ -5,7 +5,7 @@ Common helper utilities for testing.
 import webapp2
 import re
 from webapp2_extras import auth
-from boilerplate import models
+from bp_includes import models
 
 
 class HandlerHelpers():
