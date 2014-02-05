@@ -76,6 +76,9 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def tearDown(self):
         self.testbed.deactivate()
 
+    def test_config_environment(self):
+        self.assertEquals(self.app.config.get('environment'), 'testing')
+
     def test_homepage(self):
         response = self.get('/')
         self.assertIn('Congratulations on your Google App Engine Boilerplate powered page.', response)
