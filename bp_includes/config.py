@@ -1,7 +1,8 @@
 """
+============= DON'T MODIFY THIS FILE ============
 This is the boilerplate default configuration file.
 Changes and additions to settings should be done in
-/bp_content/themes/templates/config/ rather than this config.
+/bp_content/themes/<YOUR_THEME>/config/ rather than this config.
 """
 config = {
 
@@ -56,19 +57,19 @@ config = {
 
     #Linkedin Login
     #Get you own api key and secret from https://www.linkedin.com/secure/developer
-    'linkedin_api': 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE',
-    'linkedin_secret': 'PUT_YOUR_LINKEDIN_PUBLIC_KEY_HERE',
+    'linkedin_api': 'LINKEDIN_API',
+    'linkedin_secret': 'LINKEDIN_SECRET',
 
     # Github login
     # Register apps here: https://github.com/settings/applications/new
     'github_server': 'github.com',
     'github_redirect_uri': 'http://www.example.com/social_login/github/complete',
-    'github_client_id': 'PUT_YOUR_GITHUB_CLIENT_ID_HERE',
-    'github_client_secret': 'PUT_YOUR_GITHUB_CLIENT_SECRET_HERE',
+    'github_client_id': 'GITHUB_CLIENT_ID',
+    'github_client_secret': 'GITHUB_CLIENT_SECRET',
 
     # get your own recaptcha keys by registering at http://www.google.com/recaptcha/
-    'captcha_public_key': "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE",
-    'captcha_private_key': "PUT_YOUR_RECAPCHA_PRIVATE_KEY_HERE",
+    'captcha_public_key': "CAPTCHA_PUBLIC_KEY",
+    'captcha_private_key': "CAPTCHA_PRIVATE_KEY",
 
     # Use a complete Google Analytics code, no just the Tracking ID
     # In config/boilerplate.py there is an example to fill out this value

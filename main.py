@@ -27,10 +27,12 @@ from bp_includes.lib.error_handler import handle_error
 from bp_includes import config as config_boilerplate
 
 sys.path.append('bp_content/themes/' + config_boilerplate.config["app_template_name"] )
-# Import Config
+# Import Config Importing
 import config as config_theme
-from bp_includes import routes as routes_boilerplate
+
+# Routes Importing
 from bp_admin import routes as routes_admin
+from bp_includes import routes as routes_boilerplate
 import routes as routes_theme
 
 
