@@ -1,7 +1,7 @@
 """
 This is the boilerplate default configuration file.
-Changes and additions to settings should be done in the config module
-located in the application root rather than this config.
+Changes and additions to settings should be done in
+/bp_content/themes/templates/config/ rather than this config.
 """
 config = {
 
@@ -34,8 +34,8 @@ config = {
     'locales': ['en_US', 'es_ES', 'it_IT', 'zh_CN', 'id_ID', 'fr_FR', 'de_DE', 'ru_RU', 'pt_BR', 'cs_CZ','vi_VN','nl_NL'],
 
     # contact page email settings
-    'contact_sender': "PUT_SENDER_EMAIL_HERE",
-    'contact_recipient': "PUT_RECIPIENT_EMAIL_HERE",
+    'contact_sender': "SENDER_EMAIL_HERE",
+    'contact_recipient': "RECIPIENT_EMAIL_HERE",
 
     # Password AES Encryption Parameters
     # aes_key must be only 16 (*AES-128*), 24 (*AES-192*), or 32 (*AES-256*) bytes (characters) long.
@@ -44,15 +44,15 @@ config = {
 
     # get your own consumer key and consumer secret by registering at https://dev.twitter.com/apps
     # callback url must be: http://[YOUR DOMAIN]/login/twitter/complete
-    'twitter_consumer_key': 'PUT_YOUR_TWITTER_CONSUMER_KEY_HERE',
-    'twitter_consumer_secret': 'PUT_YOUR_TWITTER_CONSUMER_SECRET_HERE',
+    'twitter_consumer_key': 'TWITTER_CONSUMER_KEY',
+    'twitter_consumer_secret': 'TWITTER_CONSUMER_SECRET',
 
     #Facebook Login
     # get your own consumer key and consumer secret by registering at https://developers.facebook.com/apps
     #Very Important: set the site_url= your domain in the application settings in the facebook app settings page
     # callback url must be: http://[YOUR DOMAIN]/login/facebook/complete
-    'fb_api_key': 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE',
-    'fb_secret': 'PUT_YOUR_FACEBOOK_PUBLIC_KEY_HERE',
+    'fb_api_key': 'FACEBOOK_API_KEY',
+    'fb_secret': 'FACEBOOK_SECRET',
 
     #Linkedin Login
     #Get you own api key and secret from https://www.linkedin.com/secure/developer

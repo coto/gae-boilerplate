@@ -23,13 +23,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external
 import webapp2
 
 import routes
-#from boilerplate import routes as boilerplate_routes
 from bp_admin import routes as admin_routes
+
 from bp_includes import config as boilerplate_config
-import config
 from bp_includes.lib.error_handler import handle_error
 
-sys.path.append('bp_content/themes/' + boilerplate_config.config["app_template_name"])
+sys.path.append('bp_content/themes/' + boilerplate_config.config["app_template_name"] )
+import config
 from bp_includes import routes as boilerplate_routes
 
 

@@ -12,21 +12,22 @@ Options:
 
 '''
 import unittest
-import webapp2
 import os
+
+import webapp2
 import webtest
 from google.appengine.ext import testbed
-
 from mock import Mock
 
 import bp_content
+from bp_content.themes.default import config
 from bp_includes import config as boilerplate_config
-import config
 import routes
 from bp_includes import routes as boilerplate_routes
 from bp_includes.lib import utils
 from bp_includes.lib import i18n
 from bp_includes.lib import test_helpers
+
 
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for TaskQueue stub
 os.environ['HTTP_HOST'] = 'localhost'

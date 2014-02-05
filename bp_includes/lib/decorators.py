@@ -5,7 +5,7 @@ import logging
 # related third party imports
 from google.appengine.api import users
 # local application/library specific imports
-from config import config
+from bp_content.themes.default.config import config
 
 
 def user_required(handler):

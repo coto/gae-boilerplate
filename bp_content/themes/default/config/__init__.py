@@ -8,14 +8,14 @@ import os
 if 'HTTP_HOST' in os.environ and os.environ['HTTP_HOST'] == "appengine.beecoss.com":
     # Load Boilerplate config only in http://appengine.beecoss.com
     # this code is here just for testing purposes
-    from config.boilerplate import config
+    from boilerplate import config
 elif "SERVER_SOFTWARE" in os.environ:
     if os.environ['SERVER_SOFTWARE'].startswith('Dev'):
-        from config.localhost import config
+        from localhost import config
 
     elif os.environ['SERVER_SOFTWARE'].startswith('Google'):
-        from config.production import config
+        from production import config
     else:
         raise ValueError("Environment undetected")
 else:
-    from config.testing import config
+    from testing import config
