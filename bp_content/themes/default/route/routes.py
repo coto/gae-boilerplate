@@ -6,7 +6,6 @@ RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html
 import sys
 from webapp2_extras.routes import RedirectRoute
 import config
-print(":D:D:D:D")
 from handlers import handlers
 #import handlers
 

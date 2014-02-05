@@ -24,8 +24,6 @@ def main(sdk_path, test_path):
 if __name__ == '__main__':
     parser = optparse.OptionParser(USAGE)
     options, args = parser.parse_args()
-    print args[0]
-    print args[1]
     if len(args) != 2:
         print 'Error: Exactly 2 arguments required.'
         parser.print_help()
