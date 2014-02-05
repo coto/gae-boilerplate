@@ -298,9 +298,9 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         form = self.get_form('/password-reset/', 'form_reset_password',
                              expect_fields=['email_or_username', 'recaptcha_challenge_field', 'recaptcha_response_field'])
         form['email_or_username'] = 'testuser'
-        with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
+        with patch('bp_includes.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=False)):
             self.submit(form, expect_error=True, error_message='Wrong image verification code.')
-        with patch('boilerplate.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
+        with patch('bp_includes.lib.captcha.submit', return_value=captcha.RecaptchaResponse(is_valid=True)):
             response1 = self.submit(form, warning_message="you will receive an email from us with instructions for resetting your password.")
             form['email_or_username'] = 'user_does_not_exists'
             response2 = self.submit(form, warning_message="you will receive an email from us with instructions for resetting your password.")

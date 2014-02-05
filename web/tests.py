@@ -18,20 +18,17 @@ import webtest
 from google.appengine.ext import testbed
 
 from mock import Mock
-from mock import patch
 
-import bp_includes
-from bp_includes import models
+import bp_content
 from bp_includes import config as boilerplate_config
 import config
 import routes
 from bp_includes import routes as boilerplate_routes
 from bp_includes.lib import utils
-from bp_includes.lib import captcha
 from bp_includes.lib import i18n
 from bp_includes.lib import test_helpers
 
-# setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
+# setting HTTP_HOST in extra_environ parameter for TestApp is not enough for TaskQueue stub
 os.environ['HTTP_HOST'] = 'localhost'
 
 # globals
@@ -54,7 +51,7 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
         
         # use absolute path for templates
-        self.app.config['webapp2_extras.jinja2']['template_path'] =  [os.path.join(os.path.dirname(boilerplate.__file__), '../templates'), os.path.join(os.path.dirname(boilerplate.__file__), 'templates')]
+        self.app.config['webapp2_extras.jinja2']['template_path'] =  [os.path.join(os.path.dirname(bp_content.__file__), '../templates'), os.path.join(os.path.dirname(bp_content.__file__), 'templates')]
 
         # activate GAE stubs
         self.testbed = testbed.Testbed()
