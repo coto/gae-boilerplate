@@ -20,10 +20,10 @@ from google.appengine.ext import testbed
 from mock import Mock
 
 import bp_content
-from bp_content.themes.default import config
-from bp_includes import config as boilerplate_config
-import routes
-from bp_includes import routes as boilerplate_routes
+from bp_content.themes.default import config as config_theme
+from bp_includes import config as config_boilerplate
+from bp_content.themes.default import routes as routes_theme
+from bp_includes import routes as routes_boilerplate
 from bp_includes.lib import utils
 from bp_includes.lib import i18n
 from bp_includes.lib import test_helpers
@@ -44,11 +44,11 @@ class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
         # create a WSGI application.
-        webapp2_config = boilerplate_config.config
-        webapp2_config.update(config.config)
+        webapp2_config = config_boilerplate.config
+        webapp2_config.update(config_theme.config)
         self.app = webapp2.WSGIApplication(config=webapp2_config)
-        routes.add_routes(self.app)
-        boilerplate_routes.add_routes(self.app)
+        routes_theme.add_routes(self.app)
+        routes_boilerplate.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
         
         # use absolute path for templates

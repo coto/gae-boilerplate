@@ -22,19 +22,20 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external
 
 import webapp2
 
-import routes
-from bp_admin import routes as admin_routes
 
-from bp_includes import config as boilerplate_config
 from bp_includes.lib.error_handler import handle_error
+from bp_includes import config as config_boilerplate
 
-sys.path.append('bp_content/themes/' + boilerplate_config.config["app_template_name"] )
-import config
-from bp_includes import routes as boilerplate_routes
+sys.path.append('bp_content/themes/' + config_boilerplate.config["app_template_name"] )
+# Import Config
+import config as config_theme
+from bp_includes import routes as routes_boilerplate
+from bp_admin import routes as routes_admin
+import routes as routes_theme
 
 
-webapp2_config = boilerplate_config.config
-webapp2_config.update(config.config)
+webapp2_config = config_boilerplate.config
+webapp2_config.update(config_theme.config)
 
 app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=webapp2_config)
 
@@ -42,8 +43,8 @@ if not app.debug:
     for status_int in app.config['error_templates']:
         app.error_handlers[status_int] = handle_error
 
-routes.add_routes(app)
-boilerplate_routes.add_routes(app)
-admin_routes.add_routes(app)
+routes_theme.add_routes(app)
+routes_boilerplate.add_routes(app)
+routes_admin.add_routes(app)
 
 

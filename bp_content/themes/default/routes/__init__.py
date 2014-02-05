@@ -3,10 +3,12 @@ Using redirect route instead of simple routes since it supports strict_slash
 Simple route: http://webapp-improved.appspot.com/guide/routing.html#simple-routes
 RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 """
-
 from webapp2_extras.routes import RedirectRoute
-from web import handlers
+from bp_content.themes.default.handlers import handlers
+
 secure_scheme = 'https'
+
+# Here go your routes, you can overwrite boilerplate routes (bp_includes/routes)
 
 _routes = [
     RedirectRoute('/secure/', handlers.SecureRequestHandler, name='secure', strict_slash=True),

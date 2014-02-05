@@ -20,11 +20,11 @@ from google.appengine.ext import testbed
 from mock import Mock
 from mock import patch
 
-import bp_includes
 from bp_includes import models
-from bp_includes import routes
-from bp_includes import routes as boilerplate_routes
-from bp_includes import config as boilerplate_config
+from bp_includes import routes as routes_boilerplate
+from bp_content.themes.default import routes as routes_theme
+from bp_includes import config as config_boilerplate
+from bp_content.themes.default import config as config_theme
 from bp_includes.lib import utils
 from bp_includes.lib import captcha
 from bp_includes.lib import i18n
@@ -44,12 +44,12 @@ if not network:
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
     def setUp(self):
 
-        webapp2_config = boilerplate_config.config
-
+        webapp2_config = config_boilerplate.config
+        webapp2_config.update(config_theme.config)
         # create a WSGI application.
         self.app = webapp2.WSGIApplication(config=webapp2_config)
-        routes.add_routes(self.app)
-        boilerplate_routes.add_routes(self.app)
+        routes_boilerplate.add_routes(self.app)
+        routes_theme.add_routes(self.app)
         self.testapp = webtest.TestApp(self.app, extra_environ={'REMOTE_ADDR' : '127.0.0.1'})
 
         # activate GAE stubs
