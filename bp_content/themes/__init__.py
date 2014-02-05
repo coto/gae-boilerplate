@@ -1,1 +1,1 @@
-__author__ = 'coto'
+__author__ = '@coto'
