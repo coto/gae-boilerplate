@@ -16,6 +16,7 @@ class HandlerHelpers():
             kwargs['headers'] = self.headers
         if 'status' not in kwargs:
             kwargs['status'] = 200
+
         return self.testapp.get(*args, **kwargs)
 
     def post(self, *args, **kwargs):
