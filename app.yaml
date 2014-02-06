@@ -36,18 +36,17 @@ handlers:
   script: main.app
   login: admin
 
-- url: /favicon\.ico
+- url: /(\w*)/favicon\.ico
   mime_type: image/vnd.microsoft.icon
-  static_files: bp_content/themes/default/static/favicon.ico
-  upload: bp_content/themes/default/static/favicon.ico
+  static_files: bp_content/themes/\1/static/favicon.ico
+  upload: bp_content/themes/(\w*)/static/favicon.ico
 
-- url: /(apple-touch-icon.*\.(png))
-  static_files: bp_content/themes/default/static/\1
-  upload: bp_content/themes/default/static/(apple-touch-icon.*\.(png))
+- url: /(\w*)/(apple-touch-icon.*\.(png))
+  static_files: bp_content/themes/\1/static/\2
+  upload: bp_content/themes/(\w*)/static/(apple-touch-icon.*\.(png))
 
-- url: /(robots\.txt|humans\.txt|crossdomain\.xml)
-  static_files: static/\1
-  upload: bp_content/themes/default/static/(robots\.txt|humans\.txt|crossdomain\.xml)
+- url: /(robots\.txt|humans\.txt|sitemap\.xml|crossdomain\.xml)
+  script: main.app
 
 - url: /boilerplate/css
   mime_type: text/css
@@ -61,14 +60,6 @@ handlers:
   static_files: bp_includes/static/img/\1
   upload: bp_includes/static/img/(.*\.(gif|png|jpg))
 
-- url: /img/(.*)/(.*\.(gif|png|jpg|jpeg))
-  static_files: bp_content/themes/\1/static/img/\2
-  upload: bp_content/themes/\1/static/img/(.*\.(gif|png|jpg|jpeg))
-
-- url: /css/(.*)/(.*\.(gif|png|jpg|jpeg))
-  static_files: bp_content/themes/\1/static/css/\2
-  upload: bp_content/themes/default/static/css/(.*\.(gif|png|jpg|jpeg))
-
 - url: /css/
   mime_type: text/css
   static_dir: bp_content/themes/default/static/css
@@ -76,6 +67,10 @@ handlers:
 - url: /js
   mime_type: text/javascript
   static_dir: bp_content/themes/default/static/js
+
+- url: /img/(.*)/(.*\.(gif|png|jpg|jpeg))
+  static_files: bp_content/themes/\1/static/img/\2
+  upload: bp_content/themes/\1/static/img/(.*\.(gif|png|jpg|jpeg))
 
 - url: /taskqueue-send-email.*
   script: main.app

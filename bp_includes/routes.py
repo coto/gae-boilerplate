@@ -9,6 +9,12 @@ from bp_includes import handlers as handlers
 secure_scheme = 'https'
 
 _routes = [
+    # Statics
+    RedirectRoute(r'/robots.txt', handlers.RobotsHandler, name='robots', strict_slash=True),
+    RedirectRoute(r'/humans.txt', handlers.HumansHandler, name='humans', strict_slash=True),
+    RedirectRoute(r'/sitemap.xml', handlers.SitemapHandler, name='sitemap', strict_slash=True),
+    RedirectRoute(r'/crossdomain.xml', handlers.CrossDomainHandler, name='crossdomain', strict_slash=True),
+    # Samples
     RedirectRoute('/taskqueue-send-email/', handlers.SendEmailHandler, name='taskqueue-send-email', strict_slash=True),
     RedirectRoute('/_ah/login_required', handlers.LoginRequiredHandler),
     RedirectRoute('/login/', handlers.LoginHandler, name='login', strict_slash=True),

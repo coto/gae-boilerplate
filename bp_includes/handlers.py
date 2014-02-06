@@ -1508,3 +1508,50 @@ class HomeRequestHandler(RegisterBaseHandler):
         params = {}
         return self.render_template('home.html', **params)
 
+
+class RobotsHandler(BaseHandler):
+    def get(self):
+        params = {
+            'scheme': self.request.scheme,
+            'host': self.request.host,
+        }
+        self.response.headers['Content-Type'] = 'text/plain'
+
+        def set_variables(text, key):
+            return text.replace("{{ %s }}" % key, params[key])
+
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/default/templates/seo/robots.txt").read()))
+
+
+class HumansHandler(BaseHandler):
+    def get(self):
+        params = {
+            'scheme': self.request.scheme,
+            'host': self.request.host,
+        }
+        self.response.headers['Content-Type'] = 'text/plain'
+
+        def set_variables(text, key):
+            return text.replace("{{ %s }}" % key, params[key])
+
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/default/templates/seo/humans.txt").read()))
+
+
+class SitemapHandler(BaseHandler):
+    def get(self):
+        params = {
+            'scheme': self.request.scheme,
+            'host': self.request.host,
+        }
+        self.response.headers['Content-Type'] = 'application/xml'
+        return self.render_template("seo/sitemap.xml", **params)
+
+
+class CrossDomainHandler(BaseHandler):
+    def get(self):
+        params = {
+            'scheme': self.request.scheme,
+            'host': self.request.host,
+        }
+        self.response.headers['Content-Type'] = 'application/xml'
+        return self.render_template("seo/crossdomain.xml", **params)
