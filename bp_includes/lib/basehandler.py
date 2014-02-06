@@ -4,6 +4,7 @@
 import logging
 import re
 import pytz
+import os
 # related third party imports
 import webapp2
 from webapp2_extras import jinja2
@@ -102,6 +103,10 @@ class BaseHandler(webapp2.RequestHandler):
     def session(self):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
+
+    @webapp2.cached_property
+    def get_theme(self):
+        return os.environ['theme']
 
     @webapp2.cached_property
     def messages(self):
@@ -292,6 +297,7 @@ class BaseHandler(webapp2.RequestHandler):
         kwargs.update({
             'google_analytics_code': self.app.config.get('google_analytics_code'),
             'app_name': self.app.config.get('app_name'),
+            'theme': self.get_theme,
             'user_id': self.user_id,
             'username': self.username,
             'email': self.email,

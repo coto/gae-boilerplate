@@ -1520,7 +1520,7 @@ class RobotsHandler(BaseHandler):
         def set_variables(text, key):
             return text.replace("{{ %s }}" % key, params[key])
 
-        self.response.write(reduce(set_variables, params, open("bp_content/themes/default/templates/seo/robots.txt").read()))
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/%s/templates/seo/robots.txt" % self.get_theme).read()))
 
 
 class HumansHandler(BaseHandler):
@@ -1534,7 +1534,7 @@ class HumansHandler(BaseHandler):
         def set_variables(text, key):
             return text.replace("{{ %s }}" % key, params[key])
 
-        self.response.write(reduce(set_variables, params, open("bp_content/themes/default/templates/seo/humans.txt").read()))
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/%s/templates/seo/humans.txt" % self.get_theme).read()))
 
 
 class SitemapHandler(BaseHandler):
@@ -1544,7 +1544,11 @@ class SitemapHandler(BaseHandler):
             'host': self.request.host,
         }
         self.response.headers['Content-Type'] = 'application/xml'
-        return self.render_template("seo/sitemap.xml", **params)
+
+        def set_variables(text, key):
+            return text.replace("{{ %s }}" % key, params[key])
+
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/%s/templates/seo/sitemap.xml" % self.get_theme).read()))
 
 
 class CrossDomainHandler(BaseHandler):
@@ -1554,4 +1558,8 @@ class CrossDomainHandler(BaseHandler):
             'host': self.request.host,
         }
         self.response.headers['Content-Type'] = 'application/xml'
-        return self.render_template("seo/crossdomain.xml", **params)
+
+        def set_variables(text, key):
+            return text.replace("{{ %s }}" % key, params[key])
+
+        self.response.write(reduce(set_variables, params, open("bp_content/themes/%s/templates/seo/crossdomain.xml" % self.get_theme).read()))
