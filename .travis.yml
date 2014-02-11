@@ -3,10 +3,11 @@ python:
   - "2.7"
 # command to install dependencies
 install:
-  - curl -O http://googleappengine.googlecode.com/files/google_appengine_1.8.1.zip && unzip -q google_appengine_1.8.1.zip
+  - curl -O http://googleappengine.googlecode.com/files/google_appengine_1.8.9.zip && unzip -q google_appengine_1.8.9.zip
   - pip install webtest
   - pip install pyquery
   - pip install pycrypto
+  - pip install PyQuery
   - pip install mock
 # command to run tests
-script:  python testrunner.py google_appengine .
+script:  theme=default python testrunner.py google_appengine .

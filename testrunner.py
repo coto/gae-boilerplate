@@ -12,7 +12,7 @@ TEST_PATH   Path to package containing test modules"""
 
 
 def main(sdk_path, test_path):
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'boilerplate/external'))
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external'))
     sys.path.insert(0, sdk_path)
     import dev_appserver
     dev_appserver.fix_sys_path()

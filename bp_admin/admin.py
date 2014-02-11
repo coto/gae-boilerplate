@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from boilerplate.handlers import BaseHandler
+from bp_includes.lib.basehandler import BaseHandler
 from google.appengine.api import users
 
 
