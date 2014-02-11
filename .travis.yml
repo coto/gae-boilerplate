@@ -10,4 +10,4 @@ install:
   - pip install PyQuery
   - pip install mock
 # command to run tests
-script:  python testrunner.py google_appengine .
+script:  theme=default python testrunner.py google_appengine .

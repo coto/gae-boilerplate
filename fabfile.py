@@ -79,4 +79,4 @@ def test(os="mac"):
         "mac": "/usr/local/google_appengine",
        }[os]
 
-    local("python testrunner.py {0} ./".format(path))
+    local("theme=default python testrunner.py {0} ./".format(path))
