@@ -19,7 +19,7 @@ config = {
     # jinja template name
     'app_template_name' : 'default',
     # jinja2 templates
-    'webapp2_extras.jinja2': {'template_path': ['bp_admin/templates', 'bp_content/%s/templates' % os.environ['theme']],
+    'webapp2_extras.jinja2': {'template_path': ['bp_admin/templates', 'bp_content/themes/%s/templates' % os.environ['theme']],
                               'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
     # application name
