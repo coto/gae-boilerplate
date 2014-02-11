@@ -5,6 +5,8 @@ Changes and additions to settings should be done in
 /bp_content/themes/<YOUR_THEME>/config/ rather than this config.
 """
 
+import os
+
 config = {
 
     # webapp2 sessions
@@ -17,7 +19,7 @@ config = {
     # jinja template name
     'app_template_name' : 'default',
     # jinja2 templates
-    'webapp2_extras.jinja2': {'template_path': ['bp_admin/templates', 'bp_content/themes/default/templates'],
+    'webapp2_extras.jinja2': {'template_path': ['bp_admin/templates', 'bp_content/%s/templates' % os.environ['theme']],
                               'environment_args': {'extensions': ['jinja2.ext.i18n']}},
 
     # application name
