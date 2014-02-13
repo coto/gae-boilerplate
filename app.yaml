@@ -71,9 +71,9 @@ handlers:
   mime_type: text/javascript
   static_dir: bp_content/themes/default/static/js
 
-- url: /img/(.*)/(.*\.(gif|png|jpg|jpeg))
+- url: /img/(\w*)/(.*\.(gif|png|jpg|jpeg))
   static_files: bp_content/themes/\1/static/img/\2
-  upload: bp_content/themes/\1/static/img/(.*\.(gif|png|jpg|jpeg))
+  upload: bp_content/themes/(\w*)/static/img/(.*\.(gif|png|jpg|jpeg))
 
 - url: /taskqueue-send-email.*
   script: main.app
