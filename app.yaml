@@ -39,6 +39,11 @@ handlers:
   script: main.app
   login: admin
 
+- url: /favicon\.ico
+  mime_type: image/vnd.microsoft.icon
+  static_files: bp_content/themes/default/static/favicon.ico
+  upload: bp_content/themes/default/static/favicon.ico
+
 - url: /(\w*)/favicon\.ico
   mime_type: image/vnd.microsoft.icon
   static_files: bp_content/themes/\1/static/favicon.ico
