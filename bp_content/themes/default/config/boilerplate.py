@@ -35,6 +35,9 @@ config = {
     'twitter_consumer_key': 'rrgGr00w3HRJYzmxNLMgzQ',
     'twitter_consumer_secret': '5IdJDvSRdbkETeFjFeIxS7IoERWn8nGk5NfGSGG9ynk',
 
+    'fb_api_key': '265551733563729',
+    'fb_secret': '9de58570269f23b768726f3617ceb6ce',
+
 # ----> ADD MORE CONFIGURATION OPTIONS HERE <----
 
 }
