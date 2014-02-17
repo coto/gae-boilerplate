@@ -10,7 +10,7 @@
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <div class="control-group">
-                <label class="control-label">Current Email:</label>
+                <label class="control-label">{% trans %}Current Email{% endtrans %}:</label>
                 <div class="controls">
                     <p class="help-block">{{ current_email }}</p>
                 </div>

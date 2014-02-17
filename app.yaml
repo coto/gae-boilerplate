@@ -1,4 +1,4 @@
-application: your-app-id
+application: sandengine
 version: dev
 runtime: python27
 api_version: 1

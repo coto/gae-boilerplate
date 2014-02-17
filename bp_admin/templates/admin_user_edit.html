@@ -8,11 +8,11 @@
 
 {% if user %}
     <dl class="dl-horizontal">
-      <dt>Email</dt>
+      <dt>{% trans %}Email{% endtrans %}</dt>
       <dd>{{ user.email|safe }}</dd>
-      <dt>Created</dt>
+      <dt>{% trans %}Created{% endtrans %}</dt>
       <dd>{{ user.created|safe }}</dd>
-      <dt>Updated</dt>
+      <dt>{% trans %}Updated{% endtrans %}</dt>
       <dd>{{ user.updated|safe }}</dd>
     </dl>
 {% endif %}
