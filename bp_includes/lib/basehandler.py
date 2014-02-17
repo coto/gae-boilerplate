@@ -234,7 +234,7 @@ class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
     def countries(self):
-        return Locale.parse(self.locale).territories
+        return Locale.parse(self.locale).territories if self.locale else []
 
     @webapp2.cached_property
     def countries_tuple(self):
