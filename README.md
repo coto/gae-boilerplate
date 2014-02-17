@@ -27,16 +27,15 @@ Get started in just a few easy steps
 1. Download or clone the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
-1. Set custom config parameters in [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/config/localhost.py), [config/testing.py](https://github.com/coto/gae-boilerplate/blob/master/config/testing.py) and [config/production.py](https://github.com/coto/gae-boilerplate/blob/master/config/production.py) like secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt and other.
+1. Set custom config parameters in bp_content/themes [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/localhost.py), [config/testing.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/testing.py) and [config/production.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/production.py) like secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt and other.
  * Boilerplate will identify which config file to use in local, unit testing and production.
- * To get started, look the default settings in [boilerplate/config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py). Those settings will be overwrite for your config files.
+ * To get started, look the default settings in [bp_includes/config.py](https://github.com/coto/gae-boilerplate/blob/master/bp_includes/config.py). Those settings will be overwrite for your config files.
  * Most of the default settings will need to be changed to yield a secure and working application.
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
 
-Please note that boilerplate code is located in the boilerplate module while your custom application code should be located in the web module.
+Please note that your custom application code should be located in the bp_content folder within your own theme.
 The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
-Settings, code, and templates in the root [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py), web module, and templates directory take precedence over the equivalent files in the boilerplate module.
 
 Functions and features:
 -----------------------
