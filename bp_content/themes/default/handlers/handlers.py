@@ -12,13 +12,14 @@
 
 # related third party imports
 import webapp2
+from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 # local application/library specific imports
 import bp_includes.models as models_boilerplate
 import forms as forms
 from bp_includes.lib.basehandler import BaseHandler
 from bp_includes.lib.decorators import user_required
-from bp_includes.lib import captcha
+from bp_includes.lib import captcha, utils
 
 
 class SecureRequestHandler(BaseHandler):
@@ -87,8 +88,47 @@ class DeleteAccountHandler(BaseHandler):
             self.add_message(_message, 'error')
             return self.redirect_to('delete-account')
 
-        params = {}
-        return self.render_template('delete_account.html', **params)
+        if not self.form.validate() and False:
+            return self.get()
+        password = self.form.password.data.strip()
+
+        try:
+
+            user_info = models_boilerplate.User.get_by_id(long(self.user_id))
+            auth_id = "own:%s" % user_info.username
+            password = utils.hashing(password, self.app.config.get('salt'))
+
+            try:
+                # authenticate user by its password
+                user = models_boilerplate.User.get_by_auth_password(auth_id, password)
+                if user:
+                    # Delete Social Login
+                    for social in models_boilerplate.SocialUser.get_by_user(user_info.key):
+                        social.key.delete()
+
+                    user_info.key.delete()
+
+                    #TODO: Delete UserToken and Unique objects
+
+                    self.auth.unset_session()
+
+                    # display successful message
+                    msg = _("The account has been successfully deleted.")
+                    self.add_message(msg, 'success')
+                    return self.redirect_to('home')
+
+
+            except (InvalidAuthIdError, InvalidPasswordError), e:
+                # Returns error message to self.response.write in
+                # the BaseHandler.dispatcher
+                message = _("Incorrect password! Please enter your current password to change your account settings.")
+                self.add_message(message, 'error')
+            return self.redirect_to('delete-account')
+
+        except (AttributeError, TypeError), e:
+            login_error_message = _('Your session has expired.')
+            self.add_message(login_error_message, 'error')
+            self.redirect_to('login')
 
     @webapp2.cached_property
     def form(self):
