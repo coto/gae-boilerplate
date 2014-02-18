@@ -84,12 +84,14 @@ class LogVisit(ndb.Model):
     ip = ndb.StringProperty()
     timestamp = ndb.StringProperty()
 
+
 class OptionsSite(ndb.Model):
     name = ndb.KeyProperty
     value = ndb.StringProperty()
     @classmethod
     def get_option(cls,option_name):
         return cls.query(name=option_name)
+
 
 class LogEmail(ndb.Model):
     sender = ndb.StringProperty(

@@ -698,7 +698,7 @@ class DeleteSocialProviderHandler(BaseHandler):
     def post(self, provider_name):
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            if len(user_info.get_social_providers_info()['used']) > 1 or (user_info.password is not None):
+            if len(user_info.get_social_providers_info()['used']) > 1 and user_info.password is not None:
                 social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
                 if social_user:
                     social_user.key.delete()
