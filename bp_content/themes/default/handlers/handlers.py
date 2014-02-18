@@ -12,11 +12,13 @@
 
 # related third party imports
 import webapp2
+from webapp2_extras.i18n import gettext as _
 # local application/library specific imports
 import bp_includes.models as models_boilerplate
 import forms as forms
 from bp_includes.lib.basehandler import BaseHandler
 from bp_includes.lib.decorators import user_required
+from bp_includes.lib import captcha
 
 
 class SecureRequestHandler(BaseHandler):
@@ -50,10 +52,41 @@ class DeleteAccountHandler(BaseHandler):
 
     @user_required
     def get(self, **kwargs):
-        params = {}
+        chtml = captcha.displayhtml(
+            public_key=self.app.config.get('captcha_public_key'),
+            use_ssl=(self.request.scheme == 'https'),
+            error=None)
+        if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
+                        self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
+            chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
+                    '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
+                    'for API keys</a> in order to use reCAPTCHA.</div>' \
+                    '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
+                    '<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />'
+        params = {
+            'captchahtml': chtml,
+        }
         return self.render_template('delete_account.html', **params)
 
     def post(self, **kwargs):
+        challenge = self.request.POST.get('recaptcha_challenge_field')
+        response = self.request.POST.get('recaptcha_response_field')
+        remote_ip = self.request.remote_addr
+
+        cResponse = captcha.submit(
+            challenge,
+            response,
+            self.app.config.get('captcha_private_key'),
+            remote_ip)
+
+        if cResponse.is_valid:
+            # captcha was valid... carry on..nothing to see here
+            pass
+        else:
+            _message = _('Wrong image verification code. Please try again.')
+            self.add_message(_message, 'error')
+            return self.redirect_to('delete-account')
+
         params = {}
         return self.render_template('delete_account.html', **params)
 

@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block content %}
+    <script>
+        var RecaptchaOptions = {
+            theme : 'white'
+        };
+    </script>
 
     <form id="form_delete_account" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
@@ -13,6 +18,11 @@
             <div class="control-group">
                 <div class="controls">
                     <a href="{{ uri_for('password-reset') }}">{% trans %}Forgot your password?{% endtrans %}</a>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls" id="captcha">
+                    {{captchahtml | safe}}
                 </div>
             </div>
             <div class="form-actions">
