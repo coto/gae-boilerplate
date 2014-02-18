@@ -1368,13 +1368,13 @@ class PasswordResetHandler(BaseHandler):
         # check captcha
         challenge = self.request.POST.get('recaptcha_challenge_field')
         response = self.request.POST.get('recaptcha_response_field')
-        remoteip = self.request.remote_addr
+        remote_ip = self.request.remote_addr
 
         cResponse = captcha.submit(
             challenge,
             response,
             self.app.config.get('captcha_private_key'),
-            remoteip)
+            remote_ip)
 
         if cResponse.is_valid:
             # captcha was valid... carry on..nothing to see here
@@ -1383,7 +1383,8 @@ class PasswordResetHandler(BaseHandler):
             _message = _('Wrong image verification code. Please try again.')
             self.add_message(_message, 'error')
             return self.redirect_to('password-reset')
-            #check if we got an email or username
+
+        #check if we got an email or username
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
