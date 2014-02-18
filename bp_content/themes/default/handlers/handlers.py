@@ -11,14 +11,12 @@
 # standard library imports
 
 # related third party imports
-import httpagentparser
-
+import webapp2
 # local application/library specific imports
 import bp_includes.models as models_boilerplate
-import models
+import forms as forms
 from bp_includes.lib.basehandler import BaseHandler
 from bp_includes.lib.decorators import user_required
-
 
 
 class SecureRequestHandler(BaseHandler):
@@ -46,3 +44,19 @@ class SecureRequestHandler(BaseHandler):
             return self.render_template('secure_zone.html', **params)
         except (AttributeError, KeyError), e:
             return "Secure zone error:" + " %s." % e
+
+
+class DeleteAccountHandler(BaseHandler):
+
+    @user_required
+    def get(self, **kwargs):
+        params = {}
+        return self.render_template('delete_account.html', **params)
+
+    def post(self, **kwargs):
+        params = {}
+        return self.render_template('delete_account.html', **params)
+
+    @webapp2.cached_property
+    def form(self):
+        return forms.DeleteAccountForm(self)

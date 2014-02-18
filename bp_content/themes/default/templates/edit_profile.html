@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans %}Update Profile{% endtrans %}</button> <a href="{{ uri_for("delete-account") }}" class="btn btn-danger">{% trans %}Delete Account{% endtrans %}</a>
                 </div>
             </form>
             {% if enable_federated_login %}
