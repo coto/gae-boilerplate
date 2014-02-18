@@ -8,8 +8,8 @@ config = {
     'contact_sender': "appengine@beecoss.com",
     'contact_recipient': "appengine@beecoss.com",
 
-    'captcha_public_key': "6Lednu0SAAAAAKPyxzxIljKc3po4Fz7lmLsn5s3T",
-    'captcha_private_key': "6Lednu0SAAAAAGkiiVKmkLvpGT1a-sCkaKf-E4xb",
+    'captcha_public_key': "6Ldi0u4SAAAAAC8pjDop1aDdmeiVrUOU2M4i23tT",
+    'captcha_private_key': "6Ldi0u4SAAAAAPzk1gaFDRQgry7XW4VBvNCqCHuJ",
 
     'send_mail_developer': True,
 
