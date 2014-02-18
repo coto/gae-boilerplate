@@ -1001,6 +1001,7 @@ class ContactHandler(BaseHandler):
         name = self.form.name.data.strip()
         email = self.form.email.data.lower()
         message = self.form.message.data.strip()
+        template_val = {}
 
         try:
             # parsing user_agent and getting which os key to use
@@ -1033,7 +1034,7 @@ class ContactHandler(BaseHandler):
             subject = _("Contact") + " " + self.app.config.get('app_name')
             # exceptions for error pages that redirect to contact
             if exception != "":
-                subject = subject + " (Exception error: %s)" % exception
+                subject = "{} (Exception error: {})".format(subject, exception)
 
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
@@ -1147,7 +1148,7 @@ class EditProfileHandler(BaseHandler):
                 return self.get()
 
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
@@ -1224,7 +1225,7 @@ class EditPasswordHandler(BaseHandler):
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
@@ -1333,7 +1334,7 @@ class EditEmailHandler(BaseHandler):
                 return self.redirect_to('edit-email')
 
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
