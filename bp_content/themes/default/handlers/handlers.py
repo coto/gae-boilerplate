@@ -12,14 +12,15 @@
 
 # related third party imports
 import webapp2
+from google.appengine.ext import ndb
 from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 # local application/library specific imports
-import bp_includes.models as models_boilerplate
-import forms as forms
 from bp_includes.lib.basehandler import BaseHandler
 from bp_includes.lib.decorators import user_required
 from bp_includes.lib import captcha, utils
+import bp_includes.models as models_boilerplate
+import forms as forms
 
 
 class SecureRequestHandler(BaseHandler):
@@ -108,7 +109,11 @@ class DeleteAccountHandler(BaseHandler):
 
                     user_info.key.delete()
 
-                    #TODO: Delete UserToken and Unique objects
+                    ndb.Key("Unique", "User.username:%s" % user.username).delete_async()
+                    ndb.Key("Unique", "User.auth_id:own:%s" % user.username).delete_async()
+                    ndb.Key("Unique", "User.email:%s" % user.email).delete_async()
+
+                    #TODO: Delete UserToken objects
 
                     self.auth.unset_session()
 
