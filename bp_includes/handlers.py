@@ -698,7 +698,7 @@ class DeleteSocialProviderHandler(BaseHandler):
     def post(self, provider_name):
         if self.user:
             user_info = models.User.get_by_id(long(self.user_id))
-            if len(user_info.get_social_providers_info()['used']) > 1 or (user_info.password is not None):
+            if len(user_info.get_social_providers_info()['used']) > 1 and user_info.password is not None:
                 social_user = models.SocialUser.get_by_user_and_provider(user_info.key, provider_name)
                 if social_user:
                     social_user.key.delete()
@@ -1001,6 +1001,7 @@ class ContactHandler(BaseHandler):
         name = self.form.name.data.strip()
         email = self.form.email.data.lower()
         message = self.form.message.data.strip()
+        template_val = {}
 
         try:
             # parsing user_agent and getting which os key to use
@@ -1033,7 +1034,7 @@ class ContactHandler(BaseHandler):
             subject = _("Contact") + " " + self.app.config.get('app_name')
             # exceptions for error pages that redirect to contact
             if exception != "":
-                subject = subject + " (Exception error: %s)" % exception
+                subject = "{} (Exception error: {})".format(subject, exception)
 
             body_path = "emails/contact.txt"
             body = self.jinja2.render_template(body_path, **template_val)
@@ -1147,7 +1148,7 @@ class EditProfileHandler(BaseHandler):
                 return self.get()
 
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
@@ -1224,7 +1225,7 @@ class EditPasswordHandler(BaseHandler):
                 self.add_message(message, 'error')
                 return self.redirect_to('edit-password')
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
@@ -1333,7 +1334,7 @@ class EditEmailHandler(BaseHandler):
                 return self.redirect_to('edit-email')
 
         except (AttributeError, TypeError), e:
-            login_error_message = _('Sorry you are not logged in.')
+            login_error_message = _('Your session has expired.')
             self.add_message(login_error_message, 'error')
             self.redirect_to('login')
 
@@ -1368,13 +1369,13 @@ class PasswordResetHandler(BaseHandler):
         # check captcha
         challenge = self.request.POST.get('recaptcha_challenge_field')
         response = self.request.POST.get('recaptcha_response_field')
-        remoteip = self.request.remote_addr
+        remote_ip = self.request.remote_addr
 
         cResponse = captcha.submit(
             challenge,
             response,
             self.app.config.get('captcha_private_key'),
-            remoteip)
+            remote_ip)
 
         if cResponse.is_valid:
             # captcha was valid... carry on..nothing to see here
@@ -1383,7 +1384,8 @@ class PasswordResetHandler(BaseHandler):
             _message = _('Wrong image verification code. Please try again.')
             self.add_message(_message, 'error')
             return self.redirect_to('password-reset')
-            #check if we got an email or username
+
+        #check if we got an email or username
         email_or_username = str(self.request.POST.get('email_or_username')).lower().strip()
         if utils.is_email_valid(email_or_username):
             user = models.User.get_by_email(email_or_username)
