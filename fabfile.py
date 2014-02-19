@@ -47,7 +47,7 @@ def start(mode="normal"):
 
     """
 
-    if mode == "clear":
+    if mode == "clear" or mode == "clean":
         local("dev_appserver.py ./ --host 0.0.0.0 --port 8002 --clear_datastore=yes")
     else:
         local("dev_appserver.py ./ --host 0.0.0.0 --port 8002")
