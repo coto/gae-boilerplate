@@ -449,7 +449,7 @@ msgid "download the Source Code"
 msgstr "descarga el código fuente"
 
 msgid "for further assistance."
-msgstr "para más asistencia"
+msgstr "para más asistencia."
 
 msgid ""
 "is associated with an account in our records, you will receive an email "
@@ -457,6 +457,9 @@ msgid ""
 "receive instructions within a minute or two, check your email's spam and "
 "junk filters, or "
 msgstr ""
+"está asociada con una cuenta en nuestros registros, recibirás un correo electrónico "
+"de nosotros con instrucciones para restablecer tu contraseña. <br>Si no recibes instrucciones "
+"dentro de un minuto o dos, revisa tu bandeja de spam y filtros de correo o "
 
 msgid "or just"
 msgstr "o sólo"
