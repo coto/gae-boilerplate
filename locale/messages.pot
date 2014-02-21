@@ -43,6 +43,9 @@ msgstr ""
 msgid "Change your password"
 msgstr ""
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr ""
 
@@ -60,7 +63,16 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
+msgid "Created"
+msgstr ""
+
+msgid "Current Email"
+msgstr ""
+
 msgid "Current Password"
+msgstr ""
+
+msgid "Delete Account"
 msgstr ""
 
 msgid "Don't have an account?"
@@ -217,9 +229,6 @@ msgstr ""
 msgid "Social account on %s not found for this user."
 msgstr ""
 
-msgid "Sorry you are not logged in."
-msgstr ""
-
 msgid "Sorry, Some error occurred."
 msgstr ""
 
@@ -248,6 +257,9 @@ msgstr ""
 
 #, python-format
 msgid "The account %s is already in use."
+msgstr ""
+
+msgid "The account has been successfully deleted."
 msgstr ""
 
 #, python-format
@@ -304,6 +316,9 @@ msgstr ""
 msgid "Update Profile"
 msgstr ""
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr ""
 
@@ -323,6 +338,9 @@ msgid "Username or Email"
 msgstr ""
 
 msgid "Users Geolocation"
+msgstr ""
+
+msgid "Visit Site"
 msgstr ""
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
@@ -367,6 +385,9 @@ msgid "Your message was sent successfully."
 msgstr ""
 
 msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid "Your session has expired."
 msgstr ""
 
 msgid ""

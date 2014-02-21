@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-13 00:56+0100\n"
+"POT-Creation-Date: 2014-02-21 14:40-0300\n"
 "PO-Revision-Date: 2013-11-11 23:38+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -66,6 +66,9 @@ msgstr "Verander je e-mail"
 msgid "Change your password"
 msgstr "Je wachtwoord wijzigen"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Wachtwoord bevestigen"
 
@@ -83,8 +86,19 @@ msgstr "Contact"
 msgid "Country"
 msgstr "Land"
 
+msgid "Created"
+msgstr ""
+
+#, fuzzy
+#| msgid "to resend the email."
+msgid "Current Email"
+msgstr "om de e-mail opnieuw te verzenden."
+
 msgid "Current Password"
 msgstr "Huidig wachtwoord"
+
+msgid "Delete Account"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr "Nog geen account?"
@@ -246,9 +260,6 @@ msgstr "Aanmelden"
 msgid "Social account on %s not found for this user."
 msgstr "Sociale account op %s niet gevonden voor deze gebruiker."
 
-msgid "Sorry you are not logged in."
-msgstr "Sorry, je bent niet ingelogd"
-
 msgid "Sorry, Some error occurred."
 msgstr "Sorry, er is een fout opgetreden."
 
@@ -280,6 +291,11 @@ msgstr ""
 #, python-format
 msgid "The account %s is already in use."
 msgstr "Het account %s is al in gebruik."
+
+#, fuzzy
+#| msgid "Your email has been successfully updated."
+msgid "The account has been successfully deleted."
+msgstr "Je e-mail is succesvol bijgewerkt."
 
 #, python-format
 msgid "The email %s is already registered."
@@ -339,6 +355,9 @@ msgstr "Onverwachte fout bij het maken van de gebruiker %s"
 msgid "Update Profile"
 msgstr "Profiel bijwerken"
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr "Gebruikersgegevens"
 
@@ -360,11 +379,16 @@ msgstr "Gebruikersnaam of E-mail"
 msgid "Users Geolocation"
 msgstr "Geolocatie van gebruiker"
 
+msgid "Visit Site"
+msgstr ""
+
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Welkom <strong>{}</strong>, je bent nu ingelogd."
 
 msgid "Welcome!  You have been registered as a new user and logged in through {}."
-msgstr "Welkom!  Je bent geregistreerd als een nieuwe gebruiker en ingelogd via {}."
+msgstr ""
+"Welkom!  Je bent geregistreerd als een nieuwe gebruiker en ingelogd via "
+"{}."
 
 msgid "Wrong image verification code. Please try again."
 msgstr "Verkeerde verificatiecode. Probeer het opnieuw."
@@ -409,6 +433,9 @@ msgstr "Je bericht is succesvol verzonden."
 
 msgid "Your new username is <strong>{}</strong>"
 msgstr "Je nieuwe gebruikersnaam is <strong>{}</strong>"
+
+msgid "Your session has expired."
+msgstr ""
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "

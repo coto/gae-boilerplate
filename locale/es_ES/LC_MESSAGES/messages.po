@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-13 00:56+0100\n"
+"POT-Creation-Date: 2014-02-21 14:40-0300\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: Coto Augosto <@coto>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -67,6 +66,9 @@ msgstr "Cambiar tu Correo Electrónico"
 msgid "Change your password"
 msgstr "Cambiar tu contraseña"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Confirmar contraseña"
 
@@ -86,8 +88,18 @@ msgstr "Contacto"
 msgid "Country"
 msgstr "País"
 
+msgid "Created"
+msgstr "Creado"
+
+#| msgid "to resend the email."
+msgid "Current Email"
+msgstr "Correo Electrónico Actual"
+
 msgid "Current Password"
 msgstr "Contraseña actual"
+
+msgid "Delete Account"
+msgstr "Borrar Cuenta"
 
 msgid "Don't have an account?"
 msgstr "¿No tienes una cuenta?"
@@ -107,7 +119,6 @@ msgstr "Ingresa tu"
 msgid "Error sending the message. Please try again later."
 msgstr "Error enviando el mensaje. Por favor intenta nuevamente más tarde."
 
-#, fuzzy
 msgid "Existing social association"
 msgstr "Asociación a cuentas sociales existentes"
 
@@ -119,11 +130,11 @@ msgstr "Login Federado está desabilitado"
 
 #, python-format
 msgid "Field cannot be longer than %(max)d characters."
-msgstr ""
+msgstr "Campo debe ser mayor a %(max)d caracteres."
 
 #, python-format
 msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr ""
+msgstr "Campo debe tener entre %(min)d y %(max)d caracteres."
 
 msgid "Forgot your password?"
 msgstr "¿Olvidaste tu contraseña?"
@@ -153,9 +164,8 @@ msgstr ""
 msgid "Insecure Password"
 msgstr "Reiniciar contraseña"
 
-#, fuzzy
 msgid "Invalid email address."
-msgstr "Ingresa una nueva dirección de email"
+msgstr "Correo electrónico inválido."
 
 msgid "Language"
 msgstr "Idioma"
@@ -164,7 +174,7 @@ msgid "Last Name"
 msgstr "Apellido"
 
 msgid "Last Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Apellido inválido. Use solo letras y números."
 
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Aprende porque este Boilerplate es asombroso"
@@ -185,7 +195,7 @@ msgid "Name"
 msgstr "Nombre"
 
 msgid "Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "nombre inválido. Usa solo letras y números."
 
 msgid "New Email"
 msgstr "Nuevo Correo Electrónico"
@@ -210,9 +220,8 @@ msgstr "Contraseña"
 msgid "Password changed successfully."
 msgstr "Contraseña actualizida exitósamente."
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Las dos contraseñas deben coincidir."
+msgstr "Ambas contraseñas deben coincidir."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -252,9 +261,6 @@ msgstr "Registrar"
 msgid "Social account on %s not found for this user."
 msgstr "Cuenta social en %s no encontrada para este usuario."
 
-msgid "Sorry you are not logged in."
-msgstr "Lo sentimos, no estás logeado."
-
 msgid "Sorry, Some error occurred."
 msgstr "Lo sentimos, ha currido un error."
 
@@ -286,6 +292,9 @@ msgstr ""
 #, python-format
 msgid "The account %s is already in use."
 msgstr "La cuenta %s ya está en uso."
+
+msgid "The account has been successfully deleted."
+msgstr "La cuenta ha sido eliminada exitosamente."
 
 #, python-format
 msgid "The email %s is already registered."
@@ -343,6 +352,9 @@ msgstr ""
 msgid "Update Profile"
 msgstr "Actualizar perfil de usuario"
 
+msgid "Updated"
+msgstr "Actualizado"
+
 msgid "User Details"
 msgstr "Detalles de usuario"
 
@@ -350,13 +362,13 @@ msgid "User List"
 msgstr "Lista de usuarios"
 
 msgid "User is logged out, but there was an error on the redirection."
-msgstr ""
+msgstr "Ha cerrado sesión, pero hubo un error en la redirección."
 
 msgid "Username"
 msgstr "Nombre de usuario"
 
 msgid "Username invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Nombre de Usuario inválido. Use solo letras y números."
 
 msgid "Username or Email"
 msgstr "Nombre de Usuario o Email"
@@ -371,29 +383,34 @@ msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Bienvenido <strong>{}</strong>, has iniciado sesión."
 
 msgid "Welcome!  You have been registered as a new user and logged in through {}."
-msgstr ""
+msgstr "Bienvenido! Te has registrado como un nuevo usuario e iniciado sesión a través de {}."
 
 msgid "Wrong image verification code. Please try again."
-msgstr ""
+msgstr "Código de verificación de imagen erróneo. Por favor intenta nuevamente."
 
-#, fuzzy
 msgid "You didn't change your email."
-msgstr "Cambiar tu email"
+msgstr "No cambiaste tu correo electrónico."
 
 msgid ""
 "You were successfully registered. Please check your email to activate "
 "your account."
 msgstr ""
+"Has sido registrado exitosamente. Por favor revisa tu correo electrónico "
+"para activar tu cuenta."
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
 "logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
+"Has cerrado sesión exitósamente. Advertencia: Por favor limpia todas las cookies y "
+"cierra sesión de otros proveedores de OpenID si estás en un computador público."
 
 msgid ""
 "Your account has been activated. Please <a href=\"/login/\">sign in</a> "
 "to your account."
 msgstr ""
+"Tu cuenta ha sido activada. Por favor <a href=\"/login/\">inicia sesión</a> "
+"en tu cuenta."
 
 msgid ""
 "Your account has not yet been activated. Please check your email to "
@@ -404,24 +421,29 @@ msgid "Your browser is <em>ancient!</em>"
 msgstr "Tu Navegador es demasiado <em>antiguo!</em>"
 
 msgid "Your email has been successfully updated."
-msgstr ""
+msgstr "Tu correo electrónico ha sido actualizado exitosamente."
 
 msgid "Your message was sent successfully."
-msgstr ""
+msgstr "Tu mensaje ha sido enviado exitosamente."
 
 msgid "Your new username is <strong>{}</strong>"
 msgstr "Tu nuevo nombre de usuario es <strong>{}</strong>"
+
+msgid "Your session has expired."
+msgstr "Tu sesión ha expirado."
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
 msgstr ""
+"Tu nombre de usuario o contraseña es incorrecto. Intenta nuevamente "
+"(asegurate de no tener mayúsculas activadas)"
 
 msgid "click here"
 msgstr "presiona aquí"
 
 msgid "contact us"
-msgstr "Contáctanos"
+msgstr "contáctanos"
 
 msgid "download the Source Code"
 msgstr "descarga el código fuente"

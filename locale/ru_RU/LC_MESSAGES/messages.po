@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google App Engine Boilerplate\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-13 00:56+0100\n"
+"POT-Creation-Date: 2014-02-21 14:40-0300\n"
 "PO-Revision-Date: 2012-10-20 22:18+0400\n"
 "Last-Translator: iROOT <iroota@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p"
@@ -72,6 +72,9 @@ msgstr "Изменить E-Mail"
 msgid "Change your password"
 msgstr "Изменить пароль"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Подтвердите пароль"
 
@@ -89,8 +92,17 @@ msgstr "Обратная связь"
 msgid "Country"
 msgstr "Страна"
 
+msgid "Created"
+msgstr ""
+
+msgid "Current Email"
+msgstr ""
+
 msgid "Current Password"
 msgstr "Текущий пароль"
+
+msgid "Delete Account"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr ""
@@ -247,9 +259,6 @@ msgstr "Регистрация"
 msgid "Social account on %s not found for this user."
 msgstr ""
 
-msgid "Sorry you are not logged in."
-msgstr ""
-
 msgid "Sorry, Some error occurred."
 msgstr ""
 
@@ -278,6 +287,9 @@ msgstr ""
 
 #, python-format
 msgid "The account %s is already in use."
+msgstr ""
+
+msgid "The account has been successfully deleted."
 msgstr ""
 
 #, python-format
@@ -334,6 +346,9 @@ msgstr ""
 msgid "Update Profile"
 msgstr "Обновить профиль"
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr ""
 
@@ -353,6 +368,9 @@ msgid "Username or Email"
 msgstr "Имя пользователя или E-Mail"
 
 msgid "Users Geolocation"
+msgstr ""
+
+msgid "Visit Site"
 msgstr ""
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
@@ -398,6 +416,9 @@ msgid "Your message was sent successfully."
 msgstr ""
 
 msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid "Your session has expired."
 msgstr ""
 
 msgid ""

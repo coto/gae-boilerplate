@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: nampnq@gmail.com\n"
-"POT-Creation-Date: 2013-11-13 00:56+0100\n"
+"POT-Creation-Date: 2014-02-21 14:40-0300\n"
 "PO-Revision-Date: 2013-08-26 16:19+0700\n"
 "Last-Translator: Nam Pham Ngoc Quang <nampnq@gmail.com>\n"
 "Language-Team: vi_VN <LL@li.org>\n"
@@ -67,6 +67,9 @@ msgstr "Đổi email"
 msgid "Change your password"
 msgstr "Đổi mật khẩu của bạn"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Xác nhận lại mật khẩu"
 
@@ -84,8 +87,19 @@ msgstr "Liên lạc"
 msgid "Country"
 msgstr "Quốc gia"
 
+msgid "Created"
+msgstr ""
+
+#, fuzzy
+#| msgid "to resend the email."
+msgid "Current Email"
+msgstr "để gửi lại email."
+
 msgid "Current Password"
 msgstr "Mật khẩu hiện tại"
+
+msgid "Delete Account"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr "Chưa có tài khoản?"
@@ -249,9 +263,6 @@ msgstr "Đăng kí"
 msgid "Social account on %s not found for this user."
 msgstr "Tài khoản %s không liên kết với thành viên nào."
 
-msgid "Sorry you are not logged in."
-msgstr "Xin lỗi, bạn không thể đăng nhập."
-
 msgid "Sorry, Some error occurred."
 msgstr "Xin lỗi, đã xảy ra một số lỗi."
 
@@ -281,6 +292,11 @@ msgstr "Đường dẫn bạn yêu cầu không đúng. Nhậpchi tiết bạn �
 #, python-format
 msgid "The account %s is already in use."
 msgstr "Tài khoản %s đã được sử dụng"
+
+#, fuzzy
+#| msgid "Your email has been successfully updated."
+msgid "The account has been successfully deleted."
+msgstr "Cập nhật email thành công."
 
 #, python-format
 msgid "The email %s is already registered."
@@ -336,6 +352,9 @@ msgstr "Lỗi không xác định khi tạo thành viên %s"
 msgid "Update Profile"
 msgstr "Cập nhập thông tin"
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr "Thông tin thành viên"
 
@@ -356,6 +375,9 @@ msgstr "Tên đăng nhập hoặc email"
 
 msgid "Users Geolocation"
 msgstr "Vị trí thành viên"
+
+msgid "Visit Site"
+msgstr ""
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr "Chào <strong>{}</strong>, bạn đã đăng nhập thành công."
@@ -405,6 +427,9 @@ msgstr "Gửi tin nhắn thành công."
 
 msgid "Your new username is <strong>{}</strong>"
 msgstr "Tên đăng nhập bạn là <strong>{}</strong>"
+
+msgid "Your session has expired."
+msgstr ""
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "

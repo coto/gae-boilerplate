@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-13 00:56+0100\n"
+"POT-Creation-Date: 2014-02-21 14:40-0300\n"
 "PO-Revision-Date: 2012-08-13 08:13+0100\n"
 "Last-Translator: Siegfried Hirsch <siegfried.hirsch@gmail.com>\n"
 "Language-Team: de_DE <LL@li.org>\n"
@@ -66,6 +66,9 @@ msgstr "Ändern Sie Ihre E-Mail"
 msgid "Change your password"
 msgstr "Ändern Sie Ihr Passwort"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Bestätigen Sie das Passwort"
 
@@ -83,8 +86,17 @@ msgstr "Kontakt"
 msgid "Country"
 msgstr "Land"
 
+msgid "Created"
+msgstr ""
+
+msgid "Current Email"
+msgstr ""
+
 msgid "Current Password"
 msgstr "Aktuelles Passwort"
+
+msgid "Delete Account"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr ""
@@ -245,9 +257,6 @@ msgstr "Anmelden"
 msgid "Social account on %s not found for this user."
 msgstr ""
 
-msgid "Sorry you are not logged in."
-msgstr ""
-
 msgid "Sorry, Some error occurred."
 msgstr ""
 
@@ -276,6 +285,9 @@ msgstr ""
 
 #, python-format
 msgid "The account %s is already in use."
+msgstr ""
+
+msgid "The account has been successfully deleted."
 msgstr ""
 
 #, python-format
@@ -332,6 +344,9 @@ msgstr ""
 msgid "Update Profile"
 msgstr "Profil aktualisieren"
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr ""
 
@@ -351,6 +366,9 @@ msgid "Username or Email"
 msgstr "Benutzername oder E-Mail"
 
 msgid "Users Geolocation"
+msgstr ""
+
+msgid "Visit Site"
 msgstr ""
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
@@ -396,6 +414,9 @@ msgid "Your message was sent successfully."
 msgstr ""
 
 msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid "Your session has expired."
 msgstr ""
 
 msgid ""
