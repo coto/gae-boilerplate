@@ -24,11 +24,11 @@ msgstr "Verificação da Conta %s"
 
 #, python-format
 msgid "%s Email Changed Notification"
-msgstr ""
+msgstr "Notificação de email alterado do %s"
 
 #, python-format
 msgid "%s Password Assistance"
-msgstr ""
+msgstr "Assitência de Senha do %s"
 
 #, python-format
 msgid "%s association successfully added."
