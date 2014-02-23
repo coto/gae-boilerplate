@@ -24,8 +24,7 @@ msgstr ""
 
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
-"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tinstall Google Chrome Frame</a> to experience this site."
+"    \tto experience this site."
 msgstr ""
 
 msgid "Associate account with"

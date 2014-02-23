@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-21 14:40-0300\n"
+"POT-Creation-Date: 2014-02-22 21:00-0300\n"
 "PO-Revision-Date: 2012-08-13 08:13+0100\n"
 "Last-Translator: Siegfried Hirsch <siegfried.hirsch@gmail.com>\n"
 "Language-Team: de_DE <LL@li.org>\n"
@@ -41,10 +41,14 @@ msgstr ""
 msgid "%s successfully disassociated."
 msgstr ""
 
+#, fuzzy
+#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
+#| browser</a>\n" "    \tor <a
+#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
+#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
-"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tinstall Google Chrome Frame</a> to experience this site."
+"    \tto experience this site."
 msgstr ""
 "<a href=\"http://browsehappy.com/\">Upgraden Sie zu einem anderen "
 "Browser</a>\n"

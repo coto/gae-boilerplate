@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-21 14:40-0300\n"
+"POT-Creation-Date: 2014-02-22 21:00-0300\n"
 "PO-Revision-Date: 2012-07-19 12:53-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr_FR <LL@li.org>\n"
@@ -42,10 +42,14 @@ msgstr "%s l'authentification n'est pas encore implémentée"
 msgid "%s successfully disassociated."
 msgstr "%s succès de la désassociation."
 
+#, fuzzy
+#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
+#| browser</a>\n" "    \tor <a
+#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
+#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
-"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tinstall Google Chrome Frame</a> to experience this site."
+"    \tto experience this site."
 msgstr ""
 "<a href=\"http://browsehappy.com/\">Mise à niveau vers un navigateur "
 "différent</a>\n"
@@ -93,7 +97,6 @@ msgid "Created"
 msgstr ""
 
 #, fuzzy
-#| msgid "to resend the email."
 msgid "Current Email"
 msgstr "pour renvoyer l'e-mail."
 
@@ -300,7 +303,6 @@ msgid "The account %s is already in use."
 msgstr "Le compte %s est déjà en cours d'utilisation."
 
 #, fuzzy
-#| msgid "Your email has been successfully updated."
 msgid "The account has been successfully deleted."
 msgstr "Votre email a été mis à jour avec succès."
 
