@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Google App Engine Boilerplate\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-22 21:00-0300\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
 "PO-Revision-Date: 2012-10-20 22:18+0400\n"
 "Last-Translator: iROOT <iroota@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p"
@@ -46,10 +46,6 @@ msgid "%s successfully disassociated."
 msgstr ""
 
 #, fuzzy
-#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
-#| browser</a>\n" "    \tor <a
-#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
-#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tto experience this site."

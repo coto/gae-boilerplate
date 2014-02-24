@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-22 21:00-0300\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
 "PO-Revision-Date: 2013-11-11 23:38+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -43,10 +43,6 @@ msgid "%s successfully disassociated."
 msgstr "%s succesvol losgekoppeld."
 
 #, fuzzy
-#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
-#| browser</a>\n" "    \tor <a
-#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
-#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tto experience this site."

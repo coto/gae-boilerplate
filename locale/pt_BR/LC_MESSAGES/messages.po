@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-22 21:00-0300\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
 "PO-Revision-Date: 2012-06-21 01:50-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -41,19 +41,13 @@ msgstr "Autenticação %s ainda não está implementada."
 msgid "%s successfully disassociated."
 msgstr "%s desassociada com sucesso."
 
-#, fuzzy
-#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
-#| browser</a>\n" "    \tor <a
-#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
-#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tto experience this site."
 msgstr ""
 "<a href=\"http://browsehappy.com/\">Atualize para um browser "
 "diferente</a>\n"
-"    \tou <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tisntale Google Chrome Frame</a> para usar este site."
+"    \t para usar este site."
 
 msgid "Associate account with"
 msgstr "Associar conta com"
@@ -82,8 +76,7 @@ msgstr "Parabéns pela sua página movida a Google App Engine Boilerplate."
 msgid ""
 "Congratulations, Your account <strong>{}</strong> has been successfully "
 "activated."
-msgstr ""
-"Parabéns, Sua conta <strong>{}</strong> foi ativada com sucesso."
+msgstr "Parabéns, Sua conta <strong>{}</strong> foi ativada com sucesso."
 
 msgid "Contact"
 msgstr "Contato"
@@ -163,11 +156,9 @@ msgstr ""
 "Senha incorreta! Por favor, digite sua senha atual para mudar suas "
 "configurações de conta."
 
-#, fuzzy
 msgid "Insecure Password"
-msgstr "Resetar senha"
+msgstr "Senha insegura"
 
-#, fuzzy
 msgid "Invalid email address."
 msgstr "Endereço de email inválido."
 
@@ -212,8 +203,8 @@ msgid ""
 "No user authentication information received from %s. Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
-"Nenhuma informação de autenticação recebida de %s. Por favor, certifique-se "
-"de que está logando a partir de um OpenID Provider (OP) autorizado."
+"Nenhuma informação de autenticação recebida de %s. Por favor, certifique-"
+"se de que está logando a partir de um OpenID Provider (OP) autorizado."
 
 msgid "Or Sign in using:"
 msgstr "Ou entre usando:"
@@ -231,8 +222,8 @@ msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
 msgstr ""
-"Por favor, verifique seu novo email para confirmação. Seu email será atualizado "
-"depois da confirmação."
+"Por favor, verifique seu novo email para confirmação. Seu email será "
+"atualizado depois da confirmação."
 
 msgid "Remember me?"
 msgstr "Lembra-se de mim?"
@@ -249,14 +240,12 @@ msgstr "Procurar Usuário"
 msgid "Secure Page"
 msgstr "Página Segura"
 
-#, fuzzy
 msgid "Secure Password"
 msgstr "Senha segura"
 
 msgid "Send Message"
 msgstr "Enviar Mensagem"
 
-#, fuzzy
 msgid "Short Password"
 msgstr "Senha curta"
 
@@ -292,8 +281,8 @@ msgid ""
 "The URL you tried to use is either incorrect or no longer valid. Enter "
 "your details again below to get a new one."
 msgstr ""
-"A URL que você tentou usar está incorreta ou não é mais válida. Introduza "
-"novamente os seus dados abaixo para obter uma nova URL."
+"A URL que você tentou usar está incorreta ou não é mais válida. Introduza"
+" novamente os seus dados abaixo para obter uma nova URL."
 
 #, python-format
 msgid "The account %s is already in use."
@@ -313,15 +302,17 @@ msgid "The two passwords must match."
 msgstr "As duas senhas devem ser iguais."
 
 msgid "The username <strong>{}</strong> is already taken. Please choose another."
-msgstr "O nome de ususário <strong>{}</strong> já está sendo usado. Por favor, escolha outro."
+msgstr ""
+"O nome de ususário <strong>{}</strong> já está sendo usado. Por favor, "
+"escolha outro."
 
 #, python-format
 msgid ""
 "The verification email has been resent to %s. Please check your email to "
 "activate your account."
 msgstr ""
-"O email de verificação foi enviado para %s. Por favor, verifique seu email "
-"para ativar sua conta."
+"O email de verificação foi enviado para %s. Por favor, verifique seu "
+"email para ativar sua conta."
 
 #, python-format
 msgid "This %s account is already in use."
@@ -349,7 +340,9 @@ msgid "Twitter association added."
 msgstr "Associação com Twitter adcionada."
 
 msgid "Unable to update profile. Please try again later."
-msgstr "Não foi possível atualizar o perfil. Pro favor, tente novamente mais tarde."
+msgstr ""
+"Não foi possível atualizar o perfil. Pro favor, tente novamente mais "
+"tarde."
 
 #, python-format
 msgid "Unexpected error creating the user %s"
@@ -394,30 +387,30 @@ msgstr "Bem-vindo! Você foi registrado como um novo usuário e está logado via
 msgid "Wrong image verification code. Please try again."
 msgstr "Código de verificação errado. Por favor, tente novamente."
 
-#, fuzzy
 msgid "You didn't change your email."
-msgstr "Alterar seu email"
+msgstr "Você não alterou seu e-mail"
 
 msgid ""
 "You were successfully registered. Please check your email to activate "
 "your account."
 msgstr ""
-"Você foi registrado com sucesso. Por favor, verifique seu email para ativar "
-"sua conta."
+"Você foi registrado com sucesso. Por favor, verifique seu email para "
+"ativar sua conta."
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
 "logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
-"Você encerrou sua sessão com sucesso. Aviso: Por favor, limpe todos os cookies "
-"e faça logout do provedor de OpenID também se você logou em um computador público."
+"Você encerrou sua sessão com sucesso. Aviso: Por favor, limpe todos os "
+"cookies e faça logout do provedor de OpenID também se você logou em um "
+"computador público."
 
 msgid ""
 "Your account has been activated. Please <a href=\"/login/\">sign in</a> "
 "to your account."
 msgstr ""
-"Sua conta foi ativada. Por favor, <a href=\"/login/\">acesse</a> "
-"sua conta."
+"Sua conta foi ativada. Por favor, <a href=\"/login/\">acesse</a> sua "
+"conta."
 
 msgid ""
 "Your account has not yet been activated. Please check your email to "
@@ -445,13 +438,12 @@ msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
 msgstr ""
-"Seu nome de usuário ou senha está incorreto(a). Por favor, tente novamente "
-"(certifique-se de que o caps lock está desligado)"
+"Seu nome de usuário ou senha está incorreto(a). Por favor, tente "
+"novamente (certifique-se de que o caps lock está desligado)"
 
 msgid "click here"
 msgstr "clique aqui"
 
-#, fuzzy
 msgid "contact us"
 msgstr "Contato"
 
@@ -468,9 +460,9 @@ msgid ""
 "junk filters, or "
 msgstr ""
 "está associado a uma conta em nossos registros, você receberá um e-mail "
-"nosso com instruções para redefinir sua senha. <br>Se você não "
-"receber as instruções dentro de um ou dois minutos, verifique os filtros de "
-"spam e lixo eletrônico, ou "
+"nosso com instruções para redefinir sua senha. <br>Se você não receber as"
+" instruções dentro de um ou dois minutos, verifique os filtros de spam e "
+"lixo eletrônico, ou "
 
 msgid "or just"
 msgstr "ou simplesmente"

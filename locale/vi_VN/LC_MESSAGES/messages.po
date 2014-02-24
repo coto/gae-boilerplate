@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: nampnq@gmail.com\n"
-"POT-Creation-Date: 2014-02-22 21:00-0300\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
 "PO-Revision-Date: 2013-08-26 16:19+0700\n"
 "Last-Translator: Nam Pham Ngoc Quang <nampnq@gmail.com>\n"
 "Language-Team: vi_VN <LL@li.org>\n"
@@ -43,10 +43,6 @@ msgid "%s successfully disassociated."
 msgstr "Hủy liên kết %s thành công"
 
 #, fuzzy
-#| msgid "" "<a href=\"http://browsehappy.com/\">Upgrade to a different
-#| browser</a>\n" "    \tor <a
-#| href=\"http://www.google.com/chromeframe/?redirect=true\">\n" "    \tinstall
-#| Google Chrome Frame</a> to experience this site."
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tto experience this site."
