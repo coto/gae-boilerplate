@@ -61,7 +61,7 @@ msgid "Associate account with"
 msgstr "Связать аккаунт с"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 msgid "Change password"
 msgstr "Изменить пароль"
@@ -105,7 +105,7 @@ msgid "Delete Account"
 msgstr ""
 
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Нет аккаунта?"
 
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
@@ -120,13 +120,13 @@ msgid "Enter your"
 msgstr "Укажите"
 
 msgid "Error sending the message. Please try again later."
-msgstr ""
+msgstr "Ошибка при отправке сообщения. Попробуйте еще раз позже."
 
 msgid "Existing social association"
 msgstr "Существующие связанные социальные сервисы"
 
 msgid "Facebook association added!"
-msgstr ""
+msgstr "Добавлена ассоциация с Facebook"
 
 msgid "Federated login is disabled."
 msgstr ""
@@ -143,7 +143,7 @@ msgid "Forgot your password?"
 msgstr "Забыли пароль?"
 
 msgid "Github association added."
-msgstr ""
+msgstr "Добавлена ассоциация с GitHub"
 
 msgid "Good Password"
 msgstr "Хороший пароль"
@@ -197,7 +197,7 @@ msgid "Name"
 msgstr "Имя"
 
 msgid "Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Ошибка. Используйте только буквы и цифры."
 
 msgid "New Email"
 msgstr "Новый E-Mail"
@@ -218,10 +218,10 @@ msgid "Password"
 msgstr "Пароль"
 
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Пароль изменен успешно."
 
 msgid "Passwords must match."
-msgstr ""
+msgstr "Пароли должны совпадать."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
@@ -238,7 +238,7 @@ msgid "Reset password"
 msgstr "Сбросить пароль"
 
 msgid "Search User"
-msgstr ""
+msgstr "Поиск пользователя"
 
 msgid "Secure Page"
 msgstr "Безопасная страница"
@@ -259,6 +259,9 @@ msgstr "Регистрация"
 msgid "Social account on %s not found for this user."
 msgstr ""
 
+msgid "Sorry you are not logged in."
+msgstr "Извините, но "
+
 msgid "Sorry, Some error occurred."
 msgstr ""
 
@@ -275,7 +278,7 @@ msgid "Source Code"
 msgstr "Исходный код"
 
 msgid "Thanks, your settings have been saved."
-msgstr ""
+msgstr "Спасибо, ваши установки сохранены."
 
 msgid "The URL you tried to use is either incorrect or no longer valid."
 msgstr ""
@@ -297,7 +300,7 @@ msgid "The email %s is already registered."
 msgstr ""
 
 msgid "The link is invalid."
-msgstr ""
+msgstr "Неверная ссылка."
 
 msgid "The two passwords must match."
 msgstr ""
@@ -328,13 +331,13 @@ msgid "This Twitter account is already in use."
 msgstr ""
 
 msgid "This authentication method is not yet implemented."
-msgstr ""
+msgstr "Этот метод аутентификации не реализован."
 
 msgid "Timezone"
-msgstr ""
+msgstr "Временной пояс"
 
 msgid "Twitter association added."
-msgstr ""
+msgstr "Добавлена ассоциация с Twitter."
 
 msgid "Unable to update profile. Please try again later."
 msgstr ""
@@ -350,10 +353,10 @@ msgid "Updated"
 msgstr ""
 
 msgid "User Details"
-msgstr ""
+msgstr "Информация о пользователе"
 
 msgid "User List"
-msgstr ""
+msgstr "Список пользователей"
 
 msgid "User is logged out, but there was an error on the redirection."
 msgstr ""
@@ -362,7 +365,7 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 msgid "Username invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Неверное имя пользователя. Используйте только буквы и цифры."
 
 msgid "Username or Email"
 msgstr "Имя пользователя или E-Mail"
@@ -410,10 +413,10 @@ msgid "Your browser is <em>ancient!</em>"
 msgstr "Ваш браузер <em>устарел!</em>"
 
 msgid "Your email has been successfully updated."
-msgstr ""
+msgstr "Ваш электронный адрес обновлен."
 
 msgid "Your message was sent successfully."
-msgstr ""
+msgstr "Ваше сообщение успешно отослано."
 
 msgid "Your new username is <strong>{}</strong>"
 msgstr ""
@@ -424,10 +427,10 @@ msgstr ""
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
-msgstr ""
+msgstr "Неверное имя или пароль. Попробуйте еще раз (проверьте не нажат ли CapsLock)"
 
 msgid "click here"
-msgstr ""
+msgstr "кликнуть тут"
 
 #, fuzzy
 msgid "contact us"
