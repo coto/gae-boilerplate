@@ -67,8 +67,7 @@ config = {
     'webapp2_extras.sessions': {'secret_key': 'coto#W1|(|=_>}m9BZEB#drBG| tN@0{@7+)gB:w:+9u3}nlrf8U?'},
 
     # webapp2 authentication
-    'webapp2_extras.auth': {'user_model': 'boilerplate.models.User',
-                            'cookie_name': 'gae_session'},
+    'webapp2_extras.auth': {'cookie_name': 'gae_session'},
 
 # ----> ADD MORE CONFIGURATION OPTIONS HERE <----
 
