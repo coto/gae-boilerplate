@@ -55,7 +55,7 @@ config = {
     # Github login
     # Register apps here: https://github.com/settings/applications/new
     'github_server': 'github.com',
-    'github_redirect_uri': 'http://www.example.com/social_login/github/complete',
+    'github_redirect_uri': 'http://appengine.beecoss.com/social_login/github/complete',
     'github_client_id': 'c391bcae77f69499bb46',
     'github_client_secret': '00674550b11a7644e675129a4ddbdaa2798addae',
 
