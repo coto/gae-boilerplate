@@ -72,6 +72,16 @@ handlers:
   mime_type: text/css
   static_dir: bp_content/themes/default/static/css
 
+- url: /fonts/(.*\.eot)
+  mime_type: application/vnd.ms-fontobject
+  static_files: bp_content/themes/default/static/fonts/\1
+  upload: bp_content/themes/default/static/fonts/(.*\.eot)
+
+- url: /fonts/(.*\.otf)
+  mime_type: font/opentype
+  static_files: bp_content/themes/default/static/fonts/\1
+  upload: bp_content/themes/default/static/fonts/(.*\.otf)
+
 - url: /js
   mime_type: text/javascript
   static_dir: bp_content/themes/default/static/js
