@@ -127,7 +127,7 @@ class SecureRequestHandler(BaseHandler):
         user_session = self.user
         user_session_object = self.auth.store.get_session(self.request)
 
-        user_info = models_boilerplate.User.get_by_id(long(self.user_id))
+        user_info = self.user_model.get_by_id(long(self.user_id))
         user_info_object = self.auth.store.user_model.get_by_auth_token(
             user_session['user_id'], user_session['token'])
 
@@ -189,13 +189,13 @@ class DeleteAccountHandler(BaseHandler):
 
         try:
 
-            user_info = models_boilerplate.User.get_by_id(long(self.user_id))
+            user_info = self.user_model.get_by_id(long(self.user_id))
             auth_id = "own:%s" % user_info.username
             password = utils.hashing(password, self.app.config.get('salt'))
 
             try:
                 # authenticate user by its password
-                user = models_boilerplate.User.get_by_auth_password(auth_id, password)
+                user = self.user_model.get_by_auth_password(auth_id, password)
                 if user:
                     # Delete Social Login
                     for social in models_boilerplate.SocialUser.get_by_user(user_info.key):

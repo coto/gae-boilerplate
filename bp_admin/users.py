@@ -11,7 +11,7 @@ from wtforms import fields
 
 class AdminUserGeoChartHandler(BaseHandler):
     def get(self):
-        users = models.User.query().fetch(projection=['country'])
+        users = self.user_model.query().fetch(projection=['country'])
         users_by_country = Counter()
         for user in users:
             if user.country:
@@ -35,21 +35,21 @@ class AdminUserListHandler(BaseHandler):
         cursor = Cursor(urlsafe=c)
 
         if q:
-            qry = models.User.query(ndb.OR(models.User.last_name == q.lower(),
-                                           models.User.email == q.lower(),
-                                           models.User.username == q.lower()))
+            qry = self.user_model.query(ndb.OR(self.user_model.last_name == q.lower(),
+                                           self.user_model.email == q.lower(),
+                                           self.user_model.username == q.lower()))
         else:
-            qry = models.User.query()
+            qry = self.user_model.query()
 
         PAGE_SIZE = 50
         if forward:
-            users, next_cursor, more = qry.order(models.User.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
+            users, next_cursor, more = qry.order(self.user_model.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
             if next_cursor and more:
                 self.view.next_cursor = next_cursor
             if c:
                 self.view.prev_cursor = cursor.reversed()
         else:
-            users, next_cursor, more = qry.order(-models.User.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
+            users, next_cursor, more = qry.order(-self.user_model.key).fetch_page(PAGE_SIZE, start_cursor=cursor)
             users = list(reversed(users))
             if next_cursor and more:
                 self.view.prev_cursor = next_cursor
@@ -84,7 +84,7 @@ class AdminUserListHandler(BaseHandler):
 class AdminUserEditHandler(BaseHandler):
     def get_or_404(self, user_id):
         try:
-            user = models.User.get_by_id(long(user_id))
+            user = self.user_model.get_by_id(long(user_id))
             if user:
                 return user
         except ValueError:
