@@ -1,5 +1,6 @@
 import re
 import logging
+import pytz
 from google.appengine.api.urlfetch_errors import DownloadError
 from google.appengine.api import urlfetch
 from webapp2_extras import i18n
@@ -30,39 +31,6 @@ def parse_accept_language_header(string, pattern='([a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,
             res[l] = int(100*float(q))
     return res
 
-def get_territory_from_ip(cls):
-    """
-    call: get_territory_from_ip(self.request)
-
-    Detect the territory code derived from IP Address location
-    Returns US, CA, CL, AR, etc.
-    cls: self object
-    
-    Uses lookup service http://geoip.wtanaka.com/cc/<ip>
-    You can get a flag image given the returned territory 
-        with http://geoip.wtanaka.com/flag/<territory>.gif
-        example: http://geoip.wtanaka.com/flag/us.gif
-    """
-    territory = None
-    try:
-        cook_territoy = cls.request.cookies.get('territory', None)
-        if cook_territoy is not None:
-            return cook_territoy
-
-        result = urlfetch.fetch("http://geoip.wtanaka.com/cc/%s" % cls.request.remote_addr, deadline=0.8) # tweak deadline if necessary
-        if result.status_code == 200:
-            fetch = result.content
-            if len(str(fetch)) < 3:
-                territory = str(fetch).upper()
-                cls.response.set_cookie('territory', territory, max_age = 15724800)
-            else:
-                logging.warning("Ups, geoip.wtanaka.com is not working. Look what it returns: %s" % str(fetch) )
-        else:
-            logging.warning("Ups, geoip.wtanaka.com is not working. Status Code: %s" % str(result.status_code) )
-    except DownloadError:
-        logging.warning("Couldn't resolve http://geoip.wtanaka.com/cc/%s"% cls.request.remote_addr)
-    return territory
-
 def get_locale_from_accept_header(request):
     """
     Detect locale from request.header 'Accept-Language'
@@ -84,7 +52,53 @@ def get_locale_from_accept_header(request):
     locale = Locale.negotiate(locale_list_sorted_by_q, request.app.config.get('locales'), sep='_')
     return str(locale)
 
-def set_locale(cls, force=None):
+
+def get_country_code(request):
+    """
+    Country code based on ISO 3166-1 (http://en.wikipedia.org/wiki/ISO_3166-1)
+    :param request: Request Object
+    :return: ISO Code of the country
+    """
+    if 'X-AppEngine-Country' in request.headers:
+        if request.headers['X-AppEngine-Country'] in pytz.country_timezones:
+            return request.headers['X-AppEngine-Country']
+    return None
+
+
+def get_city_code(request):
+    """
+    City code based on ISO 3166-1 (http://en.wikipedia.org/wiki/ISO_3166-1)
+    :param request: Request Object
+    :return: ISO Code of the City
+    """
+    if 'X-AppEngine-City' in request.headers:
+        return request.headers['X-AppEngine-City']
+    return None
+
+
+def get_region_code(request):
+    """
+    City code based on ISO 3166-1 (http://en.wikipedia.org/wiki/ISO_3166-1)
+    :param request: Request Object
+    :return: ISO Code of the City
+    """
+    if 'X-AppEngine-City' in request.headers:
+        return request.headers['X-AppEngine-Region']
+    return None
+
+
+def get_city_lat_long(request):
+    """
+    City code based on ISO 3166-1 (http://en.wikipedia.org/wiki/ISO_3166-1)
+    :param request: Request Object
+    :return: ISO Code of the City
+    """
+    if 'X-AppEngine-City' in request.headers:
+        return request.headers['X-AppEngine-CityLatLong']
+    return None
+
+
+def set_locale(cls, request, force=None):
     """
     retrieve locale from a prioritized list of sources and then set locale and save it
     cls: self object
@@ -108,8 +122,10 @@ def set_locale(cls, force=None):
                 locale = get_locale_from_accept_header(cls.request)
                 if locale not in locales:
                     # 5. detect locale from IP address location
-                    territory = get_territory_from_ip(cls) or 'ZZ'
+                    territory = get_country_code(request) or 'ZZ'
+                    logging.error(">>>>>> territory: {}".format(territory))
                     locale = str(Locale.negotiate(territory, locales))
+                    logging.error(">>>>>> locale: {}".format(locale))
                     if locale not in locales:
                         # 6. use default locale
                         locale = i18n.get_store().default_locale

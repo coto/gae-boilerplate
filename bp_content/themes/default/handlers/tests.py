@@ -18,7 +18,6 @@ import webtest
 from google.appengine.ext import testbed
 
 from mock import Mock
-from mock import patch
 
 from bp_includes import models
 from bp_includes import routes as routes_boilerplate
@@ -26,7 +25,6 @@ from bp_content.themes.default import routes as routes_theme
 from bp_includes import config as config_boilerplate
 from bp_content.themes.default import config as config_theme
 from bp_includes.lib import utils
-from bp_includes.lib import captcha
 from bp_includes.lib import i18n
 from bp_includes.lib import test_helpers
 
@@ -38,7 +36,7 @@ network = False
 
 # mock Internet calls
 if not network:
-    i18n.get_territory_from_ip = Mock(return_value=None)
+    i18n.get_country_code = Mock(return_value=None)
 
 
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):

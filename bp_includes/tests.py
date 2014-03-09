@@ -38,7 +38,7 @@ network = False
 
 # mock Internet calls
 if not network:
-    i18n.get_territory_from_ip = Mock(return_value=None)
+    i18n.get_country_code = Mock(return_value=None)
 
 
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
