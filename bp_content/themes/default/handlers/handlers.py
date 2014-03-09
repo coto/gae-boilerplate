@@ -18,6 +18,7 @@ from webapp2_extras.auth import InvalidAuthIdError, InvalidPasswordError
 from webapp2_extras.i18n import gettext as _
 from bp_includes.external import httpagentparser
 # local application/library specific imports
+import bp_includes.lib.i18n as i18n
 from bp_includes.lib.basehandler import BaseHandler
 from bp_includes.lib.decorators import user_required
 from bp_includes.lib import captcha, utils
@@ -50,7 +51,11 @@ class ContactHandler(BaseHandler):
 
         if not self.form.validate():
             return self.get()
-        remoteip = self.request.remote_addr
+        remote_ip = self.request.remote_addr
+        city = i18n.get_city_code(self.request)
+        region = i18n.get_region_code(self.request)
+        country = i18n.get_country_code(self.request)
+        coordinates = i18n.get_city_lat_long(self.request)
         user_agent = self.request.user_agent
         exception = self.request.POST.get('exception')
         name = self.form.name.data.strip()
@@ -76,10 +81,15 @@ class ContactHandler(BaseHandler):
             template_val = {
                 "name": name,
                 "email": email,
+                "ip": remote_ip,
+                "city": city,
+                "region": region,
+                "country": country,
+                "coordinates": coordinates,
+
                 "browser": browser,
                 "browser_version": browser_version,
                 "operating_system": operating_system,
-                "ip": remoteip,
                 "message": message
             }
         except Exception as e:

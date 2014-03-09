@@ -123,9 +123,7 @@ def set_locale(cls, request, force=None):
                 if locale not in locales:
                     # 5. detect locale from IP address location
                     territory = get_country_code(request) or 'ZZ'
-                    logging.error(">>>>>> territory: {}".format(territory))
                     locale = str(Locale.negotiate(territory, locales))
-                    logging.error(">>>>>> locale: {}".format(locale))
                     if locale not in locales:
                         # 6. use default locale
                         locale = i18n.get_store().default_locale
