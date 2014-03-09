@@ -69,7 +69,7 @@ class BaseHandler(webapp2.RequestHandler):
         """ Override the initialiser in order to set the language.
         """
         self.initialize(request, response)
-        self.locale = i18n.set_locale(self)
+        self.locale = i18n.set_locale(self, request)
         self.view = ViewClass()
 
     def dispatch(self):
