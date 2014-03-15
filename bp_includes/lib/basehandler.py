@@ -92,6 +92,14 @@ class BaseHandler(webapp2.RequestHandler):
             self.session_store.save_sessions(self.response)
 
     @webapp2.cached_property
+    def user_model(self):
+        """Returns the implementation of the user model.
+
+        Keep consistency when config['webapp2_extras.auth']['user_model'] is set.
+        """
+        return self.auth.store.user_model
+
+    @webapp2.cached_property
     def auth(self):
         return auth.get_auth()
 
@@ -140,7 +148,7 @@ class BaseHandler(webapp2.RequestHandler):
     @webapp2.cached_property
     def user_key(self):
         if self.user:
-            user_info = models.User.get_by_id(long(self.user_id))
+            user_info = self.user_model.get_by_id(long(self.user_id))
             return user_info.key
         return None
 
@@ -148,7 +156,7 @@ class BaseHandler(webapp2.RequestHandler):
     def username(self):
         if self.user:
             try:
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.user_model.get_by_id(long(self.user_id))
                 if not user_info.activated:
                     self.auth.unset_session()
                     self.redirect_to('home')
@@ -165,7 +173,7 @@ class BaseHandler(webapp2.RequestHandler):
     def email(self):
         if self.user:
             try:
-                user_info = models.User.get_by_id(long(self.user_id))
+                user_info = self.user_model.get_by_id(long(self.user_id))
                 return user_info.email
             except AttributeError, e:
                 # avoid AttributeError when the session was delete from the server
@@ -250,7 +258,7 @@ class BaseHandler(webapp2.RequestHandler):
     def current_user(self):
         user = self.auth.get_user_by_session()
         if user:
-            return models.User.get_by_id(user['user_id'])
+            return self.user_model.get_by_id(user['user_id'])
         return None
 
     @webapp2.cached_property
