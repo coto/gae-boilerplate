@@ -1,4 +1,6 @@
 blacklist:
+- subnet: 210.51.184.45
+  description: Annoying Chinese Server
 - subnet: 1.2.3.4
   description: a single IP address
 - subnet: 1.2.3.4/24
