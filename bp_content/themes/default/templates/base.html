@@ -20,7 +20,7 @@
         <link rel="apple-touch-icon" href="/{{ theme }}/apple-touch-icon.png">
     {% endif %}
     <link rel="stylesheet" href="/boilerplate/css/boilerplate.min.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/{{ theme }}/css/style.css">
     {% block mediaCSS %}{% endblock %}
 
     {{ google_analytics_code }}
@@ -203,7 +203,7 @@
 <!-- scripts concatenated and minified via build script -->
 <script src="/boilerplate/js/plugins.js"></script>
 <script src="/boilerplate/js/script.js"></script>
-<script src="/js/script.js"></script>
+<script src="/{{ theme }}/js/script.js"></script>
 {% if locale_language_id != "en" %}
     {% if locale_iso.language == "pt" and locale_iso.territory == "BR" %}
         <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_iso.language }}_{{ locale_iso.territory }}.js"></script>

@@ -68,9 +68,10 @@ handlers:
   static_files: bp_includes/static/img/\1
   upload: bp_includes/static/img/(.*\.(gif|png|jpg))
 
-- url: /css/
+- url: /(\w*)/css/(.*\.css)$
   mime_type: text/css
-  static_dir: bp_content/themes/default/static/css
+  static_files: bp_content/themes/\1/static/css/\2
+  upload: bp_content/themes/(\w*)/static/css/(.*\.css)$
 
 - url: /fonts/(.*\.eot)
   mime_type: application/vnd.ms-fontobject
@@ -82,9 +83,10 @@ handlers:
   static_files: bp_content/themes/default/static/fonts/\1
   upload: bp_content/themes/default/static/fonts/(.*\.otf)
 
-- url: /js
+- url: /(\w*)/js/(.*\.js)$
   mime_type: text/javascript
-  static_dir: bp_content/themes/default/static/js
+  static_files: bp_content/themes/\1/static/js/\2
+  upload: bp_content/themes/(\w*)/static/js/(.*\.js)$
 
 - url: /img/(\w*)/(.*\.(gif|png|jpg|jpeg))
   static_files: bp_content/themes/\1/static/img/\2
