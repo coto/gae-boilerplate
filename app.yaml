@@ -78,7 +78,7 @@ handlers:
   static_files: bp_content/themes/\1/static/js/\2
   upload: bp_content/themes/(\w*)/static/js/(.*\.js)$
 
-- url: /img/(\w*)/(.*\.(gif|png|jpg|jpeg))
+- url: /(\w*)/img/(.*\.(gif|png|jpg|jpeg))
   static_files: bp_content/themes/\1/static/img/\2
   upload: bp_content/themes/(\w*)/static/img/(.*\.(gif|png|jpg|jpeg))
 
