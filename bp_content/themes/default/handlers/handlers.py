@@ -35,7 +35,7 @@ class ContactHandler(BaseHandler):
         """ Returns a simple HTML for contact form """
 
         if self.user:
-            user_info = models_boilerplate.User.get_by_id(long(self.user_id))
+            user_info = self.user_model.get_by_id(long(self.user_id))
             if user_info.name or user_info.last_name:
                 self.form.name.data = user_info.name + " " + user_info.last_name
             if user_info.email:
