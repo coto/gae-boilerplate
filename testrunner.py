@@ -12,6 +12,20 @@ TEST_PATH   Path to package containing test modules"""
 
 
 def main(sdk_path, test_path):
+    """
+    Run the tests using testrunner.py script in the project root directory.
+
+    Usage: testrunner.py SDK_PATH TEST_PATH
+    Run unit tests for App Engine apps.
+
+    SDK_PATH    Path to the SDK installation
+    TEST_PATH   Path to package containing test modules
+
+    Options:
+      -h, --help  show this help message and exit
+
+    """
+
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external'))
     sys.path.insert(0, sdk_path)
     import dev_appserver
