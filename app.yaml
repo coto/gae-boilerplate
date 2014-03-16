@@ -97,6 +97,16 @@ handlers:
   static_files: bp_content/themes/\1/static/fonts/\2
   upload: bp_content/themes/(\w*)/static/fonts/(.*\.ttf)
 
+- url: /(\w*)/fonts/(.*\.woff)$
+  mime_type: application/x-font-woff
+  static_files: bp_content/themes/\1/static/fonts/\2
+  upload: bp_content/themes/(\w*)/static/fonts/(.*\.woff)
+
+- url: /(\w*)/fonts/(.*\.svg)$
+  mime_type: image/svg+xml
+  static_files: bp_content/themes/\1/static/fonts/\2
+  upload: bp_content/themes/(\w*)/static/fonts/(.*\.svg)
+
 - url: /taskqueue-send-email.*
   script: main.app
   login: admin
