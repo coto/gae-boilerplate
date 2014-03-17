@@ -6,7 +6,6 @@ class User(User):
     """
     Universal user model. Can be used with App Engine's default users API,
     own auth or third party authentication methods (OpenID, OAuth etc).
-    based on https://gist.github.com/kylefinley
     """
 
     #: Creation date.
