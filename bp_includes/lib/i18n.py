@@ -48,8 +48,8 @@ def get_locale_from_accept_header(request):
     parsed = parse_accept_language_header(header)
     if parsed is None:
         return None
-    locale_list_sorted_by_q = sorted(parsed.iterkeys(), reverse=True)
-    locale = Locale.negotiate(locale_list_sorted_by_q, request.app.config.get('locales'), sep='_')
+    pairs_sorted_by_q = sorted(parsed.items(), key=lambda (lang, q): q, reverse=True)
+    locale = Locale.negotiate([lang for (lang, q) in pairs_sorted_by_q], request.app.config.get('locales'), sep='_')
     return str(locale)
 
 
