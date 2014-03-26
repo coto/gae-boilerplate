@@ -79,10 +79,10 @@
             }
         });
         {% if country != "" %}
-        $('#country option[value="{{ country }}"]').attr("selected",true);
+        $("#country").find('option[value="{{ country }}"]').attr("selected", true);
         {% endif %}
         {% if tz != "" %}
-        $('#tz option[value="{{ tz }}"]').attr("selected",true);
+        $('#tz').find('option[value="{{ tz }}"]').attr("selected", true);
         {% endif %}
     });
 </script>
