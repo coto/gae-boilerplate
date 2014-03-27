@@ -64,11 +64,11 @@ config = {
     'captcha_private_key': "6Ldi0u4SAAAAAPzk1gaFDRQgry7XW4VBvNCqCHuJ",
 
     # webapp2 sessions
-    'webapp2_extras.sessions': {'secret_key': 'coto#W1|(|=_>}m9BZEB#drBG| tN@0{@7+)gB:w:+9u3}nlrf8U?'},
+    'webapp2_extras.sessions': { 'secret_key': 'coto#W1|(|=_>}m9BZEB#drBG| tN@0{@7+)gB:w:+9u3}nlrf8U?' },
 
     # webapp2 authentication
-    'webapp2_extras.auth': {'cookie_name': 'gae_session'},
+    'webapp2_extras.auth': { 'cookie_name': 'gae_session' },
 
-# ----> ADD MORE CONFIGURATION OPTIONS HERE <----
+    # ----> ADD MORE CONFIGURATION OPTIONS HERE <----
 
 }

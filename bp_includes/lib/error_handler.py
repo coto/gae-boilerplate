@@ -14,6 +14,7 @@ from google.appengine.api import taskqueue
 # local application/library specific imports
 import i18n
 
+
 def handle_error(request, response, exception):
     exc_type, exc_value, exc_tb = sys.exc_info()
 
@@ -24,8 +25,8 @@ def handle_error(request, response, exception):
 
     if request.app.config.get('send_mail_developer') is not False:
         # send email
-        subject = "[{}] ERROR {}".format(request.app.config.get('environment').upper(),
-                                         request.app.config.get('app_name'))
+        subject = "[{}] {} Error ({})".format(request.app.config.get('environment').upper(),
+                                              request.app.config.get('app_name'), exc_type.__name__)
 
         lines = traceback.format_exception(exc_type, exc_value, exc_tb)
         ua = httpagentparser.detect(request.user_agent)
@@ -51,7 +52,8 @@ def handle_error(request, response, exception):
                   '<strong>City:</strong> ' + str(city) + "<br />" + \
                   '<strong>Region:</strong> ' + str(region) + "<br />" + \
                   '<strong>Country:</strong> ' + str(country) + "<br />" + \
-                  '<strong>Coordinates:</strong> <a href="https://www.google.com.au/maps/preview/@' + str(coordinates) + ',8z">' + str(coordinates) + '</a><br />' + \
+                  '<strong>Coordinates:</strong> <a href="https://www.google.com.au/maps/preview/@' + str(
+            coordinates) + ',8z">' + str(coordinates) + '</a><br />' + \
                   '<hr><strong>User Agent:</strong> ' + str(request.user_agent) + "<br />" + \
                   '<strong>Operating System:</strong> ' + str(operating_system) + "<br />" + \
                   '<strong>Browser:</strong> ' + str(browser) + "<br />" + \
