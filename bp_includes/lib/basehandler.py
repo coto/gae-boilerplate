@@ -12,35 +12,8 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 # local application/library specific imports
 from bp_includes import models
-from bp_includes.lib import utils, i18n
+from bp_includes.lib import utils, i18n, jinja_bootstrap
 from babel import Locale
-
-
-def generate_csrf_token():
-    session = sessions.get_store().get_session()
-    if '_csrf_token' not in session:
-        session['_csrf_token'] = utils.random_string()
-    return session['_csrf_token']
-
-
-def jinja2_factory(app):
-    j = jinja2.Jinja2(app)
-    j.environment.filters.update({
-        # Set filters.
-        # ...
-    })
-    j.environment.globals.update({
-        # Set global variables.
-        'csrf_token': generate_csrf_token,
-        'uri_for': webapp2.uri_for,
-        'getattr': getattr,
-    })
-    j.environment.tests.update({
-        # Set test.
-        # ...
-    })
-    return j
-
 
 class ViewClass:
     """
@@ -267,7 +240,7 @@ class BaseHandler(webapp2.RequestHandler):
 
     @webapp2.cached_property
     def jinja2(self):
-        return jinja2.get_jinja2(factory=jinja2_factory, app=self.app)
+        return jinja2.get_jinja2(factory=jinja_bootstrap.jinja2_factory, app=self.app)
 
     @webapp2.cached_property
     def get_base_layout(self):
