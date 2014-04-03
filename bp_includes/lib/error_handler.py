@@ -12,6 +12,7 @@ from webapp2_extras import jinja2
 from google.appengine.api import app_identity
 from google.appengine.api import taskqueue
 # local application/library specific imports
+from bp_includes.lib import jinja_bootstrap
 import i18n
 
 
@@ -78,7 +79,7 @@ def handle_error(request, response, exception):
 
     status_int = hasattr(exception, 'status_int') and exception.status_int or 500
     template = request.app.config.get('error_templates')[status_int]
-    t = jinja2.get_jinja2(app=webapp2.get_app()).render_template(template, **c)
+    t = jinja2.get_jinja2(factory=jinja_bootstrap.jinja2_factory, app=webapp2.get_app()).render_template(template, **c)
     logging.error("Error {}: {}".format(status_int, exception))
     response.write(t)
     response.set_status(status_int)
