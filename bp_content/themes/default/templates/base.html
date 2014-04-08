@@ -37,104 +37,101 @@
 
 <div id="page">
     {% block navbar %}
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-chevron-down icon"></span>
-                    </button>
-                    <a class="brand" href="/">{{ app_name }}</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right">
-                            <li><a href="https://github.com/coto/gae-boilerplate" target="_blank">
-                                <span class="icon-inbox"></span> {% trans %}Source Code{% endtrans %}</a>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-chevron-down icon"></span>
+                </button>
+                <a class="brand" href="/">{{ app_name }}</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav pull-right">
+                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank">
+                            <span class="icon-inbox"></span> {% trans %}Source Code{% endtrans %}</a>
+                        </li>
+                        {% if locale_iso %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="icon-globe"></span>
+                                    {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    {% for l in locales %}
+                                        {% if locale_iso != l %}
+                                            <li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
                             </li>
-                            {% if locale_iso %}
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <span class="icon-globe"></span>
-                                        {% trans %}Language{% endtrans %} : {{ locale_language }} <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        {% for l in locales %}
-                                            {% if locale_iso != l %}
-                                                <li><a href="{{ path_for_language }}&hl={{ l }}">{{ locales[l] }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            {% endif %}
-                            {% if user_id %}
-                                <li class="divider-vertical"></li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }}<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ uri_for("edit-profile") }}">{% trans %}Edit Profile{% endtrans %}</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
-                                    </ul>
-                                </li>
-                            {% elif path != "/" and path != "/login/" %}
-                                <li class="divider-vertical"></li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        {% trans %}Login{% endtrans %} <b class="caret"></b>
-                                    </a>
+                        {% endif %}
+                        {% if user_id %}
+                            <li class="divider-vertical"></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }}<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ uri_for("edit-profile") }}">{% trans %}Edit Profile{% endtrans %}</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{ logout_url }}">{% trans %}Logout{% endtrans %}</a></li>
+                                </ul>
+                            </li>
+                        {% elif path != "/" and path != "/login/" %}
+                            <li class="divider-vertical"></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    {% trans %}Login{% endtrans %} <b class="caret"></b>
+                                </a>
 
-                                    <div class="dropdown-menu well">
-                                        <form id="form_login_user" action="{{ uri_for("login") }}" method="post"
-                                              class="auth-at-dropdown">
-                                            <fieldset>
-                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                <div class="dropdown-menu well">
+                                    <form id="form_login_user" action="{{ uri_for("login") }}" method="post"
+                                          class="auth-at-dropdown">
+                                        <fieldset>
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
 
-                                                <div class="control-group">
-                                                    <label class="control-label" for="l_username">
-                                                        {% trans %}Username or Email{% endtrans %}:
-                                                    </label>
-                                                    <div class="controls">
-                                                        <input class="input-xlarge focused required" id="l_username"
-                                                               name="username" type="text" value="">
-                                                    </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="l_username">
+                                                    {% trans %}Username or Email{% endtrans %}:
+                                                </label>
+                                                <div class="controls">
+                                                    <input class="input-xlarge focused required" id="l_username"
+                                                           name="username" type="text" value="">
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="l_password">
-                                                        {% trans %}Password{% endtrans %}:
-                                                    </label>
-                                                    <div class="controls">
-                                                        <input class="input-xlarge focused required" id="l_password"
-                                                               name="password" type="password" value="">
-                                                    </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="l_password">
+                                                    {% trans %}Password{% endtrans %}:
+                                                </label>
+                                                <div class="controls">
+                                                    <input class="input-xlarge focused required" id="l_password"
+                                                           name="password" type="password" value="">
                                                 </div>
-                                                <div class="control-group row-fluid">
-                                                    <label class="checkbox span7">
-                                                        <input type="checkbox" name="remember_me" id="remember_me"
-                                                               value="on">
-                                                        {% trans %}Remember me?{% endtrans %}
-                                                    </label>
+                                            </div>
+                                            <div class="control-group row-fluid">
+                                                <label class="checkbox span7">
+                                                    <input type="checkbox" name="remember_me" id="remember_me"
+                                                           value="on">
+                                                    {% trans %}Remember me?{% endtrans %}
+                                                </label>
 
-                                                    <div class="span5">
-                                                        <button type="submit" class="btn btn-primary btn-small btn-login">
-                                                            {% trans %}Login{% endtrans %}</button>
-                                                    </div>
+                                                <div class="span5">
+                                                    <button type="submit" class="btn btn-primary btn-small btn-login">
+                                                        {% trans %}Login{% endtrans %}</button>
                                                 </div>
-                                                <div class="control-group">
-                                                    <a href="{{ uri_for("password-reset") }}">
-                                                        {% trans %}Forgot your password?{% endtrans %}</a>
-                                                </div>
-                                                {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
-                                            </fieldset>
-                                        </form>
-                                    </div>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <!-- /.nav-collapse -->
+                                            </div>
+                                            <div class="control-group">
+                                                <a href="{{ uri_for("password-reset") }}">
+                                                    {% trans %}Forgot your password?{% endtrans %}</a>
+                                            </div>
+                                            {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
-                <!-- /container -->
+                <!-- /.nav-collapse -->
             </div>
-            <!-- /navbar-inner -->
-        </div><!-- /navbar -->
+            <!-- /container -->
+        </nav>
     {% endblock %}
 
     <div id="content" class="container xled">
