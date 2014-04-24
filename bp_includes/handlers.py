@@ -120,7 +120,7 @@ class LoginHandler(BaseHandler):
         if not self.form.validate():
             return self.get()
         username = self.form.username.data.lower()
-        continue_url = self.request.get('continue_url').encode('ascii', 'ignore')
+        continue_url = self.request.get('continue').encode('ascii', 'ignore')
 
         try:
             if utils.is_email_valid(username):
