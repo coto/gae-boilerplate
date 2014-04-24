@@ -1,16 +1,16 @@
 # Italian (Italy) translations for PROJECT.
 # Copyright (C) 2012 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <dario@jntstudio.net>, 2014.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-02-23 22:37-0300\n"
-"PO-Revision-Date: 2012-06-21 01:51-0400\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-04-06 13:37-0300\n"
+"PO-Revision-Date: 2014-04-06 13:37-0300\n"
+"Last-Translator: DARIO IACAMPO <dario@jntstudio.net>\n"
 "Language-Team: it_IT <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
@@ -20,51 +20,53 @@ msgstr ""
 
 #, python-format
 msgid "%s Account Verification"
-msgstr ""
+msgstr "Verifica Account"
 
 #, python-format
 msgid "%s Email Changed Notification"
-msgstr ""
+msgstr "Notifica Email Modificata"
 
 #, python-format
 msgid "%s Password Assistance"
-msgstr ""
+msgstr "Assistenza Password"
 
 #, python-format
 msgid "%s association successfully added."
-msgstr ""
+msgstr "associazione aggiunta con successo."
 
 #, python-format
 msgid "%s authentication is not yet implemented."
-msgstr ""
+msgstr "l'autenticazione non è ancora stata implementata."
 
 #, python-format
 msgid "%s successfully disassociated."
-msgstr ""
+msgstr "disassociato con successo."
 
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
 "    \tto experience this site."
-msgstr ""
+msgstr""
+"<a href=\"http://browsehappy.com/\">Aggiorna il tuo browser con uno diverso</a>\n"
+"    \tper accedere a questo sito."
 
 msgid "Associate account with"
-msgstr ""
+msgstr "Associa l'account con"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #, fuzzy
 msgid "Change password"
 msgstr "Cambia la tua password"
 
 msgid "Change your email"
-msgstr "Cambia il tuo email"
+msgstr "Cambia la tua email"
 
 msgid "Change your password"
 msgstr "Cambia la tua password"
 
 msgid "Confirm Delete Account"
-msgstr ""
+msgstr "Conferma l'eliminazione dell'account"
 
 msgid "Confirm Password"
 msgstr "Conferma la Password"
@@ -78,27 +80,29 @@ msgid ""
 "Congratulations, Your account <strong>{}</strong> has been successfully "
 "activated."
 msgstr ""
+"Congratulazioni, il tuo account <strong>{}</strong> è stato attivato "
+"con successo."
 
 msgid "Contact"
-msgstr "Contattare"
+msgstr "Contattaci"
 
 msgid "Country"
 msgstr "Stato"
 
 msgid "Created"
-msgstr ""
+msgstr "Creato"
 
 msgid "Current Email"
-msgstr ""
+msgstr "Email Attuale"
 
 msgid "Current Password"
-msgstr "Password attuale"
+msgstr "Password Attuale"
 
 msgid "Delete Account"
-msgstr ""
+msgstr "Elimina Account"
 
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Non possiedi un account?"
 
 msgid "Edit Profile"
 msgstr "Modifica Profilo"
@@ -107,61 +111,65 @@ msgid "Email"
 msgstr "Email"
 
 msgid "Enter a new email address"
-msgstr ""
+msgstr "Inserisci un nuovo indirizzo email"
 
 msgid "Enter your"
 msgstr "Inserire"
 
 msgid "Error sending the message. Please try again later."
 msgstr ""
+"Errore nell'inoltro del messaggio. Si prega di riprovare "
+"più tardi."
 
 msgid "Existing social association"
-msgstr ""
+msgstr "Associazioni sociali esistenti"
 
 msgid "Facebook association added!"
-msgstr ""
+msgstr "Associazione con Facebook aggiunta"
 
 msgid "Federated login is disabled."
-msgstr ""
+msgstr "Federated login è disabilitato."
 
 #, python-format
 msgid "Field cannot be longer than %(max)d characters."
-msgstr ""
+msgstr "Il campo non può eccedere %(max)d caratteri."
 
 #, python-format
 msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr ""
+msgstr "Il campo deve essere lungo tra %(min)d e %(max)x caratteri."
 
 msgid "Forgot your password?"
 msgstr "Password dimenticata?"
 
 msgid "Github association added."
-msgstr ""
+msgstr "Associazione con Github aggiunta."
 
 #, fuzzy
 msgid "Good Password"
-msgstr "Cambia la tua password"
+msgstr "Password Buona"
 
 msgid "Google App Engine Boilerplate is released under the"
-msgstr ""
+msgstr "Google App Engine Boilerplate è rilasciato con licenza"
 
 msgid "If the email address you entered"
-msgstr ""
+msgstr "Se l'indirizzo email inserito"
 
 msgid "If the username you entered"
-msgstr ""
+msgstr "Se lo username inserito"
 
 msgid ""
 "Incorrect password! Please enter your current password to change your "
 "account settings."
 msgstr ""
+"Password sbagliata! Perfavore inserisci la tua password attuale "
+"per modificare le impostazioni del tuo account"
 
 #, fuzzy
 msgid "Insecure Password"
-msgstr "Reset password"
+msgstr "Password non sicura"
 
 msgid "Invalid email address."
-msgstr ""
+msgstr "Indirizzo email non valido"
 
 msgid "Language"
 msgstr "Lingua"
@@ -170,13 +178,13 @@ msgid "Last Name"
 msgstr "Cognome"
 
 msgid "Last Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Cognome non valido. Utilizza solo lettere e numeri."
 
 msgid "Learn why this Boilerplate Rocks"
-msgstr "Puoi sapere perché questo Boilerplate è sorprendente"
+msgstr "Scopri perché questo Boilerplate spacca"
 
 msgid "Linkedin association added!"
-msgstr ""
+msgstr "Associazione con Linkedin aggiunta!"
 
 msgid "Login"
 msgstr "Entra"
@@ -191,11 +199,11 @@ msgid "Name"
 msgstr "Nome"
 
 msgid "Name invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Nome non valido. Utilizza solo lettere e numeri"
 
 #, fuzzy
 msgid "New Email"
-msgstr "Cambia il tuo email"
+msgstr "Nuova Email"
 
 msgid "New Password"
 msgstr "Nuova Password"
@@ -205,6 +213,8 @@ msgid ""
 "No user authentication information received from %s. Please ensure you "
 "are logging in from an authorized OpenID Provider (OP)."
 msgstr ""
+"Non sono state ricevute informazioni di atutenticazione da %s "
+"assicurati di effettuare il login da un Provider OpenID (OP) autorizzato."
 
 msgid "Or Sign in using:"
 msgstr "Oppure Accedi utilizzando:"
@@ -213,229 +223,247 @@ msgid "Password"
 msgstr "Password"
 
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Password modificata con successo."
 
 msgid "Passwords must match."
-msgstr ""
+msgstr "Le password devono coincidere."
 
 msgid ""
 "Please check your new email for confirmation. Your email will be updated "
 "after confirmation."
 msgstr ""
+"Perfavore controlla la tua nuova email per conferma. La tua email "
+"sarà aggiornata dopo la conferma."
 
 msgid "Remember me?"
 msgstr "Resta connesso"
 
 msgid "Remove"
-msgstr ""
+msgstr "Rimuovi"
 
 msgid "Reset password"
 msgstr "Reset password"
 
 msgid "Search User"
-msgstr ""
+msgstr "Cerca Utente"
 
 msgid "Secure Page"
-msgstr "Pagina d'accesso"
+msgstr "Pagina Sicura"
 
 #, fuzzy
 msgid "Secure Password"
-msgstr "Reset password"
+msgstr "Password Sicura"
 
 msgid "Send Message"
 msgstr "Inviare il messaggio"
 
 #, fuzzy
 msgid "Short Password"
-msgstr "Reset password"
+msgstr "Password Breve"
 
 msgid "Sign Up"
-msgstr "Crea Utente"
+msgstr "Crea Account"
 
 #, python-format
 msgid "Social account on %s not found for this user."
-msgstr ""
+msgstr "Un account su %s non è stato trovato per questo utente."
 
 msgid "Sorry, Some error occurred."
-msgstr ""
+msgstr "Spiacenti, si è verificato un errore."
 
 msgid "Sorry, The email <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Spiacenti, L'email <strong>{}</strong> è già utilizzata."
 
 msgid "Sorry, The user is already registered."
-msgstr ""
+msgstr "Spiacenti, questo utente è già registrato."
 
 msgid "Sorry, The username <strong>{}</strong> is already registered."
-msgstr ""
+msgstr "Spiacenti, Lo username <strong>{}</strong> è già utilizzato."
 
 msgid "Source Code"
 msgstr "Codice sorgente"
 
 msgid "Thanks, your settings have been saved."
-msgstr ""
+msgstr "Grazie, le tue impostazioni sono state salvate"
 
 msgid "The URL you tried to use is either incorrect or no longer valid."
-msgstr ""
+msgstr "L'URL che hai tentato di utilizzare è incorretto o non più valido."
 
 msgid ""
 "The URL you tried to use is either incorrect or no longer valid. Enter "
 "your details again below to get a new one."
 msgstr ""
+"L'URL che hai tentato di utilizzare è incorretto o non più valido "
+"Inserisci i tuoi dettagli nuovamente in basso per ottenerne un altro."
 
 #, python-format
 msgid "The account %s is already in use."
-msgstr ""
+msgstr "L'account %s è già in uso."
 
 msgid "The account has been successfully deleted."
-msgstr ""
+msgstr "L'account è stato eliminato con successo."
 
 #, python-format
 msgid "The email %s is already registered."
-msgstr ""
+msgstr "L'email %s risulta già utilizzata."
 
 msgid "The link is invalid."
-msgstr ""
+msgstr "Il link non è valido."
 
 msgid "The two passwords must match."
-msgstr ""
+msgstr "Le due password devono coincidere."
 
 msgid "The username <strong>{}</strong> is already taken. Please choose another."
-msgstr ""
+msgstr "Lo username <strong>{}</strong> è già in uso. Si prega di sceglierne "
+"uno diverso"
 
 #, python-format
 msgid ""
 "The verification email has been resent to %s. Please check your email to "
 "activate your account."
 msgstr ""
+"L'email di verifica è stata reimpostata a %s. Si prega di "
+"controllare la posta per attivare l'account."
 
 #, python-format
 msgid "This %s account is already in use."
-msgstr ""
+msgstr "Questo account %s è già in uso."
 
 msgid "This Facebook account is already in use!"
-msgstr ""
+msgstr "Questo account Facebook è già in uso!"
 
 msgid "This Github account is already in use."
-msgstr ""
+msgstr "Questo account Github è già in uso!"
 
 msgid "This Linkedin account is already in use!"
-msgstr ""
+msgstr "Questo account Linkedin è già in uso!"
 
 msgid "This Twitter account is already in use."
-msgstr ""
+msgstr "Questo account Twitter è già in uso!"
 
 msgid "This authentication method is not yet implemented."
-msgstr ""
+msgstr "Questo metodo di autenticazione non risulta implementato"
 
 msgid "Timezone"
-msgstr ""
+msgstr "Fuso orario"
 
 msgid "Twitter association added."
-msgstr ""
+msgstr "Associazione con Twitter aggiunta"
 
 msgid "Unable to update profile. Please try again later."
-msgstr ""
+msgstr "Impossibile aggiornare il profilo. Si prega di riprovare "
+"più tardi"
 
 #, python-format
 msgid "Unexpected error creating the user %s"
-msgstr ""
+msgstr "Errore imprevisto nella creazione dell'utente %s"
 
 #, fuzzy
 msgid "Update Profile"
 msgstr "Modifica Profilo"
 
 msgid "Updated"
-msgstr ""
+msgstr "Aggiornato"
 
 msgid "User Details"
-msgstr ""
+msgstr "Dettagli Utente"
 
 msgid "User List"
-msgstr ""
+msgstr "Lista Utenti"
 
 msgid "User is logged out, but there was an error on the redirection."
-msgstr ""
+msgstr "L'utente è uscito ma ci sono stati problemi con la redirezione."
 
 msgid "Username"
 msgstr "Nome utente"
 
 msgid "Username invalid. Use only letters and numbers."
-msgstr ""
+msgstr "Username invalido. Utilizzare solo lettere e numeri."
 
 msgid "Username or Email"
 msgstr "Username o Email"
 
 msgid "Users Geolocation"
-msgstr ""
+msgstr "Geolocalizzazione Utenti"
 
 msgid "Visit Site"
-msgstr ""
+msgstr "Visita il sito"
 
 msgid "Welcome <strong>{}</strong>, you are now logged in."
-msgstr ""
+msgstr "Benvenuto <strong>{}</strong>, ora sei autenticato."
 
 msgid "Welcome!  You have been registered as a new user and logged in through {}."
-msgstr ""
+msgstr "Benvenuto! Sei stato registrato come nuovo utente ed autenticato attraverso {}"
 
 msgid "Wrong image verification code. Please try again."
-msgstr ""
+msgstr "Errore nel codice di verifica dell'immagine. Riprovare."
 
 #, fuzzy
 msgid "You didn't change your email."
-msgstr "Cambia il tuo email"
+msgstr "L'email non è stata modificata."
 
 msgid ""
 "You were successfully registered. Please check your email to activate "
 "your account."
 msgstr ""
+"Ti sei registrato con successo. Si prega di controllare la posta "
+"per attivare l'account"
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
 "logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
+"Sei uscito con successo. Attenzione: si prega di cancellare tutti i cookie "
+"ed uscire anche dal provider OpenID utilizzato se si è ad un pc pubblico."
 
 msgid ""
 "Your account has been activated. Please <a href=\"/login/\">sign in</a> "
 "to your account."
 msgstr ""
+"Il tuo account è stato attivato. Perfavore <a href=\"/login/\">entra</a> "
+"nel tuo account."
 
 msgid ""
 "Your account has not yet been activated. Please check your email to "
 "activate it or"
 msgstr ""
+"Il tuo account non è stato ancora attivato. Perfavore controlla la "
+"posta per attivarlo oppure"
 
 msgid "Your browser is <em>ancient!</em>"
 msgstr "Il tuo browser è <em>obsoleto!</em>"
 
 msgid "Your email has been successfully updated."
-msgstr ""
+msgstr "La tua email è stata aggiornata con successo."
 
 msgid "Your message was sent successfully."
-msgstr ""
+msgstr "Il tuo messaggio è stato inoltrato con successo."
 
 msgid "Your new username is <strong>{}</strong>"
-msgstr ""
+msgstr "Il tuo username è <strong>{}</strong>"
 
 msgid "Your session has expired."
-msgstr ""
+msgstr "La tua sessione è scaduta."
 
 msgid ""
 "Your username or password is incorrect. Please try again (make sure your "
 "caps lock is off)"
 msgstr ""
+"Il tuo username o la password non sono corretti. Si prega di riprovare ("
+"assicurarsi che il blocco maiuscolo sia disattivato)"
 
 msgid "click here"
-msgstr ""
+msgstr "fai click qui"
 
 #, fuzzy
 msgid "contact us"
-msgstr "Contattare"
+msgstr "Contattaci"
 
 msgid "download the Source Code"
 msgstr "scaricare il codice sorgente"
 
 msgid "for further assistance."
-msgstr ""
+msgstr "per ulteriore assistenza."
 
 msgid ""
 "is associated with an account in our records, you will receive an email "
@@ -443,6 +471,10 @@ msgid ""
 "receive instructions within a minute or two, check your email's spam and "
 "junk filters, or "
 msgstr ""
+"è associato con un account nei nostri record, riceverai una email da noi "
+"con le istruzioni per resettare la tua password. <br> Se non ricevi "
+"le istruzioni entro un minuto o due, controlla nella cartella dello spam "
+" o nella cartella junk filter, oppure "
 
 msgid "or just"
 msgstr "o semplicemente"
@@ -451,5 +483,5 @@ msgid "to help you to create your application."
 msgstr "per iniziare a creare la tua applicazione."
 
 msgid "to resend the email."
-msgstr ""
+msgstr "per inoltrare nuovamente l'email"
 
