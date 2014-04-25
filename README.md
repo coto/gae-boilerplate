@@ -39,7 +39,7 @@ The intention is that separating the boilerplate code from your application code
 
 Functions and features
 ----------------------
-+ Authentication (Login, Logout, Sign Up)
++ Authentication (Sign In, Sign Out, Sign Up)
 + Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 + Reset Password
 + Update User Profile
