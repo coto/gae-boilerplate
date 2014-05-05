@@ -8,7 +8,7 @@ config = {
     'contact_sender': "appengine@beecoss.com",
     'contact_recipient': "appengine@beecoss.com",
 
-    'send_mail_developer': True,
+    'send_mail_developer': False,
 
     # fellas' list
     'developers': (
