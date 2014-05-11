@@ -9,6 +9,7 @@
     Routes are setup in routes.py and added in main.py
 """
 # standard library imports
+import re
 import logging
 # related third party imports
 import webapp2
@@ -48,9 +49,9 @@ class ContactHandler(BaseHandler):
 
     def post(self):
         """ validate contact form """
-
         if not self.form.validate():
             return self.get()
+
         remote_ip = self.request.remote_addr
         city = i18n.get_city_code(self.request)
         region = i18n.get_region_code(self.request)
@@ -63,64 +64,101 @@ class ContactHandler(BaseHandler):
         message = self.form.message.data.strip()
         template_val = {}
 
-        try:
-            # parsing user_agent and getting which os key to use
-            # windows uses 'os' while other os use 'flavor'
-            ua = httpagentparser.detect(user_agent)
-            _os = ua.has_key('flavor') and 'flavor' or 'os'
+        challenge = self.request.POST.get('recaptcha_challenge_field')
+        response = self.request.POST.get('recaptcha_response_field')
+        cResponse = captcha.submit(
+            challenge,
+            response,
+            self.app.config.get('captcha_private_key'),
+            remote_ip)
 
-            operating_system = str(ua[_os]['name']) if "name" in ua[_os] else "-"
-            if 'version' in ua[_os]:
-                operating_system += ' ' + str(ua[_os]['version'])
-            if 'dist' in ua:
-                operating_system += ' ' + str(ua['dist'])
-
-            browser = str(ua['browser']['name']) if 'browser' in ua else "-"
-            browser_version = str(ua['browser']['version']) if 'browser' in ua else "-"
-
+        if re.search(r"(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})", message) and not cResponse.is_valid:
+            chtml = captcha.displayhtml(
+            public_key=self.app.config.get('captcha_public_key'),
+            use_ssl=(self.request.scheme == 'https'),
+            error=None)
+            if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
+                            self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
+                chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
+                        '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
+                        'for API keys</a> in order to use reCAPTCHA.</div>' \
+                        '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
+                        '<input type="hidden" name="recaptcha_response_field" value="manual_challenge" />'
             template_val = {
+                "captchahtml": chtml,
+                "exception": exception,
+                "message": message,
                 "name": name,
-                "email": email,
-                "ip": remote_ip,
-                "city": city,
-                "region": region,
-                "country": country,
-                "coordinates": coordinates,
 
-                "browser": browser,
-                "browser_version": browser_version,
-                "operating_system": operating_system,
-                "message": message
             }
-        except Exception as e:
-            logging.error("error getting user agent info: %s" % e)
+            if not cResponse.is_valid and response is None:
+                _message = _("Please insert the Captcha in order to finish the process of sending the message")
+                self.add_message(_message, 'warning')
+            elif not cResponse.is_valid:
+                _message = _('Wrong image verification code. Please try again.')
+                self.add_message(_message, 'error')
 
-        try:
-            subject = _("Contact") + " " + self.app.config.get('app_name')
-            # exceptions for error pages that redirect to contact
-            if exception != "":
-                subject = "{} (Exception error: {})".format(subject, exception)
 
-            body_path = "emails/contact.txt"
-            body = self.jinja2.render_template(body_path, **template_val)
+            return self.render_template('contact.html', **template_val)
+        else:
+            try:
+                # parsing user_agent and getting which os key to use
+                # windows uses 'os' while other os use 'flavor'
+                ua = httpagentparser.detect(user_agent)
+                _os = ua.has_key('flavor') and 'flavor' or 'os'
 
-            email_url = self.uri_for('taskqueue-send-email')
-            taskqueue.add(url=email_url, params={
-                'to': self.app.config.get('contact_recipient'),
-                'subject': subject,
-                'body': body,
-                'sender': self.app.config.get('contact_sender'),
-            })
+                operating_system = str(ua[_os]['name']) if "name" in ua[_os] else "-"
+                if 'version' in ua[_os]:
+                    operating_system += ' ' + str(ua[_os]['version'])
+                if 'dist' in ua:
+                    operating_system += ' ' + str(ua['dist'])
 
-            message = _('Your message was sent successfully.')
-            self.add_message(message, 'success')
-            return self.redirect_to('contact')
+                browser = str(ua['browser']['name']) if 'browser' in ua else "-"
+                browser_version = str(ua['browser']['version']) if 'browser' in ua else "-"
 
-        except (AttributeError, KeyError), e:
-            logging.error('Error sending contact form: %s' % e)
-            message = _('Error sending the message. Please try again later.')
-            self.add_message(message, 'error')
-            return self.redirect_to('contact')
+                template_val = {
+                    "name": name,
+                    "email": email,
+                    "ip": remote_ip,
+                    "city": city,
+                    "region": region,
+                    "country": country,
+                    "coordinates": coordinates,
+
+                    "browser": browser,
+                    "browser_version": browser_version,
+                    "operating_system": operating_system,
+                    "message": message
+                }
+            except Exception as e:
+                logging.error("error getting user agent info: %s" % e)
+
+            try:
+                subject = _("Contact") + " " + self.app.config.get('app_name')
+                # exceptions for error pages that redirect to contact
+                if exception != "":
+                    subject = "{} (Exception error: {})".format(subject, exception)
+
+                body_path = "emails/contact.txt"
+                body = self.jinja2.render_template(body_path, **template_val)
+
+                email_url = self.uri_for('taskqueue-send-email')
+                taskqueue.add(url=email_url, params={
+                    'to': self.app.config.get('contact_recipient'),
+                    'subject': subject,
+                    'body': body,
+                    'sender': self.app.config.get('contact_sender'),
+                })
+
+                message = _('Your message was sent successfully.')
+                self.add_message(message, 'success')
+                return self.redirect_to('contact')
+
+            except (AttributeError, KeyError), e:
+                logging.error('Error sending contact form: %s' % e)
+                message = _('Error sending the message. Please try again later.')
+                self.add_message(message, 'error')
+                return self.redirect_to('contact')
 
     @webapp2.cached_property
     def form(self):

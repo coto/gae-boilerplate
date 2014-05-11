@@ -15,6 +15,13 @@
             {{ macros.field(form.name, label=_("Name"), placeholder=_("Enter your")+" "+_("Name"), class="input-xlarge focused required") }}
             {{ macros.field(form.email, label=_("Email"), placeholder=_("Enter your")+" "+_("Email"), class="input-xlarge focused required email", type="email") }}
             {{ macros.field(form.message, label=_("Message"), class="input-xlarge required", cols="40", rows="8") }}
+            {% if captchahtml %}
+            <div class="control-group">
+                <div class="controls" id="captcha">
+                    {{captchahtml | safe}}
+                </div>
+            </div>
+            {% endif %}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">{% trans %}Send Message{% endtrans %}</button>
             </div>
