@@ -18,6 +18,8 @@ _routes = [
 
     RedirectRoute('/admin/logout/', admin.AdminLogoutHandler, name='admin-logout', strict_slash=True),
 
+    RedirectRoute('/admin/crontasks/cleanuptokens/', crontasks.AdminCleanupTokensHandler, name='admin-crontasks-cleanuptokens', strict_slash=True),
+
 ]
 
 def get_routes():
