@@ -2,19 +2,20 @@
 	html element fields such as class, style, or type can be passed as kwargs.
 	Usage: macros.field(form.username, class="input-xlarge", type="email") -->
 {% macro field(field, label='') -%}
-            <div class="control-group{% if field.errors %} error{% endif %}">
+            <div class="form-group row{% if field.errors %} danger{% endif %}">
             	{% set text = label or field.label.text %}
             	{% if field.flags.required %}
-                	{{ field.label(text=text + " *", class="control-label") }}
+                	{{ field.label(text=text + " *", class="control-label col-sm-4") }}
                 {% else %}
-                	{{ field.label(text=text + " ", class="control-label") }}
+                	{{ field.label(text=text + " ", class="control-label col-sm-4") }}
                 {% endif %}
-                <div class="controls">
+                <div class="col-sm-8">
                 {{ field(**kwargs) }}
                 {% if field.errors %}
                     {% for error in field.errors %}<label for="{{ field.id }}" class="error help-inline">{{ error }}</label>{% endfor %}
                 {% endif %}
                 </div>
+
             </div>
 {%- endmacro %}
 

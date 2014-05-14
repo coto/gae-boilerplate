@@ -9,7 +9,7 @@
     <form id="form_edit_email" action="{{ url|safe }}" method="post" class="well form-horizontal">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label">{% trans %}Current Email{% endtrans %}:</label>
                 <div class="controls">
                     <p class="help-block">{{ current_email }}</p>

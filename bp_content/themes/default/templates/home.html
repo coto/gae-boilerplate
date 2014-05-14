@@ -5,7 +5,7 @@
 {% block content %}
 
     {% if user_id %}
-    <div class="hero-unit home_bp">
+    <div class="jumbotron home_bp">
         <h1>
             Google App Engine Boilerplate
         </h1>
@@ -19,7 +19,7 @@
     </div>
     {% else %}
     <div class="row">
-        <div class="span9">
+        <div class="col-md-9">
             <div class="home_bp">
                 <h1>
                     Google App Engine Boilerplate
@@ -33,21 +33,21 @@
                 </p>
             </div>
         </div>
-        <div class="span3 auth-at-home">
+        <div class="col-md-3 auth-at-home">
             <form id="form_login_user" action="{{ uri_for("login") }}" method="post">
                 <fieldset class="well">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="controls">
-                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
+                            <input class="focused required form-control" name="username" id="l_username" type="text" placeholder="{% trans %}Username or Email{% endtrans %}">
                         </label>
                     </div>
-                    <div class="control-group">
-                        <div class="controls row-fluid">
-                            <label class="span8">
-                                <input class="focused required" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                    <div class="form-group">
+                        <div class="controls row">
+                            <label class="col-md-8">
+                                <input class="focused required form-control" name="password" id="l_password" type="password" placeholder="{% trans %}Password{% endtrans %}">
                             </label>
-                            <label class="span4">
+                            <label class="col-md-4">
                                 <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
                             </label>
                         </div>
@@ -67,28 +67,28 @@
             <form id="form_register" action="{{ uri_for("register") }}" method="post">
                 <fieldset class="well">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="controls">
-                            <input class="focused required" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
+                            <input class="focused required form-control" name="username" id="username" type="text" placeholder="{% trans %}Username{% endtrans %}">
                         </label>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="controls">
-                            <input class="focused required email" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
+                            <input class="focused required email form-control" name="email" id="email" type="email" placeholder="{% trans %}Email{% endtrans %}">
                             <input type="hidden" name="country" value="">
                         </label>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="controls">
-                            <input class="focused required" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
+                            <input class="focused required form-control" name="password" id="password" type="password" placeholder="{% trans %}Password{% endtrans %}">
                         </label>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <label class="controls">
-                            <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
+                            <input class="focused required form-control" name="c_password" id="c_password" type="password" placeholder="{% trans %}Confirm Password{% endtrans %}">
                         </label>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <input type="hidden" name="country">
                         <input type="hidden" name="tz">
                         <button type="submit" class="btn btn-primary">{% trans %}Sign Up{% endtrans %}</button>

@@ -138,10 +138,10 @@ $(function() {
   $.fn.passStrength = function(options) {
 
     var defaults = {
-      shortPass: "label-important",
+      shortPass: "label-danger",
       shortPassText: "Too short",
       //optional
-      badPass: "label-important",
+      badPass: "label-danger",
       badPassText: "Weak",
       //optional
       goodPass: "label-warning",

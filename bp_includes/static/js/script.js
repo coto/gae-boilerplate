@@ -45,7 +45,7 @@ $(document).ready(function() {
     /* Fix Bar at top, except for iOS */
     var $win = $(window)
         , $nav = $('.subnav')
-        , $brand = $('.brand')
+        , $brand = $('.navbar-brand')
         , navTop = $('.subnav').length && $('.subnav').offset().top - 40
         , isFixed = 0;
 
@@ -103,10 +103,10 @@ $(document).ready(function() {
                 || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
             , option = $(target).data('collapse') ? 'toggle' : $this.data()
         if(!$(target).hasClass("in")){
-            $this.find("span").addClass("icon-chevron-down").removeClass("icon-chevron-up");
+            $this.find("span").addClass("glyphicon-chevron-down").removeClass("glyphicon-chevron-up");
         }
         else {
-            $this.find("span").removeClass("icon-chevron-down").addClass("icon-chevron-up");
+            $this.find("span").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
         }
     })
 });

@@ -79,7 +79,7 @@ class ContactHandler(BaseHandler):
             error=None)
             if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
                             self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
-                chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
+                chtml = '<div class="alert alert-danger"><strong>Error</strong>: You have to ' \
                         '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
                         'for API keys</a> in order to use reCAPTCHA.</div>' \
                         '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
@@ -96,7 +96,7 @@ class ContactHandler(BaseHandler):
                 self.add_message(_message, 'warning')
             elif not cResponse.is_valid:
                 _message = _('Wrong image verification code. Please try again.')
-                self.add_message(_message, 'error')
+                self.add_message(_message, 'danger')
 
 
             return self.render_template('contact.html', **template_val)
@@ -157,7 +157,7 @@ class ContactHandler(BaseHandler):
             except (AttributeError, KeyError), e:
                 logging.error('Error sending contact form: %s' % e)
                 message = _('Error sending the message. Please try again later.')
-                self.add_message(message, 'error')
+                self.add_message(message, 'danger')
                 return self.redirect_to('contact')
 
     @webapp2.cached_property
@@ -202,7 +202,7 @@ class DeleteAccountHandler(BaseHandler):
             error=None)
         if self.app.config.get('captcha_public_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE" or \
                         self.app.config.get('captcha_private_key') == "PUT_YOUR_RECAPCHA_PUBLIC_KEY_HERE":
-            chtml = '<div class="alert alert-error"><strong>Error</strong>: You have to ' \
+            chtml = '<div class="alert alert-danger"><strong>Error</strong>: You have to ' \
                     '<a href="http://www.google.com/recaptcha/whyrecaptcha" target="_blank">sign up ' \
                     'for API keys</a> in order to use reCAPTCHA.</div>' \
                     '<input type="hidden" name="recaptcha_challenge_field" value="manual_challenge" />' \
@@ -228,7 +228,7 @@ class DeleteAccountHandler(BaseHandler):
             pass
         else:
             _message = _('Wrong image verification code. Please try again.')
-            self.add_message(_message, 'error')
+            self.add_message(_message, 'danger')
             return self.redirect_to('delete-account')
 
         if not self.form.validate() and False:
@@ -269,12 +269,12 @@ class DeleteAccountHandler(BaseHandler):
                 # Returns error message to self.response.write in
                 # the BaseHandler.dispatcher
                 message = _("Incorrect password! Please enter your current password to change your account settings.")
-                self.add_message(message, 'error')
+                self.add_message(message, 'danger')
             return self.redirect_to('delete-account')
 
         except (AttributeError, TypeError), e:
             login_error_message = _('Your session has expired.')
-            self.add_message(login_error_message, 'error')
+            self.add_message(login_error_message, 'danger')
             self.redirect_to('login')
 
     @webapp2.cached_property

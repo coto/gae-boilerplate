@@ -1,5 +1,4 @@
 @import "bootstrap.min.css";
-@import "bootstrap-responsive.min.css";
 /**   Styles only for Google App Engine Boilerplate  **/
 body{
     padding-top: 50px;
@@ -87,7 +86,7 @@ span.password_strength{
 
 .auth-at-dropdown, .auth-at-home{
 
-    .control-group{
+    .form-group{
         margin-bottom: 0;
     }
 
@@ -109,7 +108,7 @@ span.password_strength{
     background: transparent;
 
     @media (max-width: 980px){          
-        .nav-collapse .dropdown-menu #form_login_user a {
+        .navbar-collapse .dropdown-menu #form_login_user a {
             padding: 0;
         }        
     }
@@ -134,6 +133,7 @@ fieldset.well{
 .social-login-icons {
     margin: 0;
     list-style: none;
+    padding-left: 0;
 }
 
 .social-login-icons li{
@@ -211,7 +211,7 @@ fieldset.well{
 
 .navbar{
 
-    .brand{
+    .navbar-brand{
         margin-left: 0;
     }
 }
@@ -238,10 +238,12 @@ fieldset.well{
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     margin-bottom: 18px;
+    margin-top: 18px;
 
     ul{
         margin: 0px;
         overflow: hidden;
+        padding-left:0;
 
         li{
             margin: 0 -2px;
@@ -369,7 +371,7 @@ footer{
             padding: 10px 2px;
         }
         
-        .brand{
+        .navbar-brand{
             font-size: 1.4em;
         }
     }
@@ -382,6 +384,13 @@ footer{
     .led {
         background-color: red;
     }
+}
+
+@media (min-width:768px){
+	.navbar-nav.navbar-right:last-child{
+		margin-right:0
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
@@ -401,7 +410,7 @@ footer{
 
 @media (max-width: 979px) {
     body {
-        padding-top: 0;
+        padding-top: 35px;
     }
 }
 
@@ -432,7 +441,7 @@ footer{
 
 @media (max-width: 1200px) {
     .auth-at-home {
-        .row-fluid .span8 {
+        .row .col-md-8 {
             width: 100%;
         }
         button.btn-login {

@@ -99,7 +99,7 @@ class AdminUserEditHandler(BaseHandler):
                 self.add_message("Changes saved!", 'success')
                 return self.redirect_to("admin-user-edit", user_id=user_id)
             else:
-                self.add_message("Could not save changes!", 'error')
+                self.add_message("Could not save changes!", 'danger')
         else:
             user = self.get_or_404(user_id)
             self.form.process(obj=user)
