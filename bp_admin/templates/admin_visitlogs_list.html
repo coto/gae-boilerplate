@@ -10,7 +10,7 @@
     <form method="GET" class="navbar-search">
         <span class="badge"> {{ count }}&nbsp</span>
         <input type="text" name="q" value="{{ q|e }}" class="input-medium search-query" placeholder="{{ _('Search Visit Logs') }}" />
-        <button type="submit" title="Search"><i class="icon-search"></i></button>
+        <button type="submit" title="Search"><i class="glyphicon-search glyphicon"></i></button>
         {% if q %}
         <a href="{{ uri_for('admin-visitlogs-list') }}" class="clear">×</a>
         {% endif %}
@@ -35,7 +35,7 @@
     <tr>
         {% if not q %}
         <td>
-            <a class="icon" href="{{ uri_for('admin-visitlogs-list', q=visit.user.id()) }}"><i class="icon-filter"></i></a>
+            <a class="icon" href="{{ uri_for('admin-visitlogs-list', q=visit.user.id()) }}"><i class="glyphicon-filter glyphicon"></i></a>
         </td>
         {% endif %}
         <td>
