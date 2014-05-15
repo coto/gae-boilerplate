@@ -5,18 +5,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="navbar">
-  <div class="navbar-inner">
-    <form method="GET" class="navbar-search">
-        <span class="badge"> {{ count }}&nbsp</span>
-        <input type="text" name="q" value="{{ q|e }}" class="input-medium search-query" placeholder="{{ _('Search Visit Logs') }}" />
-        <button type="submit" title="Search"><i class="glyphicon-search glyphicon"></i></button>
-        {% if q %}
-        <a href="{{ uri_for('admin-visitlogs-list') }}" class="clear">×</a>
-        {% endif %}
-    </form>
-    </div>
-</div>
+
+{{ lib.render_form_navbar_search('Search Visits', uri_for('admin-visitlogs-list')) }}
+
 <table class="table table-striped table-bordered">
     <thead>
         <tr>

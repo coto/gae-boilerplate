@@ -58,3 +58,18 @@
       {% endif %}
     </ul>
 {% endmacro %}
+
+{% macro render_form_navbar_search(hint, return_url) %}
+    <div class="navbar" id="overview">
+      <div class="subnav">
+        <form method="GET" class="navbar-search">
+            <span class="badge"> {{ count }}&nbsp</span>
+            <input type="text" name="q" value="{{ q|e }}" class="input-medium search-query" placeholder="{{ _(hint) }}" />
+            <button type="submit" title="Search"><i class="btn glyphicon-search glyphicon"></i></button>
+            {% if q %}
+            <a href="{{ return_url }}" class="clear">×</a>
+            {% endif %}
+        </form>
+      </div>
+    </div>
+{% endmacro %}
