@@ -68,10 +68,6 @@ handlers:
   static_files: bp_includes/static/img/\1
   upload: bp_includes/static/img/(.*\.(gif|png|jpg))
 
-- url: /boilerplate/fonts/(.*\.(eot|svg|ttf|woff))
-  static_files: bp_includes/static/fonts/\1
-  upload: bp_includes/static/fonts/(.*\.(eot|svg|ttf|woff))
-
 - url: /(\w*)/css/(.*\.css)$
   mime_type: text/css
   static_files: bp_content/themes/\1/static/css/\2
@@ -90,6 +86,10 @@ handlers:
   mime_type: application/vnd.ms-fontobject
   static_files: bp_content/themes/\1/static/fonts/\2
   upload: bp_content/themes/(\w*)/static/fonts/(.*\.eot)
+
+- url: /boilerplate/fonts/(.*\.(eot|svg|ttf|woff))
+  static_files: bp_includes/static/fonts/\1
+  upload: bp_includes/static/fonts/(.*\.(eot|svg|ttf|woff))
 
 - url: /(\w*)/fonts/(.*\.otf)$
   mime_type: font/opentype

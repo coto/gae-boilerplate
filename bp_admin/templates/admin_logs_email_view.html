@@ -6,7 +6,7 @@
 
 {% block content %}
 
-        <a href="{{ uri_for("admin-emails-list") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
+        <a href="{{ uri_for("admin-logs-emails") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
 {% if emailinfo %}
     <dl class="dl-horizontal">
       <dt>{% trans %}To{% endtrans %}</dt>
@@ -19,7 +19,7 @@
       <dd>{{ emailinfo.body|safe }}</dd>
     </dl>
 
-    <a href="{{ uri_for("admin-emails-list") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
+    <a href="{{ uri_for("admin-logs-emails") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
 
 {% endif %}
 

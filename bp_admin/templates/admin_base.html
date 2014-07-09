@@ -46,8 +46,8 @@
                     <ul class="nav navbar-nav">
                         <li {% if path == uri_for('admin-users-geochart') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-geochart') }}">{% trans %}Users Geolocation{% endtrans %}</a></li>
                         <li {% if path == uri_for('admin-users-list') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-list') }}">{% trans %}User List{% endtrans %}</a></li>
-                        <li {% if path == uri_for('admin-emails-list') %}class="active"{% endif %}><a href="{{ uri_for('admin-emails-list') }}">{% trans %}Email List{% endtrans %}</a></li>
-                        <li {% if path == uri_for('admin-visitlogs-list') %}class="active"{% endif %}><a href="{{ uri_for('admin-visitlogs-list') }}">{% trans %}Visit Logs{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-logs-emails') %}class="active"{% endif %}><a href="{{ uri_for('admin-logs-emails') }}">{% trans %}Email Logs{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-logs-visits') %}class="active"{% endif %}><a href="{{ uri_for('admin-logs-visits') }}">{% trans %}Visit Logs{% endtrans %}</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
