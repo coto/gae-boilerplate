@@ -31,7 +31,9 @@ class User(User):
     tz = ndb.StringProperty()
     #: Account activation verifies email
     activated = ndb.BooleanProperty(default=False)
-    
+    #: helper property to get the users full name
+	full_name = ndb.ComputedProperty(lambda self: self.name + " " + self.last_name)
+	
     @classmethod
     def get_by_email(cls, email):
         """Returns a user object based on an email.
