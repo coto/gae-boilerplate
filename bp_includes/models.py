@@ -102,6 +102,8 @@ class LogEmail(ndb.Model):
     body = ndb.TextProperty()
     when = ndb.DateTimeProperty()
 
+    def get_id(self):
+        return self._key.id()
 
 class SocialUser(ndb.Model):
     PROVIDERS_INFO = { # uri is for OpenID only (not OAuth)

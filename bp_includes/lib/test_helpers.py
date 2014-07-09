@@ -159,9 +159,9 @@ class HandlerHelpers():
     def assert_error_message_in_response(self, response, message=''):
         """Check if response contains one or more error messages.
 
-        Assume error messages rendered as <p class="alert-error"> elements.
+        Assume error messages rendered as <p class="alert-danger"> elements.
         """
-        alert = response.pyquery('p.alert-error')
+        alert = response.pyquery('p.alert-danger')
         self.assertGreater(len(alert), 0, 'no error message found in response')
         if message:
             self.assertIn(message, alert.text())
@@ -188,7 +188,7 @@ class HandlerHelpers():
 
     def assert_no_error_message_in_response(self, response):
         """Check that response has no error messages."""
-        el = response.pyquery('p.alert-error')
+        el = response.pyquery('p.alert-danger')
         self.assertEqual(len(el), 0, 'error message found in response unexpectedly: {}'.format(el.text()))
         el = response.pyquery('label.error')
         self.assertEqual(len(el), 0, 'error message found in response unexpectedly: {}'.format(el.text()))

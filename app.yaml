@@ -87,6 +87,10 @@ handlers:
   static_files: bp_content/themes/\1/static/fonts/\2
   upload: bp_content/themes/(\w*)/static/fonts/(.*\.eot)
 
+- url: /boilerplate/fonts/(.*\.(eot|svg|ttf|woff))
+  static_files: bp_includes/static/fonts/\1
+  upload: bp_includes/static/fonts/(.*\.(eot|svg|ttf|woff))
+
 - url: /(\w*)/fonts/(.*\.otf)$
   mime_type: font/opentype
   static_files: bp_content/themes/\1/static/fonts/\2

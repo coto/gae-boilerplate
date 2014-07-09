@@ -8,9 +8,9 @@
     <form id="form_login_user" action="{{ url|safe }}" method="post" class="well form-vertical auth-at-loginpage">
         <fieldset>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
-            {{ macros.field(form.username, label=_("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required") }}
-            {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required", type="password") }}
-            <div class="control-group">
+            {{ macros.field(form.username, label=_("Username or Email"), placeholder=_("Enter your")+" "+_("Username or Email"), class="input-xlarge focused required form-control") }}
+            {{ macros.field(form.password, label=_("Password"), placeholder=_("Enter your")+" "+_("Password"), class="input-xlarge focused required form-control", type="password") }}
+            <div class="form-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary btn-login">{% trans %}Login{% endtrans %}</button>
                     <label class="remember">
@@ -19,7 +19,7 @@
                     </label>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <a href="{{ uri_for("password-reset") }}">{% trans %}Forgot your password?{% endtrans %}</a>
             </div>
             {{ macros.federated_login(provider_info, provider_uris, enable_federated_login) }}
