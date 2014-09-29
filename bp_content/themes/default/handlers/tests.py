@@ -27,7 +27,7 @@ from bp_content.themes.default import config as config_theme
 from bp_includes.lib import utils
 from bp_includes.lib import i18n
 from bp_includes.lib import test_helpers
-
+from bp_includes.lib import captcha, utils
 # setting HTTP_HOST in extra_environ parameter for TestApp is not enough for taskqueue stub
 os.environ['HTTP_HOST'] = 'localhost'
 
@@ -37,6 +37,11 @@ network = False
 # mock Internet calls
 if not network:
     i18n.get_country_code = Mock(return_value=None)
+
+    # Mock captcha to pass for unit tests
+    dummy_response = Mock()
+    dummy_response.is_valid = True
+    captcha.submit = Mock(return_value=dummy_response)
 
 
 class AppTest(unittest.TestCase, test_helpers.HandlerHelpers):
