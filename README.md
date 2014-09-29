@@ -2,7 +2,7 @@
 ==============================
 
 Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
-  <img src="http://www.jetbrains.com/pycharm/docs/logo_pycharm.pngf">
+  <img src="http://www.jetbrains.com/pycharm/docs/logo_pycharm.png">
 </a>
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
