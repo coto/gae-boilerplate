@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-12-20 10:38+0100\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
 "PO-Revision-Date: 2012-12-19 14:29+0100\n"
 "Last-Translator: Josef Jezek <josef@jezek.co.cz>\n"
 "Language-Team: cs_CZ <LL@li.org>\n"
@@ -16,12 +16,36 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
+#, python-format
+msgid "%s Account Verification"
+msgstr ""
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr ""
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr ""
+
+#, python-format
+msgid "%s association successfully added."
+msgstr ""
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr ""
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr ""
+
+#, fuzzy
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
-"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tinstall Google Chrome Frame</a> to experience this site."
+"    \tto experience this site."
 msgstr ""
 "<a href=\"http://browsehappy.com/\">Přejít na jiný prohlížeč</a>\n"
 "    \tnebo <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
@@ -30,9 +54,6 @@ msgstr ""
 
 msgid "Associate account with"
 msgstr "Propojit účet s"
-
-msgid "Big Picture"
-msgstr "Velký obrázek"
 
 msgid "Cancel"
 msgstr "Zrušit"
@@ -46,11 +67,19 @@ msgstr "Změnit svůj e-mail"
 msgid "Change your password"
 msgstr "Změnit své heslo"
 
+msgid "Confirm Delete Account"
+msgstr ""
+
 msgid "Confirm Password"
 msgstr "Potvrďte heslo"
 
 msgid "Congratulations on your Google App Engine Boilerplate powered page."
 msgstr "Blahopřejeme ke stránce postavený na Google App Engine Boilerplate."
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
+msgstr ""
 
 msgid "Contact"
 msgstr "Kontakt"
@@ -58,8 +87,17 @@ msgstr "Kontakt"
 msgid "Country"
 msgstr "Země"
 
+msgid "Created"
+msgstr ""
+
+msgid "Current Email"
+msgstr ""
+
 msgid "Current Password"
 msgstr "Současné heslo"
+
+msgid "Delete Account"
+msgstr ""
 
 msgid "Don't have an account?"
 msgstr "Ještě nemáte svůj účet?"
@@ -76,11 +114,31 @@ msgstr "Zadejte novou e-mailovou adresu"
 msgid "Enter your"
 msgstr "Zadejte"
 
+msgid "Error sending the message. Please try again later."
+msgstr ""
+
 msgid "Existing social association"
 msgstr "Stávající propojení"
 
+msgid "Facebook association added!"
+msgstr ""
+
+msgid "Federated login is disabled."
+msgstr ""
+
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr "Zapomněli jste heslo?"
+
+msgid "Github association added."
+msgstr ""
 
 msgid "Good Password"
 msgstr "Dobré heslo"
@@ -88,8 +146,23 @@ msgstr "Dobré heslo"
 msgid "Google App Engine Boilerplate is released under the"
 msgstr "Google App Engine Boilerplate je uvolněn pod"
 
+msgid "If the email address you entered"
+msgstr ""
+
+msgid "If the username you entered"
+msgstr ""
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr ""
+
 msgid "Insecure Password"
 msgstr "Slabé heslo"
+
+#, fuzzy
+msgid "Invalid email address."
+msgstr "Zadejte novou e-mailovou adresu"
 
 msgid "Language"
 msgstr "Jazyk"
@@ -97,8 +170,14 @@ msgstr "Jazyk"
 msgid "Last Name"
 msgstr "Příjmení"
 
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Learn why this Boilerplate Rocks"
 msgstr "Zjistěte sílu kódu Boilerplate"
+
+msgid "Linkedin association added!"
+msgstr ""
 
 msgid "Login"
 msgstr "Přihlásit"
@@ -112,17 +191,37 @@ msgstr "Zpráva"
 msgid "Name"
 msgstr "Jméno"
 
+msgid "Name invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "New Email"
 msgstr "Nový e-mail"
 
 msgid "New Password"
 msgstr "Nové heslo"
 
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+
 msgid "Or Sign in using:"
 msgstr "Nebo přihlaste se pomocí:"
 
 msgid "Password"
 msgstr "Heslo"
+
+msgid "Password changed successfully."
+msgstr ""
+
+msgid "Passwords must match."
+msgstr ""
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
 
 msgid "Remember me?"
 msgstr "Pamatovat si mě?"
@@ -151,30 +250,203 @@ msgstr "Krátké heslo"
 msgid "Sign Up"
 msgstr "Vytvořit účet"
 
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr ""
+
+msgid "Sorry, Some error occurred."
+msgstr ""
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr ""
+
+msgid "Sorry, The user is already registered."
+msgstr ""
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr ""
+
 msgid "Source Code"
 msgstr "Zdrojový kód"
+
+msgid "Thanks, your settings have been saved."
+msgstr ""
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr ""
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr ""
+
+msgid "The account has been successfully deleted."
+msgstr ""
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr ""
+
+msgid "The link is invalid."
+msgstr ""
+
+msgid "The two passwords must match."
+msgstr ""
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr ""
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr ""
+
+msgid "This Facebook account is already in use!"
+msgstr ""
+
+msgid "This Github account is already in use."
+msgstr ""
+
+msgid "This Linkedin account is already in use!"
+msgstr ""
+
+msgid "This Twitter account is already in use."
+msgstr ""
+
+msgid "This authentication method is not yet implemented."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Twitter association added."
+msgstr ""
+
+msgid "Unable to update profile. Please try again later."
+msgstr ""
+
+#, python-format
+msgid "Unexpected error creating the user %s"
+msgstr ""
 
 msgid "Update Profile"
 msgstr "Aktualizovat profil"
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr "Údaje o uživateli"
+
+msgid "User List"
+msgstr ""
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr ""
 
 msgid "Username"
 msgstr "Uživatelské jméno"
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr "Uživatelské jméno nebo e-mail"
+
+msgid "Users Geolocation"
+msgstr ""
+
+msgid "Visit Site"
+msgstr ""
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr ""
+
+msgid "Welcome!  You have been registered as a new user and logged in through {}."
+msgstr ""
+
+msgid "Wrong image verification code. Please try again."
+msgstr ""
+
+#, fuzzy
+msgid "You didn't change your email."
+msgstr "Změnit svůj e-mail"
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenID providers too if you logged in on a public computer."
+msgstr ""
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr ""
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
 
 msgid "Your browser is <em>ancient!</em>"
 msgstr "Váš internetový prohlížeč je <em>zastaralý!</em>"
 
+msgid "Your email has been successfully updated."
+msgstr ""
+
+msgid "Your message was sent successfully."
+msgstr ""
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid "Your session has expired."
+msgstr ""
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+
+msgid "click here"
+msgstr ""
+
+#, fuzzy
+msgid "contact us"
+msgstr "Kontakt"
+
 msgid "download the Source Code"
 msgstr "stáhněte zdrojový kód"
+
+msgid "for further assistance."
+msgstr ""
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr ""
 
 msgid "or just"
 msgstr "nebo si"
 
 msgid "to help you to create your application."
 msgstr "pro vytvoření vlastní aplikace."
+
+msgid "to resend the email."
+msgstr ""
 

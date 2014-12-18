@@ -24,8 +24,7 @@ msgstr ""
 
 msgid ""
 "<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
-"    \tor <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
-"    \tinstall Google Chrome Frame</a> to experience this site."
+"    \tto experience this site."
 msgstr ""
 
 msgid "Associate account with"
@@ -41,6 +40,9 @@ msgid "Change your email"
 msgstr ""
 
 msgid "Change your password"
+msgstr ""
+
+msgid "Confirm Delete Account"
 msgstr ""
 
 msgid "Confirm Password"
@@ -60,7 +62,16 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
+msgid "Created"
+msgstr ""
+
+msgid "Current Email"
+msgstr ""
+
 msgid "Current Password"
+msgstr ""
+
+msgid "Delete Account"
 msgstr ""
 
 msgid "Don't have an account?"
@@ -90,6 +101,14 @@ msgstr ""
 msgid "Federated login is disabled."
 msgstr ""
 
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr ""
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
 msgid "Forgot your password?"
 msgstr ""
 
@@ -116,10 +135,16 @@ msgstr ""
 msgid "Insecure Password"
 msgstr ""
 
+msgid "Invalid email address."
+msgstr ""
+
 msgid "Language"
 msgstr ""
 
 msgid "Last Name"
+msgstr ""
+
+msgid "Last Name invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "Learn why this Boilerplate Rocks"
@@ -138,6 +163,9 @@ msgid "Message"
 msgstr ""
 
 msgid "Name"
+msgstr ""
+
+msgid "Name invalid. Use only letters and numbers."
 msgstr ""
 
 msgid "New Email"
@@ -159,6 +187,9 @@ msgid "Password"
 msgstr ""
 
 msgid "Password changed successfully."
+msgstr ""
+
+msgid "Passwords must match."
 msgstr ""
 
 msgid ""
@@ -197,9 +228,6 @@ msgstr ""
 msgid "Social account on %s not found for this user."
 msgstr ""
 
-msgid "Sorry you are not logged in."
-msgstr ""
-
 msgid "Sorry, Some error occurred."
 msgstr ""
 
@@ -228,6 +256,9 @@ msgstr ""
 
 #, python-format
 msgid "The account %s is already in use."
+msgstr ""
+
+msgid "The account has been successfully deleted."
 msgstr ""
 
 #, python-format
@@ -284,6 +315,9 @@ msgstr ""
 msgid "Update Profile"
 msgstr ""
 
+msgid "Updated"
+msgstr ""
+
 msgid "User Details"
 msgstr ""
 
@@ -296,17 +330,22 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+msgid "Username invalid. Use only letters and numbers."
+msgstr ""
+
 msgid "Username or Email"
 msgstr ""
 
 msgid "Users Geolocation"
 msgstr ""
 
+msgid "Visit Site"
+msgstr ""
+
 msgid "Welcome <strong>{}</strong>, you are now logged in."
 msgstr ""
 
-#, python-format
-msgid "Welcome!  You have been registered as a new user through %s and logged in."
+msgid "Welcome!  You have been registered as a new user and logged in through {}."
 msgstr ""
 
 msgid "Wrong image verification code. Please try again."
@@ -322,7 +361,7 @@ msgstr ""
 
 msgid ""
 "You've signed out successfully. Warning: Please clear all cookies and "
-"logout of OpenId providers too if you logged in on a public computer."
+"logout of OpenID providers too if you logged in on a public computer."
 msgstr ""
 
 msgid ""
@@ -345,6 +384,9 @@ msgid "Your message was sent successfully."
 msgstr ""
 
 msgid "Your new username is <strong>{}</strong>"
+msgstr ""
+
+msgid "Your session has expired."
 msgstr ""
 
 msgid ""

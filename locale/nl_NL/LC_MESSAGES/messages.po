@@ -1,0 +1,476 @@
+# Dutch (Netherlands) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2014-02-23 22:37-0300\n"
+"PO-Revision-Date: 2013-11-11 23:38+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: nl_NL <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+#, python-format
+msgid "%s Account Verification"
+msgstr "%s Accountverificatie"
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr "%s Bericht van E-mail Wijziging"
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr "%s Wachtwoord Ondersteuning"
+
+#, python-format
+msgid "%s association successfully added."
+msgstr "%s koppeling succesvol toegevoegd."
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr "%s authenticatie is nog niet geïmplementeerd."
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr "%s succesvol losgekoppeld."
+
+#, fuzzy
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tto experience this site."
+msgstr ""
+"<a href=\"http://browsehappy.com/\">Upgrade naar een andere browser</a>\n"
+"    \tof <a href=\"http://www.google.com/chromeframe/?redirect=true\">\n"
+"    \tinstalleer Google Chrome Frame</a> om deze website te gebruiken."
+
+msgid "Associate account with"
+msgstr "Koppel account met"
+
+msgid "Cancel"
+msgstr "Annuleren"
+
+msgid "Change password"
+msgstr "Wijzig wachtwoord"
+
+msgid "Change your email"
+msgstr "Verander je e-mail"
+
+msgid "Change your password"
+msgstr "Je wachtwoord wijzigen"
+
+msgid "Confirm Delete Account"
+msgstr ""
+
+msgid "Confirm Password"
+msgstr "Wachtwoord bevestigen"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Gefeliciteerd met je Google App Engine Boilerplate aangedreven pagina."
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
+msgstr "Gefeliciteerd, je account <strong>{}</strong> is succesvol geactiveerd."
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Created"
+msgstr ""
+
+#, fuzzy
+msgid "Current Email"
+msgstr "om de e-mail opnieuw te verzenden."
+
+msgid "Current Password"
+msgstr "Huidig wachtwoord"
+
+msgid "Delete Account"
+msgstr ""
+
+msgid "Don't have an account?"
+msgstr "Nog geen account?"
+
+msgid "Edit Profile"
+msgstr "Profiel bewerken"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Enter a new email address"
+msgstr "Voer een nieuw e-mailadres in"
+
+msgid "Enter your"
+msgstr "Invoeren"
+
+msgid "Error sending the message. Please try again later."
+msgstr "Fout bij het verzenden van het bericht. Probeer het later opnieuw."
+
+msgid "Existing social association"
+msgstr "Bestaande sociale koppeling"
+
+msgid "Facebook association added!"
+msgstr "Facebook koppeling toegevoegd!"
+
+msgid "Federated login is disabled."
+msgstr "Federatief inloggen is uitgeschakeld."
+
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr "Veld kan niet langer zijn dan %(max)d tekens."
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "Veld moet tussen %(min)d en %(max)d tekens lang zijn."
+
+msgid "Forgot your password?"
+msgstr "Wachtwoord vergeten?"
+
+msgid "Github association added."
+msgstr "Github koppeling toegevoegd."
+
+msgid "Good Password"
+msgstr "Goed wachtwoord"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate is vrijgegeven onder de"
+
+msgid "If the email address you entered"
+msgstr "Als het ingevoerde e-mailadres"
+
+msgid "If the username you entered"
+msgstr "Als de ingevoerde gebruikersnaam"
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr ""
+"Onjuist wachtwoord! Voer je huidige wachtwoord in om je account te "
+"wijzigen."
+
+msgid "Insecure Password"
+msgstr "Onveilig wachtwoord"
+
+msgid "Invalid email address."
+msgstr "Ongeldig e-mailadres."
+
+msgid "Language"
+msgstr "Taal"
+
+msgid "Last Name"
+msgstr "Achternaam"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr "Achternaam ongeldig. Gebruik alleen letters en cijfers."
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "Zie waarom deze Boilerplate geweldig is"
+
+msgid "Linkedin association added!"
+msgstr "Linkedin koppeling toegevoegd!"
+
+msgid "Login"
+msgstr "Inloggen"
+
+msgid "Logout"
+msgstr "Uitloggen"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid "Name"
+msgstr "Naam"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr "Naam ongeldig. Gebruik alleen letters en cijfers."
+
+msgid "New Email"
+msgstr "Nieuw e-mail"
+
+msgid "New Password"
+msgstr "Nieuw wachtwoord"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr ""
+"Geen authenticatie informatie van de gebruiker ontvangen via %s.Zorg "
+"ervoor dat je inlogt via een geautoriseerde OpenID provider (OP)."
+
+msgid "Or Sign in using:"
+msgstr "Of log in met:"
+
+msgid "Password"
+msgstr "Wachtwoord"
+
+msgid "Password changed successfully."
+msgstr "Wachtwoord succesvol gewijzigd."
+
+msgid "Passwords must match."
+msgstr "Wachtwoorden moeten overeenkomen."
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr ""
+"Controleer uw nieuwe e-mail om te bevestigen. Uw e-mailadres zal na "
+"bevestiging worden bijgewerkt."
+
+msgid "Remember me?"
+msgstr "Onthou mij?"
+
+msgid "Remove"
+msgstr "Verwijderen"
+
+msgid "Reset password"
+msgstr "Wachtwoord herstellen"
+
+msgid "Search User"
+msgstr "Zoek gebruiker"
+
+msgid "Secure Page"
+msgstr "Beveiligde pagina"
+
+msgid "Secure Password"
+msgstr "Veilig wachtwoord"
+
+msgid "Send Message"
+msgstr "Bericht verzenden"
+
+msgid "Short Password"
+msgstr "Kort wachtwoord"
+
+msgid "Sign Up"
+msgstr "Aanmelden"
+
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr "Sociale account op %s niet gevonden voor deze gebruiker."
+
+msgid "Sorry, Some error occurred."
+msgstr "Sorry, er is een fout opgetreden."
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr "Sorry, de e-mail <strong>{}</strong> is al geregistreerd."
+
+msgid "Sorry, The user is already registered."
+msgstr "Sorry, de gebruiker is al geregistreerd."
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr "Sorry, de gebruikersnaam <strong>{}</strong> is al geregistreerd."
+
+msgid "Source Code"
+msgstr "Broncode"
+
+msgid "Thanks, your settings have been saved."
+msgstr "Bedankt, je instellingen zijn opgeslagen."
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr "De URL die je hebt gebruikt, is onjuist of niet meer geldig."
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr ""
+"De URL die je hebt gebruikt, is onjuist of niet meer geldig.Vul je "
+"gegevens hieronder nogmaals in om een nieuwe te krijgen."
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr "Het account %s is al in gebruik."
+
+#, fuzzy
+msgid "The account has been successfully deleted."
+msgstr "Je e-mail is succesvol bijgewerkt."
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr "De e-mail %s is al geregistreerd."
+
+msgid "The link is invalid."
+msgstr "De link is ongeldig."
+
+msgid "The two passwords must match."
+msgstr "De twee wachtwoorden moeten overeenkomen."
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr ""
+"De gebruikersnaam <strong>{}</strong> is al in gebruik. Kies een andere "
+"naam."
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr ""
+"De verificatie e-mail is opnieuw naar %s gestuurd. Controleer je e-mail "
+"om je account te activeren."
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr "Dit %s account is al in gebruik."
+
+msgid "This Facebook account is already in use!"
+msgstr "Dit Facebook account is al in gebruik!"
+
+msgid "This Github account is already in use."
+msgstr "Dit Github account is al in gebruik."
+
+msgid "This Linkedin account is already in use!"
+msgstr "Dit Linkedin account is al in gebruik!"
+
+msgid "This Twitter account is already in use."
+msgstr "Dit Twitter account is al in gebruik."
+
+msgid "This authentication method is not yet implemented."
+msgstr "Deze authenticatiemethode is nog niet geïmplementeerd."
+
+msgid "Timezone"
+msgstr "Tijdzone"
+
+msgid "Twitter association added."
+msgstr "Twitter verbinding toegevoegd."
+
+msgid "Unable to update profile. Please try again later."
+msgstr "Kan profiel niet bijwerken. Probeer het later opnieuw."
+
+#, python-format
+msgid "Unexpected error creating the user %s"
+msgstr "Onverwachte fout bij het maken van de gebruiker %s"
+
+msgid "Update Profile"
+msgstr "Profiel bijwerken"
+
+msgid "Updated"
+msgstr ""
+
+msgid "User Details"
+msgstr "Gebruikersgegevens"
+
+msgid "User List"
+msgstr "Gebruikers lijst"
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr "Gebruiker is uitgelogd, maar er was een fout in de omleiding."
+
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+msgid "Username invalid. Use only letters and numbers."
+msgstr "Gebruikersnaam ongeldig. Gebruik alleen letters en cijfers."
+
+msgid "Username or Email"
+msgstr "Gebruikersnaam of E-mail"
+
+msgid "Users Geolocation"
+msgstr "Geolocatie van gebruiker"
+
+msgid "Visit Site"
+msgstr ""
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr "Welkom <strong>{}</strong>, je bent nu ingelogd."
+
+msgid "Welcome!  You have been registered as a new user and logged in through {}."
+msgstr ""
+"Welkom!  Je bent geregistreerd als een nieuwe gebruiker en ingelogd via "
+"{}."
+
+msgid "Wrong image verification code. Please try again."
+msgstr "Verkeerde verificatiecode. Probeer het opnieuw."
+
+msgid "You didn't change your email."
+msgstr "Je hebt je e-mail niet gewijzigd."
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr ""
+"Je bent succesvol geregistreerd. Controleer je e-mail om je account te "
+"activeren."
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenID providers too if you logged in on a public computer."
+msgstr ""
+"Je bent succesvol afgemeld. Waarschuwing: verwijder alle cookies en meld "
+"je ook af bij OpenID providers als je op een openbare computer werkt."
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr "Je account is geactiveerd. <a href=\"/login/\">Log in</a> op je account."
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr ""
+"Je account is nog niet geactiveerd. Controleer je e-mail om deze "
+"teactiveren of"
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "Je browser is <em>oud!</em>"
+
+msgid "Your email has been successfully updated."
+msgstr "Je e-mail is succesvol bijgewerkt."
+
+msgid "Your message was sent successfully."
+msgstr "Je bericht is succesvol verzonden."
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr "Je nieuwe gebruikersnaam is <strong>{}</strong>"
+
+msgid "Your session has expired."
+msgstr ""
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr ""
+"Je gebruikersnaam of wachtwoord is onjuist. Probeer het opnieuw (zorg "
+"ervoor dat Caps Lock is uitgeschakeld)"
+
+msgid "click here"
+msgstr "klik hier"
+
+msgid "contact us"
+msgstr "neem contact op"
+
+msgid "download the Source Code"
+msgstr "download de broncode"
+
+msgid "for further assistance."
+msgstr "voor verdere ondersteuning."
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr ""
+"is gekoppeld met een account in onze administratie, je ontvangt een "
+"e-mail van ons met instructies voor het opnieuw instellen van je "
+"wachtwoord. <br>Als je geen instructies ontvangt binnen een minuut of "
+"twee, kijk dan in je ongewenste e-mail gegevens en spamfilters, of "
+
+msgid "or just"
+msgstr "of"
+
+msgid "to help you to create your application."
+msgstr "om je te helpen jouw applicatie te maken."
+
+msgid "to resend the email."
+msgstr "om de e-mail opnieuw te verzenden."
+

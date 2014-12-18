@@ -1,0 +1,112 @@
+{% import 'admin_macros.html' as lib with context %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ locale_language_id }}"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="{{ locale_language_id }}"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="{{ locale_language_id }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ locale_language_id }}"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <meta name="generator" content="Google App Engine Boilerplate 3.0">
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/{{ theme }}/favicon.ico">
+    {% if is_mobile %}
+        <link rel="apple-touch-icon" href="/{{ theme }}/apple-touch-icon.png">
+    {% endif %}
+    <link rel="stylesheet" href="/boilerplate/css/boilerplate.min.css">
+    {% block mediaCSS %}{% endblock %}
+
+    {{ google_analytics_code }}
+    <!-- All JavaScript at the bottom, except this Modernizr build.
+       Modernizr enables HTML5 elements & feature detects for optimal performance. -->
+    <script src="/boilerplate/js/libs/modernizr-2.7.1.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 8]>
+    	<p class=chromeframe>{% trans %}Your browser is <em>ancient!</em>{% endtrans %} 
+    	{% trans %}<a href="http://browsehappy.com/">Upgrade to a different browser</a>
+    	to experience this site.{% endtrans %}</p>
+    <![endif]-->
+
+<div id="page">
+    {% block navbar %}
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="glyphicon-chevron-down glyphicon"></span>
+                </button>
+                <a class="navbar-brand" href="{{ uri_for('admin-users-geochart') }}">{{ app_name }} Admin</a>
+            </div>
+            <div>
+
+                <div class="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li {% if path == uri_for('admin-users-geochart') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-geochart') }}">{% trans %}Users Geolocation{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-users-list') %}class="active"{% endif %}><a href="{{ uri_for('admin-users-list') }}">{% trans %}User List{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-logs-emails') %}class="active"{% endif %}><a href="{{ uri_for('admin-logs-emails') }}">{% trans %}Email Logs{% endtrans %}</a></li>
+                        <li {% if path == uri_for('admin-logs-visits') %}class="active"{% endif %}><a href="{{ uri_for('admin-logs-visits') }}">{% trans %}Visit Logs{% endtrans %}</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav pull-right">
+                        <li><a href="/">{% trans %}Visit Site{% endtrans %}</a></li>
+
+                        <li><a href="{{ uri_for('admin-logout') }}">{% trans %}Logout{% endtrans %}</a></li>
+                    </ul>
+                </div><!-- /navbar-collapse -->
+            </div><!-- /navbar-inner -->
+        </div><!-- /navbar -->
+    {% endblock %}
+
+    <div id="content" class="container xled">
+        {% block header %}
+            <header class="navbar" id="overview">
+                {% block header_title_lead %}
+                <h1>{% block header_title %}{{ app_name }}{% endblock %}</h1>
+                {% endblock %}
+            </header>
+        {% endblock %}
+
+        {% if messages|safe %}
+            {% for message in messages %}
+                <p class="alert alert-{{ message[1]|safe }}">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ message[0]|safe }}
+                </p>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+
+        {% block footer %}
+            <footer>
+                {% trans %}Google App Engine Boilerplate is released under the{% endtrans %}
+                <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">LGPL</a>
+            </footer>
+        {% endblock %}
+    </div>
+    <!-- /content -->
+</div>
+<!-- /page -->
+
+<!-- JavaScript at the bottom for fast page loading -->
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/boilerplate/js/libs/jquery.min.js"><\/script>')</script>
+<script src="/boilerplate/js/libs/bootstrap.min.js"></script>
+
+<!-- scripts concatenated and minified via build script -->
+<script src="/boilerplate/js/plugins.js"></script>
+<script src="/boilerplate/js/script.js"></script>
+{% if locale_language_id != "en" %}
+    {% if locale_iso.language == "pt" and locale_iso.territory == "BR" %}
+        <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_iso.language }}_{{ locale_iso.territory }}.js"></script>
+    {% else %}
+        <script src="/boilerplate/js/libs/jquery_validation/localization/messages_{{ locale_language_id }}.js"></script>
+    {% endif %}
+{% endif %}
+{% block mediaJS %}{% endblock %}
+<!-- end scripts -->
+</body>
+</html>

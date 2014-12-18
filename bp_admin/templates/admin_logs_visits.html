@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+
+{% block header_title %}
+    {% trans %}Visit Logs List{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+{{ lib.render_form_navbar_search('Search Visits', uri_for('admin-logs-visits')) }}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            {% if not q %}
+            <th >&nbsp;</th>
+            {% endif %}
+            <th class="span1">user</th>
+            {% for attr, timestamp in list_columns %}
+            <th>
+                {{ timestamp|safe }}
+            </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    {% for visit in visits %}
+    <tr>
+        {% if not q %}
+        <td>
+            <a class="icon" href="{{ uri_for('admin-logs-visits', q=visit.user.id()) }}"><i class="glyphicon-filter glyphicon"></i></a>
+        </td>
+        {% endif %}
+        <td>
+            <a class="icon" href="{{ uri_for('admin-user-edit', user_id=visit.user.id()) }}">{{ visit.user.id() }}</a>
+        </td>
+        {% for attr, timestamp in list_columns %}
+        <td>
+            {{ getattr(visit, attr)|e }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{{ lib.render_pager() }}
+{% endblock %}

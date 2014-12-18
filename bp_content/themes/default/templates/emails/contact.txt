@@ -1,0 +1,13 @@
+<p><strong>Name:</strong> {{name}}<br>
+<strong>Email:</strong> {{email}}<br>
+<strong>Message:</strong><br>
+{{message}}</p>
+<hr>
+<p><strong>IP Address:</strong> {{ip}}<br>
+<strong>City:</strong> {{city}}<br>
+<strong>Region:</strong> {{region}}<br>
+<strong>Country:</strong> {{country}}<br>
+<strong>Coordinates:</strong> <a href="https://www.google.com.au/maps/preview/@{{coordinates}},8z">{{coordinates}}</a></p>
+<hr>
+<p><strong>Web Browser:</strong> {{browser}} {{browser_version}}<br>
+<strong>Operating System:</strong> {{operating_system}}</p>

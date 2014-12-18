@@ -1,0 +1,27 @@
+{% extends 'admin_base.html' %}
+
+{% block header_title %}
+  {% trans %}Email Details{% endtrans %}
+{% endblock %}
+
+{% block content %}
+
+        <a href="{{ uri_for("admin-logs-emails") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
+{% if emailinfo %}
+    <dl class="dl-horizontal">
+      <dt>{% trans %}To{% endtrans %}</dt>
+      <dd>{{ emailinfo.to|safe }}</dd>
+      <dt>{% trans %}Subject{% endtrans %}</dt>
+      <dd>{{ emailinfo.subject|safe }}</dd>
+      <dt>{% trans %}When{% endtrans %}</dt>
+      <dd>{{ emailinfo.when|safe }}</dd>
+      <dt>{% trans %}Body{% endtrans %}</dt>
+      <dd>{{ emailinfo.body|safe }}</dd>
+    </dl>
+
+    <a href="{{ uri_for("admin-logs-emails") }}" class="btn btn-default">{% trans %}Back to Emails{% endtrans %}</a>
+
+{% endif %}
+
+
+{% endblock %}
