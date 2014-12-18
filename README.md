@@ -2,7 +2,7 @@
 ==============================
 
 Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
-  <img src="http://www.jetbrains.com/img/logos/pycharm_logo142x29.gif">
+  <img src="http://www.jetbrains.com/pycharm/docs/logo_pycharm.png">
 </a>
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
@@ -19,37 +19,39 @@ What makes this Boilerplate Amazing?
 ------------------------------------
 It is fully featured, actively maintained, and uses the latest and most supported technologies of Google App Engine.
 
-New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) or reading [this website](https://developers.google.com/appengine/).
+New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) of @bslatkin or reading [the official documentation](https://developers.google.com/appengine/).
 
 Get started in just a few easy steps
 ------------------------------------
-1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows (Tested with SDK version 1.8.1).
-1. Download the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
+1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows.
+1. Download or clone the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
 1. Set your 'application' name in [app.yaml](https://github.com/coto/gae-boilerplate/blob/master/app.yaml)
-1. Set custom config parameters in [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/config/localhost.py).  (secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt etc.)  To get started, copy the default settings from [boilerplate/config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py). . Note that most of the default settings will need to be changed to yield a secure and working application.  Make the changes to these settings in the config/*.py (localhost.py for development on your local PC, production.py for production on App Engine's servers, testing.py for unittests configurations)  The configurations in /config take precedence over boilerplate/config.py.
+1. Set custom config parameters in bp_content/themes [config/localhost.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/localhost.py), [config/testing.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/testing.py) and [config/production.py](https://github.com/coto/gae-boilerplate/blob/master/bp_content/themes/default/config/production.py) like secret key, [recaptcha code](http://www.google.com/recaptcha/whyrecaptcha), salt and other.
+ * Boilerplate will identify which config file to use in local, unit testing and production.
+ * To get started, look the default settings in [bp_includes/config.py](https://github.com/coto/gae-boilerplate/blob/master/bp_includes/config.py). Those settings will be overwrite for your config files.
+ * Most of the default settings will need to be changed to yield a secure and working application.
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
 
-Please note that boilerplate code is located in the boilerplate module while your custom application code should be located in the web module.
+Please note that your custom application code **should be located in the bp_content folder within your own theme**.
 The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
-Settings, code, and templates in the root [config.py](https://github.com/coto/gae-boilerplate/blob/master/config.py), web module, and templates directory take precedence over the equivalent files in the boilerplate module.
 
-Functions and features:
------------------------
-+ Authentication (Login, Logout, Sign Up)
+Functions and features
+----------------------
++ Authentication (Sign In, Sign Out, Sign Up)
 + Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 + Reset Password
 + Update User Profile
 + Contact Form
 + Client side and server side form validation
 + Automatic detection of user language
-+ Support for 8 Languages (English, Spanish, Italian, French, Chinese, Indonesian, German and Russian)
++ Support for many Languages (English, Spanish, Italian, French, Chinese, Indonesian, German, Russian, etc)
 + Visitors Log
 + Notifications and Confirmation for users when they change their email or password
 + Responsive Design for viewing on PCs, tablets, and mobile phones (synchronized with Twitter-Bootstrap project)
 + Mobile identification
-+ Unit testing
++ Unit Testing
 + Error handling
 + Basic user management features available under /admin/users/ for Google Application Administrators
 
@@ -66,22 +68,59 @@ Before committing fixes we recommend running the unitests (in the boilerplate pa
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
-Testing
--------
-**Unit testing**
-+ Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting run as... Python unit-test.
-+ You may need to add /boilerplate/external to your python path.
-+ Please add unittests for your application to [unittests](https://github.com/coto/gae-boilerplate/tree/master/web/tests).
-+ To run unittests it may be necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
+Run
+---
++ You can run this project directly from terminal with Fabric.
+
+    ```bash
+    fab start
+    ```
++ Also you can run it clearing datastore.
+
+    ```bash
+    fab start:clear
+    ```
+
+Unit Testing
+------------
+**Requirements**
++ Install pip with [distribute](http://packages.python.org/distribute/) in order to install next packages.
++ Before running unittests it is necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
+
+  ```bash
     sudo pip install webtest
     sudo pip install mock
     sudo pip install pyquery
+  ```
++ The best way to run unittests is though Fabric.
+
+  ```bash
+    sudo pip install Fabric
+  ```
+
+**Running Unit Tests**
++ To run unittests with Fabric run  `fab test` command in terminal.
++ Also Unit tests can be run via [testrunner](https://github.com/coto/gae-boilerplate/blob/master/testrunner.py) or in Eclipse by right clicking on the web folder and selecting "run as..." -> "Python unit-test".
++ You may need to add /boilerplate/external to your python path.
+
+**Adding yours Unit Test**
++ Please add unittests for your application to your handler folder in a **test.py** file.
 + Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
+
+
+Deploy
+------
++ To deploy your project with Fabric, just run this command in Terminal.
+
+    ```bash
+    fab deploy
+    ```
++ Remember to change **application**, **version**, **theme** in app.yaml according to your project.
 
 Technologies used
 -----------------
-+ Python 2.7.3
-+ [NDB 1.0.9](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
++ Python 2.7.5
++ [NDB 1.0.10](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
 + [WTForms-1.0.2](http://wtforms.simplecodes.com/) (Forms validation framework keeping user interaction secure and flexible with or without javascript).
 + [Babel-0.9.6](http://babel.edgewall.org/) and [gaepytz-2011h](http://code.google.com/p/gae-pytz/) (Industy standard internationalization renders the site in multiple languages).
@@ -100,16 +139,32 @@ Front-end Technologies
 + [HTML5Boilerplate](http://html5boilerplate.com/)
 + [Modernizr 2.6.1](http://modernizr.com)
 + [jQuery 1.8.2](http://jquery.com)
-+ [Twitter Bootstrap 2.2.1](http://twitter.github.com/bootstrap/) Template for Desktop Version.
++ [Twitter Bootstrap 3.1.1](http://twitter.github.com/bootstrap/) upgraded from 2.2.1. Template for Desktop Version.
 
-Please help us translate and add new languages!
------------------------------------------------
+Help to translate to new languages or improve old translations
+--------------------------------------------------------------
 In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
 <tt>msgid "Change your password"</tt>
 
 <tt>msgstr "Cambiar tu contraseña"</tt>
+
+**Requirements**
++ Install before pip with distribute_setup.py (Read the environment setup document)
+
+    ```bash
+    sudo pip install babel
+    sudo pip install jinja2
+    ```
+
+**Translating**
++ To execute the translation, run these two commands. (before the second one, go to locale folder to include your translation)
+
+    ```bash
+    fab lang
+    fab lang:compile
+    ```
 
 Working with Internationalization (i18n)
 ----------------------------------------
@@ -137,10 +192,11 @@ Adding or updating text to be translated or adding new languages requires more w
    1. Update translations of existing languages by running this command for each locale:
       <tt>pybabel update -l es_ES -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete</tt>
       Run this command for each locale by replacing es_ES in the command.  Locale names are the directory names in ./locale.
-   1. Add new languages
+   1. Add new languages:
       Run this command for each new language to add.  You will need to replace es_ES in the command with the locale code to add:
       <tt>pybabel init -l es_ES -d ./locale -i ./locale/messages.pot</tt>
-      Add the locale to the locales array in [config.py](https://github.com/coto/gae-boilerplate/blob/master/boilerplate/config.py).  Instructions on how to pick a locale code are provided in the comments above the array.
+      Add the locale to the locales array in your themes/*<your_theme>*/config/.
+      Instructions on how to pick a locale code are provided in the comments above the array.
 1. Provide translations for each language
    In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po.  Users translate the strings in these files.
    msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
@@ -152,6 +208,7 @@ Adding or updating text to be translated or adding new languages requires more w
 See [webapp2's tutorial](http://webapp-improved.appspot.com/tutorials/i18n.html) and [pybabel's docs](http://babel.edgewall.org/wiki/Documentation/cmdline.html) for more details.
 
 **Disabling i18n**
+
 i18n can be disabled and language options hidden.  Set locales in config.py to None or empty array [] to do this.  This may be useful to provide a performance boost or simplify sites that serve a market with only one language.
 The locale directory can be safely removed to save space if not needed but the babel and pytz directories cannot be removed without breaking code (imports and trans statements) at this time.
 
@@ -164,7 +221,7 @@ Security
 + It is recommended to enable ssl site wide to help prevent [session hijacking](http://en.wikipedia.org/wiki/Session_hijacking)
 
 **Passwords**
-+ passwords encrypted with SHA512 and PyCrypto
++ Passwords are hashed and encrypted with SHA512 and PyCrypto.
 
 **CSRF**
 + [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection

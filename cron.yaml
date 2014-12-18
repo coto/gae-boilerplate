@@ -1,0 +1,4 @@
+cron:
+- description: delete old user tokens
+  url: /admin/crontasks/cleanuptokens
+  schedule: every monday 01:00

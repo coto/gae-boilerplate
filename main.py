@@ -13,33 +13,39 @@
 # limitations under the License.
 #
 
-__author__  = 'Rodrigo Augosto (@coto)'
+__author__ = 'Rodrigo Augosto (@coto)'
 __website__ = 'www.beecoss.com'
 
-import os, sys
+import os
+import sys
 # Third party libraries path must be fixed before importing webapp2
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'boilerplate/external'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_includes/external'))
 
 import webapp2
 
-import routes
-from boilerplate import routes as boilerplate_routes
-from admin import routes as admin_routes
-from boilerplate import config as boilerplate_config
-import config
-from boilerplate.lib.error_handler import handle_error
 
-webapp2_config = boilerplate_config.config
-webapp2_config.update(config.config)
+from bp_includes.lib.error_handler import handle_error
+from bp_includes import config as config_boilerplate
 
-app = webapp2.WSGIApplication(debug = os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=webapp2_config)
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'bp_content/themes/', os.environ['theme']))
+# Import Config Importing
+import config as config_theme
+
+# Routes Importing
+from bp_admin import routes as routes_admin
+from bp_includes import routes as routes_boilerplate
+import routes as routes_theme
+
+
+webapp2_config = config_boilerplate.config
+webapp2_config.update(config_theme.config)
+
+app = webapp2.WSGIApplication(debug=os.environ['SERVER_SOFTWARE'].startswith('Dev'), config=webapp2_config)
 
 if not app.debug:
     for status_int in app.config['error_templates']:
         app.error_handlers[status_int] = handle_error
 
-routes.add_routes(app)
-boilerplate_routes.add_routes(app)
-admin_routes.add_routes(app)
-
-
+routes_theme.add_routes(app)
+routes_boilerplate.add_routes(app)
+routes_admin.add_routes(app)
