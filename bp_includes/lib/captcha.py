@@ -49,8 +49,8 @@ def submit (response_field,
 
     httpresp = urllib2.urlopen (request)
 
-    return_values = json.loads(httpresp.read ());
-    httpresp.close();
+    return_values = json.loads(httpresp.read ())
+    httpresp.close()
     
     if (return_values.get('success')):
         return RecaptchaResponse (is_valid=True)
