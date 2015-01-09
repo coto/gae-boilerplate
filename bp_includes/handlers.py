@@ -1275,11 +1275,10 @@ class PasswordResetHandler(BaseHandler):
         response = self.request.POST.get('recaptcha_response_field')
         remote_ip = self.request.remote_addr
 
-        cResponse = captcha.submit(
-            challenge,
-            response,
-            self.app.config.get('captcha_private_key'),
-            remote_ip)
+		cResponse = captcha.submit(
+			response,
+			self.app.config.get('captcha_private_key'),
+			remote_ip)
 
         if cResponse.is_valid:
             # captcha was valid... carry on..nothing to see here

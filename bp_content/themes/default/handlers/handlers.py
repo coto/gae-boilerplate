@@ -66,11 +66,10 @@ class ContactHandler(BaseHandler):
 
         challenge = self.request.POST.get('recaptcha_challenge_field')
         response = self.request.POST.get('recaptcha_response_field')
-        cResponse = captcha.submit(
-            challenge,
-            response,
-            self.app.config.get('captcha_private_key'),
-            remote_ip)
+		cResponse = captcha.submit(
+			response,
+			self.app.config.get('captcha_private_key'),
+			remote_ip)
 
         if re.search(r"(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})", message) and not cResponse.is_valid:
             chtml = captcha.displayhtml(public_key=self.app.config.get('captcha_public_key'))
@@ -207,23 +206,18 @@ class DeleteAccountHandler(BaseHandler):
         return self.render_template('delete_account.html', **params)
 
     def post(self, **kwargs):
-        challenge = self.request.POST.get('recaptcha_challenge_field')
-        response = self.request.POST.get('recaptcha_response_field')
-        remote_ip = self.request.remote_addr
+		cResponse = captcha.submit(
+			response,
+			self.app.config.get('captcha_private_key'),
+			remote_ip)
 
-        cResponse = captcha.submit(
-            challenge,
-            response,
-            self.app.config.get('captcha_private_key'),
-            remote_ip)
-
-        if cResponse.is_valid:
-            # captcha was valid... carry on..nothing to see here
-            pass
-        else:
-            _message = _('Wrong image verification code. Please try again.')
-            self.add_message(_message, 'danger')
-            return self.redirect_to('delete-account')
+		if cResponse.is_valid:
+			# captcha was valid... carry on..nothing to see here
+			pass
+		else:
+			_message = _('Wrong image verification code. Please try again.')
+			self.add_message(_message, 'danger')
+			return self.redirect_to('delete-account')
 
         if not self.form.validate() and False:
             return self.get()
