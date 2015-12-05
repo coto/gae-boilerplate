@@ -37,6 +37,7 @@ def lang(mode="extract"):
         local("pybabel update -l ru_RU -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l vi_VN -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
         local("pybabel update -l zh_CN -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
+        local("pybabel update -l ko_KR -d ./locale -i ./locale/messages.pot --previous --ignore-obsolete")
 
 def start(mode="normal"):
     """
