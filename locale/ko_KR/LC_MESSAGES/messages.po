@@ -1,0 +1,486 @@
+# Korean (Korea) translations for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-12-05 20:39+0900\n"
+"PO-Revision-Date: 2012-08-13 08:13+0100\n"
+"Last-Translator: Im, Hyo-Jun <hyojun.im@gmail.com>\n"
+"Language: ko_KR\n"
+"Language-Team: ko_KR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.1.1\n"
+
+#, python-format
+msgid "%s Account Verification"
+msgstr "%s 계정 검증"
+
+#, python-format
+msgid "%s Email Changed Notification"
+msgstr "%s E-mail 변경 공지"
+
+#, python-format
+msgid "%s Password Assistance"
+msgstr "%s 암호를 까먹었어요."
+
+#, python-format
+msgid "%s association successfully added."
+msgstr "%s 계정과 성공적으로 연결되었습니다."
+
+#, python-format
+msgid "%s authentication is not yet implemented."
+msgstr "%s 인증기능이 아직 구현되지 않았습니다."
+
+#, python-format
+msgid "%s successfully disassociated."
+msgstr "%s 계정 연결이 취소되었습니다."
+
+#, fuzzy
+msgid ""
+"<a href=\"http://browsehappy.com/\">Upgrade to a different browser</a>\n"
+"    \tto experience this site."
+msgstr ""
+"이 사이트를 이용하시려면 <a href=\"http://browsehappy.com/\">지원되는 다른 브라우저</a>로 "
+"업그레이드하세요."
+
+msgid "Associate account with"
+msgstr "계정 연결"
+
+msgid "Back to Emails"
+msgstr "E-mail로 돌아가기"
+
+msgid "Body"
+msgstr "본문"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Change password"
+msgstr "암호 변경"
+
+msgid "Change your email"
+msgstr "E-mail 주소 변경"
+
+msgid "Change your password"
+msgstr "암호 변경"
+
+msgid "Confirm Delete Account"
+msgstr "계정 삭제 확인"
+
+msgid "Confirm Password"
+msgstr "암호 확인"
+
+msgid "Congratulations on your Google App Engine Boilerplate powered page."
+msgstr "Google App Engine Boilerplate에 기반한 페이지를 만드신 것을 축하합니다."
+
+msgid ""
+"Congratulations, Your account <strong>{}</strong> has been successfully "
+"activated."
+msgstr "축하드립니다. <strong>{}</strong> 계정이 활성화되었습니다."
+
+msgid "Contact"
+msgstr "연락처"
+
+msgid "Country"
+msgstr "국가"
+
+msgid "Created"
+msgstr "생성완료"
+
+msgid "Current Email"
+msgstr "현재 E-mail"
+
+msgid "Current Password"
+msgstr "현재 암호"
+
+msgid "Delete Account"
+msgstr "계정 삭제"
+
+msgid "Don't have an account?"
+msgstr "계정 만들기"
+
+msgid "Edit Profile"
+msgstr "프로필 변경"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Email Details"
+msgstr "E-mail 자세히 보기"
+
+msgid "Email Logs"
+msgstr "E-mail 기록"
+
+msgid "Emails List"
+msgstr "E-mail 리스트"
+
+msgid "Enter a new email address"
+msgstr "새로운 E-mail 주소 입력"
+
+msgid "Enter your"
+msgstr "다음을 입력하세요: "
+
+msgid "Error sending the message. Please try again later."
+msgstr "메시지 전송에 실패했습니다. 잠시 후 다시 시도해 보세요."
+
+msgid "Existing social association"
+msgstr "다른 SNS ID 연결하기"
+
+msgid "Facebook association added!"
+msgstr "Facebook 계정과 연결되었습니다."
+
+msgid "Federated login is disabled."
+msgstr "SNS ID 연결이 해제되었습니다."
+
+#, python-format
+msgid "Field cannot be longer than %(max)d characters."
+msgstr "%(max)d 글자 이상 입력은 불가능합니다."
+
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr "%(min)d와 %(max)D 글자 사이 길이로 입력해 주세요."
+
+msgid "Forgot your password?"
+msgstr "암호를 잊으셨나요?"
+
+msgid "Github association added."
+msgstr "Github 계정과 연결되었습니다."
+
+#, fuzzy
+msgid "Good Password"
+msgstr "안전성 높음"
+
+msgid "Google App Engine Boilerplate is released under the"
+msgstr "Google App Engine Boilerplate는 다음 라이선스로 배포됩니다: "
+
+msgid "If the email address you entered"
+msgstr "만약 당신이 입력한 E-mail이 다음과 같다면: "
+
+msgid "If the username you entered"
+msgstr "만약 당신이 입력한 계정 ID가 다음과 같다면: "
+
+msgid ""
+"Incorrect password! Please enter your current password to change your "
+"account settings."
+msgstr "암호가 일치하지 않습니다! 계정 설정을 변경하려면 올바른 암호를 입력해 주세요."
+
+#, fuzzy
+msgid "Insecure Password"
+msgstr "안전성 낮음"
+
+#, fuzzy
+msgid "Invalid email address."
+msgstr "유효하지 않은 E-mail 주소입니다."
+
+msgid "Language"
+msgstr "언어"
+
+msgid "Last Name"
+msgstr "성"
+
+msgid "Last Name invalid. Use only letters and numbers."
+msgstr "성이 유효하지 않습니다. 문자와 숫자만 입력 가능합니다."
+
+msgid "Learn why this Boilerplate Rocks"
+msgstr "이 Boilerplate가 왜 훌륭한지 알아 보세요."
+
+msgid "Linkedin association added!"
+msgstr "Linkedin 계정과 연결되었습니다!"
+
+msgid "Login"
+msgstr "로그인"
+
+msgid "Logout"
+msgstr "로그아웃"
+
+msgid "Message"
+msgstr "메시지"
+
+msgid "Name"
+msgstr "이름"
+
+msgid "Name invalid. Use only letters and numbers."
+msgstr "이름이 유효하지 않습니다. 문자와 숫자만 입력 가능합니다."
+
+msgid "New Email"
+msgstr "새로운 E-mail"
+
+msgid "New Password"
+msgstr "새로운 암호"
+
+#, python-format
+msgid ""
+"No user authentication information received from %s. Please ensure you "
+"are logging in from an authorized OpenID Provider (OP)."
+msgstr "%s로부터 사용자 인증 정보를 받지 못했습니다.인증된 SNS 서비스 ID로 로그인해 주십시오."
+
+msgid "Or Sign in using:"
+msgstr "또는 다음을 이용해 로그인: "
+
+msgid "Password"
+msgstr "암호"
+
+msgid "Password changed successfully."
+msgstr "암호 변경 완료"
+
+msgid "Passwords must match."
+msgstr "암호가 일치해야 합니다."
+
+msgid ""
+"Please check your new email for confirmation. Your email will be updated "
+"after confirmation."
+msgstr "새로운 E-mail 주소를 확인해 주세요.확인해 주셔야 E-mail 주소가 갱신됩니다."
+
+msgid ""
+"Please insert the Captcha in order to finish the process of sending the "
+"message"
+msgstr "메시지 전송을 완료하려면 Captcha 코드를 입력해 주세요."
+
+msgid "Remember me?"
+msgstr "로그인 유지하기"
+
+msgid "Remove"
+msgstr "삭제"
+
+msgid "Reset password"
+msgstr "암호 초기화"
+
+msgid "Secure Page"
+msgstr "안전한 페이지"
+
+#, fuzzy
+msgid "Secure Password"
+msgstr "안정성 높음"
+
+msgid "Send Message"
+msgstr "메시지 전송"
+
+#, fuzzy
+msgid "Short Password"
+msgstr "암호가 너무 짧습니다."
+
+msgid "Sign Up"
+msgstr "사용자 등록"
+
+#, python-format
+msgid "Social account on %s not found for this user."
+msgstr "%s의 SNS 계정을 찾지 못했습니다."
+
+msgid "Sorry, Some error occurred."
+msgstr "죄송합니다. 동일한 오류가 발생했습니다."
+
+msgid "Sorry, The email <strong>{}</strong> is already registered."
+msgstr "죄송합니다. <strong>{}</strong> E-mail이 이미 등록되어 있습니다."
+
+msgid "Sorry, The user is already registered."
+msgstr "죄송합니다. 이미 등록된 사용자 ID입니다."
+
+msgid "Sorry, The username <strong>{}</strong> is already registered."
+msgstr "죄송합니다. <strong>{}</strong> 사용자는 이미 등록되어 있습니다."
+
+msgid "Source Code"
+msgstr "소스 코드"
+
+msgid "Subject"
+msgstr "주제"
+
+msgid "Thanks, your settings have been saved."
+msgstr "감사합니다. 설정 값이 저장되었습니다."
+
+msgid "The URL you tried to use is either incorrect or no longer valid."
+msgstr "입력하신 주소가 부정확하거나 존재하지 않습니다."
+
+msgid ""
+"The URL you tried to use is either incorrect or no longer valid. Enter "
+"your details again below to get a new one."
+msgstr "입력하신 주소가 부정확하거나 존재하지 않습니다.새로운 주소를 얻기 위해서는 자세한 정보를 다시 입력해 주시기 바랍니다."
+
+#, python-format
+msgid "The account %s is already in use."
+msgstr "%s 계정은 이미 사용중입니다."
+
+msgid "The account has been successfully deleted."
+msgstr "계정 삭제가 완료되었습니다."
+
+#, python-format
+msgid "The email %s is already registered."
+msgstr "%s E-mail은 이미 등록되어 있습니다."
+
+msgid "The link is invalid."
+msgstr "링크가 유효하지 않습니다."
+
+msgid "The two passwords must match."
+msgstr "입력하신 두 개의 암호가 일치해야 합니다."
+
+msgid "The username <strong>{}</strong> is already taken. Please choose another."
+msgstr "<strong>{}</strong> 사용자는 이미 사용 중입니다. 다른 ID를 선택해 주세요."
+
+#, python-format
+msgid ""
+"The verification email has been resent to %s. Please check your email to "
+"activate your account."
+msgstr "확인 E-mail이 %s에게 전달되었습니다.계정을 활성화하려면 E-mail을 확인해 주세요."
+
+#, python-format
+msgid "This %s account is already in use."
+msgstr "계정 %s는 이미 사용 중입니다."
+
+msgid "This Facebook account is already in use!"
+msgstr "이 Facebook 계정은 이미 사용 중입니다."
+
+msgid "This Github account is already in use."
+msgstr "이 Github 계정은 이미 사용 중입니다."
+
+msgid "This Linkedin account is already in use!"
+msgstr "이 Linxkedin 계정은 이미 사용 중입니다."
+
+msgid "This Twitter account is already in use."
+msgstr "이 Twitter 계정은 이미 사용 중입니다."
+
+msgid "This authentication method is not yet implemented."
+msgstr "이 인증 방법은 아직 구현되지 않았습니다."
+
+msgid "Timezone"
+msgstr "표준시간대"
+
+msgid "To"
+msgstr ""
+
+msgid "Twitter association added."
+msgstr "Twitter 연결이 추가되었습니다."
+
+msgid "Unable to update profile. Please try again later."
+msgstr "프로필을 갱신할 수 없습니다. 잠시 후 다시 시도해 주세요."
+
+#, python-format
+msgid "Unexpected error creating the user %s"
+msgstr "%s 계정 생성 중에 예기치 못한 오류가 발생했습니다."
+
+msgid "Update Profile"
+msgstr "프로필 갱신"
+
+msgid "Updated"
+msgstr "갱신 완료"
+
+msgid "User Details"
+msgstr "사용자 상세 정보"
+
+msgid "User List"
+msgstr "사용자 리스트"
+
+msgid "User is logged out, but there was an error on the redirection."
+msgstr "사용자가 로그아웃하였지만, 다른 페이지 연결 과정에서 오류가 발생했습니다."
+
+msgid "Username"
+msgstr "사용자 이름"
+
+msgid "Username invalid. Use only letters and numbers."
+msgstr "사용자 이름이 유효하지 않습니다. 문자와 숫자만 사용 가능합니다."
+
+msgid "Username or Email"
+msgstr "사용자 ID 또는 E-mail"
+
+msgid "Users Geolocation"
+msgstr "사용자 위치"
+
+msgid "Visit Logs"
+msgstr "방문기록"
+
+msgid "Visit Logs List"
+msgstr "방문기록 리스트"
+
+msgid "Visit Site"
+msgstr "사이트 방문"
+
+msgid "Welcome <strong>{}</strong>, you are now logged in."
+msgstr "환영합니다 <strong>{}</strong>님, 로그인되었습니다."
+
+msgid "Welcome!  You have been registered as a new user and logged in through {}."
+msgstr "환영합니다! 새로운 사용자로 등록이 되었으며, {}를 통해 로그인되었습니다."
+
+msgid "When"
+msgstr "언제"
+
+msgid "Wrong image verification code. Please try again."
+msgstr "잘못된 이미지 검증 코드입니다. 다시 시도해 주세요."
+
+#, fuzzy
+msgid "You didn't change your email."
+msgstr "E-mail 주소를 변경하지 않았습니다."
+
+msgid ""
+"You were successfully registered. Please check your email to activate "
+"your account."
+msgstr "등록이 완료되었습니다.계정을 활성화하기 위해 E-mail을 확인해 주세요."
+
+msgid ""
+"You've signed out successfully. Warning: Please clear all cookies and "
+"logout of OpenID providers too if you logged in on a public computer."
+msgstr "로그아웃되었습니다.공용 컴퓨터에서 로그인했다면 모든 쿠키를 지우고 관련된 SNS 서비스에서도 로그아웃해 주세요."
+
+msgid ""
+"Your account has been activated. Please <a href=\"/login/\">sign in</a> "
+"to your account."
+msgstr "계정이 활성화되었습니다. 당신의 계정으로 <a href=\"/login/\">로그인</a>해 주세요."
+
+msgid ""
+"Your account has not yet been activated. Please check your email to "
+"activate it or"
+msgstr "계정이 아직 활성화되지 않았습니다.활성화하기 위해서 E-mail을 확인해 주세요."
+
+msgid "Your browser is <em>ancient!</em>"
+msgstr "브라우저 버전이 너무 낮습니다."
+
+msgid "Your email has been successfully updated."
+msgstr "E-mail 주소가 갱신되었습니다."
+
+msgid "Your message was sent successfully."
+msgstr "메시지가 전송되었습니다."
+
+msgid "Your new username is <strong>{}</strong>"
+msgstr "새로운 ID는 <strong>{}</strong>입니다."
+
+msgid "Your session has expired."
+msgstr "시간이 경과하여 자동으로 로그아웃되었습니다."
+
+msgid ""
+"Your username or password is incorrect. Please try again (make sure your "
+"caps lock is off)"
+msgstr "사용자 ID나 암호가 맞지 않습니다. 다시 시도해 주세요.(혹시 Caps Lock 키가 켜져 있지 않은지 확인해 보세요.)"
+
+msgid "click here"
+msgstr "클릭"
+
+#, fuzzy
+msgid "contact us"
+msgstr "연락처"
+
+msgid "download the Source Code"
+msgstr "소스코드를 받으실 수도 있습니다."
+
+msgid "for further assistance."
+msgstr "추가적인 도움 요청"
+
+msgid ""
+"is associated with an account in our records, you will receive an email "
+"from us with instructions for resetting your password. <br>If you don't "
+"receive instructions within a minute or two, check your email's spam and "
+"junk filters, or "
+msgstr "암호 재설정을 안내하는 메일을 곧 받게 되실 것입니다.<br>수 분 내에 메일을 받지 못하면, 스팸함을 확인해 보세요."
+
+msgid "or just"
+msgstr "또는"
+
+msgid "to help you to create your application."
+msgstr " "
+
+msgid "to resend the email."
+msgstr "E-mail 재전송"
+
