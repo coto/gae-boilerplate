@@ -242,3 +242,8 @@ these [amazing people](https://github.com/coto/gae-boilerplate/graphs/contributo
 + [f1shear](https://github.com/f1shear)
 + [presveva](https://github.com/presveva)
 + [Sorced-Jim](https://github.com/sorced-Jim)
+
+**Flask Boilerplates**
++ [gae-init](https://github.com/gae-init/gae-init)
++ [flask-boilerplate](https://github.com/mjhea0/flask-boilerplate) **Heroku**
++ [flask-appengine-template](https://github.com/kamalgill/flask-appengine-template)
