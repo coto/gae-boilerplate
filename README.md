@@ -1,8 +1,8 @@
-[Google App Engine Boilerplate](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
+[Google App Engine Boilerplate Legacy](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
 ==============================
 
-Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
-  <img src="http://www.jetbrains.com/pycharm/docs/logo_pycharm.png">
+This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
+  PyCharm
 </a>
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
