@@ -5,7 +5,7 @@ This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="D
   PyCharm
 </a>
 
-**NOTE**: This Project use the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. Nowadays (mid 2016) it is recommedable to use more moderm technology like Flask as Framework, MySQL as databasete and many more new technologies. Thanks everybody for their contributions.
+**NOTE**: This Project is Legacy and uses the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. Nowadays (mid 2016) it is recommedable to use more moderm technology like Flask as Framework, MySQL as databasete and many more new technologies. Thanks everybody for their contributions.
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
 Create powerful applications by using the latest technology supported on Google App Engine. 
