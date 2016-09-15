@@ -1,11 +1,13 @@
+> **ATTENTION**: This project is **legacy** and uses older tech stack used by Google App Engine, like [webapp2](https://webapp2.readthedocs.io/en/latest/) and Datastore. Nowadays (mid 2016) it is recommedable to use more moderm technologies like [Flask](http://flask.pocoo.org/), [NDB](https://cloud.google.com/appengine/docs/python/ndb/), [Cloud SQL](https://cloud.google.com/sql/docs/) and many more. **Thanks everybody for their contributions**.
+
+> ### Try [gae-init](https://github.com/gae-init/gae-init) — an up-to-date Flask boilerplate.
+
+-----------------------
+
 [Google App Engine Boilerplate Legacy](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
 ==============================
 
-This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
-  PyCharm
-</a>
-
-**NOTE**: This Project is Legacy and uses the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. Nowadays (mid 2016) it is recommedable to use more moderm technology like Flask as Framework, MySQL as databasete and many more new technologies. Thanks everybody for their contributions.
+This Project was Sponsored by [PyCharm](http://www.jetbrains.com/pycharm/)
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
 Create powerful applications by using the latest technology supported on Google App Engine. 
@@ -244,8 +246,3 @@ these [amazing people](https://github.com/coto/gae-boilerplate/graphs/contributo
 + [f1shear](https://github.com/f1shear)
 + [presveva](https://github.com/presveva)
 + [Sorced-Jim](https://github.com/sorced-Jim)
-
-**Flask Boilerplates**
-+ [gae-init](https://github.com/gae-init/gae-init)
-+ [flask-boilerplate](https://github.com/mjhea0/flask-boilerplate) **Heroku**
-+ [flask-appengine-template](https://github.com/kamalgill/flask-appengine-template)
