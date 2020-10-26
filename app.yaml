@@ -1,5 +1,3 @@
-application: sandengine
-version: dev
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -117,7 +115,7 @@ handlers:
 
 - url: /.*
   script: main.app
-#  secure: always
+  secure: always
 
 libraries:
 - name: jinja2

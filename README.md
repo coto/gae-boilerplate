@@ -37,7 +37,9 @@ Get started in just a few easy steps
  * Most of the default settings will need to be changed to yield a secure and working application.
 1. Set Authentication Options dropdown to Federated Login in the Google App Engine control panel (or if you do not want federated login, set enable_federated_login to false in config.py)
 1. Deploy it online ([instructions](https://developers.google.com/appengine/docs/python/gettingstarted/uploading) - recommended setup: python 2.7, high replication datastore)
-
+   
+   - gcloud config set project sandengine; gcloud app deploy -q app.yaml cron.yaml
+   
 Please note that your custom application code **should be located in the bp_content folder within your own theme**.
 The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
 
