@@ -5,7 +5,7 @@ This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="D
   PyCharm
 </a>
 
-**NOTE**: This Project is Legacy and uses the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. On 2016 this project was legacy and it is recommedable to use moderm technologies like Flask or Django as Framework, MySQL as database. Thanks everybody for their contributions.
+**NOTE**: This Project is Legacy and uses the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. On 2016 this project was legacy and it is recommedable to use moderm technologies like Flask or Django as Framework, MySQL as database. Thanks everybody for their contributions, The creator of this project is honored that it helps to bring web technology to the world.
 
 # Intro
 
