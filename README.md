@@ -1,4 +1,4 @@
-[Google App Engine Boilerplate Legacy](http://appengine.beecoss.com) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
+[Google App Engine Boilerplate Legacy](https://dev-dot-sandengine.appspot.com/) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
 ==============================
 
 This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
@@ -13,7 +13,7 @@ Google App Engine Boilerplate gets your project off the ground quickly using the
 Create powerful applications by using the latest technology supported on Google App Engine. 
 It will introduces new developers to App Engine and advanced developers to follow best practices.
 
-[Try a online demo](http://appengine.beecoss.com)
+[Try a online demo](https://dev-dot-sandengine.appspot.com/)
 
 What's a Boilerplate?
 ---------------------
