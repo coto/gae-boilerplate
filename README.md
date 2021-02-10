@@ -1,4 +1,5 @@
-[Google App Engine Boilerplate Legacy](https://dev-dot-sandengine.appspot.com/) [![Build Status](https://secure.travis-ci.org/coto/gae-boilerplate.png)](http://travis-ci.org/coto/gae-boilerplate)
+[Google App Engine Boilerplate Legacy](https://dev-dot-sandengine.appspot.com/) 
+
 ==============================
 
 This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
