@@ -1,6 +1,5 @@
-[Google App Engine Boilerplate Legacy](https://dev-dot-sandengine.appspot.com/) 
+# [Google App Engine Boilerplate Legacy](https://dev-dot-sandengine.appspot.com/) 
 
-==============================
 
 This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="Download PyCharm">
   PyCharm
@@ -8,7 +7,7 @@ This Project was Sponsored by <a href="http://www.jetbrains.com/pycharm/" alt="D
 
 **NOTE**: This Project is Legacy and uses the first technology used by Google App Engine, like webapp2 as Python Framework and DataStore as Data Base. On 2016 this project was legacy and it is recommedable to use moderm technologies like Flask or Django as Framework, MySQL as database. Thanks everybody for their contributions, The creator of this project is honored that it helps to bring web technology to the world.
 
-# Intro
+## Intro
 
 Google App Engine Boilerplate gets your project off the ground quickly using the Google App Engine platform. 
 Create powerful applications by using the latest technology supported on Google App Engine. 
@@ -16,18 +15,19 @@ It will introduces new developers to App Engine and advanced developers to follo
 
 [Try a online demo](https://dev-dot-sandengine.appspot.com/)
 
-What's a Boilerplate?
----------------------
+## What's a Boilerplate?
+
 A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ([wikipedia](http://en.wikipedia.org/wiki/Boilerplate_code))
 
-What makes this Boilerplate Amazing?
-------------------------------------
+
+## What makes this Boilerplate Amazing?
+
 It is fully featured, actively maintained, and uses the latest and most supported technologies of Google App Engine.
 
 New to Google App Engine? Learn about it by watching [this video](http://www.youtube.com/watch?v=bfgO-LXGpTM) of @bslatkin or reading [the official documentation](https://developers.google.com/appengine/).
 
-Get started in just a few easy steps
-------------------------------------
+## Get started in just a few easy steps
+
 1. Download the last version of the [App Engine SDK](http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python) for Linux, Mac OS or Windows.
 1. Download or clone the code of this Boilerplate ([here](https://github.com/coto/gae-boilerplate/zipball/master))
 1. Run locally ([instructions](https://developers.google.com/appengine/docs/python/tools/devserver)).
@@ -44,8 +44,8 @@ Get started in just a few easy steps
 Please note that your custom application code **should be located in the bp_content folder within your own theme**.
 The intention is that separating the boilerplate code from your application code will avoid merge conflicts as you keep up with future boilerplate changes.
 
-Functions and features
-----------------------
+## Functions and features
+
 + Authentication (Sign In, Sign Out, Sign Up)
 + Federated Login - login via your favorite social network (Google, Twitter, etc...) powered by OpenID and OAuth
 + Reset Password
@@ -63,20 +63,20 @@ Functions and features
 + Basic user management features available under /admin/users/ for Google Application Administrators
 
 
-Resources
----------
+## Resources
+
 Boilerplate has a Google group ([gae-boilerplate](https://groups.google.com/forum/?fromgroups#!forum/gae-boilerplate)) for discussions and a Twitter account ([@gaeboilerplate](http://twitter.com/gaeboilerplate/)) for sharing related resources.
 
-Open Source
------------
+## Open Source
+
 If you want to add, fix or improve something, create an [issue](https://github.com/coto/gae-boilerplate/issues) or send a [Pull Request](https://github.com/coto/gae-boilerplate/pull/new/master).
 
 Before committing fixes we recommend running the unitests (in the boilerplate package).  This will help guard against changes that accidently break other code.  See the testing section below for instructions.
 
 Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
 
-Run
----
+## Run
+
 + You can run this project directly from terminal with Fabric.
 
     ```bash
@@ -88,8 +88,8 @@ Run
     fab start:clear
     ```
 
-Unit Testing
-------------
+## Unit Testing
+
 **Requirements**
 + Install pip with [distribute](http://packages.python.org/distribute/) in order to install next packages.
 + Before running unittests it is necessary to install [webtest](http://webtest.pythonpaste.org/en/latest/index.html#installation), [mock](http://www.voidspace.org.uk/python/mock/), and [pyquery](http://packages.python.org/pyquery/) in your local python installation.
@@ -115,8 +115,8 @@ Unit Testing
 + Your own unittests can be created similarly to those in the boilerplate.  Inheriting from boilerplate.lib.test_helpers.HandlerHelpers will provide access to convenient handler testing methods used by the boilerplate.
 
 
-Deploy
-------
+## Deploy
+
 + To deploy your project with Fabric, just run this command in Terminal.
 
     ```bash
@@ -124,8 +124,8 @@ Deploy
     ```
 + Remember to change **application**, **version**, **theme** in app.yaml according to your project.
 
-Technologies used
------------------
+## Technologies used
+
 + Python 2.7.5
 + [NDB 1.0.10](http://developers.google.com/appengine/docs/python/ndb/) (The best datastore API for the Google App Engine Python runtime).
 + [Jinja2 2.6](http://jinja.pocoo.org/docs/) (A fully featured template engine for Python).
@@ -141,15 +141,15 @@ Technologies used
 + OpenID library provided by Google App Engine
 + OAuth2 for federated login providers that do not support OpenID
 
-Front-end Technologies
-----------------------
+## Front-end Technologies
+
 + [HTML5Boilerplate](http://html5boilerplate.com/)
 + [Modernizr 2.6.1](http://modernizr.com)
 + [jQuery 1.8.2](http://jquery.com)
 + [Twitter Bootstrap 3.1.1](http://twitter.github.com/bootstrap/) upgraded from 2.2.1. Template for Desktop Version.
 
-Help to translate to new languages or improve old translations
---------------------------------------------------------------
+### Help to translate to new languages or improve old translations
+
 In each locale/<locale code>/LC_MESSAGES directory there is a file messages.po. Please help us translate the text in these files.
 msgid is the text in English.  msgstr is the translation to the language indicated by the locale code.  For example:
 
@@ -173,8 +173,8 @@ msgid is the text in English.  msgstr is the translation to the language indicat
     fab lang:compile
     ```
 
-Working with Internationalization (i18n)
-----------------------------------------
+### Working with Internationalization (i18n)
+
 This boilerplate comes bundled with babel, pytz, and automatic language detection which together provide powerful internationalization capability.
 Text to be translated needs to be indicated in code and then translated by users like you after which it is compiled for speed.
 
@@ -219,8 +219,8 @@ See [webapp2's tutorial](http://webapp-improved.appspot.com/tutorials/i18n.html)
 i18n can be disabled and language options hidden.  Set locales in config.py to None or empty array [] to do this.  This may be useful to provide a performance boost or simplify sites that serve a market with only one language.
 The locale directory can be safely removed to save space if not needed but the babel and pytz directories cannot be removed without breaking code (imports and trans statements) at this time.
 
-Security
---------
+## Security
+
 **SSL**
 + SSL is enabled site wide by adding <tt>secure: always</tt> to the section: <tt>- url: /.*</tt> in app.yaml (remove this line to disable)
 + SSL either requires a free google app engine *.appspot.com domain or a [custom domain and certificate](https://developers.google.com/appengine/docs/ssl)
@@ -233,8 +233,8 @@ Security
 **CSRF**
 + [Cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection
 
-Acknowledgements
-----------------
+## Acknowledgements
+
 Google App Engine Boilerplate is a collaborative project created by [coto](https://github.com/coto) which is bringing to you thanks to the help of
 these [amazing people](https://github.com/coto/gae-boilerplate/graphs/contributors?type=a)
 
