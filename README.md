@@ -13,8 +13,6 @@ Google App Engine Boilerplate gets your project off the ground quickly using the
 Create powerful applications by using the latest technology supported on Google App Engine. 
 It will introduces new developers to App Engine and advanced developers to follow best practices.
 
-[Try a online demo](https://dev-dot-sandengine.appspot.com/)
-
 ## What's a Boilerplate?
 
 A Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ([wikipedia](http://en.wikipedia.org/wiki/Boilerplate_code))
@@ -145,7 +143,7 @@ Feel free to commit improvements or new features. Feedback, comments and ideas a
 
 + [HTML5Boilerplate](http://html5boilerplate.com/)
 + [Modernizr 2.6.1](http://modernizr.com)
-+ [jQuery 1.8.2](http://jquery.com)
++ [jQuery 3.5.0](http://jquery.com)
 + [Twitter Bootstrap 3.1.1](http://twitter.github.com/bootstrap/) upgraded from 2.2.1. Template for Desktop Version.
 
 ### Help to translate to new languages or improve old translations
